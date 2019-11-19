@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>新用户注册 | 高校教学管理平台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <link rel='stylesheet' href='stylesheets/style.css' />
+    <link rel="icon" href="images/favicon.ico" />
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <style type="text/css">
+        body {
+            background-color: #DADADA;
+        }
+
+        body>.grid {
+            height: 100%;
+        }
+
+        .image {
+            margin-top: -100px;
+        }
+
+        .column {
+            max-width: 350px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui teal image header">
+                <div class="content">新用户注册</div>
+            </h2>
+            <form class="ui large form">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="email" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="userPwd" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="userPwd2" placeholder="Confirm Password">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <input type="text" name="checkCode" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="ui fluid large teal submit button">注册</div>
+                </div>
+                <div class="ui error message"></div>
+            </form>
+        </div>
+    </div>
+</body>
+<script src="javascripts/jquery.js"></script>
+<script>
+
+</script>
+
+</html>
