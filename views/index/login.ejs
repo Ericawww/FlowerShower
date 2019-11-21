@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
   <link rel='stylesheet' href='stylesheets/style.css' />
   <link rel="icon" href="images/favicon.ico" />
-  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
   <style type="text/css">
     body {
       background-color: #DADADA;
@@ -37,7 +36,7 @@
           <div class="field">
             <div class="ui left icon input">
               <i class="user icon"></i>
-              <input type="text" name="email" placeholder="Email" autocomplete="off">
+              <input type="text" name="userName" placeholder="UserID or Email" autocomplete="off">
             </div>
           </div>
           <div class="field">
@@ -58,8 +57,32 @@
   </div>
 </body>
 <script src="javascripts/jquery.js"></script>
+<script src="dist/components/form.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <script>
-
+  $(".submit.button").click(() => {
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "/login",
+      data: {
+        userName: $("input[name='userName']").val(),
+        userPwd: $("input[name='userPwd']").val()
+      },
+      success: (data) => {
+        if (data.status) {
+          window.location.href = "/";
+        } else {
+          $('.ui.form').form('add prompt', "userName");
+          $('.ui.form').form('add prompt', "userPwd");
+          $(".ui.error.message").text(data.msg).show();
+        }
+      },
+      error: (err) => {
+        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+      }
+    });
+  });
 </script>
 
 </html>
