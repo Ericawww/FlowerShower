@@ -10,6 +10,7 @@ exports.userVerify = async (req, res) => {
     } else if (ret.length == 0) {
         res.send({ status: 0, msg: "用户名或密码错误！" }).end();
     } else {
+        req.session.token = ret[0];
         res.send({ status: 1 }).end();
     }
 }
