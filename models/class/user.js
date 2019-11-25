@@ -52,6 +52,26 @@ class User {
         }
     }
 
+    /**
+     * 重置密码
+     * 
+     * @param {string} email 用户邮箱
+     * @param {string} newPwd 新密码
+     * @return 重置成功返回1，失败返回0
+     */
+    async reset(email, newPwd) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("update user set userPwd = ? where email = ?", [newPwd, email]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }           
+    }
+
 }
 
 module.exports = User;

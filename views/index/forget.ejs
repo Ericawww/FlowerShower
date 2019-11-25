@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>忘记密码 | 高校教学管理平台</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <link rel='stylesheet' href='stylesheets/style.css' />
+  <link rel="icon" href="images/favicon.ico" />
+  <style type="text/css">
+    body {
+      background-color: #DADADA;
+    }
+
+    body>.grid {
+      height: 100%;
+    }
+
+    .image {
+      margin-top: -100px;
+    }
+
+    .column {
+      max-width: 600px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <form class="ui large form">
+        <div class="ui segment" style="padding: 25px 30px;">
+          <div class="inline fields">
+            <div class="three wide field">
+              <label>验证邮箱</label>
+            </div>
+            <div class="seven wide field">
+              <input type="text" placeholder="验证码将被发送到此邮箱中" name="email" autocomplete="off">
+            </div>
+            <div class="six wide field">
+              <div class="ui fluid middle teal verify button">发送验证码</div>
+            </div>
+          </div>
+          <div class="inline fields">
+            <div class="three wide field">
+              <label>重置密码</label>
+            </div>
+            <div class="thirteen wide field">
+              <input type="password" name="userPwd">
+            </div>
+          </div>
+          <div class="inline fields">
+            <div class="three wide field">
+              <label>确认密码</label>
+            </div>
+            <div class="thirteen wide field">
+              <input type="password" name="confirmPwd">
+            </div>
+          </div>
+          <div class="inline fields">
+            <div class="three wide field">
+              <label>重置验证码</label>
+            </div>
+            <div class="thirteen wide field">
+              <input type="text" name="resetCode" autocomplete="off">
+            </div>
+          </div>
+          <div class="inline fields" style="margin-top:25px; margin-bottom: 0;">
+            <div class="sixteen wide field">
+              <div class="ui fluid middle teal submit button">重置密码</div>
+            </div>
+          </div>
+        </div>
+        <div class="ui error message"></div>
+      </form>
+    </div>
+  </div>
+</body>
+<script src="javascripts/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script src="javascripts/check.js"></script>
+<script>
+  var timeout = 60;
+  var intervalObject;
+  var curTimeout;
+  var setTimeText = () => {
+    if (curTimeout == 1) {
+      clearInterval(intervalObject);
+      $(".verify.button").removeClass("disabled");
+      $(".verify.button").text("重新发送");
+    } else {
+      curTimeout--;
+      $(".verify.button").text(curTimeout + "秒后重试");
+    }
+  }
+  var startTime = () => {
+    curTimeout = timeout;
+    $(".verify.button").addClass("disabled");
+    $(".verify.button").text(timeout + "秒后重试");
+    setInterval(setTimeText, 1000);
+  }
+  $(".verify.button").click(() => {
+    if (!checkEmail($("input[name='email']").val())) {
+      alert("请输入合法的邮箱！");
+      return;
+    }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "/mailVerifyCode",
+      data: {
+        email: $("input[name='email']").val()
+      },
+      success: (data) => {
+        if (data.status) {
+          startTime();
+        } else {
+          alert("服务器异常，请稍后再试!");
+        }
+      },
+      error: (err) => {
+       alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  });
+  $(".submit.button").click(() => {
+    $(".ui.error.message").empty();
+    if ($("input[name='confirmPwd']").val() != $("input[name='userPwd']").val()) {
+      $(".ui.error.message").text("确认密码应与密码一致！").show();
+      return;
+    } else if ($("input[name='resetCode']").val() == "") {
+      $(".ui.error.message").text("请输入重置码！").show();
+      return;
+    }
+    $(".ui.error.message").hide();
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "/resetPasswd",
+      data: {
+        userPwd: $("input[name='userPwd']").val(),
+        resetCode: $("input[name='resetCode']").val()
+      },
+      success: (data) => {
+        if (data.status == 1) {
+          $(".ui.error.message").hide();
+          alert("重置成功！");
+          window.location.href = "/login";
+        } else {
+          $(".ui.error.message").text(data.msg).show();
+        }
+      },
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  });
+</script>
+
+</html>
