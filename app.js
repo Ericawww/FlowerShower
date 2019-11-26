@@ -10,6 +10,10 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+var bodyParser = require('body-parser');  //为了方便传输图片，扩大对请求的限制
+app.use(bodyParser.json({ limit: '1MB' }));
+app.use(bodyParser.urlencoded({ limit: '1MB', extended: true }));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

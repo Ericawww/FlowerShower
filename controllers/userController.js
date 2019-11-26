@@ -3,7 +3,16 @@ var MsgBoard = require('../models/class/MsgBoard');
 var mailHelper = require('../models/method/mailHelper');
 var utils = require('../models/method/utils');
 var svgCaptcha = require('svg-captcha');  //动态验证码核心库
+var fs = require("fs"); //文件系统操作
+var path = require("path"); //路径操作
 var indexCourses = require('../models/statics/indexCourses');  //静态数据
+var validTime = 5 * 60 * 1000;  //邮件验证码有效时间
+
+/* 自动登录，供测试者测试使用 */
+var getToken = async (userID, userPwd) => {
+    var ret = await User.prototype.login(userID, userPwd);
+    return ret[0];
+}
 
 /**
  * 主页加载，区分登陆态和非登陆态
@@ -11,7 +20,6 @@ var indexCourses = require('../models/statics/indexCourses');  //静态数据
 exports.index = (req, res) => {
     var token = req.session.token;
     if (token) {
-        token.userPwd = null; //隐蔽用户密码
         res.render('index/index', { courses: indexCourses, token: token });
     } else {
         res.render('index/index', { courses: indexCourses, token: null });
@@ -28,6 +36,7 @@ exports.userVerify = async (req, res) => {
     } else if (ret.length == 0) {
         res.send({ status: 0, msg: "用户名或密码错误！" }).end();
     } else {
+        ret[0].userPwd = null;  //清除密码
         req.session.token = ret[0];
         res.send({ status: 1 }).end();
     }
@@ -118,7 +127,6 @@ exports.mailVerifyCode = (req, res) => {
 /**
  * 重置验证码
  */
-const validTime = 5 * 60 * 1000;
 exports.resetPasswd = async (req, res) => {
     var now = new Date();
     console.log(now.getTime() - req.session.resetStat.time);
@@ -136,5 +144,97 @@ exports.resetPasswd = async (req, res) => {
         } else {
             res.send({ status: 0, msg: "系统数据库异常，请稍后再试！"  }).end();
         }
+    }
+}
+
+/**
+ * 用户个人主页
+ */
+exports.userIndex = async (req, res) => {
+    //for dev-------------
+    req.session.token = await getToken("1111", "123");
+    console.log(req.session.token);
+    //--------------------
+    if (req.session.token == null) {
+        res.send("<script>alert('您暂无权限访问该页面，请先登录！'); window.location.href='../index';</script>");
+        return;
+    }
+    var token = req.session.token;
+    token.birth = utils.dateFormat(token.birth, "yyyy-MM-dd");
+    res.render('users/index', { token: token });
+}
+
+/**
+ * 用户上传头像
+ */
+exports.userChangeImage = async (req, res) => {
+    //for dev-------------
+    req.session.token = await getToken("1111", "123");
+    //--------------------
+    if (req.session.token == null) {
+        res.send({ status: 0, msg: "不合法的用户信息，请先登录！" });
+        return;
+    }
+    try {
+        var base64Data = decodeURIComponent(req.body.imgBase64).replace(/^data:image\/\w+;base64,/, "").replace(/\s/g, "+");
+        var dataBuffer = Buffer.from(base64Data, 'base64');
+        var curTime = new Date().getTime() + ".jpeg";
+        var newFileName = path.join(__dirname, "../", "/public/photos/", curTime); //采用时间戳命名
+        fs.writeFile(newFileName, dataBuffer, async (err) => {
+            if (err) {
+                console.log(err);
+                res.send({ status: 0, msg: "上传失败，请稍后再试！" });
+                return;
+            } else {
+                try { //修改数据库中的路径
+                    await User.prototype.updatePhotoSrc(req.session.token.userID, 'photos/' + curTime);
+                } catch (err) {
+                    console.log(err);
+                    res.send({ status: 0, msg: "数据库出现异常，请稍后再试！" });
+                    return;
+                }
+                try { //删除老的图片
+                    if (req.session.token.userPhoto) {
+                        var oldFileName = path.join(__dirname, "../", "/public/", req.session.token.userPhoto);
+                        await utils.removeFile(oldFileName);
+                    }
+                    req.session.token.userPhoto = 'photos/' + curTime; //修改缓存信息
+                    res.send({ status: 1, newPath: req.session.token.userPhoto });
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        });
+    } catch (err) { 
+        console.log(err);
+        res.send({ status: 0, msg: "上传失败，请稍后再试！" });
+    }
+
+}
+
+/**
+ * 修改用户信息
+ */
+exports.updateUserInfo = async (req, res) => {
+    if (req.session.token == null) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面，请先登录！" }).end();
+        return;
+    }
+    console.log("----------");
+    console.log(req.body);
+    var ret = await User.prototype.updateUserInfo({
+        userID: req.session.token.userID,
+        userName: req.body.userName,
+        phoneNumber: req.body.phoneNumber,
+        gender: req.body.gender,
+        birth: req.body.birth,
+        userIntro: req.body.userIntro
+    });
+    if (ret == null) {
+        res.send({ status: 0, msg: "该用户信息不存在，请重新登录！" }).end();
+    } else {
+        ret.userPwd = null;
+        req.session.token = ret;
+        res.send({ status: 1 }).end();
     }
 }

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="icon" href="images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="dist/semantic.min.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css">
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .neccessary {
+      color: red;
+    }
+
+    .img-cursor {
+      cursor: pointer;
+    }
+
+    label {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 导航栏 -->
+  <div class="ui menu" style="padding: 15px;">
+    <a href="" style="display: flex; left: auto; margin-left: 30%;"><img src="images/logo.png"></a>
+    <div class="right menu" style="margin-right: 20%;">
+      <div class="item">
+        <div class="ui action left icon input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="搜索感兴趣的课程">
+          <button class="ui positive button">搜索</button>
+        </div>
+      </div>
+      <a class="item">使用教程</a>
+      <% if (token != null) { %>
+      <div class="item image" style="background: none;">
+        <div class="ui icon top right pointing dropdown" id="photo-drop">
+          <% if (token.userPhoto != null) { %>
+          <img class="ui circular image" src="<%= token.userPhoto %>" style="width:32px;" />
+          <% } else { %>
+          <img class="ui circular image" src="images/user.png" style="width:32px;" />
+          <% } %>
+          <div class="menu">
+            <div class="item" onclick="clickItem(1)">个人主页</div>
+            <div class="item" onclick="clickItem(0)">注销</div>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <!-- 导航栏 -->
+
+  <div class="ui container segment" style="margin-top:50px;">
+    <div class="ui top attached tabular menu">
+      <a class="item active" data-tab="first">个人资料</a>
+      <a class="item" data-tab="second">我的课程</a>
+      <a class="item" data-tab="third">修改密码</a>
+    </div>
+    <div class="ui bottom attached tab segment active" data-tab="first" style="padding: 20px 45px;">
+      <!-- 头像 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">头像</label>
+        </div>
+        <div class="six wide middle aligned column">
+          <% if (token.userPhoto == null) { %>
+          <img id="pic" class="ui circular image img-cursor" src="images/user.png" style="width:96px;" />
+          <% } else { %>
+          <img id="pic" class="ui circular image img-cursor" src="<%= token.userPhoto %>" style="width:96px;" />
+          <% } %>
+        </div>
+      </div>
+      <!-- 头像 -->
+      <!-- 用户ID -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">用户名<span class="neccessary">*</span></label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="text" value="<%= token.userID %>" class="disabled field">
+        </div>
+      </div>
+      <!-- 用户ID -->
+      <!-- 真实姓名 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">真实姓名<span class="neccessary">*</span></label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="text" name="userName" value="<%= token.userName %>">
+        </div>
+      </div>
+      <!-- 真实姓名 -->
+      <!-- 个人邮箱 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">个人邮箱<span class="neccessary">*</span></label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="text" name="mail" value="<%= token.email %>" class="disabled field">
+        </div>
+      </div>
+      <!-- 个人邮箱 -->
+      <!-- 联系电话 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">联系电话</label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="text" name="phoneNumber" value="<%= token.phoneNumber %>">
+        </div>
+      </div>
+      <!-- 联系电话 -->
+      <!-- 性别 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">性别<span class="neccessary">*</span></label>
+        </div>
+        <div class="two wide middle aligned column">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <% if (token.gender == 1) { %>
+              <input type="radio" name="gender" checked="" tabindex="0" class="hidden" value="1">
+              <% } else { %>
+              <input type="radio" name="gender" tabindex="0" class="hidden" value="1">
+              <% } %>
+              <label>男</label>
+            </div>
+          </div>
+        </div>
+        <div class="two wide middle aligned column">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <% if (token.gender == 0) { %>
+              <input type="radio" name="gender" checked="" tabindex="0" class="hidden" value="0">
+              <% } else { %>
+              <input type="radio" name="gender" tabindex="0" class="hidden" value="0">
+              <% } %>
+              <label>女</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 性别 -->
+      <!-- 生日 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">生日</label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="date" name="birth" value="<%= token.birth %>" />
+        </div>
+      </div>
+      <!-- 生日 -->
+      <!-- 个人简介 -->
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">个人简介<br/>(不超过200字)</label>
+        </div>
+        <div class="six wide middle aligned column">
+          <textarea name="userIntro" maxlength="200"><%= token.userIntro %></textarea>
+        </div>
+      </div>
+      <!-- 个人简介 -->
+      <div class="ui error message" id="saveErrMsg" style="width: 60%; margin-top:30px;">
+        
+      </div>
+      <button class="positive ui button" style="width: 150px; margin-top:20px;" id="saveButton">保存</button>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="second">
+      我的课程
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="third" style="padding: 20px 45px;">
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">原密码<span class="neccessary">*</span></label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="password" name="oldPwd">
+        </div>
+      </div>
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">新密码<span class="neccessary">*</span></label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="password" name="newPwd">
+        </div>
+      </div>
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">确认密码<span class="neccessary">*</span></label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="password" name="confirmPwd">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="template-footer"></div>
+  <!-- 页脚 -->
+
+  <!-- 上传图片 -->
+  <div class="ui small modal">
+    <div class="header">
+      上传头像
+    </div>
+    <div class="content">
+      <div class="ui divided grid">
+        <div class="eight wide column" style="width:200px; height:200px;">
+          <img id="userImage" src="images/user.png" alt="">
+        </div>
+        <div class="eight wide middle aligned column">
+          <lable style="font-weight: bold;">预览：</lable>
+          <div class="preview-box ui circular image" style="width:96px; height:96px;overflow: hidden;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui blue button" style="float:left" id="replace">打开图片</div>
+      <div class="ui deny button">关闭</div>
+      <div class="ui positive button" id="changeImage">确定</div>
+      <input type="file" id="imageSrc" onchange="changeSrc(this)" hidden />
+    </div>
+  </div>
+  <!-- 上传图片 -->
+
+</body>
+
+<script src="javascripts/jquery.js"></script>
+<script src="dist/semantic.min.js"></script>
+<script src="javascripts/common.js"></script>
+<script src="javascripts/check.js"></script>
+<script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+<script>
+  $('.menu .item').tab();
+  $(".ui.error.message").hide();
+  $('.ui.radio.checkbox').checkbox();
+  $("#pic").click(() => {
+    $('.ui.modal').modal('show');
+  });
+  $("#userImage").cropper({
+    aspectRatio: 1 / 1,
+    viewMode: 1,
+    dragMode: 'move',//裁剪框的模式
+    preview: ".preview-box",
+    autoCropArea: 1
+  });
+  $("#replace").click(() => {
+    $("#imageSrc").click();
+  });
+  $("#changeImage").click(() => {
+    if ($("#userImage").attr("src") == null) {
+      alert("请先选择一张图片！");
+      return false;
+    } else {
+      var cas = $('#userImage').cropper('getCroppedCanvas');// 获取被裁剪后的canvas  
+      var base64 = cas.toDataURL('image/jpeg'); // 转换为base64  
+      uploadFile(encodeURIComponent(base64)); //编码后上传服务器
+    }
+  });
+  $("#saveButton").click(()=> {
+    var $userName = trim($("input[name='userName']").val());
+    var $phoneNumber = trim($("input[name='phoneNumber']").val());
+    var $birth = trim($("input[name='birth']").val());
+    var $userIntro = trim($("textarea[name='userIntro']").val());
+    var $gender = $("input[name='gender']:checked").val();
+    console.log($userName, $phoneNumber, $birth, $userIntro, $gender);
+    $("#saveErrMsg").html(``).hide();
+    if ($userName == "" || $userName == null) {
+      $("input[name='userName']").parent().addClass("field error");
+      $("#saveErrMsg").html(`<div class="header">请输入真实姓名！</div>`).show();
+    } else if ($gender != 1 && $gender != 0) {
+      $("input[name='gender']").parent().addClass("field error");
+      $("#saveErrMsg").html(`<div class="header">请选择性别！</div>`).show();
+    }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "/users/updateUserInfo",
+      data: {
+        userName: $userName, 
+        phoneNumber: $phoneNumber == "" ? null: $phoneNumber, 
+        birth: $birth == "" ? null: $birth, 
+        userIntro:$userIntro == "" ? null: $userIntro,
+        gender: $gender
+      },
+      success: (data) => {
+        if (data.status == 1) {
+          alert("修改成功");
+          window.location.reload();
+        } else {
+          $("#saveErrMsg").html(`<div class="header">${data.msg}</div>`).show();
+        }
+      },
+      error: (err) => {
+        $("#saveErrMsg").html(`<div class="header">与服务器连接异常，请稍后再试!</div>`).show();
+      }
+    });
+  });
+
+  var changeSrc = (file) => {
+    if (!file.files || !file.files[0]) return;
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+      var replaceSrc = evt.target.result;
+      $('#userImage').cropper('replace', replaceSrc, false);// 默认false，适应高度，不失真  
+    }
+    reader.readAsDataURL(file.files[0]);
+  }
+  var uploadFile = (file) => {
+    console.log(file.length);
+    if (file.length > 1024 * 1000) {
+      alert("文件应该小于1MB！");
+      return;
+    }
+    $.ajax({
+      url: '/users/uploadImage',
+      type: 'POST',
+      dataType: "JSON",
+      data: {
+        imgBase64: file
+      },
+      async: true,
+      success: (data) => {
+        if (data.status == 1) {
+          alert("上传头像成功");
+          $("#pic").prop("src", data.newPath);  //更新头像显示
+        } else {
+          alert(data.msg);
+        }
+      },
+      fail: (err) => {
+        alert("上传头像失败，请检查网络连接！");
+      }
+    });
+  }  
+</script>
+
+</html>

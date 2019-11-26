@@ -4,3 +4,11 @@ var checkEmail = (email, regex) => {
     }
     return regex.test(email);
 }
+
+var trim = (str) => {
+    try {
+        return str.replace(/^\s+|\s+$/gm, '');
+    } catch (err) {
+        return null;
+    }
+}
