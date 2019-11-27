@@ -6,5 +6,6 @@ var userControllers = require('../controllers/userController');
 router.get('/', userControllers.userIndex);
 router.post('/uploadImage', userControllers.userChangeImage);
 router.post('/updateUserInfo', userControllers.updateUserInfo);
+router.post('/updateUserPwd', userControllers.updateUserPwd);
 
 module.exports = router;

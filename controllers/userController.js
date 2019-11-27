@@ -156,7 +156,7 @@ exports.userIndex = async (req, res) => {
     console.log(req.session.token);
     //--------------------
     if (req.session.token == null) {
-        res.send("<script>alert('您暂无权限访问该页面，请先登录！'); window.location.href='../index';</script>");
+        res.send("<script>alert('您暂无权限访问该页面，请先登录！'); window.location.href='/';</script>");
         return;
     }
     var token = req.session.token;
@@ -220,8 +220,6 @@ exports.updateUserInfo = async (req, res) => {
         res.send({ status: 0, msg: "您暂无权限访问该页面，请先登录！" }).end();
         return;
     }
-    console.log("----------");
-    console.log(req.body);
     var ret = await User.prototype.updateUserInfo({
         userID: req.session.token.userID,
         userName: req.body.userName,
@@ -233,8 +231,31 @@ exports.updateUserInfo = async (req, res) => {
     if (ret == null) {
         res.send({ status: 0, msg: "该用户信息不存在，请重新登录！" }).end();
     } else {
-        ret.userPwd = null;
         req.session.token = ret;
         res.send({ status: 1 }).end();
+    }
+}
+
+/**
+ * 修改用户密码
+ */
+exports.updateUserPwd = async (req, res) => {
+    if (req.session.token == null) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面，请先登录！" }).end();
+        return;
+    }
+    var checkFlag = await User.prototype.login(req.session.token.userID, req.body.oldPwd);
+    console.log(checkFlag);
+    if (checkFlag == null || checkFlag.length == 0) {
+        res.send({ status: 0, msg: "原密码输入错误！" }).end();
+        return;
+    } else {
+        var ret = await User.prototype.updateUserInfo({ userID: req.session.token.userID, userPwd: req.body.newPwd });
+        if (ret == null) {
+            res.send({ status: 0, msg: "该用户信息不存在，请重新登录！" }).end();
+        } else {
+            req.session.token = ret;
+            res.send({ status: 1 }).end();
+        }
     }
 }

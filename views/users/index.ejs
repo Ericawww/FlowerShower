@@ -64,7 +64,7 @@
   </div>
   <!-- 导航栏 -->
 
-  <div class="ui container segment" style="margin-top:50px;">
+  <div class="ui container segment" style="margin-top:50px;min-height: 80%;">
     <div class="ui top attached tabular menu">
       <a class="item active" data-tab="first">个人资料</a>
       <a class="item" data-tab="second">我的课程</a>
@@ -169,7 +169,7 @@
       <!-- 个人简介 -->
       <div class="ui grid form">
         <div class="two wide middle aligned column">
-          <label style="vertical-align: middle;text-align: center;">个人简介<br/>(不超过200字)</label>
+          <label style="vertical-align: middle;text-align: center;">个人简介<br />(不超过200字)</label>
         </div>
         <div class="six wide middle aligned column">
           <textarea name="userIntro" maxlength="200"><%= token.userIntro %></textarea>
@@ -177,7 +177,6 @@
       </div>
       <!-- 个人简介 -->
       <div class="ui error message" id="saveErrMsg" style="width: 60%; margin-top:30px;">
-        
       </div>
       <button class="positive ui button" style="width: 150px; margin-top:20px;" id="saveButton">保存</button>
     </div>
@@ -209,6 +208,9 @@
           <input type="password" name="confirmPwd">
         </div>
       </div>
+      <div class="ui error message" id="resetErrMsg" style="width: 60%; margin-top:30px;">
+      </div>
+      <button class="positive ui button" style="width: 150px; margin-top:40px;" id="resetButton">提交修改</button>
     </div>
   </div>
 
@@ -275,30 +277,32 @@
       uploadFile(encodeURIComponent(base64)); //编码后上传服务器
     }
   });
-  $("#saveButton").click(()=> {
+  $("#saveButton").click(() => {
     var $userName = trim($("input[name='userName']").val());
     var $phoneNumber = trim($("input[name='phoneNumber']").val());
     var $birth = trim($("input[name='birth']").val());
     var $userIntro = trim($("textarea[name='userIntro']").val());
     var $gender = $("input[name='gender']:checked").val();
-    console.log($userName, $phoneNumber, $birth, $userIntro, $gender);
+    //console.log($userName, $phoneNumber, $birth, $userIntro, $gender);
     $("#saveErrMsg").html(``).hide();
     if ($userName == "" || $userName == null) {
       $("input[name='userName']").parent().addClass("field error");
       $("#saveErrMsg").html(`<div class="header">请输入真实姓名！</div>`).show();
+      return;
     } else if ($gender != 1 && $gender != 0) {
       $("input[name='gender']").parent().addClass("field error");
       $("#saveErrMsg").html(`<div class="header">请选择性别！</div>`).show();
+      return;
     }
     $.ajax({
       dataType: "json",
       type: "post",
       url: "/users/updateUserInfo",
       data: {
-        userName: $userName, 
-        phoneNumber: $phoneNumber == "" ? null: $phoneNumber, 
-        birth: $birth == "" ? null: $birth, 
-        userIntro:$userIntro == "" ? null: $userIntro,
+        userName: $userName,
+        phoneNumber: $phoneNumber == "" ? null : $phoneNumber,
+        birth: $birth == "" ? null : $birth,
+        userIntro: $userIntro == "" ? null : $userIntro,
         gender: $gender
       },
       success: (data) => {
@@ -311,6 +315,40 @@
       },
       error: (err) => {
         $("#saveErrMsg").html(`<div class="header">与服务器连接异常，请稍后再试!</div>`).show();
+      }
+    });
+  });
+  $("#resetButton").click(() => {
+    var $oldPwd = $("input[name='oldPwd']").val();
+    var $newPwd = $("input[name='newPwd']").val();
+    var $confirmPwd = $("input[name='confirmPwd']").val();
+    console.log($oldPwd, $newPwd, $confirmPwd);
+    $("#resetErrMsg").html(``).hide();
+    $("input").parent().removeClass("field error");
+    if ($confirmPwd != $newPwd) {
+      $("input[name='confirmPwd']").parent().addClass("field error");
+      $("#resetErrMsg").html(`<div class="header">新密码必须与确认密码一致！</div>`).show();
+      return;
+    }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "/users/updateUserPwd",
+      data: {
+        oldPwd: $oldPwd,
+        newPwd: $newPwd
+      },
+      success: (data) => {
+        if (data.status == 1) {
+          alert("密码修改成功！");
+          window.location.reload();
+        } else {
+          $("#resetErrMsg").html(`<div class="header">${data.msg}</div>`).show();
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        $("#resetErrMsg").html(`<div class="header">与服务器连接异常，请稍后再试!</div>`).show();
       }
     });
   });
