@@ -6,8 +6,8 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <link rel="icon" href="images/favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="dist/semantic.min.css">
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
   <link rel="stylesheet" href="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.css">
   <style type="text/css">
     body {
@@ -35,7 +35,7 @@
 <body>
   <!-- 导航栏 -->
   <div class="ui menu" style="padding: 15px;">
-    <a href="" style="display: flex; left: auto; margin-left: 30%;"><img src="images/logo.png"></a>
+    <a href="" style="display: flex; left: auto; margin-left: 30%;"><img src="/images/logo.png"></a>
     <div class="right menu" style="margin-right: 20%;">
       <div class="item">
         <div class="ui action left icon input">
@@ -49,12 +49,13 @@
       <div class="item image" style="background: none;">
         <div class="ui icon top right pointing dropdown" id="photo-drop">
           <% if (token.userPhoto != null) { %>
-          <img class="ui circular image" src="<%= token.userPhoto %>" style="width:32px;" />
+          <img class="ui circular image usernav-photo" src="/<%= token.userPhoto %>" style="width:32px;" />
           <% } else { %>
-          <img class="ui circular image" src="images/user.png" style="width:32px;" />
+          <img class="ui circular image usernav-photo" src="/images/user.png" style="width:32px;" />
           <% } %>
           <div class="menu">
-            <div class="item" onclick="clickItem(1)">个人主页</div>
+            <div class="item" onclick="clickItem(2)">个人中心</div>
+            <div class="item" onclick="clickItem(1)">设置</div>
             <div class="item" onclick="clickItem(0)">注销</div>
           </div>
         </div>
@@ -78,9 +79,9 @@
         </div>
         <div class="six wide middle aligned column">
           <% if (token.userPhoto == null) { %>
-          <img id="pic" class="ui circular image img-cursor" src="images/user.png" style="width:96px;" />
+          <img id="pic" class="ui circular image img-cursor" src="/images/user.png" style="width:96px;" />
           <% } else { %>
-          <img id="pic" class="ui circular image img-cursor" src="<%= token.userPhoto %>" style="width:96px;" />
+          <img id="pic" class="ui circular image img-cursor" src="/<%= token.userPhoto %>" style="width:96px;" />
           <% } %>
         </div>
       </div>
@@ -226,7 +227,7 @@
     <div class="content">
       <div class="ui divided grid">
         <div class="eight wide column" style="width:200px; height:200px;">
-          <img id="userImage" src="images/user.png" alt="">
+          <img id="userImage" src="/images/user.png" alt="">
         </div>
         <div class="eight wide middle aligned column">
           <lable style="font-weight: bold;">预览：</lable>
@@ -245,10 +246,10 @@
 
 </body>
 
-<script src="javascripts/jquery.js"></script>
-<script src="dist/semantic.min.js"></script>
-<script src="javascripts/common.js"></script>
-<script src="javascripts/check.js"></script>
+<script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/common.js"></script>
+<script src="/javascripts/check.js"></script>
 <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
 <script>
   $('.menu .item').tab();
@@ -379,7 +380,8 @@
       success: (data) => {
         if (data.status == 1) {
           alert("上传头像成功");
-          $("#pic").prop("src", data.newPath);  //更新头像显示
+          $("#pic").prop("src", "/" + data.newPath);  //更新头像显示
+          $(".usernav-photo").prop("src", "/" + data.newPath); 
         } else {
           alert(data.msg);
         }

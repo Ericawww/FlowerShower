@@ -148,9 +148,9 @@ exports.resetPasswd = async (req, res) => {
 }
 
 /**
- * 用户个人主页
+ * 用户设置
  */
-exports.userIndex = async (req, res) => {
+exports.userSettings = async (req, res) => {
     //for dev-------------
     req.session.token = await getToken("1111", "123");
     console.log(req.session.token);
@@ -258,4 +258,11 @@ exports.updateUserPwd = async (req, res) => {
             res.send({ status: 1 }).end();
         }
     }
+}
+
+/**
+ * 用户个人主页
+ */
+exports.userIndex = async (req, res) => {
+    res.render('users/userPage');
 }

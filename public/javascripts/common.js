@@ -36,8 +36,9 @@ $(".ui.dropdown").dropdown();
 var clickItem = (id) => {
   if (id == 0) {
     window.location.href = '/logout';
-  }
-  else if (id == 1) {
-    window.location.href = '/users';
+  } else if (id == 1) {
+    window.location.href = '/users/settings';
+  } else if (id == 2) {
+    window.location.href = '/users/';
   }
 }
