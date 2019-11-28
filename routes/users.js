@@ -4,6 +4,7 @@ var userControllers = require('../controllers/userController');
 
 /* GET users listing. */
 router.get('/', userControllers.userIndex);
+router.get('/userGrade', (req, res) => { res.render('users/userGrade'); });
 router.get('/settings', userControllers.userSettings);
 router.post('/uploadImage', userControllers.userChangeImage);
 router.post('/updateUserInfo', userControllers.updateUserInfo);
