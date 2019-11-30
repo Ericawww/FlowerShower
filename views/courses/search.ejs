@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.css">
+  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css">
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .course-title {
+      font-weight: bold;
+      font-size: medium;
+      font-family: '黑体';
+      margin: 8px 16px;
+    }
+
+    .course-info {
+      font-family: '微软雅黑';
+      margin: 8px 16px;
+    }
+
+    .user-title {
+      text-align: center;
+      font-size: large;
+      font-family: '微软雅黑';
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 导航栏 -->
+  <div class="ui menu" style="padding: 15px;">
+    <img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;">
+    <div class="right menu" style="margin-right: 20%;">
+      <div class="item">
+        <div class="ui action left icon input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="搜索感兴趣的课程">
+          <button class="ui positive button">搜索</button>
+        </div>
+      </div>
+      <a class="item">使用教程</a>
+      <a class="item">建议反馈</a>
+    </div>
+  </div>
+  <!-- 导航栏 -->
+
+  <!-- 页面主题 -->
+
+  
+  <!-- 课程条目 -->
+  <div class="container">
+      <div class="ui grid"> 
+        <div class="one wide column"></div>
+            <div class="ten wide column">
+                <p>全部课程>>搜索结果</p>
+                <div class="ui items">
+                    <div class="item">
+                      <div class="ui segment ">
+                          <div class="one wide column">
+                              <img src="/images/cmdc1.png">
+                          </div>
+                          <div class="eight wide column">
+                              <h4 class="header">《Semantic-UI:从入门到跑路》</h4>
+                              <div class="description">
+                                  本课程的主要任务是在软件工程整体知识的基础上，深入学习并实践软件需求获取与管理的原理、方法和过程，学习并掌握使用UML工具对软件需求进行分析、表达与系统设计。课程内容包括两部分：一是需求获取和维护的过程和方法，包括需求提取、需求分析和建模、需求表达、需求确认、需求变更控制，以及相应的工具；二是UML概念、方法和工具。课程配合案例性实践环节进行教学。通过本课程的学习，应使学生掌握如何在软件工程的实践中完成复杂软件需求的获取、表达和维护能力，学会应用UML进行软件需求分析与设计的技术和方法，为掌握软件工程的统全面的知识和技能打下坚实基础。
+                              </div>
+                              <div class="extra">
+                                <i class="green check icon"></i>
+                                121 Votes
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+              <!--筛选条件 -->
+            <div class="four wide column" style="margin-top:40px;">
+                <div class="ui segment">
+                  <p class="user-title" >筛选条件</p>
+                  <div class="description"> 
+                    <p>筛选项目:
+                      <div class="ui selection dropdown">
+                        <input type="hidden" name="gender">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">项目</div>
+                        <div class="menu">
+                          <div class="item" data-value="0">按开课学院</div>
+                          <div class="item" data-value="1">按修读时间</div>
+                        </div>
+                      </div>
+                    </p>
+                    <p>筛选条件:
+                        <div class="ui selection dropdown">
+                        <input type="hidden" name="gender">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">项目</div>
+                        <div class="menu">
+                          <div class="item" data-value="0">计算机科学与技术学院</div>
+                          <div class="item" data-value="1">马克思主义学院</div>
+                        </div>
+                      </div>
+                    </p>
+                    <button class="positive big ui button">确认</button>
+                  </div>
+                </div>
+              </div>
+              
+            <!-- 筛选条件 -->
+        </div>
+  </div>
+
+  <!-- 课程条目 -->
+  <!--筛选条件 -->
+  <!-- 筛选条件 -->
+
+
+  <!-- 页脚 -->
+  <div class="ui inverted vertical footer segment" style="background-color: rgb(21, 126, 217); margin-top: 50px;">
+    <div class="ui container">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="four wide column">
+          <h4 class="ui inverted header">指导老师</h4>
+          <div class="ui inverted link list">
+            <p><a href="https://person.zju.edu.cn/0092031" target="_blank" class="item"
+                style="color: white;">浙江大学计算机科学与技术学院 邢卫</a></p>
+            <p><a href="https://person.zju.edu.cn/0097412" target="_blank" class="item"
+                style="color: white;">浙江大学计算机科学与技术学院 金波</a></p>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">项目作者</h4>
+          <div class="ui inverted link list">
+            <p>贺婷婷 应承峻 韩汶东 </p>
+            <p>张佳瑶 方陶然 戴陈威</p>
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">技术支持</h4>
+          <p>浙江大学计算机科学与技术学院-SEM&SRE-Group13</p>
+          <p>软件工程专业-软件工程管理&软件需求工程-项目</p>
+          <p>Group13</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 页脚 -->
+</body>
+
+<script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
+</html>
