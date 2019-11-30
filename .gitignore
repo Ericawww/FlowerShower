@@ -1,4 +1,4 @@
 node_modules/
-
+models/mysql/ConnPool.js
 .idea
 .DS_Store
