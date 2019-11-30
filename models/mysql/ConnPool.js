@@ -4,7 +4,7 @@ module.exports = (function () {
     var pool = mysql.createPool({
         host: 'localhost',
         user: 'root',
-        password: '',
+        password: 'veckdcw19990911',
         database: 'unitsys',
         port: '3306',
         charset: 'utf8mb4'
