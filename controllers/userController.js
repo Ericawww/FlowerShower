@@ -1,4 +1,5 @@
 var User = require('../models/class/User');
+var Teacher = require('../models/class/Teacher');
 var MsgBoard = require('../models/class/MsgBoard');
 var mailHelper = require('../models/method/mailHelper');
 var utils = require('../models/method/utils');
@@ -6,7 +7,8 @@ var svgCaptcha = require('svg-captcha');  //动态验证码核心库
 var fs = require("fs"); //文件系统操作
 var path = require("path"); //路径操作
 var indexCourses = require('../models/statics/indexCourses');  //静态数据
-var validTime = 5 * 60 * 1000;  //邮件验证码有效时间
+var config = require('../models/statics/config');
+var validTime = config.EMAIL_VALID_TIME;  //邮件验证码有效时间
 
 /* 自动登录，供测试者测试使用 */
 var getToken = async (userID, userPwd) => {
@@ -161,7 +163,17 @@ exports.userSettings = async (req, res) => {
     }
     var token = req.session.token;
     token.birth = utils.dateFormat(token.birth, "yyyy-MM-dd");
-    res.render('users/index', { token: token });
+    if (parseInt(token.userType) == config.TYPE_TEACHER) {  //如果身份是教师还需要传送教师个人主页
+        var ret = await Teacher.prototype.getHomePage(token.userID);
+        console.log(ret);
+        if (ret == null) {
+            res.render('users/index', { token: token, person: null });
+        } else {
+            res.render('users/index', { token: token, person: ret });
+        }
+    } else {
+        res.render('users/index', { token: token, person: null });
+    }
 }
 
 /**

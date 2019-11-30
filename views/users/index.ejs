@@ -68,7 +68,9 @@
   <div class="ui container segment" style="margin-top:50px;min-height: 80%;">
     <div class="ui top attached tabular menu">
       <a class="item active" data-tab="first">个人资料</a>
-      <a class="item" data-tab="second">我的课程</a>
+      <% if (person != null) { %>
+      <a class="item" data-tab="second">教师主页</a>
+      <% } %>
       <a class="item" data-tab="third">修改密码</a>
     </div>
     <div class="ui bottom attached tab segment active" data-tab="first" style="padding: 20px 45px;">
@@ -181,9 +183,51 @@
       </div>
       <button class="positive ui button" style="width: 150px; margin-top:20px;" id="saveButton">保存</button>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="second">
-      我的课程
+    <% if (person != null) { %>
+    <div class="ui bottom attached tab segment" data-tab="second" style="padding: 20px 45px;">
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">职称</label>
+        </div>
+        <div class="six wide middle aligned column">
+          <input type="text" name="position" placeholder="教授/副教授/研究员等" value="<%= person.position %>">
+        </div>
+      </div>
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">简介</label>
+        </div>
+        <div class="twelve wide middle aligned column">
+          <textarea name="profile" maxlength="512"><%= person.profile %></textarea>
+        </div>
+      </div>
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">专利</label>
+        </div>
+        <div class="twelve wide middle aligned column">
+          <textarea name="patent" maxlength="512"><%= person.patent %></textarea>
+        </div>
+      </div>
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">教学与课程</label>
+        </div>
+        <div class="twelve wide middle aligned column">
+          <textarea name="course" maxlength="512"><%= person.course %></textarea>
+        </div>
+      </div>
+      <div class="ui grid form">
+        <div class="two wide middle aligned column">
+          <label style="vertical-align: middle;text-align: center;">论文</label>
+        </div>
+        <div class="twelve wide middle aligned column">
+          <textarea name="papers" maxlength="512"><%= person.papers %></textarea>
+        </div>
+      </div>
+      <button class="positive ui button" style="width: 150px; margin-top:40px;" id="homepageBtn">保存个人主页</button>
     </div>
+    <% } %>
     <div class="ui bottom attached tab segment" data-tab="third" style="padding: 20px 45px;">
       <div class="ui grid form">
         <div class="two wide middle aligned column">
@@ -251,146 +295,40 @@
 <script src="/javascripts/common.js"></script>
 <script src="/javascripts/check.js"></script>
 <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+<script src="/javascripts/users/index.js"></script>
 <script>
   $('.menu .item').tab();
   $(".ui.error.message").hide();
   $('.ui.radio.checkbox').checkbox();
-  $("#pic").click(() => {
-    $('.ui.modal').modal('show');
-  });
-  $("#userImage").cropper({
-    aspectRatio: 1 / 1,
-    viewMode: 1,
-    dragMode: 'move',//裁剪框的模式
-    preview: ".preview-box",
-    autoCropArea: 1
-  });
-  $("#replace").click(() => {
-    $("#imageSrc").click();
-  });
-  $("#changeImage").click(() => {
-    if ($("#userImage").attr("src") == null) {
-      alert("请先选择一张图片！");
-      return false;
-    } else {
-      var cas = $('#userImage').cropper('getCroppedCanvas');// 获取被裁剪后的canvas  
-      var base64 = cas.toDataURL('image/jpeg'); // 转换为base64  
-      uploadFile(encodeURIComponent(base64)); //编码后上传服务器
-    }
-  });
-  $("#saveButton").click(() => {
-    var $userName = trim($("input[name='userName']").val());
-    var $phoneNumber = trim($("input[name='phoneNumber']").val());
-    var $birth = trim($("input[name='birth']").val());
-    var $userIntro = trim($("textarea[name='userIntro']").val());
-    var $gender = $("input[name='gender']:checked").val();
-    //console.log($userName, $phoneNumber, $birth, $userIntro, $gender);
-    $("#saveErrMsg").html(``).hide();
-    if ($userName == "" || $userName == null) {
-      $("input[name='userName']").parent().addClass("field error");
-      $("#saveErrMsg").html(`<div class="header">请输入真实姓名！</div>`).show();
-      return;
-    } else if ($gender != 1 && $gender != 0) {
-      $("input[name='gender']").parent().addClass("field error");
-      $("#saveErrMsg").html(`<div class="header">请选择性别！</div>`).show();
-      return;
-    }
+</script>
+<% if (person != null) { %>
+<script>
+  $("#homepageBtn").click(() => {
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "/users/updateUserInfo",
+      url: "/users/updateTeacherPage",
       data: {
-        userName: $userName,
-        phoneNumber: $phoneNumber == "" ? null : $phoneNumber,
-        birth: $birth == "" ? null : $birth,
-        userIntro: $userIntro == "" ? null : $userIntro,
-        gender: $gender
+        position: $("input[name='position']").val(),
+        profile: $("textarea[name='profile']").val(),
+        patent: $("textarea[name='patent']").val(),
+        course: $("textarea[name='course']").val(),
+        papers: $("textarea[name='papers']").val()
       },
       success: (data) => {
         if (data.status == 1) {
-          alert("修改成功");
+          alert("提交成功！");
           window.location.reload();
-        } else {
-          $("#saveErrMsg").html(`<div class="header">${data.msg}</div>`).show();
-        }
-      },
-      error: (err) => {
-        $("#saveErrMsg").html(`<div class="header">与服务器连接异常，请稍后再试!</div>`).show();
-      }
-    });
-  });
-  $("#resetButton").click(() => {
-    var $oldPwd = $("input[name='oldPwd']").val();
-    var $newPwd = $("input[name='newPwd']").val();
-    var $confirmPwd = $("input[name='confirmPwd']").val();
-    console.log($oldPwd, $newPwd, $confirmPwd);
-    $("#resetErrMsg").html(``).hide();
-    $("input").parent().removeClass("field error");
-    if ($confirmPwd != $newPwd) {
-      $("input[name='confirmPwd']").parent().addClass("field error");
-      $("#resetErrMsg").html(`<div class="header">新密码必须与确认密码一致！</div>`).show();
-      return;
-    }
-    $.ajax({
-      dataType: "json",
-      type: "post",
-      url: "/users/updateUserPwd",
-      data: {
-        oldPwd: $oldPwd,
-        newPwd: $newPwd
-      },
-      success: (data) => {
-        if (data.status == 1) {
-          alert("密码修改成功！");
-          window.location.reload();
-        } else {
-          $("#resetErrMsg").html(`<div class="header">${data.msg}</div>`).show();
-        }
-      },
-      error: (err) => {
-        console.log(err);
-        $("#resetErrMsg").html(`<div class="header">与服务器连接异常，请稍后再试!</div>`).show();
-      }
-    });
-  });
-
-  var changeSrc = (file) => {
-    if (!file.files || !file.files[0]) return;
-    var reader = new FileReader();
-    reader.onload = function (evt) {
-      var replaceSrc = evt.target.result;
-      $('#userImage').cropper('replace', replaceSrc, false);// 默认false，适应高度，不失真  
-    }
-    reader.readAsDataURL(file.files[0]);
-  }
-  var uploadFile = (file) => {
-    console.log(file.length);
-    if (file.length > 1024 * 1000) {
-      alert("文件应该小于1MB！");
-      return;
-    }
-    $.ajax({
-      url: '/users/uploadImage',
-      type: 'POST',
-      dataType: "JSON",
-      data: {
-        imgBase64: file
-      },
-      async: true,
-      success: (data) => {
-        if (data.status == 1) {
-          alert("上传头像成功");
-          $("#pic").prop("src", "/" + data.newPath);  //更新头像显示
-          $(".usernav-photo").prop("src", "/" + data.newPath); 
         } else {
           alert(data.msg);
         }
       },
-      fail: (err) => {
-        alert("上传头像失败，请检查网络连接！");
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
       }
     });
-  }  
+  });
 </script>
+<% } %>
 
 </html>
