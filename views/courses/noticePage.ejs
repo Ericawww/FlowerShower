@@ -44,10 +44,9 @@
   <body>
     <!-- 导航栏 -->
     <div class="ui menu" style="padding: 15px;">
-      <img
-        src="images/logo.png"
-        style="display: flex; left: auto; margin-left: 30%;"
-      />
+      <a href="" style="display: flex; left: auto; margin-left: 30%;"
+        ><img src="/images/logo.png"
+      /></a>
       <div class="right menu" style="margin-right: 20%;">
         <div class="item">
           <div class="ui action left icon input">
@@ -57,7 +56,31 @@
           </div>
         </div>
         <a class="item">使用教程</a>
-        <a class="item">建议反馈</a>
+        <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
+        <% if (token != null) { %>
+        <div class="item image" style="background: none;">
+          <div class="ui icon top right pointing dropdown" id="photo-drop">
+            <% if (token.userPhoto != null) { %>
+            <img
+              class="ui circular image"
+              src="<%= token.userPhoto %>"
+              style="width:32px;"
+            />
+            <% } else { %>
+            <img
+              class="ui circular image"
+              src="images/user.png"
+              style="width:32px;"
+            />
+            <% } %>
+            <div class="menu">
+              <div class="item" onclick="clickItem(2)">个人中心</div>
+              <div class="item" onclick="clickItem(1)">设置</div>
+              <div class="item" onclick="clickItem(0)">注销</div>
+            </div>
+          </div>
+        </div>
+        <% } %>
       </div>
     </div>
     <!-- 导航栏 -->
@@ -144,13 +167,53 @@
     <!--通知信息栏-->
   </body>
 
-  <script src="/swiper/package/js/swiper.min.js"></script>
-  <script src="/javascripts/jquery.js"></script>
+  <script src="swiper/package/js/swiper.min.js"></script>
+  <script src="javascripts/jquery.js"></script>
+  <script src="dist/semantic.min.js"></script>
+  <script src="javascripts/common.js"></script>
   <script>
-    $(".message.close").on("click", function() {
-      $(this)
-        .closest(".message")
-        .transition("fade");
-    });
+    var showMsgBoard = () => {
+      $(".ui.modal").modal("show");
+    };
+    var postMsg = () => {
+      if (
+        $("textarea[name='content']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("留言内容不能为空！");
+        return;
+      }
+      if (
+        $("input[name='contact']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("联系方式不能为空！");
+        return;
+      }
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "/msgBoard",
+        data: {
+          content: $("textarea[name='content']").val(),
+          contact: $("input[name='contact']").val()
+        },
+        success: data => {
+          if (data.status) {
+            alert("提交留言成功!");
+            $("textarea[name='content']").val(""); //清空留言内容和联系方式
+            $("input[name='contact']").val("");
+            $(".ui.modal").modal("hide");
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: err => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    };
   </script>
 </html>

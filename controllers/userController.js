@@ -9,6 +9,7 @@ var path = require("path"); //路径操作
 var indexCourses = require("../models/statics/indexCourses"); //静态数据
 var config = require("../models/statics/config");
 var validTime = config.EMAIL_VALID_TIME; //邮件验证码有效时间
+
 var Notice = require("../models/class/Notice");
 
 /* 自动登录，供测试者测试使用 */
@@ -21,30 +22,25 @@ var getToken = async (userID, userPwd) => {
  * 主页加载，区分登陆态和非登陆态
  */
 
-exports.getCourseNotice = async (req, res) => {
-  var noticeList = await Notice.prototype.getCourseNotice(1); //1应该用课程号替换掉
-  res.render("courses/noticePage", { noticeList: noticeList });
-};
-/*
 exports.index = (req, res) => {
   var token = req.session.token;
   if (token) {
-    res.render("index/index", { courses: indexCourses, token: token });
+    res.render("courses/talkBoard", { courses: indexCourses, token: token });
   } else {
-    res.render("index/index", { courses: indexCourses, token: null });
+    res.render("courses/talkBoard", { courses: indexCourses, token: null });
   }
 };
-*/
-exports.index = async (req, res) => {
-  var token = req.session.token;
-  var noticeList = await Notice.prototype.getCourseNotice(1); //1应该用课程号替换掉
-  if (token) {
-    var noticeList = Notice.prototype.getCourseNotice(1); //1应该用课程号替换掉
-    res.render("courses/noticePage", { noticeList: noticeList });
-  } else {
-    res.render("courses/noticePage", { noticeList: noticeList });
-  }
-};
+
+// exports.index = async (req, res) => {
+//   var token = req.session.token;
+//   var noticeList = await Notice.prototype.getCourseNotice(1); //1应该用课程号替换掉
+//   if (token) {
+//     var noticeList = Notice.prototype.getCourseNotice(1); //1应该用课程号替换掉
+//     res.render("courses/noticePage", { noticeList: noticeList, token: token });
+//   } else {
+//     res.render("courses/noticePage", { noticeList: noticeList, token: null });
+//   }
+// };
 
 /**
  * 用户身份校验，校验成功返回1，校验失败返回0

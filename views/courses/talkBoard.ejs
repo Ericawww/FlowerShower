@@ -44,10 +44,9 @@
   <body>
     <!-- 导航栏 -->
     <div class="ui menu" style="padding: 15px;">
-      <img
-        src="images/logo.png"
-        style="display: flex; left: auto; margin-left: 30%;"
-      />
+      <a href="" style="display: flex; left: auto; margin-left: 30%;"
+        ><img src="/images/logo.png"
+      /></a>
       <div class="right menu" style="margin-right: 20%;">
         <div class="item">
           <div class="ui action left icon input">
@@ -57,7 +56,31 @@
           </div>
         </div>
         <a class="item">使用教程</a>
-        <a class="item">建议反馈</a>
+        <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
+        <% if (token != null) { %>
+        <div class="item image" style="background: none;">
+          <div class="ui icon top right pointing dropdown" id="photo-drop">
+            <% if (token.userPhoto != null) { %>
+            <img
+              class="ui circular image"
+              src="<%= token.userPhoto %>"
+              style="width:32px;"
+            />
+            <% } else { %>
+            <img
+              class="ui circular image"
+              src="images/user.png"
+              style="width:32px;"
+            />
+            <% } %>
+            <div class="menu">
+              <div class="item" onclick="clickItem(2)">个人中心</div>
+              <div class="item" onclick="clickItem(1)">设置</div>
+              <div class="item" onclick="clickItem(0)">注销</div>
+            </div>
+          </div>
+        </div>
+        <% } %>
       </div>
     </div>
     <!-- 导航栏 -->
@@ -119,39 +142,92 @@
 
     <!--学生讨论区-->
     <div class="ui container" style="margin-top:10px;">
-      <div class="ui horizontal divider"></div>
+      <button class="ui basic button" onclick="showTalkBoard()">
+        <i class="add icon"></i>
+        发表帖子
+      </button>
     </div>
     <!--学生讨论区-->
+
+    <!-- 模态框 -->
+    <div class="ui modal">
+      <i class="close icon"></i>
+      <div class="header">发表帖子</div>
+      <div class="content">
+        <div class="ui form">
+          <div class="field">
+            <label>标题<span class="neccessary">*</span></label>
+            <input type="text" name="title"" placeholder="不超过32个字符" />
+          </div>
+          <div class="field">
+            <label>内容<span class="neccessary">*</span></label>
+            <textarea
+              maxlength="250"
+              placeholder="不超过300个字符"
+              name="content"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui red deny button">取消</div>
+        <div class="ui positive button" onclick="postTalk()">发表</div>
+      </div>
+    </div>
+    <!-- 模态框 -->
   </body>
 
-  <script src="/swiper/package/js/swiper.min.js"></script>
   <script src="/javascripts/jquery.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script src="/javascripts/common.js"></script>
+  <script src="/javascripts/check.js"></script>
+  <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+  <script src="/javascripts/users/index.js"></script>
   <script>
-    $(".menu.button").click(() => {
+    var showTalkBoard = () => {
+      $(".ui.modal").modal("show");
+    };
+
+    var postTalk = () => {
+      if (
+        $("textarea[name='content']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("内容不能为空！");
+        return;
+      }
+      if (
+        $("input[name='title']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("标题不能为空！");
+        return;
+      }
       $.ajax({
         dataType: "json",
-        type: "get",
-        url: "/noticePage",
+        type: "post",
+        url: "/talkBoard",
         data: {
-          courseID: $("input[name='userName']").val()
+          title: $("input[name='title']").val(),
+          content: $("textarea[name='content']").val(),
+          time: new Date().toGMTString()
         },
         success: data => {
           if (data.status) {
-            window.location.href = "/";
+            alert("发表帖子成功!");
+            $("textarea[name='content']").val(""); //清空留言内容和联系方式
+            $("input[name='title']").val("");
+            $(".ui.modal").modal("hide");
           } else {
-            $(".ui.form").form("add prompt", "userName");
-            $(".ui.form").form("add prompt", "userPwd");
-            $(".ui.error.message")
-              .text(data.msg)
-              .show();
+            alert(data.msg);
           }
         },
         error: err => {
-          $(".ui.error.message")
-            .text("与服务器连接异常，请稍后再试!")
-            .show();
+          alert("与服务器连接异常，请稍后再试!");
         }
       });
-    });
+    };
   </script>
 </html>
