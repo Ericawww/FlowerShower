@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>管理员界面 | 高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .box {
+      margin: 60px 10% 100px 20%;
+    }
+
+    .pointer {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ui right blue sidebar vertical menu">
+    <div class="item">
+      <div class="header">用户类型</div>
+      <div class="menu">
+        <a class="active item user-all" href="javascript:setSelector('userType','3')">全部</a>
+        <a class="item user-teacher" href="javascript:setSelector('userType','1')">教师</a>
+        <a class="item user-student" href="javascript:setSelector('userType','0')">学生</a>
+        <a class="item user-admin" href="javascript:setSelector('userType','2')">管理员</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">性别</div>
+      <div class="menu">
+        <a class="active item gender-all" href="javascript:setSelector('gender','2')">全部</a>
+        <a class="item gender-male" href="javascript:setSelector('gender','1')">男</a>
+        <a class="item gender-female" href="javascript:setSelector('gender','0')">女</a>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">用户姓名</div>
+      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('userName', this)"></div>
+    </div>
+    <div class="item">
+      <div class="header">邮件地址</div>
+      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('email', this)"></div>
+    </div>
+    <div class="item">
+      <div class="header">联系电话</div>
+      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('phoneNumber', this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="pusher">
+    <div class="ui left fixed vertical menu inverted ">
+      <h2 class="item" style="padding:8%; margin-bottom: 30px; margin-top:30px;">后台管理</h2>
+      <a class="item"><i class="user off icon"></i>用户管理</a>
+      <a class="item"><i class="book icon"></i>课程管理</a>
+      <a class="item"><i class="cog icon"></i>系统设置</a>
+      <a class="item"><i class="power off icon"></i>退出登录</a>
+    </div>
+
+    <div class="box">
+      <div class="ui segment">
+        <h3>用户列表</h3>
+      </div>
+      <table class="ui celled padded table user-table">
+        <thead>
+          <tr>
+            <th colspan="9">
+              <!-- <label class="middle aligned" style="font-size:20px;">用户列表</label> -->
+              <div class="ui right floated small labeled icon red button" id="deleteUserBtn">
+                <i class="trash alternate icon"></i> 删除用户
+              </div>
+              <div class="ui right floated small primary labeled icon button" id="importUserBtn">
+                <i class="user icon"></i> 导入用户
+              </div>
+              <div class="ui right floated small teal labeled icon button" id="selectUserBtn">
+                <i class="search icon"></i> 筛选
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>UserID</th>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Birth</th>
+            <th>Gender</th>
+            <th>UserType</th>
+            <th>Editor</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="9" class="middle aligned">
+              <div class="ui right floated pagination menu">
+                <a class="icon item">
+                  <i class="left chevron icon"></i>
+                </a>
+                <a class="item">1</a>
+                <a class="item">2</a>
+                <a class="item">3</a>
+                <a class="item">4</a>
+                <a class="icon item">
+                  <i class="right chevron icon"></i>
+                </a>
+              </div>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="ui modal tiny user-info">
+    <div class="header">用户信息</div>
+    <div class="content">
+
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">关闭</div>
+      <div class="ui positive button">提交修改</div>
+    </div>
+  </div>
+
+  <div class="ui modal tiny import">
+    <div class="header">批量导入</div>
+    <div class="content">
+      <p>选择需要导入的文件(xlsx格式)</p>
+      <input type="file" class="ui excel-file" />
+    </div>
+    <div class="actions">
+      <div class="ui left floated primary button">预览</div>
+      <div class="ui cancel button">取消</div>
+      <div class="ui positive button">确定</div>
+    </div>
+  </div>
+
+  <div class="ui modal mini delete">
+    <div class="header">删除</div>
+    <div class="content">
+      <p>确定要删除选中的<strong>5</strong>个用户吗？</p>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">取消</div>
+      <div class="ui approve red button">确定</div>
+    </div>
+  </div>
+
+  <div class="ui preview modal">
+    <div class="header">数据预览</div>
+    <div class="scrolling content">
+      <table class="ui celled table preview">
+        <thead>
+          <tr>
+            <th>UserID</th>
+            <th>UserName</th>
+            <th>UserPwd</th>
+            <th>Email</th>
+            <th>UserType</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+    <div class="actions">
+      <div class="ui approve primary button">返回</div>
+    </div>
+  </div>
+
+</body>
+
+<script src="javascripts/jquery.js"></script>
+<script src="dist/semantic.min.js"></script>
+<script src="javascripts/common.js"></script>
+<script src="javascripts/check.js"></script>
+<script src="javascripts/xlsx.core.min.js"></script>
+<script src="javascripts/admins/index.js"></script>
+
+<script>
+
+
+</script>
+
+</html>

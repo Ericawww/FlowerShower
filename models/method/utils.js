@@ -52,6 +52,20 @@ exported.dateFormat = (date, fmt) => {
     }
 }
 
+/**
+ * 判断是否是yyyy-MM-dd格式的字符串
+ * 
+ * @param {*} mystring 日期字符串
+ */
+exported.isYMDDate = (mystring) => {
+    var reg = /^(\d{4})-(\d{2})-(\d{2})$/;
+    var str = mystring;
+    var arr = reg.exec(str);
+    if (!reg.test(str) && RegExp.$2 <= 12 && RegExp.$3 <= 31) return false;
+    return true;
+}
+
+
 Date.prototype.Format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1,                 //月份   

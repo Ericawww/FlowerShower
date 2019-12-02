@@ -10,21 +10,22 @@ var indexCourses = require('../models/statics/indexCourses');  //静态数据
 var config = require('../models/statics/config');
 var validTime = config.EMAIL_VALID_TIME;  //邮件验证码有效时间
 
-/* 自动登录，供测试者测试使用 */
-var getToken = async (userID, userPwd) => {
-    var ret = await User.prototype.login(userID, userPwd);
-    return ret[0];
-}
-
 /**
  * 主页加载，区分登陆态和非登陆态
  */
-exports.index = (req, res) => {
-    var token = req.session.token;
+exports.index = async (req, res) => {
+    //for dev-------------
+    var token = await config.getToken('3333','123');
+    console.log(token);
+    //--------------------
     if (token) {
-        res.render('homework/homeworkListPage', { courses: indexCourses, token: token });
+        if (token.userType == config.TYPE_ADMIN) {
+            res.redirect('/admin');
+        } else {
+            res.render('index/index', { courses: indexCourses, token: token });
+        }
     } else {
-        res.render('homework/homeworkListPage', { courses: indexCourses, token: null });
+        res.render('index/index', { courses: indexCourses, token: null });
     }
 }
 
@@ -154,8 +155,8 @@ exports.resetPasswd = async (req, res) => {
  */
 exports.userSettings = async (req, res) => {
     //for dev-------------
-    req.session.token = await getToken("1111", "123");
-    console.log(req.session.token);
+    //req.session.token = await config.getToken("1111", "123");
+    //console.log(req.session.token);
     //--------------------
     if (req.session.token == null) {
         res.send("<script>alert('您暂无权限访问该页面，请先登录！'); window.location.href='/';</script>");
@@ -181,7 +182,7 @@ exports.userSettings = async (req, res) => {
  */
 exports.userChangeImage = async (req, res) => {
     //for dev-------------
-    req.session.token = await getToken("1111", "123");
+    //req.session.token = await config.getToken("1111", "123");
     //--------------------
     if (req.session.token == null) {
         res.send({ status: 0, msg: "不合法的用户信息，请先登录！" });

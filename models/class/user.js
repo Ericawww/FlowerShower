@@ -1,4 +1,5 @@
 var pool = require('../mysql/ConnPool');
+var utils = require('../method/utils');
 
 class User {
 
@@ -78,6 +79,9 @@ class User {
                 params.push(user.gender);
             }
             if (user.birth != undefined) {
+                //console.log(user.birth);
+                //console.log(utils.isYMDDate(user.birth));
+                user.birth = utils.isYMDDate(user.birth) == true ? user.birth : null;
                 sql += ", birth = ?";
                 params.push(user.birth);
             }
@@ -96,7 +100,7 @@ class User {
             sql += " where userID = ?";
             params.push(user.userID);
             await conn.query(sql, params);
-            return await this.getUserInfo(user.userID)
+            return await this.getUserInfo(user.userID);
         } catch (err) {
             console.log(err);
             return null;

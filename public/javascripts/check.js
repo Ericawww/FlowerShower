@@ -12,3 +12,10 @@ var trim = (str) => {
         return null;
     }
 }
+
+var checkFileType = (str, postfix) => {
+    var pos = str.lastIndexOf(".");
+    var lastname = str.substring(pos, str.length);
+    var resultName = lastname.toLowerCase();
+    return postfix == resultName.toString();
+}  
