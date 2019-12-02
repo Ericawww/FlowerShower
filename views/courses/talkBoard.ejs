@@ -117,40 +117,41 @@
     </div>
     <!-- 课程水平菜单 -->
 
-    <!--通知信息栏-->
-    <div class="ui container" style="margin-top:10px">
-      <% if (noticeList == null) { %>
-      <!--没有通知-->
-      <% } else { %> <% for (i = noticeList.length-1 ; i >= 0; i--) { %> <% var
-      notice = noticeList[i]; var date = new Date(notice.time); var time =
-      date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() +
-      ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
-      %>
+    <!--学生讨论区-->
+    <div class="ui container" style="margin-top:10px;">
       <div class="ui horizontal divider"></div>
-      <div class="ui icon message">
-        <i class="inbox icon"></i>
-        <div class="content">
-          <div class="header">
-            <%=notice.title %>
-          </div>
-          <span><%= time %></span>
-          <div class="ui floating message">
-            <p><%= notice.content %></p>
-          </div>
-        </div>
-      </div>
-      <% } %> <% } %>
     </div>
-    <!--通知信息栏-->
+    <!--学生讨论区-->
   </body>
 
   <script src="/swiper/package/js/swiper.min.js"></script>
   <script src="/javascripts/jquery.js"></script>
   <script>
-    $(".message.close").on("click", function() {
-      $(this)
-        .closest(".message")
-        .transition("fade");
+    $(".menu.button").click(() => {
+      $.ajax({
+        dataType: "json",
+        type: "get",
+        url: "/noticePage",
+        data: {
+          courseID: $("input[name='userName']").val()
+        },
+        success: data => {
+          if (data.status) {
+            window.location.href = "/";
+          } else {
+            $(".ui.form").form("add prompt", "userName");
+            $(".ui.form").form("add prompt", "userPwd");
+            $(".ui.error.message")
+              .text(data.msg)
+              .show();
+          }
+        },
+        error: err => {
+          $(".ui.error.message")
+            .text("与服务器连接异常，请稍后再试!")
+            .show();
+        }
+      });
     });
   </script>
 </html>

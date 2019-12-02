@@ -1,5 +1,5 @@
-var Course = require('../models/class/Course');
+var Course = require("../models/class/Course");
 
 exports.getUserCoursePage = async (req, res) => {
-    res.render('courses/coursePage');
-}
+  res.render("courses/coursePage");
+};
