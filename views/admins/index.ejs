@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>管理员界面 | 高校教学管理平台</title>
+  <title>用户管理 | 高校教学管理平台</title>
   <meta charset="utf-8" />
   <link rel="icon" href="/images/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
@@ -59,10 +59,10 @@
   <div class="pusher">
     <div class="ui left fixed vertical menu inverted ">
       <h2 class="item" style="padding:8%; margin-bottom: 30px; margin-top:30px;">后台管理</h2>
-      <a class="item"><i class="user off icon"></i>用户管理</a>
-      <a class="item"><i class="book icon"></i>课程管理</a>
+      <a class="item active" href=""><i class="user off icon"></i>用户管理</a>
+      <a class="item" href="/admin/course"><i class="book icon"></i>课程管理</a>
       <a class="item"><i class="cog icon"></i>系统设置</a>
-      <a class="item"><i class="power off icon"></i>退出登录</a>
+      <a class="item" href="/logout"><i class="power off icon"></i>退出登录</a>
     </div>
 
     <div class="box">
@@ -73,7 +73,6 @@
         <thead>
           <tr>
             <th colspan="9">
-              <!-- <label class="middle aligned" style="font-size:20px;">用户列表</label> -->
               <div class="ui right floated small labeled icon red button" id="deleteUserBtn">
                 <i class="trash alternate icon"></i> 删除用户
               </div>

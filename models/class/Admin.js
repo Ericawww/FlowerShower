@@ -1,5 +1,6 @@
 var pool = require('../mysql/ConnPool');
 var User = require('../class/User');
+var Course = require('../class/Course');
 var USER_ALL = 3;
 var GENDER_ALL = 2;
 
@@ -34,6 +35,10 @@ class Admin extends User {
             if (conditions.email != null && conditions.email != "") {
                 sql += " and email like ?";
                 params.push('%' + conditions.email + '%');
+            }
+            if (conditions.startRecord != null && conditions.limit != null) {  //为了分页器的实现
+                sql += " limit ?, ?";
+                params.push(conditions.startRecord, conditions.limit);
             }
             //console.log(sql);
             //console.log(params);
@@ -98,7 +103,7 @@ class Admin extends User {
                 } catch (err) {
                     errList.push({
                         index: i,
-                        userID: user.userID,
+                        userID: lists[i].userID,
                         errMsg: err.message
                     });
                 }
