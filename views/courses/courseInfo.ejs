@@ -43,7 +43,7 @@
 
   <!-- 导航栏 -->
   <div class="ui menu" style="padding: 15px;">
-    <img src="images/logo.png" style="display: flex; left: auto; margin-left: 30%;">
+    <img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;">
     <div class="right menu" style="margin-right: 20%;">
       <div class="item">
         <div class="ui action left icon input">
@@ -62,48 +62,18 @@
   <div class="ui container segment" style="margin-top:40px;">
     <div class="ui grid">
       <div class="four wide column">
-        <img src="/images/cmdc1.png">
+          <img src="<%= courseInfo.coursePhoto %>">
       </div>
       <div class="nine wide column">
-        <p class="header">《软件需求工程》</p>
-        <p>课程代码：29438123</p>
-        <p>开课学院：计算机科学与技术学院</p>
-        <p>学期:春夏学期</p>
-        <p>学时：2.0-2.5</p>
-        <p>预修要求：具有基础的软件工程知识（即预修"软件工程基础"）</p>
-        <button class="positive big ui button">进入课程</button>
-      </div>
+          <h3 class="header"><%= courseInfo.courseName %></h3>
+          <p>课程代码：<%= courseInfo.courseName %></p>
+          <p>开课学院：<%= courseInfo.courseDept %></p>
+          <p>预修要求: <%= courseInfo.prerequisite %></p>
+          <button class="positive big ui button">进入课程</button>
+        </div>
       <div class="three wide column">
         <p></p>
       </div>
-
-      <!--我先试试-->
-      <!-- 判断课程列表是否有元素-->
-      <!--todo:分页-->
-      <% if (courseList == NULL) { %>
-          <!--待替换-->
-      <% } else { %>
-        <% for(var i = 0; i < courseList.length; i++) { %>
-          <% var course = courseList[i]; %>
-          <div class="four wide column">
-            <img src="/images/cmdc1.png"><!--待替换-->
-          </div>
-          <div class="nine wide column">
-            <p class="header"><%= course.courseName %></p>
-            <p>课程代码：<%= course.courseName %></p>
-            <p>开课学院：<%= course.courseDept %></p>
-            <p>预修要求：<% if (course.prerequistite == NULL) { %>
-                  无
-              <% } else { %>
-                  <%= course.prerequistite %>
-              <% } %></p>
-            <button class="positive big ui button">进入课程</button>
-          </div>
-          <div class="three wide column">
-            <p></p>
-          </div>
-        <% } %>
-      <% } %>
     </div>
   </div>
 
@@ -124,14 +94,14 @@
           <div class="ui bottom attached tab segment active" data-tab="first">
             <div class="content">
               <div class="description">
-                <%= course.description %>
+                <%= courseInfo.description %>
               </div>
             </div>
           </div>
           <div class="ui bottom attached tab segment" data-tab="second">
             <div class="content">
               <div class="description">
-                <%= course.outline %>
+                <p><%- courseInfo.outline %></p>
                 </div>
             </div>
           </div>
@@ -162,8 +132,15 @@
           <div class="segment">
             <p class="user-title" style="margin-top:10px">授课老师</p>
             <div class="description">
-                <img class="ui tiny circular image" src="images/user.png" style="display: inline;">
-                <h3 style="display: inline;">应承峻</h3>
+              <% if (teacherList == null) { %>
+                <h3>暂无老师教授该课程。</h3>
+              <% }else { %>
+                <% for (var i = 0; i < teacherList.length;i++){ %>
+                  <% var teacher = teacherList[i]; %>
+                  <img class="ui tiny circular image" src = "<%= teacher.userPhoto %>"  style="display: inline;">
+                  <h3 style="display: inline;">   <%= teacher.userName %></h3>
+                  <% } %>
+                  <% }%>
             </div>
           </div>
         </div>
@@ -173,17 +150,42 @@
   <!-- 课程内容+授课教师 -->
 
   <!-- 页脚 -->
-  <div class="template-footer"></div>
+  <div class="ui inverted vertical footer segment" style="background-color: rgb(21, 126, 217); margin-top: 50px;">
+      <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="four wide column">
+            <h4 class="ui inverted header">指导老师</h4>
+            <div class="ui inverted link list">
+              <p><a href="https://person.zju.edu.cn/0092031" target="_blank" class="item"
+                  style="color: white;">浙江大学计算机科学与技术学院 邢卫</a></p>
+              <p><a href="https://person.zju.edu.cn/0097412" target="_blank" class="item"
+                  style="color: white;">浙江大学计算机科学与技术学院 金波</a></p>
+            </div>
+          </div>
+          <div class="three wide column">
+            <h4 class="ui inverted header">项目作者</h4>
+            <div class="ui inverted link list">
+              <p>贺婷婷 应承峻 韩汶东 </p>
+              <p>张佳瑶 方陶然 戴陈威</p>
+            </div>
+          </div>
+          <div class="seven wide column">
+            <h4 class="ui inverted header">技术支持</h4>
+            <p>浙江大学计算机科学与技术学院-SEM&SRE-Group13</p>
+            <p>软件工程专业-软件工程管理&软件需求工程-项目</p>
+            <p>Group13</p>
+          </div>
+        </div>
+      </div>
+    </div>
   <!-- 页脚 -->
 </body>
 
-<script src="javascripts/jquery.js"></script>
-<script src="dist/semantic.min.js"></script>
-<script src="javascripts/common.js"></script>
+<script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/common.js"></script>
 <script>
-  $('.menu .item')
-    .tab()
-    ;
+  $('.tabular.menu .item').tab();
 </script>
 
 </html>

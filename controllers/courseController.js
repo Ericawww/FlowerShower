@@ -17,7 +17,7 @@ exports.getAllCourse = async (req, res) => {
  */
 exports.getCourseByName = async (req, res) => {
     var courseList = await Course.prototype.getCourseByName(req.params.courseName);
-    res.render('courses/courseInfo',{courseList:courseList});
+    res.render('courses/search',{courseList:courseList});
 }
 
 /**
@@ -28,6 +28,14 @@ exports.getCourseInfo = async (req, res) => {
     if (courseInfo == null) {
         res.send({ status: 0, msg: "该课程不存在，请检查课程号正确性！" }).end();
     } else {
-        res.render('courses/courseInfo',{courseInfo:courseInfo});
+        var item;
+        var replaceRegex = /(\n\r|\r\n|\r|\n)/g;
+        if (courseInfo.outline!= null){
+            courseInfo.outline = courseInfo.outline.replace(replaceRegex, "<br>");
+        }
+        var courseTeacherList = await Course.prototype.getCourseTeacher(req.params.courseNumber);
+        // console.log(courseTeacherList);
+        // console.log(courseInfo);
+        res.render('courses/courseInfo',{courseInfo:courseInfo,teacherList:courseTeacherList});
     }
 }

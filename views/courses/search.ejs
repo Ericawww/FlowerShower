@@ -36,6 +36,18 @@
       font-family: '微软雅黑';
       font-size: 20px;
     }
+    a:link{
+       text-decoration: none;
+       color:#000000;
+    }
+    a:visited
+    {
+      text-decoration: none;
+      color:#000000;
+    }
+    a:hover {text-decoration:underline;color:#192b3b;}   /* 鼠标指针移动到链接上 */
+    a:active {text-decoration:underline;color:#192b3b;} 
+    
   </style>
 </head>
 
@@ -65,63 +77,72 @@
   <div class="container">
       <div class="ui grid"> 
         <div class="one wide column"></div>
-            <div class="ten wide column">
-                <p>全部课程>>搜索结果</p>
-                <div class="ui items">
-                    <div class="item">
-                      <div class="ui segment ">
-                          <div class="one wide column">
-                              <img src="/images/cmdc1.png">
-                          </div>
-                          <div class="eight wide column">
-                              <h4 class="header">《Semantic-UI:从入门到跑路》</h4>
-                              <div class="description">
-                                  本课程的主要任务是在软件工程整体知识的基础上，深入学习并实践软件需求获取与管理的原理、方法和过程，学习并掌握使用UML工具对软件需求进行分析、表达与系统设计。课程内容包括两部分：一是需求获取和维护的过程和方法，包括需求提取、需求分析和建模、需求表达、需求确认、需求变更控制，以及相应的工具；二是UML概念、方法和工具。课程配合案例性实践环节进行教学。通过本课程的学习，应使学生掌握如何在软件工程的实践中完成复杂软件需求的获取、表达和维护能力，学会应用UML进行软件需求分析与设计的技术和方法，为掌握软件工程的统全面的知识和技能打下坚实基础。
-                              </div>
-                              <div class="extra">
-                                <i class="green check icon"></i>
-                                121 Votes
-                              </div>
-                          </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            
-              <!--筛选条件 -->
-            <div class="four wide column" style="margin-top:40px;">
-                <div class="ui segment">
-                  <p class="user-title" >筛选条件</p>
-                  <div class="description"> 
-                    <p>筛选项目:
-                      <div class="ui selection dropdown">
-                        <input type="hidden" name="gender">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">项目</div>
-                        <div class="menu">
-                          <div class="item" data-value="0">按开课学院</div>
-                          <div class="item" data-value="1">按修读时间</div>
-                        </div>
-                      </div>
-                    </p>
-                    <p>筛选条件:
-                        <div class="ui selection dropdown">
-                        <input type="hidden" name="gender">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">项目</div>
-                        <div class="menu">
-                          <div class="item" data-value="0">计算机科学与技术学院</div>
-                          <div class="item" data-value="1">马克思主义学院</div>
-                        </div>
-                      </div>
-                    </p>
-                    <button class="positive big ui button">确认</button>
-                  </div>
+        
+        <div class="ten wide column">
+          <div class = "ui segment"  style="margin-top:40px;">
+            <h3><a href="/courses">全部课程</a>>>搜索结果</h3>
+              <div class="ui grid">
+              <% if (courseList == null) { %>
+                <div class="row centered">
+                <h3>暂无满足条件的课程。</h3>
                 </div>
               </div>
-              
-            <!-- 筛选条件 -->
+              <% } else { %>
+                <% for(var i = 0; i < courseList.length; i++) { %>
+                  <% var course = courseList[i]; %>
+                    <div class="row">
+                      <div class="five wide column middle aligned">
+                        <img src='<%= course.coursePhoto %>'>
+                      </div>
+                      <div class="eleven wide column">
+                        <h3 class="header" style="text-align:center"><a href="../<%= course.courseNumber %>"><%= course.courseName %></a></h3>
+                        <div class="description">
+                            <%= course.description %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui divider"></div>
+                    <% } %>
+                <% } %>
+                
+              </div>
+            </div>
         </div>
+            
+              <!--筛选条件 TODO:表单-->
+        <div class="four wide column" style="margin-top:40px;">
+            <div class="ui segment">
+              <p class="user-title" >筛选条件</p>
+              <div class="description"> 
+                <p>筛选项目:
+                  <div class="ui selection dropdown">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">项目</div>
+                    <div class="menu">
+                      <div class="item" data-value="0">按开课学院</div>
+                      <!-- 其实完全没有 -->
+                      <div class="item" data-value="1">按修读时间</div>
+                    </div>
+                  </div>
+                </p>
+                <p>筛选条件:
+                    <div class="ui selection dropdown">
+                    <input type="hidden" name="gender">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">条件</div>
+                    <div class="menu">
+                      <div class="item" data-value="0">计算机科学与技术学院</div>
+                      <div class="item" data-value="1">马克思主义学院</div>
+                    </div>
+                  </div>
+                </p>
+                <button class="positive big ui button">确认</button>
+              </div>
+            </div>
+        </div>
+         <!-- 筛选条件 -->
+      </div>
   </div>
 
   <!-- 课程条目 -->
@@ -163,4 +184,8 @@
 
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
+<script>
+    $('.ui.dropdown').dropdown();
+</script>
+
 </html>
