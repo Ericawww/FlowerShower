@@ -1,12 +1,12 @@
 var Talk = require("../models/class/Talk");
 
-exports.index = (req, res) => {
+/**
+ * 获得帖子
+ */
+exports.getTalk = async (req, res) => {
   var token = req.session.token;
-  if (token) {
-    res.render("courses/talkBoard", { token: token });
-  } else {
-    res.render("courses/talkBoard", { token: null });
-  }
+  var talkList = await Talk.prototype.getTalk(1); //1应该用课程号替换掉
+  res.render("courses/talkBoard", { talkList: talkList, token: token });
 };
 
 /**

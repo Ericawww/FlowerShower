@@ -111,7 +111,7 @@
     <div class="ui container" style="margin-top:10px;">
       <div class="ui six item menu">
         <a class="content">
-          <a class="item">
+          <a class="item" href="javascript:window.location.href='./notice'"">
             <i class="bell outline icon"></i>
             公告
           </a>
@@ -131,7 +131,7 @@
             <i class="clipboard outline icon"></i>
             成绩
           </a>
-          <a class="item">
+          <a class="item" href="javascript:window.location.href='./talk'">
             <i class="comment outline icon"></i>
             讨论
           </a>
@@ -142,7 +142,7 @@
 
     <!--学生讨论区-->
     <div class="ui container" style="margin-top:10px;">
-      <button class="ui basic button" onclick="showTalkBoard()">
+      <button class="ui positive button" onclick="showTalkBoard()">
         <i class="add icon"></i>
         发表帖子
       </button>
@@ -150,16 +150,30 @@
     <!--学生讨论区-->
 
     <!--帖子列表-->
-    <div class="ui container">
-      <% for (i = 0 ; i < 5; i++) { %>
-      <div class="ui horizontal divider"></div>
+    <div class="ui horizontal divider"></div>
+    <div class="ui container" style="margin-top:10px;">
+      <% if(talkList.length == 0) { %>
+      <!--没有帖子-->
+      <div class="ui message">
+        <div class="head">
+          暂时还没有相关帖子，说点什么吧
+        </div>
+      </div>
+      <% } else { for (i = talkList.length-1; i >= 0; i--) { %> <% var talk =
+      talkList[i]; var date = new Date(talk.time); var time = date.getFullYear()
+      + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' +
+      date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(); %>
       <h3 class="ui top attached header">
-        帖子标题
+        <%= talk.title %>
       </h3>
       <div class="ui attached segment">
-        <p>帖子内容</p>
+        <a class="author">Matt</a>
+        <div class="metadata">
+          <span class="date"><%= time %></span>
+        </div>
+        <div class="summary"><%= talk.content %></div>
       </div>
-      <%c } %>
+      <% } } %>
     </div>
     <!--帖子列表-->
 

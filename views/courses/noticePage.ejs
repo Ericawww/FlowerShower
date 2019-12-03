@@ -131,7 +131,7 @@
             <i class="clipboard outline icon"></i>
             成绩
           </a>
-          <a class="item">
+          <a class="item" href="javascript:window.location.href='./talk'">
             <i class="comment outline icon"></i>
             讨论
           </a>
@@ -147,7 +147,7 @@
       <div>
         <div class="ui message">
           <div class="head">
-            暂时还没有公告！
+            暂时还没有公告
           </div>
         </div>
       </div>
@@ -163,7 +163,7 @@
           <div class="header">
             <%=notice.title %>
           </div>
-          <span><%= time %></span>
+          <span class="date"><%= time %></span>
           <div class="ui floating message">
             <p><%= notice.content %></p>
           </div>

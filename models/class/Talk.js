@@ -26,6 +26,27 @@ class Talk {
       conn.release();
     }
   }
+
+  /**
+   * 获得通知
+   * @param {String} courseID 课程号
+   * @return {Object} 公告对象
+   */
+  async getTalk(courseID) {
+    try {
+      var conn = await pool.getConnection();
+      var ret = await conn.query(
+        "select * from talk where courseID = ?",
+        courseID
+      );
+      return ret[0];
+    } catch (err) {
+      console.log(err);
+      return 0;
+    } finally {
+      conn.release();
+    }
+  }
 }
 
 module.exports = Talk;
