@@ -142,8 +142,15 @@
 
     <!--通知信息栏-->
     <div class="ui container" style="margin-top:10px">
-      <% if (noticeList == null) { %>
+      <% if (noticeList.length == 0) { %>
       <!--没有通知-->
+      <div>
+        <div class="ui message">
+          <div class="head">
+            暂时还没有公告！
+          </div>
+        </div>
+      </div>
       <% } else { %> <% for (i = noticeList.length-1 ; i >= 0; i--) { %> <% var
       notice = noticeList[i]; var date = new Date(notice.time); var time =
       date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() +
