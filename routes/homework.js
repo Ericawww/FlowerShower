@@ -9,6 +9,7 @@ router.get('/teacherHomeworkDetail', (req, res) => { res.render('homework/teache
 router.get('/studentHomeworkSituation', (req, res) => { res.render('homework/studentHomeworkSituation'); });
 router.get('/studentHomeworkComplain', (req, res) => { res.render('homework/studentHomeworkComplain'); });
 router.get('/studentHomeworkSubmit', (req, res) => { res.render('homework/studentHomeworkSubmit'); });
+router.get('/teacherHomeworkAdd', (req, res) => { res.render('homework/teacherHomeworkAdd'); });
 router.post('/complainBoard', homeworkControllers.writeComplainBoard);
 
 module.exports = router;
