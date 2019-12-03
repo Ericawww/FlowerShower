@@ -22,9 +22,9 @@ var getToken = async (userID, userPwd) => {
 exports.index = (req, res) => {
     var token = req.session.token;
     if (token) {
-        res.render('homework/studentHomeworkDetail', { courses: indexCourses, token: token });
+        res.render('index/index', { courses: indexCourses, token: token });
     } else {
-        res.render('homework/studentHomeworkDetail', { courses: indexCourses, token: null });
+        res.render('index/index', { courses: indexCourses, token: null });
     }
 }
 

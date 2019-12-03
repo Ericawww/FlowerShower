@@ -70,7 +70,7 @@
   </div>
   <!-- 课程信息 -->
 
-  <!-- 作业详情 -->
+  <!-- 作业提交历史与批改得分情况 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
         <div class="ui basic segment">
@@ -89,58 +89,79 @@
         </div>
         <div class="ui basic segment">
             <div class="ui tabular menu">
-                <a class="item active">作业详情</a>
-                <a class="item" href="/homework/studentHomeworkSituation">我的作业</a>
-            </div>
-        </div>
-        <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-            <div class="ui six column grid">       
-                <div class="column">
-                    <div class="homework weight description" style="line-height: 30px;"><b>占成绩比例</b></div>
-                    <div class="homework begintime description" style="line-height: 30px;"><b>作业开始时间</b></div>
-                    <div class="homework type description" style="line-height: 30px;"><b>作业形式</b></div>
-                </div>  
-                <div class="column">
-                    <div class="homework weight" style="line-height: 30px;">5.0%</div>
-                    <div class="homework begintime" style="line-height: 30px;">2019-11-30 21:00</div>
-                    <div class="homework type" style="line-height: 30px;">个人作业</div>
-                </div>
-                <div class="column"></div>
-                <div class="column">   
-                    <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
-                    <div class="homework endtime description" style="line-height: 30px;"><b>作业截止时间</b></div>
-                    <div class="homework goal description" style="line-height: 30px;"><b>完成指标</b></div>
-                </div>
-                <div class="column">
-                    <div class="homework fullmark" style="line-height: 30px;">10</div>
-                    <div class="homework endtime" style="line-height: 30px;">2019-12-15 22:00</div>
-                    <div class="homework goal" style="line-height: 30px;">提交作业</div>
-                </div>
-            </div>
-        </div>
-        <div class="ui basic segment"></div>
-        <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-            <div class="ui basic segment">
-                <b style="font-size: large;">评分方式</b>（教师评阅100％）
-            </div>
-            <div class="ui divider"></div>
-            <div class="ui basic segment">
-                <div class="ui bulleted list">
-                    <div class="item">
-                        <b style="font-size:larger;">教师评阅</b>
-                        <p style="line-height: 40px;"><b style="margin-left:20px;margin-right: 100px;">占成绩比例</b> 100%</p>
-                    </div>
-                </div>
+                <a class="item" href="/homework/studentHomeworkDetail">作业详情</a>
+                <a class="item active">我的作业</a>
             </div>
         </div>
         <div class="ui basic segment">
-            <p style="margin-left: 15px;">1.分析Linux的task_struct；</p>
-            <p style="margin-left: 15px;">2.分析Linux进程创建do_fork函数；</p>
-            <p style="margin-left: 15px;">3.分析Linux进程调度schedule函数。</p>
+            <b style="font-size:x-large;">作业已截止提交</b>
         </div>
+        <div class="ui basic segment">
+            <div class="submit history description" style="margin-left: 15px;font-size: large;"><b>提交历史</b></div>
+            <div class="ui divider"></div>
+            <div class="ui five column grid">
+                <div class="column">
+                    <div class="submit time" style="margin-left: 15px;">2019-12-3 01:53</div>
+                </div>
+                <div class="column"></div>
+                <div class="column"></div>
+                <div class="column">
+                    <div class="submit status" style="margin-left: 15px;color: rgb(40, 167, 69);">已覆盖</div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui five column grid">
+                <div class="column">
+                    <div class="submit time" style="margin-left: 15px;">2019-12-3 14:33</div>
+                </div>
+                <div class="column"></div>
+                <div class="column"></div>
+                <div class="column">
+                    <div class="submit status" style="margin-left: 15px;color: rgb(40, 167, 69);">已提交</div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+        </div>
+        <div class="ui basic segment">
+            <div class="correct situation" style="margin-left: 15px;font-size: large;"><b>批改情况</b></div>
+            <div class="ui divider"></div>
+            <div class="ui five column grid">
+                <div class="column">
+                    <div class="correct status" style="margin-left: 15px;"><b>状态</b></div>
+                </div>
+                <div class="column">
+                    <div class="score" style="margin-left: 35px;"><b>分数</b></div>
+                </div>
+                <div class="column">
+                    <div class="correct time" style="margin-left: 35px;"><b>批改时间</b></div>
+                </div>
+                <div class="column"></div>
+                <div class="column">
+                    <div class="complain button" style="margin-left: 35px;"><b>申诉</b></div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui five column grid">
+                <div class="column">
+                    <div class="correct status" style="margin-left: 15px;color: rgb(40, 167, 69);">已批改</div>
+                </div>
+                <div class="column">
+                    <div class="score" style="margin-left: 35px;">8.5</div>
+                </div>
+                <div class="column">
+                    <div class="correct time" style="margin-left: 35px;">2019-12-3 20:30</div>
+                </div>
+                <div class="column"></div>
+                <div class="column">
+                    <div class="complain button" style="margin-left: 35px;color: rgb(10, 73, 145);">
+                    <a href="/homework/studentHomeworkComplain">申诉</a></div>
+                </div>
+            </div>
+            <div class="ui divider"></div>
+        </div>    
     </div>
   </div>
-  <!-- 作业详情 -->
+  <!-- 作业提交历史与批改得分情况 -->
 
   <!-- 占位 -->
   <div style="height:20px;"></div>
