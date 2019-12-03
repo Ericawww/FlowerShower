@@ -42,3 +42,7 @@ exports.getGrade = async (req, res) => {
         });
     }
 }
+
+exports.gradeChange = async (req, res) => {
+
+}

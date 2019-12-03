@@ -3,7 +3,8 @@ var router = express.Router();
 var courseControllers = require('../controllers/courseController');
 
 
-// router.get('/:courseID', courseControllers.getUserCoursePage);
-router.get('/',courseControllers.getGrade);
+router.get('/coursePage', courseControllers.getUserCoursePage);
+router.get('/courseGrade',courseControllers.getGrade);
+router.get('/courseGradeChange',courseControllers.gradeChange);
 
 module.exports = router;
