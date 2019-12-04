@@ -7,9 +7,9 @@ var talkControllers = require("../controllers/talkController");
 router.get("/", courseControllers.getAllCourse); //courses
 
 router.get("/search", courseControllers.getCourseByName); //search?courseName=...
-router.get("/class/:id", courseControllers.getUserCoursePage);
-router.get("/class/:id/notice", noticeControllers.getCourseNotice);
-router.get("/class/:id/talk", talkControllers.getTalk);
+router.get("/class/:classID", courseControllers.getUserCoursePage);
+router.get("/class/:classID/notice", noticeControllers.getCourseNotice);
+router.get("/class/:classID/talk", talkControllers.getTalk);
 
 router.get("/:courseNumber", courseControllers.getCourseInfo); //courses/courseNumber
 
