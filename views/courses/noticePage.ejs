@@ -140,6 +140,19 @@
     </div>
     <!-- 课程水平菜单 -->
 
+    <% if (token != null) { %>
+    <!--教师编辑通知栏-->
+    <% if(token.userType == 1) { %> 
+      <div class="ui container" style="margin-top:10px;">
+        <button class="ui positive button" onclick="showNoticeBoard()">
+          <i class="add icon"></i>
+          发布公告
+        </button>
+      </div>        
+      </div>
+      <% } %>
+    <!--教师编辑通知栏-->
+
     <!--通知信息栏-->
     <div class="ui container" style="margin-top:10px">
       <% if (noticeList.length == 0) { %>
@@ -169,9 +182,36 @@
           </div>
         </div>
       </div>
-      <% } %> <% } %>
+      <% } %> <% } %> <% } %>
     </div>
     <!--通知信息栏-->
+
+    <!-- 发布通知模态框 -->
+    <div class="ui modal" id="updateNotice">
+        <i class="close icon"></i>
+        <div class="header">发表帖子</div>
+        <div class="content">
+          <div class="ui form">
+            <div class="field">
+              <label>标题<span class="neccessary">*</span></label>
+              <input type="text" name="noticeTitle"" placeholder="不超过32个字符" />
+            </div>
+            <div class="field">
+              <label>内容<span class="neccessary">*</span></label>
+              <textarea
+                maxlength="250"
+                placeholder="不超过300个字符"
+                name="noticeContent"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="ui red deny button">取消</div>
+          <div class="ui positive button" onclick="postTalk()">发表</div>
+        </div>
+      </div>
+    <!-- 发布通知模态框 -->
   </body>
 
   <script src="swiper/package/js/swiper.min.js"></script>
@@ -179,6 +219,52 @@
   <script src="dist/semantic.min.js"></script>
   <script src="javascripts/common.js"></script>
   <script>
+    //发布通知
+    var showNoticeBoard = () => {
+      $("#updateNotice").modal("show");
+    };
+    var postNotice = () => {
+      if (
+        $("textarea[name='noticeContent']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("内容不能为空！");
+        return;
+      }
+      if (
+        $("input[name='noticeTitle'']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("标题不能为空！");
+        return;
+      }
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "/notice/noticeBoard",
+        data: {
+          title: $("input[name='noticeTitle']").val(),
+          content: $("textarea[name='noticeContent']").val(),
+          time: new Date().toGMTString()
+        },
+        success: data => {
+          if (data.status) {
+            alert("发布公告成功!");
+            $("textarea[name='noticeContent']").val(""); //清空公告内容和联系方式
+            $("input[name='noticeTitle']").val("");
+            $(".ui.modal").modal("hide");
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: err => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    };
+
     var showMsgBoard = () => {
       $(".ui.modal").modal("show");
     };

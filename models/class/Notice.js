@@ -23,11 +23,28 @@ class Notice {
   /**
    * 添加通知
    * @param {Object} datas
-   *  @param {String} datas.courseID
-   *  @param {String} datas.time
-   *  @param {String} datas.content
+   *  @param {String} datas.courseID 课程号
+   *  @param {String} datas.time 公告发布时间
+   *  @param {String} datas.title 公告标题
+   *  @param {String} datas.content 公告内容
    */
-  async updataNotice(datas) {}
+  async updataNotice(datas) {
+    try {
+      var conn = await pool.getConnection();
+      var params = [datas.courseID, datas.time, datas.title, datas.content];
+      await conn.query(
+        "insert into notice(courseID,time,title,content) \
+        values (?,?,?,?)",
+        params
+      );
+      return 1;
+    } catch (err) {
+      console.log("发布公告失败");
+      return 0;
+    } finally {
+      conn.release();
+    }
+  }
 }
 
 module.exports = Notice;

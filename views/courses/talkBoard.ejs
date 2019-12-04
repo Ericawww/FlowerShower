@@ -177,7 +177,7 @@
     </div>
     <!--帖子列表-->
 
-    <!-- 模态框 -->
+    <!-- 发布帖子模态框 -->
     <div class="ui modal">
       <i class="close icon"></i>
       <div class="header">发表帖子</div>
@@ -185,14 +185,14 @@
         <div class="ui form">
           <div class="field">
             <label>标题<span class="neccessary">*</span></label>
-            <input type="text" name="title"" placeholder="不超过32个字符" />
+            <input type="text" name="talkTitle"" placeholder="不超过32个字符" />
           </div>
           <div class="field">
             <label>内容<span class="neccessary">*</span></label>
             <textarea
               maxlength="250"
               placeholder="不超过300个字符"
-              name="content"
+              name="talkContent"
             ></textarea>
           </div>
         </div>
@@ -202,7 +202,7 @@
         <div class="ui positive button" onclick="postTalk()">发表</div>
       </div>
     </div>
-    <!-- 模态框 -->
+    <!-- 发布帖子模态框 -->
   </body>
 
   <script src="/javascripts/jquery.js"></script>
@@ -218,7 +218,7 @@
 
     var postTalk = () => {
       if (
-        $("textarea[name='content']")
+        $("textarea[name='talkContent']")
           .val()
           .replace(" ", "") == ""
       ) {
@@ -226,7 +226,7 @@
         return;
       }
       if (
-        $("input[name='title']")
+        $("input[name='talkTitle']")
           .val()
           .replace(" ", "") == ""
       ) {
@@ -238,15 +238,15 @@
         type: "post",
         url: "/talkBoard",
         data: {
-          title: $("input[name='title']").val(),
-          content: $("textarea[name='content']").val(),
+          title: $("input[name='talkTitle']").val(),
+          content: $("textarea[name='talkContent']").val(),
           time: new Date().toGMTString()
         },
         success: data => {
           if (data.status) {
             alert("发表帖子成功!");
-            $("textarea[name='content']").val(""); //清空留言内容和联系方式
-            $("input[name='title']").val("");
+            $("textarea[name='talkContent']").val(""); //清空帖子内容和联系方式
+            $("input[name='talkTitle']").val("");
             $(".ui.modal").modal("hide");
           } else {
             alert(data.msg);
