@@ -14,6 +14,7 @@ router.get('/teacherHomeworkUpdate', (req, res) => { res.render('homework/teache
 router.get('/teacherHomeworkSubmitSituation', (req, res) => { res.render('homework/teacherHomeworkSubmitSituation'); });
 router.get('/teacherHomeworkGradeSituation', (req, res) => { res.render('homework/teacherHomeworkGradeSituation'); });
 router.get('/teacherHomeworkDealComplain', (req, res) => { res.render('homework/teacherHomeworkDealComplain'); });
+router.get('/teacherHomeworkMark', (req, res) => { res.render('homework/teacherHomeworkMark'); });
 router.post('/complainBoard', homeworkControllers.writeComplainBoard);
 
 module.exports = router;
