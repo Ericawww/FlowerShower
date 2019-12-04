@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : utf-8
 
- Date: 12/05/2019 00:40:13 AM
+ Date: 12/05/2019 00:52:02 AM
 */
 
 SET NAMES utf8;
@@ -27,7 +27,9 @@ CREATE TABLE `comment` (
   `userID` varchar(32) NOT NULL,
   `content` varchar(512) NOT NULL,
   `time` timestamp(6) NOT NULL,
-  PRIMARY KEY (`commentID`)
+  PRIMARY KEY (`commentID`),
+  KEY `talkID` (`talkID`),
+  CONSTRAINT `comment2talk` FOREIGN KEY (`talkID`) REFERENCES `talk` (`talkID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
