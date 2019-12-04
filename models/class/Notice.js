@@ -28,18 +28,19 @@ class Notice {
    *  @param {String} datas.title 公告标题
    *  @param {String} datas.content 公告内容
    */
-  async updataNotice(datas) {
+  async updataNotice(classID, title, content) {
     try {
       var conn = await pool.getConnection();
-      var params = [datas.classID, datas.time, datas.title, datas.content];
+      var params = [classID, title, content];
       await conn.query(
         "insert into notice(courseID,time,title,content) \
-        values (?,?,?,?)",
+        values (?,CURRENT_TIMESTAMP,?,?)",
         params
       );
       return 1;
     } catch (err) {
       console.log("发布公告失败");
+      console.log(err);
       return 0;
     } finally {
       conn.release();

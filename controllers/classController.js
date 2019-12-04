@@ -88,7 +88,6 @@ exports.addHw = async (req, res) => {
  */
 exports.getCourseNotice = async (req, res) => {
   var token = req.session.token;
-  console.log(req.params.classID);
   var noticeList = await Notice.prototype.getCourseNotice(req.params.classID); //用课程号替换掉
   res.render("courses/noticePage", { noticeList: noticeList, token: token });
 };
@@ -96,15 +95,19 @@ exports.getCourseNotice = async (req, res) => {
 /**
  * 教师发布通知
  */
-exports.updateNotice = async (req, res, next) => {
-  var params = [
+exports.updateNotice = async (req, res) => {
+  var ret = await Notice.prototype.updataNotice(
     req.params.classID,
-    req.body.time,
     req.body.title,
     req.body.content
-  ];
-  await Notice.prototype.updataNotice(params);
-  next();
+  );
+  if (ret) {
+    var url = "localhost" + req.headers.referer;
+    console.log(url);
+    res.send({ status: 1, msg: "数据库插入成功！" });
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
 };
 
 /**

@@ -125,9 +125,9 @@
     </div>
     <!-- 课程水平菜单 -->
 
-    <!--% if (token != null) { %-->
+    <% if (token != null) { %>
     <!--教师编辑通知栏-->
-    <!--% if(token.userType == 1) { %-->
+    <% if(token.userType != 0) { %>
     <div class="ui container" style="margin-top:10px;">
         <button class="ui positive button" onclick="showNoticeBoard()">
             <i class="add icon"></i>
@@ -135,7 +135,7 @@
         </button>
     </div>
     </div>
-    <!--% } %-->
+    <% } %>
     <!--教师编辑通知栏-->
 
     <!--通知信息栏-->
@@ -167,8 +167,7 @@
                 </div>
             </div>
         </div>
-        <% } %> <% } %>
-        <!--% } %-->
+        <% } %> <% } %> <% } %>
     </div>
     <!--通知信息栏-->
 
@@ -231,7 +230,6 @@
             data: {
                 title: $("input[name='noticeTitle']").val(),
                 content: $("textarea[name='noticeContent']").val(),
-                time: new Date().toGMTString()
             },
             success: data => {
                 if (data.status) {
@@ -239,6 +237,7 @@
                     $("textarea[name='noticeContent']").val(""); //清空公告内容和联系方式
                     $("input[name='noticeTitle']").val("");
                     $(".ui.modal").modal("hide");
+                    window.location.reload();
                 } else {
                     alert(data.msg);
                 }
