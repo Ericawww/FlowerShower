@@ -101,3 +101,19 @@ exports.gradeChange = async (req, res) => {
         });
     }
 }
+
+exports.setGradeChange = async (req, res) => {
+    var sql = {
+        classID:'000001',
+        studentID:req.body.studentID,
+        changeType:req.body.changeItem,
+        newScore:req.body.newScore
+    };
+    var ret = await Course.prototype.updateGrade(sql);
+    if(ret==1){
+        res.send({ status: 1 }).end();
+    }
+    else{
+        res.send({ status: 0 }).end();
+    }
+}

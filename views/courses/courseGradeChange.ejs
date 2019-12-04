@@ -241,7 +241,52 @@
         })
 
         $('#submitChange').click(function () {
-
+            var highLight = $('#change_item option:selected').val();
+            var searchVal = $('#search_value').val();
+            var searchType = $('#search_item').val();
+            var getElement = new Array();
+            if(searchType == 'order'){
+                getElement = $('td.order_number').filter(":contains('"+searchVal+"')");
+            }
+            else if(searchType == 'studentID'){
+                getElement = $('td.student_id').filter(":contains('"+searchVal+"')");
+            }
+            else{
+                getElement = $('td.user_name').filter(":contains('"+searchVal+"')");
+            }
+            if(getElement.length==0){
+                alert("找不到对应的学生");
+            }
+            else{
+                var studentID;
+                if(searchType == 'studentID'){
+                    studentID=searchVal;
+                }
+                else{
+                    studentID=getElement.siblings('.student_id').text();
+                }
+                $.ajax({
+                    dataType: "json",
+                    type: "post",
+                    url: "./gradeChange",
+                    data: {
+                        changeItem:highLight,
+                        studentID:studentID,
+                        newScore:$('#change_value').val()
+                    },
+                    success: (data) => {
+                        if (data.status) {
+                            alert("修改成功！");
+                            window.location.reload();
+                        } else {
+                            alert("修改失败！");
+                        }
+                    },
+                    error: (err) => {
+                        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+                    }
+                });
+            }
         })
     </script>
 </html>

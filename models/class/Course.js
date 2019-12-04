@@ -179,5 +179,30 @@ class Course {
         }
     }
 
+    async updateGrade(sql) {
+        try {
+            var ret;
+            var conn = await pool.getConnection();
+            if (sql.changeType == "usualGrade") {
+                ret = await conn.query("update class_grade set usualGrade = ? where classID = ? and studentID = ?",
+                [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            }
+            else if(sql.changeType == "homeworkGrade"){
+                ret = await conn.query("update class_grade set homeworkGrade = ? where classID = ? and studentID = ?",
+                [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            }
+            else{
+                ret = await conn.query("update class_grade set testGrade = ? where classID = ? and studentID = ?",
+                [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            }
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
 }
 module.exports = Course;
