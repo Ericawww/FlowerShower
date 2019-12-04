@@ -111,7 +111,7 @@ exports.updateNotice = async (req, res) => {
 };
 
 /**
- * 获得帖子
+ * 查看全部帖子
  */
 exports.getTalk = async (req, res) => {
   var token = req.session.token;
@@ -134,3 +134,16 @@ exports.writeTalk = async (req, res) => {
     res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
   }
 };
+
+/**
+ * 查看帖子详情
+ */
+exports.showTalk = async (req, res) => {
+  var token = req.session.token;
+  res.render("courses/commentPage", { token: token });
+};
+
+/**
+ * 评论帖子
+ */
+exports.addComment = async (req, res) => {};
