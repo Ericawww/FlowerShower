@@ -70,7 +70,7 @@
   </div>
   <!-- 课程信息 -->
 
-  <!-- 作业详情 -->
+  <!-- 作业上交情况 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
       <div class="ui basic segment">
@@ -83,60 +83,94 @@
       </div>
       <div class="ui basic segment">
         <div class="ui tabular menu">
-          <a class="item active">作业详情</a>
-          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkSubmitSituation'">作业上交情况</a>
+          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkDetail'">作业详情</a>
+          <a class="item active">作业上交情况</a>
           <a class="item" onclick="javascript:window.location.href='./teacherHomeworkGradeSituation'">作业成绩情况</a>
           <a class="item" onclick="javascript:window.location.href='./teacherHomeworkDealComplain'">处理成绩申诉</a>
         </div>
       </div>
       <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
         <div class="ui six column grid">
-          <div class="column">
-            <div class="homework weight description" style="line-height: 30px;"><b>占成绩比例</b></div>
-            <div class="homework begintime description" style="line-height: 30px;"><b>作业开始时间</b></div>
-            <div class="homework type description" style="line-height: 30px;"><b>作业形式</b></div>
-          </div>
-          <div class="column">
-            <div class="homework weight" style="line-height: 30px;">5.0%</div>
-            <div class="homework begintime" style="line-height: 30px;">2019-11-30 21:00</div>
-            <div class="homework type" style="line-height: 30px;">个人作业</div>
-          </div>
-          <div class="column"></div>
-          <div class="column">
-            <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
-            <div class="homework endtime description" style="line-height: 30px;"><b>作业截止时间</b></div>
-            <div class="homework goal description" style="line-height: 30px;"><b>完成指标</b></div>
-          </div>
-          <div class="column">
-            <div class="homework fullmark" style="line-height: 30px;">10</div>
-            <div class="homework endtime" style="line-height: 30px;">2019-12-15 22:00</div>
-            <div class="homework goal" style="line-height: 30px;">提交作业</div>
-          </div>
-        </div>
-      </div>
-      <div class="ui basic segment"></div>
-      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-        <div class="ui basic segment">
-          <b style="font-size: large;">评分方式</b>（教师评阅100％）
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui basic segment">
-          <div class="ui bulleted list">
-            <div class="item">
-              <b style="font-size:larger;">教师评阅</b>
-              <p style="line-height: 40px;"><b style="margin-left:20px;margin-right: 100px;">占成绩比例</b> 100%</p>
+          <div class="row">
+            <div class="column">
+              <div class="class student number description" style="line-height: 30px;"><b>班级学生人数</b></div>
+            </div>
+            <div class="column">
+              <div class="class student number" style="line-height: 30px;">50</div>
+            </div>
+            <div class="column">
+              <div class="submit number description" style="line-height: 30px;"><b>已提交人数</b></div>
+            </div>
+            <div class="column">
+              <div class="submit number" style="line-height: 30px;">25</div>
+            </div>
+            <div class="column">
+              <div class="submit number rate description" style="line-height: 30px;"><b>已提交人数比例</b></div>
+            </div>
+            <div class="column">
+              <div class="submit number rate" style="line-height: 30px;">50.0%</div>
             </div>
           </div>
         </div>
       </div>
       <div class="ui basic segment">
-        <p style="margin-left: 15px;">1.分析Linux的task_struct；</p>
-        <p style="margin-left: 15px;">2.分析Linux进程创建do_fork函数；</p>
-        <p style="margin-left: 15px;">3.分析Linux进程调度schedule函数。</p>
+        <div class="box">
+          <table class="ui celled padded table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>序号</th>
+                <th>学号</th>
+                <th>姓名</th>
+                <th>提交时间</th>
+                <th>提交状态</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td>1</td>
+                <td>3170100000</td>
+                <td>dcw</td>
+                <td>2019-12-4 19:55</td>
+                <td>已提交</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>2</td>
+                <td>3170100001</td>
+                <td>zjy</td>
+                <td>2019-12-4 19:59</td>
+                <td>未提交</td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="9" class="middle aligned">
+                  <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                      <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                      <i class="right chevron icon"></i>
+                    </a>
+                  </div>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
     </div>
   </div>
-  <!-- 作业详情 -->
+  <!-- 作业上交情况 -->
 
   <!-- 占位 -->
   <div style="height:20px;"></div>

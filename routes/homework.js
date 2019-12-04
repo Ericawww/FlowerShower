@@ -10,6 +10,10 @@ router.get('/studentHomeworkSituation', (req, res) => { res.render('homework/stu
 router.get('/studentHomeworkComplain', (req, res) => { res.render('homework/studentHomeworkComplain'); });
 router.get('/studentHomeworkSubmit', (req, res) => { res.render('homework/studentHomeworkSubmit'); });
 router.get('/teacherHomeworkAdd', (req, res) => { res.render('homework/teacherHomeworkAdd'); });
+router.get('/teacherHomeworkUpdate', (req, res) => { res.render('homework/teacherHomeworkUpdate'); });
+router.get('/teacherHomeworkSubmitSituation', (req, res) => { res.render('homework/teacherHomeworkSubmitSituation'); });
+router.get('/teacherHomeworkGradeSituation', (req, res) => { res.render('homework/teacherHomeworkGradeSituation'); });
+router.get('/teacherHomeworkDealComplain', (req, res) => { res.render('homework/teacherHomeworkDealComplain'); });
 router.post('/complainBoard', homeworkControllers.writeComplainBoard);
 
 module.exports = router;
