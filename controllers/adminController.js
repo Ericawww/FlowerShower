@@ -2,38 +2,7 @@ var Admin = require('../models/class/Admin');
 var Course = require('../models/class/Course');
 var config = require('../models/statics/config');
 
-/**
- * 用户管理界面
- */
-exports.getUserManagerPage = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send("<script>alert('您暂无权限访问该页面！'); window.location.href='/';</script>");
-        return;
-    }
-    res.render('admins/index');
-}
-
-/**
- * 课程管理界面
- */
-exports.getCourseManagerPage = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send("<script>alert('您暂无权限访问该页面！'); window.location.href='/';</script>");
-        return;
-    }
-    res.render('admins/course');
-}
-
-/**
- * 获取用户列表
- */
-exports.getUsers = async (req, res) => {
+exports.checkAdmin = async (req, res, next) => {
     //for dev-------------
     req.session.token = await config.getToken('3333', '123');
     //--------------------
@@ -41,6 +10,27 @@ exports.getUsers = async (req, res) => {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
     }
+    next();
+}
+
+/**
+ * 用户管理界面
+ */
+exports.getUserManagerPage = async (req, res) => {
+    res.render('admins/index');
+}
+
+/**
+ * 课程管理界面
+ */
+exports.getCourseManagerPage = async (req, res) => {
+    res.render('admins/course');
+}
+
+/**
+ * 获取用户列表
+ */
+exports.getUsers = async (req, res) => {
     var ret = await Admin.prototype.getUsers(req.body);
     if (ret == null) {
         res.send({ status: 0, msg: "数据库异常，请稍后再试！" }).end();
@@ -53,13 +43,6 @@ exports.getUsers = async (req, res) => {
  * 批量导入用户
  */
 exports.importUsers = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var lists = JSON.parse(req.body.params);
     var ret = await Admin.prototype.importUsers(lists);
     if (ret == null) {
@@ -73,13 +56,6 @@ exports.importUsers = async (req, res) => {
  * 批量删除用户
  */
 exports.deleteUsers = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var lists = req.body.params;
     var ret = await Admin.prototype.deleteUsers(lists);
     if (ret == null) {
@@ -93,13 +69,6 @@ exports.deleteUsers = async (req, res) => {
  * 修改用户信息
  */
 exports.updateUser = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var ret = await Admin.prototype.updateUser(req.body);
     if (ret == null) {
         res.send({ status: 0, msg: "数据库异常，请稍后再试！" }).end();
@@ -112,13 +81,6 @@ exports.updateUser = async (req, res) => {
  * 获取课程列表
  */
 exports.getCourses = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var ret = await Course.prototype.getCourses(req.body);
     if (ret == null) {
         res.send({ status: 0, msg: "数据库异常，请稍后再试！" }).end();
@@ -131,13 +93,6 @@ exports.getCourses = async (req, res) => {
  * 导入课程
  */
 exports.importCourse = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var ret = await Course.prototype.insertCourse(req.body);
     if (ret != null) {
         res.send({ status: 0, msg: ret }).end();
@@ -150,13 +105,6 @@ exports.importCourse = async (req, res) => {
  * 批量删除课程
  */
 exports.deleteCourses = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var lists = req.body.params;
     var ret = await Course.prototype.deleteCourses(lists);
     if (ret == null) {
@@ -170,13 +118,6 @@ exports.deleteCourses = async (req, res) => {
  * 修改课程信息
  */
 exports.updateCourse = async (req, res) => {
-    //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
-    //--------------------
-    if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
-        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
-        return;
-    }
     var ret = await Course.prototype.updateCourse(req.body);
     if (ret != null) {
         res.send({ status: 0, msg: ret }).end();

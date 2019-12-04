@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var adminControllers = require('../controllers/adminController');
 
+router.all('/', adminControllers.checkAdmin);
 router.get('/', adminControllers.getUserManagerPage);
 router.get('/course', adminControllers.getCourseManagerPage);
 router.post('/getUsers', adminControllers.getUsers);
