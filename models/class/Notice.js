@@ -23,6 +23,7 @@ class Notice {
   /**
    * 添加通知
    * @param {Object} datas
+   *  @param {String} datas.classID 课程号
    *  @param {String} datas.time 公告发布时间
    *  @param {String} datas.title 公告标题
    *  @param {String} datas.content 公告内容
@@ -30,7 +31,7 @@ class Notice {
   async updataNotice(datas) {
     try {
       var conn = await pool.getConnection();
-      var params = [req.params.classID, datas.time, datas.title, datas.content];
+      var params = [datas.classID, datas.time, datas.title, datas.content];
       await conn.query(
         "insert into notice(courseID,time,title,content) \
         values (?,?,?,?)",

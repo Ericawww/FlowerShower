@@ -1,4 +1,3 @@
-var Class = require("../models/class/Class");
 var config = require("../models/statics/config");
 var Talk = require("../models/class/Talk");
 var Notice = require("../models/class/Notice");
@@ -7,7 +6,7 @@ var Notice = require("../models/class/Notice");
 /**
  * 判断当前用户是否为教师，是则进行路由匹配，否则返回错误信息
  */
-exports.checkTc = async (req, res, next) => {
+exports.checkTeacher = async (req, res, next) => {
   if (
     req.session.token == null ||
     req.session.token.userType != config.TYPE_TEACHER
@@ -97,12 +96,15 @@ exports.getCourseNotice = async (req, res) => {
 /**
  * 教师发布通知
  */
-exports.updateNotice = async (req, res) => {
-  var token = req.session.token;
-  var noticeList = await Notice.prototype.getCourseNotice(req.params.classID); //用课程号替换掉
-  //TO-DO
-  await Notice.prototype.updataNotice();
-  res.render("courses/noticePage", { noticeList: noticeList, token: token });
+exports.updateNotice = async (req, res, next) => {
+  var params = [
+    req.params.classID,
+    req.body.time,
+    req.body.title,
+    req.body.content
+  ];
+  await Notice.prototype.updataNotice(params);
+  next();
 };
 
 /**
