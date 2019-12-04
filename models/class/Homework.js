@@ -26,5 +26,27 @@ class Homework {
         }
     }
 
+    /**
+     * 判断作业号是否存在，存在返回1，不存在返回null
+     * @param {string} hwID 
+     */
+    async isExistHw(hwID){
+        try{
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_project where classProjectID", [hwID]);
+            if (ret[0].length == 0)
+            {
+                return null;
+            }
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    
 
 }
