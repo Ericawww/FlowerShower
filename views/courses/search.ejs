@@ -80,7 +80,7 @@
         
         <div class="ten wide column">
           <div class = "ui segment"  style="margin-top:40px;">
-            <h3><a href="/courses">全部课程</a>>>搜索结果</h3>
+            <h3><a href="/courses/search">全部课程</a>>>搜索结果</h3>
               <div class="ui grid">
               <% if (courseList == null) { %>
                 <div class="row centered">
@@ -95,7 +95,7 @@
                         <img src='<%= course.coursePhoto %>'>
                       </div>
                       <div class="eleven wide column">
-                        <h3 class="header" style="text-align:center"><a href="../<%= course.courseNumber %>"><%= course.courseName %></a></h3>
+                        <h3 class="header" style="text-align:center"><a href="../?courseNumber=<%= course.courseNumber %>"><%= course.courseName %></a></h3>
                         <div class="description">
                             <%= course.description %>
                         </div>

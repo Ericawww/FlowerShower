@@ -24,17 +24,15 @@ exports.getCourseByName = async (req, res) => {
  * 返回courseNumber标识的唯一课程的信息，不存在则弹窗，存在则跳转
  */
 exports.getCourseInfo = async (req, res) => {
-    var courseInfo = await Course.prototype.getCourses({ courseNumber: req.params.courseNumber });
-    if (courseInfo == null) {
+    var courseInfo = await Course.prototype.getCourses({ courseNumber: req.query.courseNumber });
+    if (courseInfo.length==0) {
         res.send({ status: 0, msg: "该课程不存在，请检查课程号正确性！" }).end();
     } else {
         var replaceRegex = /(\n\r|\r\n|\r|\n)/g;
-        if (courseInfo.outline != null) {
-            courseInfo.outline = courseInfo.outline.replace(replaceRegex, "<br>");
+        if (courseInfo[0].outline != null) {
+            courseInfo[0].outline = courseInfo[0].outline.replace(replaceRegex, "<br>");
         }
-        var courseTeacherList = await Course.prototype.getCourseTeacher(req.params.courseNumber);
-        // console.log(courseTeacherList);
-        // console.log(courseInfo);
-        res.render('courses/courseInfo', { courseInfo: courseInfo, teacherList: courseTeacherList });
+        var courseTeacherList = await Course.prototype.getCourseTeacher(req.query.courseNumber);
+        res.render('courses/courseInfo', { courseInfo: courseInfo[0], teacherList: courseTeacherList });
     }
 }
