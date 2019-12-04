@@ -81,5 +81,23 @@ exports.getGrade = async (req, res) => {
 }
 
 exports.gradeChange = async (req, res) => {
-    res.render('courses/courseGradeChange');
+    var ret = await Course.prototype.getCourseGrade('000001');
+    if (ret == null) {
+        alert("数据库异常！")
+        res.end();
+    } else if (ret.length == 0) {
+        alert("还没有学生有该课程成绩录入！")
+        res.end();
+    } else {
+        var totalNumber = ret.length;
+        var totalStudentGrade = new Array();
+        for(var i=0;i<ret.length;i++){
+            totalStudentGrade[i] = ret[i].usualGrade + ret[i].homeworkGrade + ret[i].testGrade;
+            totalStudentGrade[i] = (totalStudentGrade[i]/3).toFixed(2);
+        }
+        res.render('courses/courseGradeChange', {
+            data: ret,
+            studentTotalGrade: totalStudentGrade
+        });
+    }
 }
