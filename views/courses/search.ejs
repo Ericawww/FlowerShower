@@ -84,30 +84,36 @@
 
   <!-- 课程条目 -->
   <div class="container">
-    <div class="ui grid">
-      <div class="one wide column"></div>
-
-      <div class="ten wide column">
-        <div class="ui segment" style="margin-top:40px;">
-          <h3><a href="/courses/search">全部课程</a>>>搜索结果</h3>
-          <div class="ui grid">
-            <% if (courseList == null) { %>
-            <div class="row centered">
-              <h3>暂无满足条件的课程。</h3>
-            </div>
-          </div>
-          <% } else { %>
-          <% for(var i = 0; i < courseList.length; i++) { %>
-          <% var course = courseList[i]; %>
-          <div class="row">
-            <div class="five wide column middle aligned">
-              <img src='<%= course.coursePhoto %>'>
-            </div>
-            <div class="eleven wide column">
-              <h3 class="header" style="text-align:center"><a
-                  href="/courses?courseNumber=<%= course.courseNumber %>"><%= course.courseName %></a></h3>
-              <div class="description">
-                <%= course.description %>
+      <div class="ui grid"> 
+        <div class="one wide column"></div>
+        
+        <div class="ten wide column">
+          <div class = "ui segment"  style="margin-top:40px;">
+            <h3><a href="/courses/">全部课程</a>>>搜索结果</h3>
+              <div class="ui grid">
+              <% if (courseList == null) { %>
+                <div class="row centered">
+                <h3>暂无满足条件的课程。</h3>
+                </div>
+              </div>
+              <% } else { %>
+                <% for(var i = 0; i < courseList.length; i++) { %>
+                  <% var course = courseList[i]; %>
+                    <div class="row">
+                      <div class="five wide column middle aligned">
+                        <img src='<%= course.coursePhoto %>'>
+                      </div>
+                      <div class="eleven wide column">
+                        <h3 class="header" style="text-align:center"><a href="/courses/<%= course.courseNumber %>"><%= course.courseName %></a></h3>
+                        <div class="description">
+                            <%= course.description %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui divider"></div>
+                    <% } %>
+                <% } %>
+                
               </div>
             </div>
           </div>
