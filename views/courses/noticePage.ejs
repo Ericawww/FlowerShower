@@ -189,7 +189,7 @@
     <!-- 发布通知模态框 -->
     <div class="ui modal" id="updateNotice">
         <i class="close icon"></i>
-        <div class="header">发表帖子</div>
+        <div class="header">发布公告</div>
         <div class="content">
           <div class="ui form">
             <div class="field">
@@ -208,20 +208,22 @@
         </div>
         <div class="actions">
           <div class="ui red deny button">取消</div>
-          <div class="ui positive button" onclick="postTalk()">发表</div>
+          <div class="ui positive button" onclick="postNotice()">发表</div>
         </div>
       </div>
     <!-- 发布通知模态框 -->
   </body>
 
-  <script src="swiper/package/js/swiper.min.js"></script>
-  <script src="javascripts/jquery.js"></script>
-  <script src="dist/semantic.min.js"></script>
-  <script src="javascripts/common.js"></script>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script src="/javascripts/common.js"></script>
+  <script src="/javascripts/check.js"></script>
+  <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+  <script src="/javascripts/users/index.js"></script>
   <script>
     //发布通知
     var showNoticeBoard = () => {
-      $("#updateNotice").modal("show");
+      $(".ui.modal").modal("show");
     };
     var postNotice = () => {
       if (
@@ -243,7 +245,7 @@
       $.ajax({
         dataType: "json",
         type: "post",
-        url: "/notice/noticeBoard",
+        url: "/updateNotice",
         data: {
           title: $("input[name='noticeTitle']").val(),
           content: $("textarea[name='noticeContent']").val(),
@@ -254,50 +256,6 @@
             alert("发布公告成功!");
             $("textarea[name='noticeContent']").val(""); //清空公告内容和联系方式
             $("input[name='noticeTitle']").val("");
-            $(".ui.modal").modal("hide");
-          } else {
-            alert(data.msg);
-          }
-        },
-        error: err => {
-          alert("与服务器连接异常，请稍后再试!");
-        }
-      });
-    };
-
-    var showMsgBoard = () => {
-      $(".ui.modal").modal("show");
-    };
-    var postMsg = () => {
-      if (
-        $("textarea[name='content']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("留言内容不能为空！");
-        return;
-      }
-      if (
-        $("input[name='contact']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("联系方式不能为空！");
-        return;
-      }
-      $.ajax({
-        dataType: "json",
-        type: "post",
-        url: "/msgBoard",
-        data: {
-          content: $("textarea[name='content']").val(),
-          contact: $("input[name='contact']").val()
-        },
-        success: data => {
-          if (data.status) {
-            alert("提交留言成功!");
-            $("textarea[name='content']").val(""); //清空留言内容和联系方式
-            $("input[name='contact']").val("");
             $(".ui.modal").modal("hide");
           } else {
             alert(data.msg);
