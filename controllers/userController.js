@@ -15,15 +15,12 @@ var validTime = config.EMAIL_VALID_TIME;  //邮件验证码有效时间
  */
 exports.index = async (req, res) => {
     //for dev-------------
-    var token = await config.getToken('3333','123');
-    console.log(token);
+    //var token = await config.getToken('3333','123');
+    var token = req.session.token;
+    //console.log(token);
     //--------------------
     if (token) {
-        if (token.userType == config.TYPE_ADMIN) {
-            res.redirect('/admin');
-        } else {
-            res.render('index/index', { courses: indexCourses, token: token });
-        }
+        res.render('index/index', { courses: indexCourses, token: token });
     } else {
         res.render('index/index', { courses: indexCourses, token: null });
     }
