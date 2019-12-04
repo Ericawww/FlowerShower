@@ -3,13 +3,13 @@ var router = express.Router();
 var courseControllers = require('../controllers/courseController');
 
 
-router.get('/', courseControllers.getCourseInfo);
-//courses?courseNumber=..
-router.get('/class/:courseNumber', courseControllers.getUserCoursePage);
-//all
-router.get('/search', courseControllers.getAllCourse);
-//search/courseName
-router.get('/search/:courseName', courseControllers.getCourseByName);
+router.get('/', courseControllers.getAllCourse);//courses
 
+router.get('/search', courseControllers.getCourseByName);//search?courseName=...
+router.get('/class/:id',courseControllers.getUserCoursePage);
+router.get('/class/:id/notice');
+router.get('/class/:id/talk');
+
+router.get('/:courseNumber', courseControllers.getCourseInfo);//courses/courseNumber
 
 module.exports = router;
