@@ -177,14 +177,15 @@ DROP TABLE IF EXISTS `course`;
 CREATE TABLE `course` (
   `courseNumber` varchar(32) COLLATE utf8mb4_general_ci NOT NULL,
   `courseName` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `courseEnglishName` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
   `courseDept` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
-  `credit` decimal(1,1) NOT NULL,
+  `credit` decimal(10,1) NOT NULL,
   `prerequisite` varchar(1024) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `description` varchar(1024) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `outline` varchar(1024) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `coursePhoto` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`courseNumber`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 -- ----------------------------
 -- Records of course

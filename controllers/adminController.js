@@ -4,7 +4,7 @@ var config = require('../models/statics/config');
 
 exports.checkAdmin = async (req, res, next) => {
     //for dev-------------
-    req.session.token = await config.getToken('3333', '123');
+    req.session.token = await config.getToken('admin_01', '123');
     //--------------------
     if (req.session.token == null || req.session.token.userType != config.TYPE_ADMIN) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();

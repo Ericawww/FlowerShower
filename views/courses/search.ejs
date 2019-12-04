@@ -36,18 +36,27 @@
       font-family: '微软雅黑';
       font-size: 20px;
     }
-    a:link{
-       text-decoration: none;
-       color:#000000;
-    }
-    a:visited
-    {
+
+    a:link {
       text-decoration: none;
-      color:#000000;
+      color: #000000;
     }
-    a:hover {text-decoration:underline;color:#192b3b;}   /* 鼠标指针移动到链接上 */
-    a:active {text-decoration:underline;color:#192b3b;} 
-    
+
+    a:visited {
+      text-decoration: none;
+      color: #000000;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: #192b3b;
+    }
+
+    /* 鼠标指针移动到链接上 */
+    a:active {
+      text-decoration: underline;
+      color: #192b3b;
+    }
   </style>
 </head>
 
@@ -72,77 +81,78 @@
 
   <!-- 页面主题 -->
 
-  
+
   <!-- 课程条目 -->
   <div class="container">
-      <div class="ui grid"> 
-        <div class="one wide column"></div>
-        
-        <div class="ten wide column">
-          <div class = "ui segment"  style="margin-top:40px;">
-            <h3><a href="/courses/search">全部课程</a>>>搜索结果</h3>
-              <div class="ui grid">
-              <% if (courseList == null) { %>
-                <div class="row centered">
-                <h3>暂无满足条件的课程。</h3>
-                </div>
-              </div>
-              <% } else { %>
-                <% for(var i = 0; i < courseList.length; i++) { %>
-                  <% var course = courseList[i]; %>
-                    <div class="row">
-                      <div class="five wide column middle aligned">
-                        <img src='<%= course.coursePhoto %>'>
-                      </div>
-                      <div class="eleven wide column">
-                        <h3 class="header" style="text-align:center"><a href="../?courseNumber=<%= course.courseNumber %>"><%= course.courseName %></a></h3>
-                        <div class="description">
-                            <%= course.description %>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="ui divider"></div>
-                    <% } %>
-                <% } %>
-                
+    <div class="ui grid">
+      <div class="one wide column"></div>
+
+      <div class="ten wide column">
+        <div class="ui segment" style="margin-top:40px;">
+          <h3><a href="/courses/search">全部课程</a>>>搜索结果</h3>
+          <div class="ui grid">
+            <% if (courseList == null) { %>
+            <div class="row centered">
+              <h3>暂无满足条件的课程。</h3>
+            </div>
+          </div>
+          <% } else { %>
+          <% for(var i = 0; i < courseList.length; i++) { %>
+          <% var course = courseList[i]; %>
+          <div class="row">
+            <div class="five wide column middle aligned">
+              <img src='<%= course.coursePhoto %>'>
+            </div>
+            <div class="eleven wide column">
+              <h3 class="header" style="text-align:center"><a
+                  href="/courses?courseNumber=<%= course.courseNumber %>"><%= course.courseName %></a></h3>
+              <div class="description">
+                <%= course.description %>
               </div>
             </div>
+          </div>
+          <div class="ui divider"></div>
+          <% } %>
+          <% } %>
+
         </div>
-            
-              <!--筛选条件 TODO:表单-->
-        <div class="four wide column" style="margin-top:40px;">
-            <div class="ui segment">
-              <p class="user-title" >筛选条件</p>
-              <div class="description"> 
-                <p>筛选项目:
-                  <div class="ui selection dropdown">
-                    <input type="hidden" name="gender">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">项目</div>
-                    <div class="menu">
-                      <div class="item" data-value="0">按开课学院</div>
-                      <!-- 其实完全没有 -->
-                      <div class="item" data-value="1">按修读时间</div>
-                    </div>
-                  </div>
-                </p>
-                <p>筛选条件:
-                    <div class="ui selection dropdown">
-                    <input type="hidden" name="gender">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">条件</div>
-                    <div class="menu">
-                      <div class="item" data-value="0">计算机科学与技术学院</div>
-                      <div class="item" data-value="1">马克思主义学院</div>
-                    </div>
-                  </div>
-                </p>
-                <button class="positive big ui button">确认</button>
-              </div>
-            </div>
-        </div>
-         <!-- 筛选条件 -->
       </div>
+    </div>
+
+    <!--筛选条件 TODO:表单-->
+    <div class="four wide column" style="margin-top:40px;">
+      <div class="ui segment">
+        <p class="user-title">筛选条件</p>
+        <div class="description">
+          <p>筛选项目:
+            <div class="ui selection dropdown">
+              <input type="hidden" name="gender">
+              <i class="dropdown icon"></i>
+              <div class="default text">项目</div>
+              <div class="menu">
+                <div class="item" data-value="0">按开课学院</div>
+                <!-- 其实完全没有 -->
+                <div class="item" data-value="1">按修读时间</div>
+              </div>
+            </div>
+          </p>
+          <p>筛选条件:
+            <div class="ui selection dropdown">
+              <input type="hidden" name="gender">
+              <i class="dropdown icon"></i>
+              <div class="default text">条件</div>
+              <div class="menu">
+                <div class="item" data-value="0">计算机科学与技术学院</div>
+                <div class="item" data-value="1">马克思主义学院</div>
+              </div>
+            </div>
+          </p>
+          <button class="positive big ui button">确认</button>
+        </div>
+      </div>
+    </div>
+    <!-- 筛选条件 -->
+  </div>
   </div>
 
   <!-- 课程条目 -->
@@ -151,41 +161,16 @@
 
 
   <!-- 页脚 -->
-  <div class="ui inverted vertical footer segment" style="background-color: rgb(21, 126, 217); margin-top: 50px;">
-    <div class="ui container">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h4 class="ui inverted header">指导老师</h4>
-          <div class="ui inverted link list">
-            <p><a href="https://person.zju.edu.cn/0092031" target="_blank" class="item"
-                style="color: white;">浙江大学计算机科学与技术学院 邢卫</a></p>
-            <p><a href="https://person.zju.edu.cn/0097412" target="_blank" class="item"
-                style="color: white;">浙江大学计算机科学与技术学院 金波</a></p>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">项目作者</h4>
-          <div class="ui inverted link list">
-            <p>贺婷婷 应承峻 韩汶东 </p>
-            <p>张佳瑶 方陶然 戴陈威</p>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header">技术支持</h4>
-          <p>浙江大学计算机科学与技术学院-SEM&SRE-Group13</p>
-          <p>软件工程专业-软件工程管理&软件需求工程-项目</p>
-          <p>Group13</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="template-footer"></div>
   <!-- 页脚 -->
+
 </body>
 
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/common.js"></script>
 <script>
-    $('.ui.dropdown').dropdown();
+  $('.ui.dropdown').dropdown();
 </script>
 
 </html>
