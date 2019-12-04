@@ -1,254 +1,315 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>高校教学管理平台</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css" />
+    <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+    <style type="text/css">
+      body {
+        background-color: #eeeeee;
+      }
 
-<head>
-  <title>高校教学管理平台</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <link rel="icon" href="/images/favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
-  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css">
-  <style type="text/css">
-    body {
-      background-color: #eeeeee;
-    }
+      .footer.segment {
+        padding: 5em 0em;
+      }
 
-    .footer.segment {
-      padding: 5em 0em;
-    }
+      .course-title {
+        font-weight: bold;
+        font-size: medium;
+        font-family: "黑体";
+        margin: 8px 16px;
+      }
 
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: '黑体';
-      margin: 8px 16px;
-    }
+      .course-info {
+        font-family: "微软雅黑";
+        margin: 8px 16px;
+      }
 
-    .course-info {
-      font-family: '微软雅黑';
-      margin: 8px 16px;
-    }
+      .user-title {
+        text-align: center;
+        font-family: "微软雅黑";
+        font-size: 16px;
+      }
 
-    .user-title {
-      text-align: center;
-      font-family: '微软雅黑';
-      font-size: 16px;
-    }
+      .neccessary {
+        color: red;
+      }
+    </style>
+  </head>
 
-    .neccessary {
-      color: red;
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- 导航栏 -->
-  <div class="ui menu" style="padding: 15px;">
-    <a href="" style="display: flex; left: auto; margin-left: 30%;"><img src="/images/logo.png"></a>
-    <div class="right menu" style="margin-right: 20%;">
-      <div class="item">
-        <div class="ui action left icon input">
-          <i class="search icon"></i>
-          <input type="text" placeholder="搜索感兴趣的课程">
-          <button class="ui positive button">搜索</button>
-        </div>
-      </div>
-      <a class="item">使用教程</a>
-      <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
-      <% if (token != null) { %>
-      <div class="item image" style="background: none;">
-        <div class="ui icon top right pointing dropdown" id="photo-drop">
-          <% if (token.userPhoto != null) { %>
-          <img class="ui circular image" src="<%= token.userPhoto %>" style="width:32px;" />
-          <% } else { %>
-          <img class="ui circular image" src="images/user.png" style="width:32px;" />
-          <% } %>
-          <div class="menu">
-            <div class="item" onclick="clickItem(2)">个人中心</div>
-            <div class="item" onclick="clickItem(1)">设置</div>
-            <div class="item" onclick="clickItem(0)">注销</div>
+  <body>
+    <!-- 导航栏 -->
+    <div class="ui menu" style="padding: 15px;">
+      <a href="" style="display: flex; left: auto; margin-left: 30%;"
+        ><img src="/images/logo.png"
+      /></a>
+      <div class="right menu" style="margin-right: 20%;">
+        <div class="item">
+          <div class="ui action left icon input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="搜索感兴趣的课程" />
+            <button class="ui positive button">搜索</button>
           </div>
         </div>
-      </div>
-      <% } %>
-    </div>
-  </div>
-  <!-- 导航栏 -->
-
-  <!-- 轮播框等 -->
-  <div class="ui container" style="margin-top:50px;">
-    <div class="ui divided grid">
-      <div class="stretched row">
-        <div class="twelve wide column">
-          <div>
-            <div class="swiper-container">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <img src="images/swiper1.png" style="width:100%; border-radius: 10px;" />
-                </div>
-                <div class="swiper-slide">
-                  <img src="images/swiper2.png" style="width:100%; border-radius: 10px;" /></div>
-                <div class="swiper-slide">
-                  <img src="images/swiper3.png" style="width:100%; border-radius: 10px;" /></div>
-                <div class="swiper-slide">
-                  <img src="images/swiper4.png" style="width:100%; border-radius: 10px;" /></div>
-              </div>
-              <!-- 如果需要分页器 -->
-              <div class="swiper-pagination"></div>
-              <!-- 如果需要导航按钮 -->
-              <div class="swiper-button-prev"></div>
-              <div class="swiper-button-next"></div>
-            </div>
-          </div>
-        </div>
-        <div class="four wide column">
-          <% if (token == null) { %>
-          <div class="ui segment">
-            <p class="user-title" style="margin-top:15%">登录后开启学习之旅</p>
-            <img class="ui medium circular image" src="images/user.png"
-              style="width: 50%;margin-left: 25%; margin-top: 40px;">
-            <div>
-              <button class="fluid positive ui button" style="margin-top: 30px;"
-                onclick="javascript:window.location.href='./login'">前往登录</button>
-            </div>
-          </div>
-          <% } else { %>
-          <div class="ui segment">
-            <% if (token.userPhoto == null) { %>
-            <img class="ui medium circular image" src="images/user.png"
-              style="width: 50%;margin-left: 25%; margin-top: 40px;">
+        <a class="item">使用教程</a>
+        <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
+        <% if (token != null) { %>
+        <div class="item image" style="background: none;">
+          <div class="ui icon top right pointing dropdown" id="photo-drop">
+            <% if (token.userPhoto != null) { %>
+            <img
+              class="ui circular image"
+              src="<%= token.userPhoto %>"
+              style="width:32px;"
+            />
             <% } else { %>
-            <img class="ui medium circular image" src="<%= token.userPhoto %>"
-              style="width: 50%;margin-left: 25%; margin-top: 40px;">
+            <img
+              class="ui circular image"
+              src="images/user.png"
+              style="width:32px;"
+            />
             <% } %>
-            <p class="user-title" style="margin-top: 30px;"><%= token.userName %></p>
-            <div>
-              <button class="fluid positive ui button" style="margin-top: 30px;">我的课程</button>
+            <div class="menu">
+              <div class="item" onclick="clickItem(2)">个人中心</div>
+              <div class="item" onclick="clickItem(1)">设置</div>
+              <div class="item" onclick="clickItem(0)">注销</div>
             </div>
-            <!-- <div style="margin:20px;text-align: center;">
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    <!-- 导航栏 -->
+
+    <!-- 轮播框等 -->
+    <div class="ui container" style="margin-top:50px;">
+      <div class="ui divided grid">
+        <div class="stretched row">
+          <div class="twelve wide column">
+            <div>
+              <div class="swiper-container">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <img
+                      src="images/swiper1.png"
+                      style="width:100%; border-radius: 10px;"
+                    />
+                  </div>
+                  <div class="swiper-slide">
+                    <img
+                      src="images/swiper2.png"
+                      style="width:100%; border-radius: 10px;"
+                    />
+                  </div>
+                  <div class="swiper-slide">
+                    <img
+                      src="images/swiper3.png"
+                      style="width:100%; border-radius: 10px;"
+                    />
+                  </div>
+                  <div class="swiper-slide">
+                    <img
+                      src="images/swiper4.png"
+                      style="width:100%; border-radius: 10px;"
+                    />
+                  </div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+                <!-- 如果需要导航按钮 -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+              </div>
+            </div>
+          </div>
+          <div class="four wide column">
+            <% if (token == null) { %>
+            <div class="ui segment">
+              <p class="user-title" style="margin-top:15%">
+                登录后开启学习之旅
+              </p>
+              <img
+                class="ui medium circular image"
+                src="images/user.png"
+                style="width: 50%;margin-left: 25%; margin-top: 40px;"
+              />
+              <div>
+                <button
+                  class="fluid positive ui button"
+                  style="margin-top: 30px;"
+                  onclick="javascript:window.location.href='./login'"
+                >
+                  前往登录
+                </button>
+              </div>
+            </div>
+            <% } else { %>
+            <div class="ui segment">
+              <% if (token.userPhoto == null) { %>
+              <img
+                class="ui medium circular image"
+                src="images/user.png"
+                style="width: 50%;margin-left: 25%; margin-top: 40px;"
+              />
+              <% } else { %>
+              <img
+                class="ui medium circular image"
+                src="<%= token.userPhoto %>"
+                style="width: 50%;margin-left: 25%; margin-top: 40px;"
+              />
+              <% } %>
+              <p class="user-title" style="margin-top: 30px;">
+                <%= token.userName %>
+              </p>
+              <div>
+                <button
+                  class="fluid positive ui button"
+                  style="margin-top: 30px;"
+                >
+                  我的课程
+                </button>
+              </div>
+              <!-- <div style="margin:20px;text-align: center;">
               <a href="#">个人中心</a>
             </div> -->
+            </div>
+            <% } %>
           </div>
-          <% } %>
         </div>
       </div>
     </div>
-  </div>
-  <!-- 轮播框等 -->
+    <!-- 轮播框等 -->
 
-  <!-- 推荐课程 -->
-  <div class="ui container" style="margin-top:50px;">
-    <h1 style="margin-bottom: 30px;">推荐课程</h1>
-    <% for (var i = 0; i < courses.length; i++) { %>
-    <% if (i % 4 == 0) { %>
-    <div class="ui grid">
-      <% } %>
-      <div class="four wide column">
-        <div class="ui segment" style="border-radius: 0; padding: 0;">
-          <img src="<%= courses[i].src %>" style="width:100%;">
-          <p class="course-title"><%= courses[i].courseName %></p>
-          <p class="course-info">开课时间：<%= courses[i].openTime %></p>
-          <p class="course-info">课程教师：<%= courses[i].courseTeacher %></p>
-          <p></p>
+    <!-- 推荐课程 -->
+    <div class="ui container" style="margin-top:50px;">
+      <h1 style="margin-bottom: 30px;">推荐课程</h1>
+      <% for (var i = 0; i < courses.length; i++) { %> <% if (i % 4 == 0) { %>
+      <div class="ui grid">
+        <% } %>
+        <div class="four wide column">
+          <div class="ui segment" style="border-radius: 0; padding: 0;">
+            <img src="<%= courses[i].src %>" style="width:100%;" />
+            <p class="course-title"><%= courses[i].courseName %></p>
+            <p class="course-info">开课时间：<%= courses[i].openTime %></p>
+            <p class="course-info">课程教师：<%= courses[i].courseTeacher %></p>
+            <p></p>
+          </div>
+        </div>
+        <% if (i % 4 == 3) { %>
+      </div>
+      <% } %> <% } %>
+    </div>
+    <!-- 推荐课程 -->
+
+    <!-- 页脚 -->
+    <div class="template-footer"></div>
+    <!-- 页脚 -->
+
+    <!-- 模态框 -->
+    <div class="ui modal">
+      <i class="close icon"></i>
+      <div class="header">留言反馈</div>
+      <div class="content">
+        <div class="ui form">
+          <div class="field">
+            <label>留言内容 <span class="neccessary">*</span></label>
+            <textarea
+              maxlength="250"
+              placeholder="不超过300个字符"
+              name="content"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label>您的联系方式 <span class="neccessary">*</span></label>
+            <input
+              type="text"
+              name="contact"
+              placeholder="可以是电话或邮箱，不超过32个字符"
+            />
+          </div>
         </div>
       </div>
-      <% if (i % 4 == 3) { %>
-    </div>
-    <% } %>
-    <% } %>
-  </div>
-  <!-- 推荐课程 -->
-
-  <!-- 页脚 -->
-  <div class="template-footer"></div>
-  <!-- 页脚 -->
-
-  <!-- 模态框 -->
-  <div class="ui modal">
-    <i class="close icon"></i>
-    <div class="header">留言反馈</div>
-    <div class="content">
-      <div class="ui form">
-        <div class="field">
-          <label>留言内容 <span class="neccessary">*</span></label>
-          <textarea maxlength="250" placeholder="不超过300个字符" name="content"></textarea>
-        </div>
-        <div class="field">
-          <label>您的联系方式 <span class="neccessary">*</span></label>
-          <input type="text" name="contact" placeholder="可以是电话或邮箱，不超过32个字符">
-        </div>
+      <div class="actions">
+        <div class="ui red deny button">取消</div>
+        <div class="ui positive button" onclick="postMsg()">提交</div>
       </div>
     </div>
-    <div class="actions">
-      <div class="ui red deny button">取消</div>
-      <div class="ui positive button" onclick="postMsg()">提交</div>
-    </div>
-  </div>
-  <!-- 模态框 -->
+    <!-- 模态框 -->
+  </body>
 
-</body>
-
-<script src="swiper/package/js/swiper.min.js"></script>
-<script src="javascripts/jquery.js"></script>
-<script src="dist/semantic.min.js"></script>
-<script src="javascripts/common.js"></script>
-<script>
-  $(document).ready(() => {
-    var mySwiper = new Swiper('.swiper-container', {
-      autoHeight: true, //enable auto height
-      loop: true, // 循环模式选项
-      // 如果需要分页器
-      pagination: {
-        el: '.swiper-pagination',
-      },
-      // 如果需要前进后退按钮
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-      }
-    })
-  });
-  var showMsgBoard = () => {
-    $('.ui.modal').modal('show');
-  }
-  var postMsg = () => {
-    if ($("textarea[name='content']").val().replace(' ', '') == "") {
-      alert("留言内容不能为空！");
-      return;
-    }
-    if ($("input[name='contact']").val().replace(' ', '') == "") {
-      alert("联系方式不能为空！");
-      return;
-    }
-    $.ajax({
-      dataType: "json",
-      type: "post",
-      url: "/msgBoard",
-      data: {
-        content: $("textarea[name='content']").val(),
-        contact: $("input[name='contact']").val()
-      },
-      success: (data) => {
-        if (data.status) {
-          alert("提交留言成功!");
-          $("textarea[name='content']").val("");  //清空留言内容和联系方式
-          $("input[name='contact']").val("");
-          $('.ui.modal').modal('hide');
-        } else {
-          alert(data.msg);
+  <script src="swiper/package/js/swiper.min.js"></script>
+  <script src="javascripts/jquery.js"></script>
+  <script src="dist/semantic.min.js"></script>
+  <script src="javascripts/common.js"></script>
+  <script>
+    $(document).ready(() => {
+      var mySwiper = new Swiper(".swiper-container", {
+        autoHeight: true, //enable auto height
+        loop: true, // 循环模式选项
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination"
+        },
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
         }
-      },
-      error: (err) => {
-        alert("与服务器连接异常，请稍后再试!");
-      }
+      });
     });
-  }
-</script>
-
+    var showMsgBoard = () => {
+      $(".ui.modal").modal("show");
+    };
+    var postMsg = () => {
+      if (
+        $("textarea[name='content']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("留言内容不能为空！");
+        return;
+      }
+      if (
+        $("input[name='contact']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("联系方式不能为空！");
+        return;
+      }
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "/msgBoard",
+        data: {
+          content: $("textarea[name='content']").val(),
+          contact: $("input[name='contact']").val()
+        },
+        success: data => {
+          if (data.status) {
+            alert("提交留言成功!");
+            $("textarea[name='content']").val(""); //清空留言内容和联系方式
+            $("input[name='contact']").val("");
+            $(".ui.modal").modal("hide");
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: err => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    };
+  </script>
 </html>
