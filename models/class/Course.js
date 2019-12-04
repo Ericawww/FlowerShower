@@ -149,6 +149,20 @@ class Course {
         }
     }
 
+
+    async getCourseGrade(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_grade where classID = ?", [classID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
     async getCourseTeacher(courseNumber) {
         try {
             var conn = await pool.getConnection();
