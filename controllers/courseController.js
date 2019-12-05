@@ -170,14 +170,37 @@ exports.gradeChange = async (req, res) => {
     }
 }
 
+/**
+ * 旧版班级成绩修改
+ */
+// exports.setGradeChange = async (req, res) => {
+//     var sql = {
+//         classID: '000001',
+//         studentID: req.body.studentID,
+//         changeType: req.body.changeItem,
+//         newScore: req.body.newScore
+//     };
+//     var ret = await Course.prototype.updateGrade(sql);
+//     if (ret == 1) {
+//         res.send({ status: 1 }).end();
+//     }
+//     else {
+//         res.send({ status: 0 }).end();
+//     }
+// }
+
+/**
+ * 新版成绩修改，作业成绩无法修改，作业成绩的修改只能通过每个project成绩的修改来达成
+ */
 exports.setGradeChange = async (req, res) => {
     var sql = {
-        classID: '000001',
+        classID: req.params.classid,
         studentID: req.body.studentID,
         changeType: req.body.changeItem,
         newScore: req.body.newScore
     };
     var ret = await Course.prototype.updateGrade(sql);
+
     if (ret == 1) {
         res.send({ status: 1 }).end();
     }

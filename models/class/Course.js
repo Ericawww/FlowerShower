@@ -149,19 +149,12 @@ class Course {
         }
     }
 
-
-    // async getCourseGrade(classID) {
-    //     try {
-    //         var conn = await pool.getConnection();
-    //         var ret = await conn.query("select * from class_grade where classID = ?", [classID]);
-    //         return ret[0];
-    //     } catch (err) {
-    //         console.log(err);
-    //         return null;
-    //     } finally {
-    //         conn.release();
-    //     }
-    // }
+    /**
+     * 获得一个班级的所有成绩
+     * 
+     * @param {String} classID
+     * @return {Struct} data 包括这个班级所有学生各项成绩的数据项 
+     */
     async getCourseGrade(classID) {
         try {
             var conn = await pool.getConnection();
@@ -239,20 +232,26 @@ class Course {
         }
     }
 
+    /**
+     * 更新某项成绩（平时成绩或者考试成绩）
+     * 
+     * @param {struct} sql 
+     */
     async updateGrade(sql) {
         try {
             var ret;
             var conn = await pool.getConnection();
             if (sql.changeType == "usualGrade") {
-                ret = await conn.query("update class_grade set usualGrade = ? where classID = ? and studentID = ?",
+                ret = await conn.query("update take set usualGrade = ? where classID = ? and studentID = ?",
                     [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
-            else if (sql.changeType == "homeworkGrade") {
-                ret = await conn.query("update class_grade set homeworkGrade = ? where classID = ? and studentID = ?",
-                    [parseInt(sql.newScore), sql.classID, sql.studentID]);
-            }
+            // 因为现在学生的作业成绩无法直接修改，所以下面的语句被注释掉了
+            // else if (sql.changeType == "homeworkGrade") {
+            //     ret = await conn.query("update take set homeworkGrade = ? where classID = ? and studentID = ?",
+            //         [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            // }
             else {
-                ret = await conn.query("update class_grade set testGrade = ? where classID = ? and studentID = ?",
+                ret = await conn.query("update take set examGrade = ? where classID = ? and studentID = ?",
                     [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
             return 1;
@@ -263,8 +262,6 @@ class Course {
             conn.release();
         }
     }
-
 }
-
 
 module.exports = Course;
