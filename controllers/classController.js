@@ -120,9 +120,9 @@ exports.getTalk = async (req, res) => {
   else choice = req.query.choice;
   if (choice == 0) {
     //显示我的帖子
-    talkList = await Talk.prototype.getMyTalk(
+    talkList = await Talk.prototype.getTalk(
       req.params.classID,
-      req.session.token.userID
+      1 //req.session.token.userID
     );
   } else {
     //显示全部帖子

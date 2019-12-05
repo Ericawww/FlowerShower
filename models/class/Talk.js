@@ -28,66 +28,36 @@ class Talk {
   }
 
   /**
-   * 获得全部帖子
+   * 获得帖子
    * @param {String} courseID 课程号
    * @return {Object} 帖子对象
    */
-  async getTalk(courseID) {
+  async getTalk(courseID, userID) {
     try {
       var conn = await pool.getConnection();
-      var ret = await conn.query(
-        "select * from talk where courseID = ?",
-        courseID
-      );
+      var ret;
+      if (userID == undefined) {
+        ret = await conn.query(
+          "select userName, title, content, time \
+            from talk left join user on talk.userID = user.userID \
+            where courseID = ? ",
+          courseID
+        );
+      } else {
+        ret = await conn.query(
+          "select talkID, userName, title, content, time \
+              from talk left join user on talk.userID = user.userID \
+              where courseID = ? and talk.userID = ?",
+          [courseID, userID]
+        );
+      }
       return ret[0];
     } catch (err) {
       console.log(err);
       return 0;
-    } finally {
-      conn.release();
-    }
-  }
-
-  /**
-   * 获得全部帖子
-   * @param {String} courseID 课程号
-   * @return {Object} 帖子对象
-   */
-  async getMyTalk(courseID, userID) {
-    try {
-      var conn = await pool.getConnection();
-      var ret = await conn.query(
-        "select * from talk where courseID = ? and userID = ?",
-        [courseID, userID]
-      );
-      return ret[0];
-    } catch (err) {
-      console.log(err);
-      return 0;
-    } finally {
-      conn.release();
-    }
-  }
-
-  /**
-   * @param userID {String} 用户账号
-   * @return 用户昵称
-   */
-  async getUserName(userID) {
-    try {
-      var conn = await pool.getConnection();
-      var ret = await conn.query(
-        "select userName from user where userID = ?",
-        userID
-      );
-      return ret[0];
-    } catch (err) {
-      console.log(err);
-      return -1;
     } finally {
       conn.release();
     }
   }
 }
-
 module.exports = Talk;
