@@ -40,117 +40,119 @@
 </head>
 
 <body>
-<!-- 导航栏 -->
-<div class="ui inverted menu" style="padding: 1px;">
-    <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
-    <div class="right menu" style="margin-right: 20%;">
-        <div class="item"><i class="bell outline icon"></i></div>
-        <a class="item">我的主页</a>
-        <a class="item">邢卫</a>
+    <!-- 导航栏 -->
+    <div class="ui inverted menu" style="padding: 1px;">
+        <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
+        <div class="right menu" style="margin-right: 20%;">
+            <div class="item"><i class="bell outline icon"></i></div>
+            <a class="item">我的主页</a>
+            <a class="item">邢卫</a>
+        </div>
     </div>
-</div>
-<!-- 导航栏 -->
+    <!-- 导航栏 -->
 
-<!-- 课程信息 -->
-<div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-        <div class="ui stackable inverted divided equal height stackable grid">
-            <div class="four wide column">
-                <h2 class="ui header">软件工程管理</h2>
-                <div class="description">
-                    2019-2020秋 计算机科学与技术学院
-                </div>
-                <h5 class="ui header">授课老师</h5>
-                <div class="description">
-                    邢卫
+    <!-- 课程信息 -->
+    <div class="ui container">
+        <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+            <div class="ui stackable inverted divided equal height stackable grid">
+                <div class="four wide column">
+                    <h2 class="ui header">软件工程管理</h2>
+                    <div class="description">
+                        2019-2020秋 计算机科学与技术学院
+                    </div>
+                    <h5 class="ui header">授课老师</h5>
+                    <div class="description">
+                        邢卫
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- 课程信息 -->
+    <!-- 课程信息 -->
 
-<!-- 课程水平菜单 -->
-<div class="ui container" style="margin-top:10px;">
-    <div class="ui six item menu">
-        <a class="content">
-            <a class="item">
-                <i class="bell outline icon"></i>
-                公告
+    <!-- 课程水平菜单 -->
+    <div class="ui container" style="margin-top:10px;">
+        <div class="ui six item menu">
+            <a class="content">
+                <a class="item">
+                    <i class="bell outline icon"></i>
+                    公告
+                </a>
+                <a class="item">
+                    <i class="folder outline icon"></i>
+                    课件
+                </a>
+                <a class="item">
+                    <i class="pencil alternate icon"></i>
+                    作业
+                </a>
+                <a class="item">
+                    <i class="users icon"></i>
+                    分组学习
+                </a>
+                <a class="item">
+                    <i class="clipboard outline icon"></i>
+                    班级成绩
+                </a>
+                <a class="item">
+                    <i class="comment outline icon"></i>
+                    讨论
+                </a>
             </a>
-            <a class="item">
-                <i class="folder outline icon"></i>
-                课件
-            </a>
-            <a class="item">
-                <i class="pencil alternate icon"></i>
-                作业
-            </a>
-            <a class="item">
-                <i class="users icon"></i>
-                分组学习
-            </a>
-            <a class="item">
-                <i class="clipboard outline icon"></i>
-                班级成绩
-            </a>
-            <a class="item">
-                <i class="comment outline icon"></i>
-                讨论
-            </a>
-        </a>
+        </div>
     </div>
-</div>
 
-<div class="ui container" style="margin-top: 10px">
-    <table class="ui seven column table">
-        <thead>
-        <tr><th>序号</th>
-            <th>学号</th>
-            <th>姓名</th>
-            <th>平时成绩</th>
-            <th>作业成绩</th>
-            <th>考试成绩</th>
-            <th>总成绩</th>
-        </tr></thead>
-        <tbody>
-        <% for(var i=0;i<data.length;i++){ %>
-        <tr>
-            <td><%= i+1 %></td>
-            <td><%= data[i].studentID %></td>
-            <td><%= data[i].userName %></td>
-            <td><%= data[i].usualGrade %></td>
-            <td><%= data[i].homeworkGrade %></td>
-            <td><%= data[i].testGrade %></td>
-            <td><%= studentTotalGrade[i] %></td>
-        </tr>
-        <% } %>
-        </tbody>
-    </table>
-    <table class="ui black table">
-        <thead>
-        <tr><th>总人数</th>
-            <th>平时成绩(平均)</th>
-            <th>作业成绩(平均)</th>
-            <th>考试成绩(平均)</th>
-            <th>总成绩(平均)</th>
-        </tr></thead><tbody>
-        <tr>
-            <td><%= data.length %></td>
-            <td><%= avgUsualGrade %></td>
-            <td><%= avgHomeworkGrade %></td>
-            <td><%= avgTestGrade %></td>
-            <td><%= avgTotalGrade %></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
+    <div class="ui container" style="margin-top: 10px">
+        <table class="ui seven column table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>平时成绩</th>
+                    <th>作业成绩</th>
+                    <th>考试成绩</th>
+                    <th>总成绩</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0;i<data.takeTwoGrade.length;i++){ %>
+                <tr>
+                    <td><%= i+1 %></td>
+                    <td><%= data.takeTwoGrade[i].studentID %></td>
+                    <td><%= userNameList[i] %></td>
+                    <td><%= data.takeTwoGrade[i].usualGrade %></td>
+                    <td><%= data.homeworkGrade[i] %></td>
+                    <td><%= data.takeTwoGrade[i].examGrade %></td>
+                    <td><%= studentTotalGrade[i] %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <table class="ui black table">
+            <thead>
+                <tr>
+                    <th>总人数</th>
+                    <th>平时成绩(平均)</th>
+                    <th>作业成绩(平均)</th>
+                    <th>考试成绩(平均)</th>
+                    <th>总成绩(平均)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= data.takeTwoGrade.length %></td>
+                    <td><%= avgUsualGrade %></td>
+                    <td><%= avgHomeworkGrade %></td>
+                    <td><%= avgTestGrade %></td>
+                    <td><%= avgTotalGrade %></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script src="/swiper/package/js/swiper.min.js"></script>
+    <script src="/javascripts/jquery.js"></script>
 </body>
 
-<script src="/swiper/package/js/swiper.min.js"></script>
-<script src="/javascripts/jquery.js"></script>
-<script>
-</script>
 
 </html>

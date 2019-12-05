@@ -149,11 +149,64 @@ class Course {
         }
     }
 
-
+    /**
+     * 获得一个班级的所有成绩
+     * 
+     * @param {string} classID
+     * @return {Struct} data 包括这个班级所有学生各项成绩的数据项 
+     */
     async getCourseGrade(classID) {
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from class_grade where classID = ?", [classID]);
+            var ret = await conn.query("select * from take where classID = ?", [classID]);
+            var takeTwoGrade = ret[0];
+            var homeworkGrade = new Array();
+            var allProject = await conn.query("select * from class_project where classID = ?", [classID]);
+            var allProjectResult = allProject[0];
+            var totalHomeworkMark = 0;
+            if (allProjectResult.length != 0) {
+                for (var i = 0; i < allProjectResult.length; i++) {
+                    totalHomeworkMark += allProjectResult[i].fullMark;
+                }
+                var studentProjectScore = await conn.query("select studentID,sum(mark) as totalMark from class_project natural join class_project_score where classID = ? group by studentID", [classID]);
+                var studentProjectScoreResult = studentProjectScore[0];
+                for (var i = 0; i < takeTwoGrade.length; i++) {
+                    var j;
+                    for (j = 0; j < studentProjectScoreResult.length; j++) {
+                        if (takeTwoGrade[i].studentID == studentProjectScoreResult[j].studentID) {
+                            break;
+                        }
+                    }
+                    if (j < studentProjectScoreResult.length) {
+                        homeworkGrade[i] = (studentProjectScoreResult[j].totalMark * 100 / totalHomeworkMark).toFixed(2);
+                    }
+                    else {
+                        homeworkGrade[i] = 0;
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < takeTwoGrade.length; i++) {
+                    homeworkGrade[i] = 100;
+                }
+            }
+            var data = {
+                takeTwoGrade: takeTwoGrade,
+                homeworkGrade: homeworkGrade
+            }
+            return data;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    async getStudentName(studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select userName from user where userID = ?", [studentID]);
             return ret[0];
         } catch (err) {
             console.log(err);
@@ -179,5 +232,73 @@ class Course {
         }
     }
 
+    /**
+     * 更新某项成绩（平时成绩或者考试成绩）
+     * 
+     * @param {struct} sql 
+     */
+    async updateGrade(sql) {
+        try {
+            var ret;
+            var conn = await pool.getConnection();
+            if (sql.changeType == "usualGrade") {
+                ret = await conn.query("update take set usualGrade = ? where classID = ? and studentID = ?",
+                    [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            }
+            // 因为现在学生的作业成绩无法直接修改，所以下面的语句被注释掉了
+            // else if (sql.changeType == "homeworkGrade") {
+            //     ret = await conn.query("update take set homeworkGrade = ? where classID = ? and studentID = ?",
+            //         [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            // }
+            else {
+                ret = await conn.query("update take set examGrade = ? where classID = ? and studentID = ?",
+                    [parseInt(sql.newScore), sql.classID, sql.studentID]);
+            }
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 
+     * @param {string} classID
+     * @return {Array} ret 返回获取到的课程成绩比重的数组，如果出现异常返回null
+     */
+    async getGradeWeight(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select projectWeight,examWeight,usualWeight from class where classID = ?", [classID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 更新各项成绩的比重
+     * 
+     * @param {struct} sql 
+     */
+    async updateGradeWeight(sql) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("update class set projectWeight = ? , examWeight = ? , usualWeight = ? where classID = ?",
+            [parseInt(sql.newProjectWeight),parseInt(sql.newExamWeight),parseInt(sql.newUsualWeight),sql.classID]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
 }
+
 module.exports = Course;
