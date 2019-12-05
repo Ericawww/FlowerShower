@@ -115,8 +115,14 @@ exports.updateNotice = async (req, res) => {
  */
 exports.getTalk = async (req, res) => {
   var token = req.session.token;
-  var talkList = await Talk.prototype.getTalk(1); //1应该用课程号替换掉
-  res.render("courses/talkBoard", { talkList: talkList, token: token });
+  var talkList = await Talk.prototype.getTalk(req.params.classID);
+  if (req.query.choice == null) choice = 0;
+  else choice = req.query.choice;
+  res.render("courses/talkBoard", {
+    talkList: talkList,
+    token: token,
+    choice: choice //设置默认显示我的帖子
+  });
 };
 
 /**

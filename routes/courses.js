@@ -16,6 +16,7 @@ router.post(
   "/class/:classID/notice/updateNotice",
   classControllers.updateNotice
 );
+router.post("/class/:classID/talk/updateTalk", classControllers.writeTalk);
 router.post(
   "/class/:classID/talk/:talkID/updateComment",
   classControllers.addComment
