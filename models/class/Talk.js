@@ -28,9 +28,9 @@ class Talk {
   }
 
   /**
-   * 获得通知
+   * 获得全部帖子
    * @param {String} courseID 课程号
-   * @return {Object} 公告对象
+   * @return {Object} 帖子对象
    */
   async getTalk(courseID) {
     try {
@@ -43,6 +43,47 @@ class Talk {
     } catch (err) {
       console.log(err);
       return 0;
+    } finally {
+      conn.release();
+    }
+  }
+
+  /**
+   * 获得全部帖子
+   * @param {String} courseID 课程号
+   * @return {Object} 帖子对象
+   */
+  async getMyTalk(courseID, userID) {
+    try {
+      var conn = await pool.getConnection();
+      var ret = await conn.query(
+        "select * from talk where courseID = ? and userID = ?",
+        [courseID, userID]
+      );
+      return ret[0];
+    } catch (err) {
+      console.log(err);
+      return 0;
+    } finally {
+      conn.release();
+    }
+  }
+
+  /**
+   * @param userID {String} 用户账号
+   * @return 用户昵称
+   */
+  async getUserName(userID) {
+    try {
+      var conn = await pool.getConnection();
+      var ret = await conn.query(
+        "select userName from user where userID = ?",
+        userID
+      );
+      return ret[0];
+    } catch (err) {
+      console.log(err);
+      return -1;
     } finally {
       conn.release();
     }

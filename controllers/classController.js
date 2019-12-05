@@ -115,9 +115,19 @@ exports.updateNotice = async (req, res) => {
  */
 exports.getTalk = async (req, res) => {
   var token = req.session.token;
-  var talkList = await Talk.prototype.getTalk(req.params.classID);
+  var talkList;
   if (req.query.choice == null) choice = 0;
   else choice = req.query.choice;
+  if (choice == 0) {
+    //显示我的帖子
+    talkList = await Talk.prototype.getMyTalk(
+      req.params.classID,
+      req.session.token.userID
+    );
+  } else {
+    //显示全部帖子
+    talkList = await Talk.prototype.getTalk(req.params.classID);
+  }
   res.render("courses/talkBoard", {
     talkList: talkList,
     token: token,
