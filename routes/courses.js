@@ -4,9 +4,8 @@ var courseControllers = require('../controllers/courseController');
 
 router.get('/classes/:classID/teacher/courseGrade', courseControllers.getGrade);
 
-router.get('/courseGradeChange', courseControllers.gradeChange);
+router.get('/classes/:classID/teacher/:classid/courseGradeChange', courseControllers.gradeChange);
 // router.get('/courseGrade',courseControllers.getGrade);
-
 
 router.post('/gradeChange', courseControllers.setGradeChange);
 router.get('/', courseControllers.getAllCourse);//courses

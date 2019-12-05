@@ -12,7 +12,7 @@ var test = async () => {
 
         for (var i = 0; i < ret.takeTwoGrade.length; i++) {
             totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) + parseFloat(ret.takeTwoGrade[i].examGrade) + parseFloat(ret.homeworkGrade[i]);
-            
+
             totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
             console.log(totalStudentGrade[i]);
             avgUsualGrade += ret.takeTwoGrade[i].usualGrade;

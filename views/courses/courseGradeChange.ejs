@@ -52,10 +52,10 @@
     <!-- 导航栏 -->
 
     <div class="ui container">
-        <div class="row" style="background-color:#FFFFFF;color: #000000;padding: 10px" >
+        <div class="row" style="background-color:#FFFFFF;color: #000000;padding: 10px">
             <div class="ui grid">
                 <div class="two wide column" style="padding: 22px;font-weight: bold;text-align: right">
-                   查找类型
+                    查找类型
                 </div>
                 <div class="two wide column">
                     <select class="ui search dropdown fluid" id="search_item">
@@ -86,7 +86,7 @@
 
             </div>
         </div>
-        <div class="row" style="background-color:#FFFFFF;color: #000000;padding: 10px" >
+        <div class="row" style="background-color:#FFFFFF;color: #000000;padding: 10px">
             <div class="ui grid">
                 <div class="two wide column" style="padding: 22px;font-weight: bold;text-align: right">
                     新成绩
@@ -113,180 +113,183 @@
     <div class="ui container" style="margin-top: 10px">
         <table class="ui seven column table">
             <thead>
-            <tr><th>序号</th>
-                <th>学号</th>
-                <th>姓名</th>
-                <th>平时成绩</th>
-                <th>作业成绩</th>
-                <th>考试成绩</th>
-                <th>总成绩</th>
-            </tr></thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>平时成绩</th>
+                    <th>作业成绩</th>
+                    <th>考试成绩</th>
+                    <th>总成绩</th>
+                </tr>
+            </thead>
             <tbody>
-            <% for(var i=0;i<data.length;i++){ %>
+                <% for(var i=0;i<data.takeTwoGrade.length;i++){ %>
                 <tr>
                     <td class="order_number"><%= i+1 %></td>
-                    <td class="student_id"><%= data[i].studentID %></td>
-                    <td class="user_name"><%= data[i].userName %></td>
-                    <td class="usual_grade active"><%= data[i].usualGrade %></td>
-                    <td class="homework_grade"><%= data[i].homeworkGrade %></td>
-                    <td class="test_grade"><%= data[i].testGrade %></td>
+                    <td class="student_id"><%= data.takeTwoGrade[i].studentID %></td>
+                    <td class="user_name"><%= userNameList[i] %></td>
+                    <td class="usual_grade active"><%= data.takeTwoGrade[i].usualGrade %></td>
+                    <td class="homework_grade"><%= data.homeworkGrade[i] %></td>
+                    <td class="test_grade"><%= data.takeTwoGrade[i].examGrade %></td>
                     <td class="disabled"><%= studentTotalGrade[i] %></td>
                 </tr>
-            <% } %>
+                <% } %>
             </tbody>
         </table>
     </div>
 
 </body>
-    <script src="/swiper/package/js/swiper.min.js"></script>
-    <script src="/javascripts/jquery.js"></script>
-    <script>
-        $("#change_item").change(function () {
-            var highLight = $('#change_item option:selected').val();
-            var searchVal = $('#search_value').val();
-            var searchType = $('#search_item').val();
-            var getElement = new Array();
-            if(searchType == 'order'){
-                getElement = $('td.order_number').filter(":contains('"+searchVal+"')");
-            }
-            else if(searchType == 'studentID'){
-                getElement = $('td.student_id').filter(":contains('"+searchVal+"')");
-            }
-            else{
-                getElement = $('td.user_name').filter(":contains('"+searchVal+"')");
-            }
-            if(getElement.length == 0){
-                if(highLight == "usualGrade"){
-                    $("td.usual_grade").addClass("active");
-                    $("td.homework_grade").removeClass("active");
-                    $("td.test_grade").removeClass("active");
-                }
-                else if(highLight == "homeworkGrade"){
-                    $("td.usual_grade").removeClass("active");
-                    $("td.homework_grade").addClass("active");
-                    $("td.test_grade").removeClass("active");
-                }
-                else{
-                    $("td.usual_grade").removeClass("active");
-                    $("td.homework_grade").removeClass("active");
-                    $("td.test_grade").addClass("active");
-                }
-            }
-            else{
-                $("td.usual_grade").removeClass("active");
+<script src="/swiper/package/js/swiper.min.js"></script>
+<script src="/javascripts/jquery.js"></script>
+<script>
+    $("#change_item").change(function () {
+        var highLight = $('#change_item option:selected').val();
+        var searchVal = $('#search_value').val();
+        var searchType = $('#search_item').val();
+        var getElement = new Array();
+        if (searchType == 'order') {
+            getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
+        }
+        else if (searchType == 'studentID') {
+            getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
+        }
+        else {
+            getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
+        }
+        if (getElement.length == 0) {
+            if (highLight == "usualGrade") {
+                $("td.usual_grade").addClass("active");
                 $("td.homework_grade").removeClass("active");
                 $("td.test_grade").removeClass("active");
-                if(highLight=='usualGrade'){
-                    getElement.siblings('.usual_grade').addClass("active");
-                }
-                else if(highLight=='homeworkGrade'){
-                    getElement.siblings('.homework_grade').addClass("active");
-                }
-                else{
-                    getElement.siblings('.test_grade').addClass("active");
-                }
             }
-        })
-
-        $('#search_value').on('input',function (err) {
-            var highLight = $('#change_item option:selected').val();
-            var searchVal = $('#search_value').val();
-            var searchType = $('#search_item').val();
-            var getElement = new Array();
-            if(searchType == 'order'){
-                getElement = $('td.order_number').filter(":contains('"+searchVal+"')");
+            else if (highLight == "homeworkGrade") {
+                $("td.usual_grade").removeClass("active");
+                $("td.homework_grade").addClass("active");
+                $("td.test_grade").removeClass("active");
             }
-            else if(searchType == 'studentID'){
-                getElement = $('td.student_id').filter(":contains('"+searchVal+"')");
-            }
-            else{
-                getElement = $('td.user_name').filter(":contains('"+searchVal+"')");
-            }
-            if(getElement.length == 0){
-                if(highLight == "usualGrade"){
-                    $("td.usual_grade").addClass("active");
-                    $("td.homework_grade").removeClass("active");
-                    $("td.test_grade").removeClass("active");
-                }
-                else if(highLight == "homeworkGrade"){
-                    $("td.usual_grade").removeClass("active");
-                    $("td.homework_grade").addClass("active");
-                    $("td.test_grade").removeClass("active");
-                }
-                else{
-                    $("td.usual_grade").removeClass("active");
-                    $("td.homework_grade").removeClass("active");
-                    $("td.test_grade").addClass("active");
-                }
-            }
-            else{
+            else {
                 $("td.usual_grade").removeClass("active");
                 $("td.homework_grade").removeClass("active");
-                $("td.test_grade").removeClass("active");
-                if(highLight=='usualGrade'){
-                    getElement.siblings('.usual_grade').addClass("active");
-                }
-                else if(highLight=='homeworkGrade'){
-                    getElement.siblings('.homework_grade').addClass("active");
-                }
-                else{
-                    getElement.siblings('.test_grade').addClass("active");
-                }
+                $("td.test_grade").addClass("active");
             }
-        })
-        
-        $('#search_item').change(function () {
-            $('#search_value').val("");
-            $('#change_item').trigger('change');
-        })
+        }
+        else {
+            $("td.usual_grade").removeClass("active");
+            $("td.homework_grade").removeClass("active");
+            $("td.test_grade").removeClass("active");
+            if (highLight == 'usualGrade') {
+                getElement.siblings('.usual_grade').addClass("active");
+            }
+            else if (highLight == 'homeworkGrade') {
+                getElement.siblings('.homework_grade').addClass("active");
+            }
+            else {
+                getElement.siblings('.test_grade').addClass("active");
+            }
+        }
+    })
 
-        $('#submitChange').click(function () {
-            var highLight = $('#change_item option:selected').val();
-            var searchVal = $('#search_value').val();
-            var searchType = $('#search_item').val();
-            var getElement = new Array();
-            if(searchType == 'order'){
-                getElement = $('td.order_number').filter(":contains('"+searchVal+"')");
+    $('#search_value').on('input', function (err) {
+        var highLight = $('#change_item option:selected').val();
+        var searchVal = $('#search_value').val();
+        var searchType = $('#search_item').val();
+        var getElement = new Array();
+        if (searchType == 'order') {
+            getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
+        }
+        else if (searchType == 'studentID') {
+            getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
+        }
+        else {
+            getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
+        }
+        if (getElement.length == 0) {
+            if (highLight == "usualGrade") {
+                $("td.usual_grade").addClass("active");
+                $("td.homework_grade").removeClass("active");
+                $("td.test_grade").removeClass("active");
             }
-            else if(searchType == 'studentID'){
-                getElement = $('td.student_id').filter(":contains('"+searchVal+"')");
+            else if (highLight == "homeworkGrade") {
+                $("td.usual_grade").removeClass("active");
+                $("td.homework_grade").addClass("active");
+                $("td.test_grade").removeClass("active");
             }
-            else{
-                getElement = $('td.user_name').filter(":contains('"+searchVal+"')");
+            else {
+                $("td.usual_grade").removeClass("active");
+                $("td.homework_grade").removeClass("active");
+                $("td.test_grade").addClass("active");
             }
-            if(getElement.length==0){
-                alert("找不到对应的学生");
+        }
+        else {
+            $("td.usual_grade").removeClass("active");
+            $("td.homework_grade").removeClass("active");
+            $("td.test_grade").removeClass("active");
+            if (highLight == 'usualGrade') {
+                getElement.siblings('.usual_grade').addClass("active");
             }
-            else{
-                var studentID;
-                if(searchType == 'studentID'){
-                    studentID=searchVal;
-                }
-                else{
-                    studentID=getElement.siblings('.student_id').text();
-                }
-                $.ajax({
-                    dataType: "json",
-                    type: "post",
-                    url: "./gradeChange",
-                    data: {
-                        changeItem:highLight,
-                        studentID:studentID,
-                        newScore:$('#change_value').val()
-                    },
-                    success: (data) => {
-                        if (data.status) {
-                            alert("修改成功！");
-                            window.location.reload();
-                        } else {
-                            alert("修改失败！");
-                        }
-                    },
-                    error: (err) => {
-                        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+            else if (highLight == 'homeworkGrade') {
+                getElement.siblings('.homework_grade').addClass("active");
+            }
+            else {
+                getElement.siblings('.test_grade').addClass("active");
+            }
+        }
+    })
+
+    $('#search_item').change(function () {
+        $('#search_value').val("");
+        $('#change_item').trigger('change');
+    })
+
+    $('#submitChange').click(function () {
+        var highLight = $('#change_item option:selected').val();
+        var searchVal = $('#search_value').val();
+        var searchType = $('#search_item').val();
+        var getElement = new Array();
+        if (searchType == 'order') {
+            getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
+        }
+        else if (searchType == 'studentID') {
+            getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
+        }
+        else {
+            getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
+        }
+        if (getElement.length == 0) {
+            alert("找不到对应的学生");
+        }
+        else {
+            var studentID;
+            if (searchType == 'studentID') {
+                studentID = searchVal;
+            }
+            else {
+                studentID = getElement.siblings('.student_id').text();
+            }
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: "./gradeChange",
+                data: {
+                    changeItem: highLight,
+                    studentID: studentID,
+                    newScore: $('#change_value').val()
+                },
+                success: (data) => {
+                    if (data.status) {
+                        alert("修改成功！");
+                        window.location.reload();
+                    } else {
+                        alert("修改失败！");
                     }
-                });
-            }
-        })
-    </script>
+                },
+                error: (err) => {
+                    $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+                }
+            });
+        }
+    })
+</script>
+
 </html>

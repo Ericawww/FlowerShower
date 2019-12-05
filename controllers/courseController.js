@@ -40,6 +40,9 @@ exports.getCourseInfo = async (req, res) => {
     }
 }
 
+/**
+ * 旧版班级成绩查看
+ */
 
 // exports.getGrade = async (req, res) => {
 //     var ret = await Course.prototype.getCourseGrade('01');
@@ -80,6 +83,9 @@ exports.getCourseInfo = async (req, res) => {
 //     }
 // }
 
+/**
+ * 新版班级成绩查看
+ */
 exports.getGrade = async (req, res) => {
     var getClassID = req.params.classID;
     var ret = await Course.prototype.getCourseGrade(getClassID);
@@ -129,8 +135,11 @@ exports.getGrade = async (req, res) => {
     }
 }
 
+/**
+ * 班级成绩修改的查找
+ */
 exports.gradeChange = async (req, res) => {
-    var ret = await Course.prototype.getCourseGrade('000001');
+    var ret = await Course.prototype.getCourseGrade(req.params.classid);
     if (ret == null) {
         alert("数据库异常！")
         res.end();
@@ -138,15 +147,25 @@ exports.gradeChange = async (req, res) => {
         alert("还没有学生有该课程成绩录入！")
         res.end();
     } else {
-        var totalNumber = ret.length;
+        var totalNumber = ret.takeTwoGrade.length;
         var totalStudentGrade = new Array();
-        for (var i = 0; i < ret.length; i++) {
-            totalStudentGrade[i] = ret[i].usualGrade + ret[i].homeworkGrade + ret[i].testGrade;
+        var userNameList = new Array();
+
+        for (var i = 0; i < ret.takeTwoGrade.length; i++) {
+            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) + parseFloat(ret.takeTwoGrade[i].examGrade) + parseFloat(ret.homeworkGrade[i]);
             totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
+            var returnName = await Course.prototype.getStudentName(ret.takeTwoGrade[i].studentID);
+            if (returnName.length == 1) {
+                userNameList[i] = returnName[0].userName;
+            }
+            else {
+                userNameList[i] = '定义错误';
+            }
         }
         res.render('courses/courseGradeChange', {
             data: ret,
-            studentTotalGrade: totalStudentGrade
+            studentTotalGrade: totalStudentGrade,
+            userNameList: userNameList
         });
     }
 }
