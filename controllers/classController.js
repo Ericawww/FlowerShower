@@ -130,9 +130,10 @@ exports.getTalk = async (req, res) => {
  */
 exports.writeTalk = async (req, res) => {
   var ret = await Talk.prototype.writeTalk(
+    req.params.classID,
+    1, //req.session.token.userID,
     req.body.title,
-    req.body.content,
-    req.body.time
+    req.body.content
   );
   if (ret) {
     res.send({ status: 1 }).end();
