@@ -53,33 +53,34 @@
 
   <!-- 课程信息 -->
   <div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">操作系统</h2>
-          <div class="description">
-            2019-2020秋冬 计算机科学与技术学院
-          </div>
-          <h5 class="ui header">授课老师</h5>
-          <div class="description">
-            夏莹杰
+        <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+          <div class="ui stackable inverted divided equal height stackable grid">
+            <div class="eight wide column">
+              <h2 class="ui header"><%= classHeader.courseName %></h2>
+              <div class="description">
+                <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+                <p> <%= classHeader.courseDept %></p>
+              </div>
+              <h5 class="ui header">授课老师</h5>
+              <div class="description">
+                <%= classHeader.userName %>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- 课程信息 -->
+      <!-- 课程信息 -->
 
   <!-- 作业详情 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
         <div class="ui basic segment">
-            <button class="ui labeled icon button" onclick="javascript:window.location.href='./teacherHomeworkListPage'">
-                <i class="chevron left icon"></i>返回
+            <button class="ui labeled icon button">
+                <i class="chevron left icon"></i><a href = "../all" style="color: #000000;">返回</a>
             </button>
         </div>
         <div class="ui basic segment">
-            <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+            <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
         </div>
         <div class="ui basic segment">
             <div class="ui tabular menu">
@@ -100,8 +101,10 @@
                 </div>  
                 <div class="column">
                     <div class="homework weight" style="line-height: 30px;">5.0%</div>
-                    <div class="homework begintime" style="line-height: 30px;">2019-11-30 21:00</div>
-                    <div class="homework type" style="line-height: 30px;">个人作业</div>
+                    <div class="homework begintime" style="line-height: 30px;"><%= dateFormat(hwInfo.startTime) %></div>
+                    <div class="homework type" style="line-height: 30px;"><% if(hwInfo.isGroupWork==0) { %>个人作业
+                        <% } else { %> 小组作业
+                      <% } %></div>
                 </div>
                 <div class="column"></div>
                 <div class="column">   
@@ -110,9 +113,8 @@
                     <div class="homework goal description" style="line-height: 30px;"><b>完成指标</b></div>
                 </div>
                 <div class="column">
-                    <div class="homework fullmark" style="line-height: 30px;">10</div>
-                    <div class="homework endtime" style="line-height: 30px;">2019-12-15 22:00</div>
-                    <div class="homework goal" style="line-height: 30px;">提交作业</div>
+                    <div class="homework fullmark" style="line-height: 30px;"><%= hwInfo.mark %></div>
+                    <div class="homework endtime" style="line-height: 30px;"><%= dateFormat(hwInfo.closeTime) %></div>
                 </div>
             </div>
         </div>
@@ -132,9 +134,7 @@
             </div>
         </div>
         <div class="ui basic segment">
-            <p style="margin-left: 15px;">1.分析Linux的task_struct；</p>
-            <p style="margin-left: 15px;">2.分析Linux进程创建do_fork函数；</p>
-            <p style="margin-left: 15px;">3.分析Linux进程调度schedule函数。</p>
+            <p style="margin-left: 15px;"><%- hwInfo.description %></p>
         </div>
     </div>
   </div>

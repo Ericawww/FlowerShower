@@ -72,8 +72,9 @@ exports.getStuAllHw = async (req, res) => {
  */
 exports.getStuHwDetail = async (req, res) => {
     //dev---fake session
-    req.session.token = await config.getToken('9999', '123')
-    var hwInfo = await Homework.prototype.getHwInfo({ hwID: req.params.hw, stuID: req.session.token.userID });
+    req.session.token = await config.getToken('9999', '123');
+    console.log(req.session.token.userID);
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw, req.session.token.userID);
     res.render('homework/studentHomeworkDetail', { hwInfo: hwInfo });
 }
 
@@ -82,7 +83,7 @@ exports.getStuHwDetail = async (req, res) => {
  * 
  */
 exports.getStuHwSituation = async (req, res) => {
-    var hwInfo = await Homework.prototype.getHwInfo({ hwID: req.params.hw });
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
     res.render('homework/studentHomeworkSituation', { hwInfo: hwInfo });
 }
 
@@ -94,10 +95,25 @@ exports.getStuHwComplain = async (req, res) => {
 };
 
 /**
+ * 提交申诉
+ */
+exports.submitComplain = async (req, res) => {
+    //插入该条complain数据，似乎也没啥好验证的
+    var ret = await Homework.prototype.submitComplain(req.session.token.userID,req.params.hw,req.body.reason);
+    if (ret == 0) {
+        res.send({ status: 0, msg: "异常，请重试。" }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
+};
+
+/**
  * 跳转至提交页面，需要一点信息
  */
 exports.getStuHwSubmit = async (req, res) => {
-    var hwInfo = await Homework.prototype.getHwInfo({ hwID: req.params.hw });
+    req.session.token = await config.getToken('9999', '123');
+    console.log(req.session.token.userID);
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
     res.render('homework/studentHomeworkSubmit', { hwInfo: hwInfo });
 }
 

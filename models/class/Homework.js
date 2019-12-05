@@ -7,17 +7,19 @@ class Homework {
     }
 
     /**
-     * 学生申诉成绩功能（！！未添加进数据库  参数缺少课程名 学生名等）
+     * 学生申诉成绩功能
      * 
      * @param {String} reason 申诉原因
-     * @param {String} contact 学生的联系方式，可以是邮箱或电话号码
+     * @param {String} stuID
+     * @param {String} hwID
      * @return {int} 如果成功返回1，出错则返回0
      */
-    async writeComplain(reason, contact) {
+    async submitComplain(stuID,hwID,reason) {
         try {
             var conn = await pool.getConnection();
-            await conn.query("insert into msgboard(reason, contact) values(?, ?)", [reason, contact]);
-            return 1;
+            console.log(reason,contact);
+            var res = await conn.query("update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ", [reason, hwID,stuID]);
+           return 1;
         } catch (err) {
             console.log(err);
             return 0;
@@ -71,7 +73,7 @@ class Homework {
         }
     }
     /**
-     * 得到作业的详细信息，若传入stuID则返回
+     * 得到作业的详细信息，
      * @param {string} hwID
      * @param {string} stuID
      * @return {Array} 返回作业的详细信息,出错为null-返回的是一条记录
@@ -80,10 +82,19 @@ class Homework {
     {
         try{
             var conn = await pool.getConnection();
+            console.log(stuID);
+            if(stuID != undefined){
             //需要注意：未提交过的作业不存在与class_project_score，此时相关的列的值均为NULL，列名均为
-            var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID where class_project.classProjectID = 2 and (class_project_score.studentID is null or class_project_score.studentID = ?)", [hwID,stuID]);
-            console.log(ret[0][0]);//TEST：看下null到底显示成了啥
-            return ret[0][0];
+                var params = [hwID,stuID];
+                var sql="select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
+                where class_project.classProjectID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)";
+                var ret = await conn.query(sql,params);
+            }
+            else{
+                 var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID where class_project.classProjectID = ?", [hwID]);
+            }
+           console.log(ret[0][0]);//TEST：看下null到底显示成了啥
+         return ret[0][0];
         } catch (err) {
             console.log(err);
             return null;
