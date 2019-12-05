@@ -152,7 +152,7 @@ class Course {
     /**
      * 获得一个班级的所有成绩
      * 
-     * @param {String} classID
+     * @param {string} classID
      * @return {Struct} data 包括这个班级所有学生各项成绩的数据项 
      */
     async getCourseGrade(classID) {
@@ -255,6 +255,24 @@ class Course {
                     [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
             return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 
+     * @param {string} classID
+     * @return {Array} ret 返回获取到的课程成绩比重的数组，如果出现异常返回null
+     */
+    async getGradeWeight(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select projectWeight,examWeight,usualWeight from class where classID = ?", [classID]);
+            return ret[0];
         } catch (err) {
             console.log(err);
             return null;

@@ -92,10 +92,11 @@ exports.getGrade = async (req, res) => {
     if (ret == null) {
         alert("数据库异常！")
         res.end();
-    } else if (ret.length == 0) {
+    } else if (ret.takeTwoGrade.length == 0) {
         alert("还没有学生有该课程成绩录入！")
         res.end();
     } else {
+        var gradeWeight = await Course.prototype.getGradeWeight(getClassID);
         var totalNumber = ret.takeTwoGrade.length;
         var avgUsualGrade = 0;
         var avgHomeworkGrade = 0;
@@ -105,8 +106,10 @@ exports.getGrade = async (req, res) => {
         var userNameList = new Array();
 
         for (var i = 0; i < ret.takeTwoGrade.length; i++) {
-            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) + parseFloat(ret.takeTwoGrade[i].examGrade) + parseFloat(ret.homeworkGrade[i]);
-            totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
+            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) * parseFloat(gradeWeight[0].usualWeight) / 100
+                + parseFloat(ret.takeTwoGrade[i].examGrade) * parseFloat(gradeWeight[0].examWeight) / 100
+                + parseFloat(ret.homeworkGrade[i]) * parseFloat(gradeWeight[0].projectWeight) / 100;
+            totalStudentGrade[i] = (totalStudentGrade[i]).toFixed(2);
             avgUsualGrade += ret.takeTwoGrade[i].usualGrade;
             avgHomeworkGrade += parseFloat(ret.homeworkGrade[i]);
             avgTestGrade += ret.takeTwoGrade[i].examGrade;
