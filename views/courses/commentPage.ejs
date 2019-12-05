@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>高校教学管理平台</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+    <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+    <style type="text/css">
+      body {
+        background-color: #eeeeee;
+      }
+
+      .footer.segment {
+        padding: 5em 0em;
+      }
+
+      .course-title {
+        font-weight: bold;
+        font-size: medium;
+        font-family: "黑体";
+        margin: 8px 16px;
+      }
+
+      .course-info {
+        font-family: "微软雅黑";
+        margin: 8px 16px;
+      }
+
+      .user-title {
+        text-align: center;
+        font-size: large;
+        font-family: "微软雅黑";
+        font-size: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 导航栏 -->
+    <div class="ui menu" style="padding: 15px;">
+      <a href="" style="display: flex; left: auto; margin-left: 30%;"
+        ><img src="/images/logo.png"
+      /></a>
+      <div class="right menu" style="margin-right: 20%;">
+        <div class="item">
+          <div class="ui action left icon input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="搜索感兴趣的课程" />
+            <button class="ui positive button">搜索</button>
+          </div>
+        </div>
+        <a class="item">使用教程</a>
+        <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
+        <% if (token != null) { %>
+        <div class="item image" style="background: none;">
+          <div class="ui icon top right pointing dropdown" id="photo-drop">
+            <% if (token.userPhoto != null) { %>
+            <img
+              class="ui circular image"
+              src="<%= token.userPhoto %>"
+              style="width:32px;"
+            />
+            <% } else { %>
+            <img
+              class="ui circular image"
+              src="/images/user.png"
+              style="width:32px;"
+            />
+            <% } %>
+            <div class="menu">
+              <div class="item" onclick="clickItem(2)">个人中心</div>
+              <div class="item" onclick="clickItem(1)">设置</div>
+              <div class="item" onclick="clickItem(0)">注销</div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+    <!-- 导航栏 -->
+
+    <!-- 课程信息 -->
+    <div class="ui container">
+      <div
+        class="ui segment"
+        style="margin-top:10px;background-color: rgb(220,220,220);"
+      >
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="four wide column">
+            <h2 class="ui header">程序设计方法学</h2>
+            <div class="description">
+              2019-2020秋 计算机科学与技术学院
+            </div>
+            <h5 class="ui header">授课老师</h5>
+            <div class="description">
+              翁恺
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 课程信息 -->
+
+    <!-- 课程水平菜单 -->
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui six item menu">
+        <a class="content">
+          <a class="item" href="javascript:window.location.href='./notice'"">
+            <i class="bell outline icon"></i>
+            公告
+          </a>
+          <a class="item">
+            <i class="folder outline icon"></i>
+            课件
+          </a>
+          <a class="item">
+            <i class="pencil alternate icon"></i>
+            作业
+          </a>
+          <a class="item">
+            <i class="users icon"></i>
+            分组学习
+          </a>
+          <a class="item">
+            <i class="clipboard outline icon"></i>
+            成绩
+          </a>
+          <a class="item" href="javascript:window.location.href='./talk'">
+            <i class="comment outline icon"></i>
+            讨论
+          </a>
+        </a>
+      </div>
+    </div>
+    <!-- 课程水平菜单 -->
+
+    <!--返回键-->
+    <div class="ui container" style="margin-top:10px;">
+        <button class="ui positive button" name = "return" onclick="window.location.href = document.referrer;">
+          <i class="reply icon"></i>
+          返回
+        </button>
+      </div>
+    <!--返回键-->
+
+    <!--帖子详情-->
+    <div class="ui container" style="margin-top:10px;">
+        <h3 class="ui top attached header">
+          帖子标题
+          </h3>
+          <div class="ui attached segment">
+            <a class="author">帖子发布者</a>
+            <div class="metadata">
+              <span class="date">发布于</span>
+            </div>
+          </div>
+          <div class="ui attached segment">具体内容</div>
+    </div>
+    <!--帖子详情-->
+  
+    <!--评论详情-->
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui segment">
+        <span>共x条回复</span>
+        <div class="ui divider"></div>
+        <div class="ui comments">
+            <h3 class="ui dividing header">评论</h3>
+            <div class="comment">
+              <a class="avatar">
+                <img src="/images/christian.jpg">
+              </a>
+              <div class="content">
+                <a class="author">发布者</a>
+                <div class="metadata">
+                  <span class="date">发布于</span>
+                </div>
+                <div class="text">
+                  发布内容
+                </div>
+              </div>
+            </div>
+            <form class="ui reply form">
+              <div class="field">
+                <textarea></textarea>
+              </div>
+              <div class="ui blue labeled submit icon button">
+                <i class="icon edit"></i> 添加回复
+              </div>
+            </form>
+          </div>
+      </div>
+    </div>
+    <!--评论详情-->
+  </body>
+
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script src="/javascripts/common.js"></script>
+  <script src="/javascripts/check.js"></script>
+  <script src="https://cdn.bootcss.com/cropper/3.1.3/cropper.min.js"></script>
+  <script src="/javascripts/users/index.js"></script>
+  <script>
+  </script>
+</html>
