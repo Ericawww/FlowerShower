@@ -180,20 +180,21 @@
       date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(); %>
         <div class="ui segment">
           <div class="ui grid">
-            <div class="three wide column" style="background-color:rgb(32, 114, 178);">
+            <div class="three wide column" style="background-color:rgb(122, 146, 194);">
               <img class="ui avatar tiny image" src="/images/christian.jpg">
-              <span style="font-size:larger;">用户昵称</span>
+              <span style="font-size:larger; color:#eeeeee">用户昵称</span>
             </div>
             <div class="ten wide column">
               <p style="height: 45px;display: block;line-height: 45px;">
-                <span style="font-size:x-large;"><%= talk.title %></span></p>
+                <span style="font-size:x-large;"><a href="javascript:window.location.href='./talk/comment'"><%= talk.title %></a></span>
+              </p>
               <div class="metadata">
-                <div class = "ui grid">
+                <div class="ui grid">
                   <div class="five wide column">
                     <span class="date"><i class="clock outline icon"></i><%= time %></span>
                   </div>
-                  <div class = "eleven wide column">
-                      <span><i class="comment alternate outline icon">100</i></span>
+                  <div class="eleven wide column">
+                    <span><i class="comment alternate outline icon">100</i></span>
                   </div>
                 </div>
               </div>
@@ -260,7 +261,7 @@
       alert("标题不能为空！");
       return;
     }
-    
+
     $.ajax({
       dataType: "json",
       type: "post",
