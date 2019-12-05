@@ -215,3 +215,22 @@ exports.setGradeChange = async (req, res) => {
         res.send({ status: 0 }).end();
     }
 }
+
+/**
+ * 各项成绩比重修改
+ */
+exports.setGradeWeightChange = async (req, res) => {
+    var sql = {
+        classID: req.params.classid,
+        newUsualWeight: req.body.newUsualWeight,
+        newProjectWeight: req.body.newProjectWeight,
+        newExamWeight: req.body.newExamWeight
+    }
+    var ret = await Course.prototype.updateGradeWeight(sql);
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    }
+    else {
+        res.send({ status: 0 }).end();
+    }
+}

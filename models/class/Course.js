@@ -280,6 +280,25 @@ class Course {
             conn.release();
         }
     }
+
+    /**
+     * 更新各项成绩的比重
+     * 
+     * @param {struct} sql 
+     */
+    async updateGradeWeight(sql) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("update class set projectWeight = ? , examWeight = ? , usualWeight = ? where classID = ?",
+            [parseInt(sql.newProjectWeight),parseInt(sql.newExamWeight),parseInt(sql.newUsualWeight),sql.classID]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = Course;

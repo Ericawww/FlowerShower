@@ -183,8 +183,31 @@
     <script src="/javascripts/jquery.js"></script>
     <script src="/dist/semantic.min.js"></script>
     <script>
-        $('#changeWeight').click(function(){
-            
+        $('#changeWeight').click(function () {
+            var newUsualWeight = $('#usualWeightValue').val();
+            var newProjectWeight = $('#projectWeightValue').val();
+            var newExamWeight = $('#examWeightValue').val();
+            $.ajax({
+                dataType: "json",
+                type: "post",
+                url: "./gradeWeightChange",
+                data: {
+                    newUsualWeight: newUsualWeight,
+                    newProjectWeight: newProjectWeight,
+                    newExamWeight: newExamWeight
+                },
+                success: (data) => {
+                    if (data.status) {
+                        alert("修改成功！");
+                        window.location.reload();
+                    } else {
+                        alert("修改失败！");
+                    }
+                },
+                error: (err) => {
+                    $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+                }
+            });
         })
 
         $('.check_input').on('input', function (err) {
