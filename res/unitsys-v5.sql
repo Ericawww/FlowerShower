@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80017
 File Encoding         : 65001
 
-Date: 2019-12-05 18:49:13
+Date: 2019-12-05 19:07:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -206,6 +206,25 @@ INSERT INTO `class_project_score` VALUES ('4', '2222', null, null, null, '1', nu
 INSERT INTO `class_project_score` VALUES ('4', '3333', null, null, null, '1', null, null, null);
 
 -- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `commentID` int(32) NOT NULL AUTO_INCREMENT,
+  `talkID` varchar(32) NOT NULL,
+  `userID` varchar(32) NOT NULL,
+  `content` varchar(512) NOT NULL,
+  `time` timestamp(6) NOT NULL,
+  PRIMARY KEY (`commentID`),
+  KEY `talkID` (`talkID`),
+  CONSTRAINT `comment2talk` FOREIGN KEY (`talkID`) REFERENCES `talk` (`talkID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of comment
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for course
 -- ----------------------------
 DROP TABLE IF EXISTS `course`;
@@ -250,19 +269,17 @@ INSERT INTO `msgboard` VALUES ('2', 'hhhh', '123');
 -- ----------------------------
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice` (
-  `noticeID` int(11) NOT NULL AUTO_INCREMENT,
-  `courseID` int(11) NOT NULL,
-  `time` timestamp(6) NOT NULL,
+  `noticeID` int(32) NOT NULL AUTO_INCREMENT,
+  `courseID` varchar(32) NOT NULL,
+  `time` datetime(6) NOT NULL,
   `content` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `title` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`noticeID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
 -- Records of notice
 -- ----------------------------
-INSERT INTO `notice` VALUES ('1', '1', '2019-11-30 22:21:41.000000', 'hahahaha');
-INSERT INTO `notice` VALUES ('2', '1', '2019-11-30 22:11:08.000000', '123');
-INSERT INTO `notice` VALUES ('3', '1', '2019-11-30 22:23:33.000000', 'boring');
 
 -- ----------------------------
 -- Table structure for take
@@ -291,6 +308,24 @@ INSERT INTO `take` VALUES ('4444', 'Class01', null, null);
 INSERT INTO `take` VALUES ('5555', 'Class01', null, null);
 INSERT INTO `take` VALUES ('6666', 'Class01', null, null);
 INSERT INTO `take` VALUES ('7777', 'Class01', null, null);
+
+-- ----------------------------
+-- Table structure for talk
+-- ----------------------------
+DROP TABLE IF EXISTS `talk`;
+CREATE TABLE `talk` (
+  `talkID` varchar(32) NOT NULL,
+  `courseID` varchar(32) NOT NULL,
+  `userID` varchar(32) NOT NULL,
+  `title` varchar(64) NOT NULL,
+  `content` varchar(512) NOT NULL,
+  `time` timestamp(6) NOT NULL,
+  PRIMARY KEY (`talkID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of talk
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for teacher_info
