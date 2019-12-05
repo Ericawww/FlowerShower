@@ -97,14 +97,17 @@
                     </div>
                 </div>
                 <div class="one wide column"></div>
-                <div class="two wide column">
-                    <button class="ui blue button" id="submitChange">提交修改</button>
+                <div class="three wide column">
+                    <button class="ui green button" id="changeAlgorithm">修改总成绩算法</button>
                 </div>
+                <div class="one wide column"></div>
+                <div class="three wide column">
+                    <button class="ui blue button" id="submitChange">提交成绩修改</button>
+                </div>
+
             </div>
         </div>
-
     </div>
-
 
     <div class="ui container" style="margin-top: 10px">
 
@@ -139,9 +142,68 @@
         </table>
     </div>
 
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="archive icon"></i>
+            修改成绩构成算法(%)
+        </div>
+        <div class="content">
+            <div class="ui grid">
+                <div class="ui left action input">
+                    <div class="ui large green horizontal label" style="text-align: center;padding: 10px;">平时成绩</div>
+                    <input type="text" value="<%= gradeWeight.usualWeight %>" style="width: 180px;" class="check_input"
+                        id="usualWeightValue">
+                </div>
+                <div class="ui left action input">
+                    <div class="ui large green horizontal label" style="text-align: center;padding: 10px;">作业成绩</div>
+                    <input type="text" value="<%= gradeWeight.projectWeight %>" style="width: 180px;"
+                        class="check_input" id="projectWeightValue">
+                </div>
+                <div class="ui left action input">
+                    <div class="ui large green horizontal label" style="text-align: center;padding: 10px;">考试成绩</div>
+                    <input type="text" value="<%= gradeWeight.examWeight %>" style="width: 180px;" class="check_input"
+                        id="examWeightValue">
+                </div>
+                <p style="padding: 20px;visibility:hidden;" id="weight_err_info">三项权值的和不为100!</p>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                取消
+            </div>
+            <div class="ui green ok inverted button" id="changeWeight">
+                <i class="checkmark icon"></i>
+                提交
+            </div>
+        </div>
+    </div>
+
     <script src="/swiper/package/js/swiper.min.js"></script>
     <script src="/javascripts/jquery.js"></script>
+    <script src="/dist/semantic.min.js"></script>
     <script>
+        $('#changeWeight').click(function(){
+            
+        })
+
+        $('.check_input').on('input', function (err) {
+            var usualWeight = $('#usualWeightValue').val();
+            var projectWeight = $('#projectWeightValue').val();
+            var examWeight = $('#examWeightValue').val();
+            var totalWeight = parseInt(usualWeight) + parseInt(projectWeight) + parseInt(examWeight);
+            if (totalWeight != 100) {
+                $('#weight_err_info').css("visibility", "visible");
+                $('.ui.large.horizontal.label').removeClass("green").addClass("red");
+                $('#changeWeight').addClass("disabled");
+            }
+            else {
+                $('#weight_err_info').css("visibility", "hidden");
+                $('.ui.large.horizontal.label').removeClass("red").addClass("green");
+                $('#changeWeight').removeClass("disabled");
+            }
+        })
+
         $("#change_item").change(function () {
             var highLight = $('#change_item option:selected').val();
             var searchVal = $('#search_value').val();
@@ -289,6 +351,13 @@
                 });
             }
         })
+
+        $('#changeAlgorithm').click(function () {
+            $('.ui.modal')
+                .modal('show')
+                ;
+        })
+
     </script>
 
 </body>

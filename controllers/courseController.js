@@ -171,7 +171,8 @@ exports.gradeChange = async (req, res) => {
         res.render('courses/courseGradeChange', {
             data: ret,
             studentTotalGrade: totalStudentGrade,
-            userNameList: userNameList
+            userNameList: userNameList,
+            gradeWeight: gradeWeight[0]
         });
     }
 }
