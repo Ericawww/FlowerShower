@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>教学班管理 | 高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.min.css">
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .box {
+      margin: 60px 10% 100px 20%;
+    }
+
+    .pointer {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ui right blue sidebar vertical menu">
+    <div class="item">
+      <div class="header">课程号</div>
+      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('courseNumber', this)">
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">课程名称</div>
+      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('courseName', this)">
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">开课学院</div>
+      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('courseDept', this)">
+      </div>
+    </div>
+  </div>
+
+  <div class="pusher">
+    <div class="ui left fixed vertical menu inverted ">
+      <h2 class="item" style="padding:8%; margin-bottom: 30px; margin-top:30px;">后台管理</h2>
+      <a class="item" href="/admin"><i class="user off icon"></i>用户管理</a>
+      <a class="item" href="/admin/course"><i class="book icon"></i>课程管理</a>
+      <a class="item active" href=""><i class="building icon"></i>教学班管理</a>
+      <a class="item"><i class="cog icon"></i>系统设置</a>
+      <a class="item" href="/logout"><i class="power off icon"></i>退出登录</a>
+    </div>
+
+    <div class="box">
+      <div class="ui segment">
+        <h3>教学班列表</h3>
+      </div>
+      <table class="ui celled padded table class-table">
+        <thead>
+          <tr>
+            <th colspan="9">
+              <div class="ui right floated small labeled icon red button" id="deleteClassBtn">
+                <i class="trash alternate icon"></i> 删除教学班
+              </div>
+              <div class="ui right floated small primary labeled icon button">
+                <i class="book icon" onclick="showClassModal()"></i> 添加教学班
+              </div>
+              <div class="ui right floated small teal labeled icon button" id="selectClassBtn">
+                <i class="search icon"></i> 筛选
+              </div>
+              <!-- <div>
+                <a href="javascript:showModal()">test</a>
+              </div> -->
+            </th>
+          </tr>
+          <tr>
+            <th></th>
+            <th>classID</th>
+            <th>teacherID</th>
+            <th>studentNumber</th>
+            <th>startTime</th>
+            <th>closeTime</th>
+            <th>Operation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="collapsing">
+              <div class="ui fitted slider checkbox">
+                <input type="checkbox"> <label></label>
+              </div>
+            </td>
+            <td>${classID}</td>
+            <td>${teacherID}</td>
+            <td>${studentNumber}</td>
+            <td>${startTime}</td>
+            <td>${closeTime}</td>
+            <td>
+              <i class="edit outline icon pointer" onclick="showClassModal()"></i>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="7" class="middle aligned">
+              <div class="ui right floated pagination menu">
+                <a class="icon item">
+                  <i class="left chevron icon"></i>
+                </a>
+                <a class="item">1</a>
+                <a class="item">2</a>
+                <a class="item">3</a>
+                <a class="item">4</a>
+                <a class="icon item">
+                  <i class="right chevron icon"></i>
+                </a>
+              </div>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="ui modal small import">
+
+  </div>
+
+  <!--添加修改教学班模态框 对应onclick="showClassModal()"
+  title可以为添加教学班或修改教学班
+  action可以为addClass()或updateClass();
+  放到js里-->
+  <div class="ui modal">
+    <div class="header">${title}</div>
+    <div class="scrolling content">
+      <form class="ui form">
+        <div class="field">
+          <label>ClassID</label>
+          <input type="text" name="classID" value="${classID == null ? "" : classID}"
+            onchange="currentClass.classID = $(this).val()">
+        </div>
+        <div class="field">
+          <label>TeacherID</label>
+          <input type="text" name="teacherID" value="${teacherID == null ? "" : teacherID}"
+            onchange="currentClass.teacherID = $(this).val()">
+        </div>
+        <div class="field">
+          <label>StudentNumber</label>
+          <input type="text" name="studentNumber" value="${studentNumber == null ? "" : studentNumber}"
+            onchange="currentClass.studentNumber = $(this).val()">
+        </div>
+        <div class="field">
+          <label>StartTime</label>
+          <input type="text" name="startTime" value="${startTime == null ? "" : startTime}"
+            onchange="currentClass.startTime = $(this).val()">
+        </div>
+        <div class="field">
+          <label>CloseTime</label>
+          <input type="text" name="closeTime" value="${closeTime == null ? "" : closeime}"
+            onchange="currentClass.closeime = $(this).val()">
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">关闭</div>
+      <div class="ui green button" onclick="${action}">提交</div>
+    </div>
+  </div>
+
+  <!-- <div class="ui modal">
+    <div class="header">${title}</div>
+    <div class="scrolling content">
+      <form class="ui form">
+        <div class="field">
+          <label>ClassID</label>
+          <input type="text" name="classID">
+        </div>
+        <div class="field">
+          <label>TeacherID</label>
+          <input type="text" name="teacherID">
+        </div>
+        <div class="field">
+          <label>StudentNumber</label>
+          <input type="text" name="studentNumber">
+        </div>
+        <div class="field">
+          <label>StartTime</label>
+          <input type="text" name="startTime">
+        </div>
+        <div class="field">
+          <label>CloseTime</label>
+          <input type="text" name="closeime">
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">关闭</div>
+      <div class="ui green button">提交</div>
+    </div>
+  </div> -->
+
+  <!--删除教学班模态框-->
+  <div class="ui modal delete">
+    <div class="header">删除</div>
+    <div class="content">
+      <p>确定要删除选中的<strong>5</strong>个教学班吗？</p>
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">取消</div>
+      <div class="ui approve red button" onclick="deleteClass()">确定</div>
+    </div>
+  </div>
+  <!--删除教学班模态框-->
+
+</body>
+
+<script src="/javascripts/jquery.js"></script>
+<script src="/javascripts/common.js"></script>
+<script src="/javascripts/check.js"></script>
+<script src="/dist/semantic.min.js"></script>
+
+<!-- <script>
+  var showModal = () => {
+    $('.ui.modal').modal('show');
+  }
+</script> -->
+
+</html>

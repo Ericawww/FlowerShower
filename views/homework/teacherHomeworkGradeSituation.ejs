@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .course-title {
+      font-weight: bold;
+      font-size: medium;
+      font-family: "黑体";
+      margin: 8px 16px;
+    }
+
+    .course-info {
+      font-family: "微软雅黑";
+      margin: 8px 16px;
+    }
+
+    .user-title {
+      text-align: center;
+      font-size: large;
+      font-family: "微软雅黑";
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 导航栏 -->
+  <div class="ui inverted menu" style="padding: 1px;">
+    <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
+    <div class="right menu" style="margin-right: 20%;">
+      <div class="item"><i class="bell outline icon"></i></div>
+      <a class="item">我的主页</a>
+      <a class="item">夏莹杰</a>
+    </div>
+  </div>
+  <!-- 导航栏 -->
+
+  <!-- 课程信息 -->
+  <div class="ui container">
+    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="four wide column">
+          <h2 class="ui header">操作系统</h2>
+          <div class="description">
+            2019-2020秋冬 计算机科学与技术学院
+          </div>
+          <h5 class="ui header">授课老师</h5>
+          <div class="description">
+            夏莹杰
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 课程信息 -->
+
+  <!-- 作业成绩情况 -->
+  <div class="ui container" style="margin-top:10px;">
+    <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+      <div class="ui basic segment">
+        <button class="ui labeled icon button" onclick="javascript:window.location.href='./teacherHomeworkListPage'">
+          <i class="chevron left icon"></i>返回
+        </button>
+      </div>
+      <div class="ui basic segment">
+        <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+      </div>
+      <div class="ui basic segment">
+        <div class="ui tabular menu">
+          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkDetail'">作业详情</a>
+          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkSubmitSituation'">作业上交情况</a>
+          <a class="item active">作业成绩情况</a>
+          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkDealComplain'">处理成绩申诉</a>
+        </div>
+      </div>
+      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
+        <div class="ui six column grid">
+          <div class="row">
+            <div class="column">
+              <div class="class student number description" style="line-height: 30px;"><b>班级学生人数</b></div>
+            </div>
+            <div class="column">
+              <div class="class student number" style="line-height: 30px;">50</div>
+            </div>
+            <div class="column">
+              <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
+            </div>
+            <div class="column">
+              <div class="homework fullmark" style="line-height: 30px;">10</div>
+            </div>
+            <div class="column">
+              <div class="class average score description" style="line-height: 30px;"><b>班级平均分</b></div>
+            </div>
+            <div class="column">
+              <div class="class average score" style="line-height: 30px;">8.25</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui basic segment">
+        <div class="box">
+          <table class="ui celled padded table">
+            <thead>
+              <tr>
+                <th></th>
+                <th style="width:60px;text-align: center;">序号</th>
+                <th style="width:120px;text-align: center;">学号</th>
+                <th style="width:120px;text-align: center;">姓名</th>
+                <th style="width:140px;text-align: center;">批改时间</th>
+                <th style="width:100px;text-align: center;">作业成绩</th>
+                <th style="width:auto;text-align: center;word-wrap:break-word;word-break:break-all;">评语</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td style="text-align: center;">1</td>
+                <td style="text-align: center;">3170100000</td>
+                <td style="text-align: center;">dcw</td>
+                <td style="text-align: center;">2019-12-4 19:55</td>
+                <td style="text-align: center;">8</td>
+                <td>不错错错错错错错错错错错错错错错错错错错错错错错错错错</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td style="text-align: center;">2</td>
+                <td style="text-align: center;">3170100001</td>
+                <td style="text-align: center;">zjy</td>
+                <td style="text-align: center;">2019-12-4 19:59</td>
+                <td style="text-align: center;">8.5</td>
+                <td>可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以</td>
+                <td></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="9" class="middle aligned">
+                  <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                      <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                      <i class="right chevron icon"></i>
+                    </a>
+                  </div>
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- 作业成绩情况 -->
+
+  <!-- 占位 -->
+  <div style="height:20px;"></div>
+  <!-- 占位 -->
+
+</body>
+
+<script src="/swiper/package/js/swiper.min.js"></script>
+<script src="/javascripts/jquery.js"></script>
+<script>
+</script>
+
+</html>

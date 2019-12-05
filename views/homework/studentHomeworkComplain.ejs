@@ -45,7 +45,7 @@
     <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
     <div class="right menu" style="margin-right: 20%;">
       <div class="item"><i class="bell outline icon"></i></div>
-      <a class="item">我的主页</a>  
+      <a class="item">我的主页</a>
       <a class="item">Timeless</a>
     </div>
   </div>
@@ -73,28 +73,29 @@
   <!-- 申诉框 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+      <div style="height:20px;"></div>
+      <div class="ui basic segment">
+        <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+      </div>
+      <div class="ui divider" style="margin-left: 10px;margin-right: 10px;"></div>
+      <div class="ui basic segment">
+        <form class="ui form">
+          <div class="field">
+            <label><b style="font-size: large;">申诉原因</b></label>
+            <textarea maxlength="300" name="reason" placeholder="不超过300个字符"></textarea>
+          </div>
+          <div class="field">
+            <label><b style="font-size: large;">您的联系方式</b></label>
+            <input type="text" name="contact" placeholder="电话或邮箱，不超过32个字符">
+          </div>
+        </form>
         <div style="height:20px;"></div>
-        <div class="ui basic segment">
-            <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+        <div class="actions">
+          <div class="ui red deny button" onclick="javascript:window.location.href='./studentHomeworkSituation'">取消
+          </div>
+          <div class="ui positive button" onclick="postComplainMsg()">提交</div>
         </div>
-        <div class="ui divider" style="margin-left: 10px;margin-right: 10px;"></div>
-        <div class="ui basic segment">
-            <form class="ui form">
-                <div class="field">
-                    <label><b style="font-size: large;">申诉原因</b></label>
-                    <textarea maxlength="300" name="reason" placeholder="不超过300个字符"></textarea>
-                </div>
-                <div class="field">
-                    <label><b style="font-size: large;">您的联系方式</b></label>
-                    <input type="text" name="contact" placeholder="电话或邮箱，不超过32个字符">
-                </div>
-            </form>
-            <div style="height:20px;"></div>
-            <div class="actions">
-                <div class="ui red deny button" onclick="javascript:window.location.href='./studentHomeworkSituation'">取消</div>
-                <div class="ui positive button" onclick="postComplainMsg()">提交</div>
-            </div>
-        </div>
+      </div>
     </div>
   </div>
   <!-- 申诉框 -->
@@ -108,7 +109,7 @@
 <script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
 <script>
-    var postComplainMsg = () => {
+  var postComplainMsg = () => {
     if ($("textarea[name='reason']").val().replace(' ', '') == "") {
       alert("申诉原因不能为空！");
       return;

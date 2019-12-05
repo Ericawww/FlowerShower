@@ -5,6 +5,7 @@ var adminControllers = require('../controllers/adminController');
 router.all('/', adminControllers.checkAdmin);
 router.get('/', adminControllers.getUserManagerPage);
 router.get('/course', adminControllers.getCourseManagerPage);
+router.get('/class', adminControllers.getClassManagerPage);
 router.post('/getUsers', adminControllers.getUsers);
 router.post('/importUsers', adminControllers.importUsers);
 router.post('/deleteUsers', adminControllers.deleteUsers);

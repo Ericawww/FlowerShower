@@ -28,6 +28,13 @@ exports.getCourseManagerPage = async (req, res) => {
 }
 
 /**
+ * 教学班管理界面
+ */
+exports.getClassManagerPage = async (req, res) => {
+    res.render('admins/class');
+}
+
+/**
  * 获取用户列表
  */
 exports.getUsers = async (req, res) => {

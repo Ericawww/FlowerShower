@@ -83,60 +83,68 @@
       </div>
       <div class="ui basic segment">
         <div class="ui tabular menu">
-          <a class="item active">作业详情</a>
+          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkDetail'">作业详情</a>
           <a class="item" onclick="javascript:window.location.href='./teacherHomeworkSubmitSituation'">作业上交情况</a>
           <a class="item" onclick="javascript:window.location.href='./teacherHomeworkGradeSituation'">作业成绩情况</a>
-          <a class="item" onclick="javascript:window.location.href='./teacherHomeworkDealComplain'">处理成绩申诉</a>
-        </div>
-      </div>
-      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-        <div class="ui six column grid">
-          <div class="column">
-            <div class="homework weight description" style="line-height: 30px;"><b>占成绩比例</b></div>
-            <div class="homework begintime description" style="line-height: 30px;"><b>作业开始时间</b></div>
-            <div class="homework type description" style="line-height: 30px;"><b>作业形式</b></div>
-          </div>
-          <div class="column">
-            <div class="homework weight" style="line-height: 30px;">5.0%</div>
-            <div class="homework begintime" style="line-height: 30px;">2019-11-30 21:00</div>
-            <div class="homework type" style="line-height: 30px;">个人作业</div>
-          </div>
-          <div class="column"></div>
-          <div class="column">
-            <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
-            <div class="homework endtime description" style="line-height: 30px;"><b>作业截止时间</b></div>
-            <div class="homework goal description" style="line-height: 30px;"><b>完成指标</b></div>
-          </div>
-          <div class="column">
-            <div class="homework fullmark" style="line-height: 30px;">10</div>
-            <div class="homework endtime" style="line-height: 30px;">2019-12-15 22:00</div>
-            <div class="homework goal" style="line-height: 30px;">提交作业</div>
-          </div>
-        </div>
-      </div>
-      <div class="ui basic segment"></div>
-      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-        <div class="ui basic segment">
-          <b style="font-size: large;">评分方式</b>（教师评阅100％）
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui basic segment">
-          <div class="ui bulleted list">
-            <div class="item">
-              <b style="font-size:larger;">教师评阅</b>
-              <p style="line-height: 40px;"><b style="margin-left:20px;margin-right: 100px;">占成绩比例</b> 100%</p>
-            </div>
-          </div>
+          <a class="item active">处理成绩申诉</a>
         </div>
       </div>
       <div class="ui basic segment">
-        <p style="margin-left: 15px;">1.分析Linux的task_struct；</p>
-        <p style="margin-left: 15px;">2.分析Linux进程创建do_fork函数；</p>
-        <p style="margin-left: 15px;">3.分析Linux进程调度schedule函数。</p>
+        <div class="correct situation" style="margin-left: 15px;font-size: large;"><b>申诉情况</b></div>
+        <div class="ui divider"></div>
+        <div class="ui grid">
+          <div class="three wide column">
+            <div class="student name description" style="margin-left: 15px;"><b>学生姓名</b></div>
+          </div>
+          <div class="three wide column">
+            <div class="student id description"><b>学生学号</b></div>
+          </div>
+          <div class="six wide column">
+            <div class="complain reason description"><b>申诉原因</b></div>
+          </div>
+          <div class="four wide column">
+            <div class="complain button"><b>操作</b></div>
+          </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui grid">
+          <div class="three wide column">
+            <div class="student name description" style="margin-left: 15px;">dcw</div>
+          </div>
+          <div class="three wide column">
+            <div class="student id description">31700000</div>
+          </div>
+          <div class="six wide column">
+            <div class="complain reason description">提交的文件格式可能存在乱码</div>
+          </div>
+          <div class="two wide column">
+            <div class="agree complain button" style="color: rgb(10, 73, 145);">
+              <a href="javascript:showUpdateScoreModal()">同意申诉</a></div>
+          </div>
+          <div class="two wide column">
+            <div class="agree complain button" style="color: rgb(10, 73, 145);">
+              <a>拒绝申诉</a></div>
+          </div>
+        </div>
+        <div class="ui divider"></div>
       </div>
     </div>
   </div>
   <!-- 作业详情 -->
+
+  <!--修改成绩模态框-->
+  <div class="ui modal">
+    <div class="header">修改成绩</div>
+    <div class="content">
+      <p>您想要将该学生的成绩修改为：</p>
+      <input type="text" placeholder="输入修改后的成绩">
+    </div>
+    <div class="actions">
+      <div class="ui cancel button">取消</div>
+      <div class="ui positive button">确定</div>
+    </div>
+  </div>
+  <!--修改成绩模态框-->
 
   <!-- 占位 -->
   <div style="height:20px;"></div>
@@ -146,7 +154,11 @@
 
 <script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
 <script>
+  var showUpdateScoreModal = () => {
+    $('.ui.modal').modal('show');
+  }
 </script>
 
 </html>
