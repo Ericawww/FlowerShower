@@ -41,8 +41,48 @@ exports.getCourseInfo = async (req, res) => {
 }
 
 
+// exports.getGrade = async (req, res) => {
+//     var ret = await Course.prototype.getCourseGrade('01');
+//     if (ret == null) {
+//         alert("数据库异常！")
+//         res.end();
+//     } else if (ret.length == 0) {
+//         alert("还没有学生有该课程成绩录入！")
+//         res.end();
+//     } else {
+//         var totalNumber = ret.length;
+//         var avgUsualGrade = 0;
+//         var avgHomeworkGrade = 0;
+//         var avgTestGrade = 0;
+//         var avgTotalGrade = 0;
+//         var totalStudentGrade = new Array();
+
+//         for (var i = 0; i < ret.length; i++) {
+//             totalStudentGrade[i] = ret[i].usualGrade + ret[i].homeworkGrade + ret[i].testGrade;
+//             totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
+//             avgUsualGrade += ret[i].usualGrade;
+//             avgHomeworkGrade += ret[i].homeworkGrade;
+//             avgTestGrade += ret[i].testGrade;
+//             avgTotalGrade += parseFloat(totalStudentGrade[i]);
+//         }
+//         avgTotalGrade = (avgTotalGrade / totalNumber).toFixed(2);
+//         avgUsualGrade = (avgUsualGrade / totalNumber).toFixed(2);
+//         avgTestGrade = (avgTestGrade / totalNumber).toFixed(2);
+//         avgHomeworkGrade = (avgHomeworkGrade / totalNumber).toFixed(2);
+//         res.render('courses/courseGrade', {
+//             data: ret,
+//             studentTotalGrade: totalStudentGrade,
+//             avgUsualGrade: avgUsualGrade,
+//             avgHomeworkGrade: avgHomeworkGrade,
+//             avgTestGrade: avgTestGrade,
+//             avgTotalGrade: avgTotalGrade
+//         });
+//     }
+// }
+
 exports.getGrade = async (req, res) => {
-    var ret = await Course.prototype.getCourseGrade('000001');
+    var getClassID = req.params.classID;
+    var ret = await Course.prototype.getCourseGrade(getClassID);
     if (ret == null) {
         alert("数据库异常！")
         res.end();
@@ -50,20 +90,28 @@ exports.getGrade = async (req, res) => {
         alert("还没有学生有该课程成绩录入！")
         res.end();
     } else {
-        var totalNumber = ret.length;
+        var totalNumber = ret.takeTwoGrade.length;
         var avgUsualGrade = 0;
         var avgHomeworkGrade = 0;
         var avgTestGrade = 0;
         var avgTotalGrade = 0;
         var totalStudentGrade = new Array();
+        var userNameList = new Array();
 
-        for (var i = 0; i < ret.length; i++) {
-            totalStudentGrade[i] = ret[i].usualGrade + ret[i].homeworkGrade + ret[i].testGrade;
+        for (var i = 0; i < ret.takeTwoGrade.length; i++) {
+            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) + parseFloat(ret.takeTwoGrade[i].examGrade) + parseFloat(ret.homeworkGrade[i]);
             totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
-            avgUsualGrade += ret[i].usualGrade;
-            avgHomeworkGrade += ret[i].homeworkGrade;
-            avgTestGrade += ret[i].testGrade;
+            avgUsualGrade += ret.takeTwoGrade[i].usualGrade;
+            avgHomeworkGrade += parseFloat(ret.homeworkGrade[i]);
+            avgTestGrade += ret.takeTwoGrade[i].examGrade;
             avgTotalGrade += parseFloat(totalStudentGrade[i]);
+            var returnName = await Course.prototype.getStudentName(ret.takeTwoGrade[i].studentID);
+            if (returnName.length == 1) {
+                userNameList[i] = returnName[0].userName;
+            }
+            else {
+                userNameList[i] = '定义错误';
+            }
         }
         avgTotalGrade = (avgTotalGrade / totalNumber).toFixed(2);
         avgUsualGrade = (avgUsualGrade / totalNumber).toFixed(2);
@@ -75,7 +123,8 @@ exports.getGrade = async (req, res) => {
             avgUsualGrade: avgUsualGrade,
             avgHomeworkGrade: avgHomeworkGrade,
             avgTestGrade: avgTestGrade,
-            avgTotalGrade: avgTotalGrade
+            avgTotalGrade: avgTotalGrade,
+            userNameList: userNameList
         });
     }
 }
@@ -91,9 +140,9 @@ exports.gradeChange = async (req, res) => {
     } else {
         var totalNumber = ret.length;
         var totalStudentGrade = new Array();
-        for(var i=0;i<ret.length;i++){
+        for (var i = 0; i < ret.length; i++) {
             totalStudentGrade[i] = ret[i].usualGrade + ret[i].homeworkGrade + ret[i].testGrade;
-            totalStudentGrade[i] = (totalStudentGrade[i]/3).toFixed(2);
+            totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
         }
         res.render('courses/courseGradeChange', {
             data: ret,
@@ -104,16 +153,16 @@ exports.gradeChange = async (req, res) => {
 
 exports.setGradeChange = async (req, res) => {
     var sql = {
-        classID:'000001',
-        studentID:req.body.studentID,
-        changeType:req.body.changeItem,
-        newScore:req.body.newScore
+        classID: '000001',
+        studentID: req.body.studentID,
+        changeType: req.body.changeItem,
+        newScore: req.body.newScore
     };
     var ret = await Course.prototype.updateGrade(sql);
-    if(ret==1){
+    if (ret == 1) {
         res.send({ status: 1 }).end();
     }
-    else{
+    else {
         res.send({ status: 0 }).end();
     }
 }

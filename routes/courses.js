@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 var courseControllers = require('../controllers/courseController');
 
+router.get('/classes/:classID/teacher/courseGrade', courseControllers.getGrade);
+
 router.get('/courseGradeChange', courseControllers.gradeChange);
-router.get('/courseGrade',courseControllers.getGrade);
+// router.get('/courseGrade',courseControllers.getGrade);
 
 
 router.post('/gradeChange', courseControllers.setGradeChange);

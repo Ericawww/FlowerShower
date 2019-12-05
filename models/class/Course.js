@@ -150,10 +150,70 @@ class Course {
     }
 
 
+    // async getCourseGrade(classID) {
+    //     try {
+    //         var conn = await pool.getConnection();
+    //         var ret = await conn.query("select * from class_grade where classID = ?", [classID]);
+    //         return ret[0];
+    //     } catch (err) {
+    //         console.log(err);
+    //         return null;
+    //     } finally {
+    //         conn.release();
+    //     }
+    // }
     async getCourseGrade(classID) {
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from class_grade where classID = ?", [classID]);
+            var ret = await conn.query("select * from take where classID = ?", [classID]);
+            var takeTwoGrade = ret[0];
+            var homeworkGrade = new Array();
+            var allProject = await conn.query("select * from class_project where classID = ?", [classID]);
+            var allProjectResult = allProject[0];
+            var totalHomeworkMark = 0;
+            if (allProjectResult.length != 0) {
+                for (var i = 0; i < allProjectResult.length; i++) {
+                    totalHomeworkMark += allProjectResult[i].fullMark;
+                }
+                var studentProjectScore = await conn.query("select studentID,sum(mark) as totalMark from class_project natural join class_project_score where classID = ? group by studentID", [classID]);
+                var studentProjectScoreResult = studentProjectScore[0];
+                for (var i = 0; i < takeTwoGrade.length; i++) {
+                    var j;
+                    for (j = 0; j < studentProjectScoreResult.length; j++) {
+                        if (takeTwoGrade[i].studentID == studentProjectScoreResult[j].studentID) {
+                            break;
+                        }
+                    }
+                    if (j < studentProjectScoreResult.length) {
+                        homeworkGrade[i] = (studentProjectScoreResult[j].totalMark * 100 / totalHomeworkMark).toFixed(2);
+                    }
+                    else {
+                        homeworkGrade[i] = 0;
+                    }
+                }
+            }
+            else {
+                for (var i = 0; i < takeTwoGrade.length; i++) {
+                    homeworkGrade[i] = 100;
+                }
+            }
+            var data = {
+                takeTwoGrade: takeTwoGrade,
+                homeworkGrade: homeworkGrade
+            }
+            return data;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    async getStudentName(studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select userName from user where userID = ?", [studentID]);
             return ret[0];
         } catch (err) {
             console.log(err);
@@ -185,15 +245,15 @@ class Course {
             var conn = await pool.getConnection();
             if (sql.changeType == "usualGrade") {
                 ret = await conn.query("update class_grade set usualGrade = ? where classID = ? and studentID = ?",
-                [parseInt(sql.newScore), sql.classID, sql.studentID]);
+                    [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
-            else if(sql.changeType == "homeworkGrade"){
+            else if (sql.changeType == "homeworkGrade") {
                 ret = await conn.query("update class_grade set homeworkGrade = ? where classID = ? and studentID = ?",
-                [parseInt(sql.newScore), sql.classID, sql.studentID]);
+                    [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
-            else{
+            else {
                 ret = await conn.query("update class_grade set testGrade = ? where classID = ? and studentID = ?",
-                [parseInt(sql.newScore), sql.classID, sql.studentID]);
+                    [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
             return 1;
         } catch (err) {
@@ -205,4 +265,6 @@ class Course {
     }
 
 }
+
+
 module.exports = Course;
