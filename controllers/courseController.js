@@ -150,13 +150,16 @@ exports.gradeChange = async (req, res) => {
         alert("还没有学生有该课程成绩录入！")
         res.end();
     } else {
+        var gradeWeight = await Course.prototype.getGradeWeight(req.params.classid);
         var totalNumber = ret.takeTwoGrade.length;
         var totalStudentGrade = new Array();
         var userNameList = new Array();
 
         for (var i = 0; i < ret.takeTwoGrade.length; i++) {
-            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) + parseFloat(ret.takeTwoGrade[i].examGrade) + parseFloat(ret.homeworkGrade[i]);
-            totalStudentGrade[i] = (totalStudentGrade[i] / 3).toFixed(2);
+            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) * parseFloat(gradeWeight[0].usualWeight) / 100
+                + parseFloat(ret.takeTwoGrade[i].examGrade) * parseFloat(gradeWeight[0].examWeight) / 100
+                + parseFloat(ret.homeworkGrade[i]) * parseFloat(gradeWeight[0].projectWeight) / 100;
+            totalStudentGrade[i] = (totalStudentGrade[i]).toFixed(2);
             var returnName = await Course.prototype.getStudentName(ret.takeTwoGrade[i].studentID);
             if (returnName.length == 1) {
                 userNameList[i] = returnName[0].userName;
