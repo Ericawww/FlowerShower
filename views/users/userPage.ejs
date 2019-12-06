@@ -66,7 +66,7 @@
               <img src="/images/avatar200x200.png" />
             </div>
             <div class="content">
-              <a class="header">Seike</a>
+              <a class="header"><%= token.userName %></a>
               <div class="description">学生</div>
             </div>
           </div>
@@ -81,10 +81,6 @@
           <a class="item" id="myGrade">
             <i class="font icon"></i>
             我的成绩
-          </a>
-          <a class="item">
-            <i class="bell outline icon"></i>
-            公告
           </a>
         </div>
       </div>
@@ -115,7 +111,7 @@
   <script src="/dist/semantic.min.js"></script>
   <script>
     $('#myGrade').click(function () {
-      window.location.href = '/userGrade';
+      window.location.href = './userGrade';
     })
   </script>
 

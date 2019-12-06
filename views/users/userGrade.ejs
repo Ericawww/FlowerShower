@@ -8,9 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 	<link rel="icon" href="/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-	<script src="/dist/semantic.js"></script>
-	<script src="/javascripts/jquery.js"></script>
-	<script src="javascripts/userGrade.js"></script>
 	<style type="text/css">
 		body {
 			background-color: #eeeeee;
@@ -68,7 +65,11 @@
 				<div class="ui vertical menu">
 					<div class="ui raised link card">
 						<div class="image">
+							<% if(token.userPhoto==null){ %>
 							<img src="/images/avatar200x200.png" />
+							<% } else { %>
+							<img src="<%= token.userPhoto %>" />
+							<% } %>
 						</div>
 						<div class="content">
 							<a class="header"><%= studentNameValue %></a>
@@ -86,10 +87,6 @@
 					<a class="item">
 						<i class="font icon"></i>
 						我的成绩
-					</a>
-					<a class="item">
-						<i class="bell outline icon"></i>
-						公告
 					</a>
 				</div>
 			</div>
@@ -181,7 +178,14 @@
 		</div>
 	</div>
 
+	<!-- 页脚 -->
+	<div class="template-footer"></div>
+	<!-- 页脚 -->
 
+	<script src="/dist/semantic.js"></script>
+	<script src="/javascripts/jquery.js"></script>
+	<script src="/javascripts/common.js"></script>
+	<script src="javascripts/userGrade.js"></script>
 </body>
 
 </html>

@@ -302,7 +302,8 @@ exports.updateUserPwd = async (req, res) => {
  * 用户个人主页
  */
 exports.userIndex = async (req, res) => {
-	res.render("users/userPage");
+	var token = req.session.token;
+	res.render("users/userPage", { token: token });
 };
 
 /**
