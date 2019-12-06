@@ -49,7 +49,7 @@
       <div class="item image" style="background: none;">
         <div class="ui icon top right pointing dropdown" id="photo-drop">
           <% if (token.userPhoto != null) { %>
-          <img class="ui circular image usernav-photo" src="/<%= token.userPhoto %>" style="width:32px;" />
+          <img class="ui circular image usernav-photo" src="/<%= token.userPhoto %>" style="width:32px;" onerror="this.src='/images/user.png'" />
           <% } else { %>
           <img class="ui circular image usernav-photo" src="/images/user.png" style="width:32px;" />
           <% } %>
@@ -83,7 +83,7 @@
           <% if (token.userPhoto == null) { %>
           <img id="pic" class="ui circular image img-cursor" src="/images/user.png" style="width:96px;" />
           <% } else { %>
-          <img id="pic" class="ui circular image img-cursor" src="/<%= token.userPhoto %>" style="width:96px;" />
+          <img id="pic" class="ui circular image img-cursor" src="/<%= token.userPhoto %>" style="width:96px;" onerror="this.src='/images/user.png'" />
           <% } %>
         </div>
       </div>

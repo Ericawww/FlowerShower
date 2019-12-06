@@ -334,24 +334,45 @@ class Classes {
     }
 
     /**
+     * 上传资料
      * 
      * @param {string} classID
      * @param {int} chapterNumber
      * @param {string} path
      * @param {string} submitterID
      */
-    async uploadMaterial(classID, chapterNumber, path, submitterID) {
-
+    async uploadMaterial(classID, materialName, path, submitterID) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("insert into class_materials(classID, materialName, path, submitter, uploadTime) values \
+                (?, ?, ?, ?, CURRENT_TIMESTAMP);", [classID, materialName, path, submitterID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
     /**
+     * 删除资料
      * 
      * @param {string} classID
      * @param {int} chapterNumber 
      * @param {string} path
      */
-    async deleteMaterial(classID, chapterNumber, path) {
-
+    async deleteMaterial(classID, path) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("delete from class_materials where classID = ? and path = ?;", [classID, path]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
 }
