@@ -89,6 +89,7 @@
                 <b style="color:rgb(255, 0, 0);">已提交</b>
             </div>
         </div>
+        console.log(<%= hwInfo %>);
         <% } %>
         
         <div class="ui basic segment">
@@ -120,7 +121,7 @@
                 </div>
                 <div class="column">
                     <div class="homework fullmark" style="line-height: 30px;"><%= hwInfo.mark %></div>
-                    <div class="homework endtime" style="line-height: 30px;"><%= dateFormat(hwInfo.closeTime) %></div>
+                    <div class="homework endtime" style="line-height: 30px;"><%= dateFormat(hwInfo.startTime) %></div>
                     <div class="homework goal" style="line-height: 30px;">提交作业</div>
                 </div>
             </div>
