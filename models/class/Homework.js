@@ -18,7 +18,11 @@ class Homework {
         try {
             var conn = await pool.getConnection();
             var res = await conn.query("update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ", [reason, hwID,stuID]);
-           return 1;
+            if(res == 0){
+                return 0;
+            }else{
+                return 1;
+            }
         } catch (err) {
             console.log(err);
             return 0;
@@ -26,7 +30,30 @@ class Homework {
             conn.release();
         }
     }
-
+    /**
+     * 学生申诉成绩功能
+     * 
+     * @param {String} description 
+     * @param {String} stuID
+     * @param {String} hwID
+     * @return {int} 如果成功返回1，出错则返回0
+     */
+    async submitHw(stuID,hwID,description) {
+        try {
+            var conn = await pool.getConnection();
+            var res = await conn.query("update class_project_score set commitMsg = ?,commitTime = current_timestamp() where classProjectID = ? and studentID = ? ", [description, hwID,stuID]);
+            if(res == 0){
+                return 0;
+            }else{
+                return 1;
+            }
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }
+    }
     /**
      * 判断作业号是否存在，存在返回1，不存在返回0
      * @param {string} hwID 
@@ -59,8 +86,15 @@ class Homework {
     {
         try{
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
-            where class_project.classID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)", [classID,stuID]);
+            if(stuID !=undefined)
+            {
+                var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
+                where class_project.classID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)", [classID,stuID]);
+            }
+            else{
+                var ret = await conn.query("select * from class_project where classID = ?",[classID]);
+            }
+            console.log(ret[0]);
             if (ret[0].length == 0)
             {
                 return null;
@@ -92,13 +126,49 @@ class Homework {
                 var ret = await conn.query(sql,params);
             }
             else{
-                 var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID where class_project.classProjectID = ?", [hwID]);
+                 var ret = await conn.query("select * from class_project where classProjectID = ?", [hwID]);
             }
            console.log(ret[0][0]);//TEST：看下null到底显示成了啥
          return ret[0][0];
         } catch (err) {
             console.log(err);
             return null;
+        } finally {
+            conn.release();
+        }
+    }
+    /**
+     * 教师获取教学班作业中的整体信息
+     * @param {string} hwID 教学班作业
+     */
+    async getTcHwInfo(hwID){
+         try{
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_project join class_project_score \
+            on class_project.classProjectID = class_project_score.classProjectID \
+             where class_project.classProjectID = ? and  class_project_score.complainMsg is not null and class_project.closeTime > current_timestamp();",[hwID]);
+            console.log(ret[0]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+    /**
+     * 删除作业
+     * @param {String} hwID
+     * @return {int} 正确返回1，错误返回0
+     */
+    async deleteHw(hwID) {
+        try {
+            var conn = await pool.getConnection();
+            var res = await conn.query("delete from class_project where classProjectID = ? ", [hwID]);
+           return 1;
+        } catch (err) {
+            console.log(err);
+            return 0;
         } finally {
             conn.release();
         }

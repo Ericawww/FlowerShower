@@ -45,7 +45,7 @@
     <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
     <div class="right menu" style="margin-right: 20%;">
       <div class="item"><i class="bell outline icon"></i></div>
-      <a class="item">我的主页</a>
+      <a class="item">我的主页</a>  
       <a class="item">Timeless</a>
     </div>
   </div>
@@ -117,9 +117,9 @@
       </div>
       <div class="ui basic segment">
         <div class="actions">
-          <div class="ui red deny button" onclick="javascript:window.location.href='../detail'">取消</div>
+          <div class="ui red deny button" onclick="javascript:window.location.href='./detail'">取消</div>
           <!-- TODO:提交 -->
-          <div class="ui positive button">提交</div>
+          <div class="ui positive button" onclick = "javascript:submitHw()">提交</div>
         </div>
       </div>
     </div>
@@ -135,7 +135,36 @@
 <script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
 <script>
-  // ！！！TODO:提交的脚本
+  var submitHw = () => {
+  // if ($("textarea[name='description']").val().replace(' ', '') == "") {
+  //   alert("申诉原因不能为空！");
+  //   return;
+  // }
+  $.ajax({
+    dataType: "json",
+    type: "post",
+    url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitHw",
+    data: {
+      description: $("textarea[name='description']").val()
+    },
+    success: (data) => {
+      if (data.status) {
+        alert("作业提交成功!");
+        window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
+      } else {
+        alert(data.msg);
+      }
+    },
+    // 作业上交失败
+    // else if (data.status == -1) {
+    //     $(".ui.error.message").text("请输入正确的验证码！").show();
+    //   } else {
+    //     $(".ui.error.message").text("该用户名已被注册！").show();
+    //   }
+    error: (err) => {
+      alert("与服务器连接异常，请稍后再试!");
+    }
+  });
+}
 </script>
-
 </html>
