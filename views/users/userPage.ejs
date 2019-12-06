@@ -39,77 +39,177 @@
 </head>
 
 <body>
-  <!-- 导航栏 -->
-  <div class="ui menu" style="padding: 15px;">
-    <img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;" />
-    <div class="right menu" style="margin-right: 20%;">
-      <div class="item">
-        <div class="ui action left icon input">
-          <i class="search icon"></i>
-          <input type="text" placeholder="搜索感兴趣的课程" />
-          <button class="ui positive button">搜索</button>
-        </div>
+  <div class="ui left blue sidebar vertical menu" id="notice">
+    <div class="item">
+      <div class="header">查询类型</div>
+      <div class="ui input">
+        <select class="ui search dropdown fluid segment" id="search_item">
+          <option value="order">序号</option>
+          <option value="studentID">学号</option>
+          <option value="name">姓名</option>
+        </select>
       </div>
-      <a class="item">使用教程</a>
-      <a class="item">建议反馈</a>
+    </div>
+    <div class="item">
+      <div class="header">查询值</div>
+      <div class="ui input">
+        <input type="text" placeholder="查找..." id="search_value">
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">修改项目</div>
+      <div class="ui input">
+        <select class="ui search dropdown fluid segment" id="change_item">
+          <option value="usualGrade">平时成绩</option>
+          <!-- <option value="homeworkGrade">作业成绩</option> -->
+          <option value="examGrade">考试成绩</option>
+        </select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">新成绩</div>
+      <div class="ui input">
+        <input type="text" placeholder="输入新成绩..." id="change_value">
+      </div>
+    </div>
+    <div class="item">
+      <button class="ui blue button floated" id="submitChange">提交成绩修改</button>
     </div>
   </div>
-  <!-- 导航栏 -->
 
-  <div class="ui container" style="margin-top:10px;">
-    <div class="ui grid">
-      <!-- 首页垂直菜单 -->
-      <div class="four wide column">
-        <div class="ui vertical menu">
-          <div class="ui raised link card">
-            <div class="image">
-              <img src="/images/avatar200x200.png" />
-              <!-- <% if(token.userPhoto==null){ %>
-              <img src="/images/avatar200x200.png" />
-              <% } else { %>
-              <img src="<%= token.userPhoto %>" />
-              <% } %> -->
+  <div class="ui right blue sidebar vertical menu" id="homework">
+    <div class="item">
+      <div class="header">查询类型</div>
+      <div class="ui input">
+        <select class="ui search dropdown fluid segment" id="search_item">
+          <option value="order">序号</option>
+          <option value="studentID">学号</option>
+          <option value="name">姓名</option>
+        </select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">查询值</div>
+      <div class="ui input">
+        <input type="text" placeholder="查找..." id="search_value">
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">修改项目</div>
+      <div class="ui input">
+        <select class="ui search dropdown fluid segment" id="change_item">
+          <option value="usualGrade">平时成绩</option>
+          <!-- <option value="homeworkGrade">作业成绩</option> -->
+          <option value="examGrade">考试成绩</option>
+        </select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">新成绩</div>
+      <div class="ui input">
+        <input type="text" placeholder="输入新成绩..." id="change_value">
+      </div>
+    </div>
+    <div class="item">
+      <button class="ui blue button floated" id="submitChange">提交成绩修改</button>
+    </div>
+  </div>
+
+  <div class="pusher">
+    <!-- 导航栏 -->
+    <div class="ui menu" style="padding: 15px;">
+      <img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;" />
+      <div class="right menu" style="margin-right: 20%;">
+        <div class="item">
+          <div class="ui action left icon input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="搜索感兴趣的课程" />
+            <button class="ui positive button">搜索</button>
+          </div>
+        </div>
+        <a class="item">使用教程</a>
+        <a class="item">建议反馈</a>
+      </div>
+    </div>
+    <!-- 导航栏 -->
+
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui grid">
+        <!-- 首页垂直菜单 -->
+        <div class="four wide column">
+          <div class="ui vertical menu">
+            <div class="ui raised link card">
+              <div class="image">
+                <!-- <img src="/images/avatar200x200.png" /> -->
+                <% if (token.userPhoto == null) { %>
+                <img src="/images/avatar200x200.png" />
+                <% } else { %>
+                <img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
+                <% } %>
+              </div>
+              <div class="content">
+                <a class="header"><%= token.userName %></a>
+                <div class="description">学生</div>
+              </div>
             </div>
-            <div class="content">
-              <a class="header"><%= token.userName %></a>
-              <div class="description">学生</div>
+            <a class="item" id="homePage">
+              <i class="home icon"></i>
+              首页
+            </a>
+            <a class="item" id="myClass">
+              <i class="file outline icon"></i>
+              我的课程
+            </a>
+            <a class="item" id="myGrade">
+              <i class="font icon"></i>
+              我的成绩
+            </a>
+          </div>
+        </div>
+        <!-- 首页垂直菜单 -->
+        <!-- 动态 -->
+        <div class="twelve wide column">
+          <div class="ui two item menu">
+            <a class="item" id="showNotice">
+              <i class="paper plane outline icon"></i>
+              公告
+            </a>
+            <a class="item" id="showHomework">
+              <i class="paper plane icon"></i>
+              作业
+            </a>
+          </div>
+          <div class="ui raised segment">
+            <div class="ui grid">
+              <div class="four wide column" style="text-align: center;"><b>课程名称</b></div>
+              <div class="four wide column" style="text-align: center;"><b>课程号</b></div>
+              <div class="four wide column" style="text-align: center;"><b>开课学院</b></div>
+              <div class="four wide column" style="text-align: center;"><b>学分</b></div>
+            </div>
+            <div class="ui divider"></div>
+            <% for(var i=0;i<courseList.length;i++){ %>
+            <div class="ui grid">
+              <div class="four wide column courseEnter"
+                style="cursor:pointer;text-align: center;font-size: 15px;font-weight: bold; color: #12a182">
+                <a><%= courseList[i][0].courseName %></a></div>
+              <div class="four wide column" style="text-align: center;"><%= courseList[i][0].courseNumber %></div>
+              <div class="four wide column" style="text-align: center;"><%= courseList[i][0].courseDept %></div>
+              <div class="four wide column" style="text-align: center;"><%= courseList[i][0].credit %></div>
+              <div class="class_id_info" style="display:none;"><%= classIDInfo[i].classID %></div>
+            </div>
+            <% } %>
+            <div class="ui grid" style="margin-bottom: 10px;">
             </div>
           </div>
-          <a class="item" id="homePage">
-            <i class="home icon"></i>
-            首页
-          </a>
-          <a class="item" id="myClass">
-            <i class="file outline icon"></i>
-            我的课程
-          </a>
-          <a class="item" id="myGrade">
-            <i class="font icon"></i>
-            我的成绩
-          </a>
         </div>
+        <!-- 动态 -->
       </div>
-      <!-- 首页垂直菜单 -->
-      <!-- 动态 -->
-      <div class="twelve wide column">
-        <div class="ui two item menu">
-          <a class="item">
-            <i class="paper plane outline icon"></i>
-            动态
-          </a>
-          <a class="item">
-            <i class="paper plane icon"></i>
-            最新内容
-          </a>
-        </div>
-      </div>
-      <!-- 动态 -->
     </div>
-  </div>
 
-  <!-- 页脚 -->
-  <div class="template-footer"></div>
-  <!-- 页脚 -->
+    <!-- 页脚 -->
+    <div class="template-footer"></div>
+    <!-- 页脚 -->
+  </div>
 
   <script src="/javascripts/jquery.js"></script>
   <script src="/javascripts/common.js"></script>
@@ -124,8 +224,27 @@
     });
 
     $('#myClass').click(function () {
-      window.location.href = '/';
+      window.location.href = './';
     });
+
+    $('.courseEnter').click(function () {
+      var enterLocation = "/courses/class/";
+      var classID = $(this).siblings('.class_id_info').text();
+      enterLocation += classID + "/notice";
+      window.location.href = enterLocation;
+    })
+
+    $('#showNotice').click(function () {
+      $('#notice')
+        .sidebar('toggle')
+        ;
+    })
+
+    $('#showHomework').click(function () {
+      $('#homework')
+        .sidebar('toggle')
+        ;
+    })
   </script>
 
 </body>

@@ -65,13 +65,13 @@
 				<div class="ui vertical menu">
 					<div class="ui raised link card">
 						<div class="image">
-							<img src="/images/avatar200x200.png" />
-							<!-- <% if(token.userPhoto==null){ %>
+							<!-- <img src="/images/avatar200x200.png" /> -->
+							<% if (token.userPhoto == null) { %>
 							<img src="/images/avatar200x200.png" />
 							<% } else { %>
-							<img src="<%= token.userPhoto %>" />
-							<% } %> -->
-						</div>s
+							<img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
+							<% } %>
+						</div>
 						<div class="content">
 							<a class="header"><%= studentNameValue %></a>
 							<div class="description">学生</div>
@@ -197,7 +197,7 @@
 		});
 
 		$('#myClass').click(function () {
-			window.location.href = '/';
+			window.location.href = './';
 		});
 	</script>
 </body>

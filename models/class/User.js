@@ -280,6 +280,38 @@ class User {
             conn.release();
         }
     }
+
+    /**
+     * 
+     */
+    async getCourseNumber(studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select courseNumber,classID from take natural join class where studentID = ?", [studentID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 
+     */
+    async getCourseInfo(courseNumber) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from course where courseNumber = ?", [courseNumber]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = User;

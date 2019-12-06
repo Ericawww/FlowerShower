@@ -303,7 +303,17 @@ exports.updateUserPwd = async (req, res) => {
  */
 exports.userIndex = async (req, res) => {
 	var token = req.session.token;
-	res.render("users/userPage", { token: token });
+	var studentID = token.userID;
+	var courseList = new Array();
+	var ret = await User.prototype.getCourseNumber(studentID);
+	for (var i = 0; i < ret.length; i++) {
+		courseList[i] = await User.prototype.getCourseInfo(ret[i].courseNumber);
+	}
+	res.render("users/userPage", {
+		token: token,
+		courseList:courseList,
+		classIDInfo:ret
+	});
 };
 
 /**
@@ -358,7 +368,7 @@ exports.getGrade = async (req, res) => {
 		maxGrade: maxGrade,
 		courseName: courseName,
 		studentNameValue: studentNameValue,
-		token:token
+		token: token
 	});
 
 }
