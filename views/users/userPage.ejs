@@ -78,6 +78,10 @@
             <i class="file outline icon"></i>
             我的课程
           </a>
+          <a class="item" id="myGrade">
+            <i class="font icon"></i>
+            我的成绩
+          </a>
           <a class="item">
             <i class="bell outline icon"></i>
             公告
@@ -106,11 +110,15 @@
   <div class="template-footer"></div>
   <!-- 页脚 -->
 
-</body>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/common.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script>
+    $('#myGrade').click(function () {
+      window.location.href = '/userGrade';
+    })
+  </script>
 
-<script src="/javascripts/jquery.js"></script>
-<script src="/javascripts/common.js"></script>
-<script>
-</script>
+</body>
 
 </html>

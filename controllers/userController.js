@@ -309,7 +309,7 @@ exports.userIndex = async (req, res) => {
  * 用户获得自己的所有成绩
  */
 exports.getGrade = async (req, res) => {
-	var studentID = req.params.userID;
+	var studentID = req.session.token.userID;
 	var firstPartResult = await User.prototype.getTwoGrade(studentID);
 	var gradeWeightList = new Array();
 	var projectGradeList = new Array();
