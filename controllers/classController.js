@@ -46,8 +46,6 @@ exports.checkHw = async (req, res, next) => {
  * 得到一门课的简要信息用作页首：(course.courseName,courseDept)课程的课程名称、开课学院、(class.startTime/closeTime)班级的开始时间、结束时间、（user.userName)授课老师名称
  */
 exports.getStuMainPage = async (req, res) => {
-    console.log(req.params);
-    console.log("?");
     var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
     res.render('courses/coursePage', { classHeader: classHeader });
 }
@@ -62,8 +60,11 @@ exports.getTcMainPage = async (req, res) => {
  * 得到所有作业，若不存在为null
  */
 exports.getStuAllHw = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
-    var hwList = await Homework.prototype.getAllHw({ classID: req.params.classID });
+    //dev---fake session
+    req.session.token = await config.getToken('9999', '123');
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+    var hwList = await Homework.prototype.getAllHw(req.params.classID,req.session.token.userID);
+
     res.render('homework/studentHomeworkListPage', { hwList: hwList, classHeader: classHeader });
 }
 
@@ -72,9 +73,10 @@ exports.getStuAllHw = async (req, res) => {
  */
 exports.getStuHwDetail = async (req, res) => {
     //dev---fake session
-    req.session.token = await config.getToken('9999', '123')
-    var hwInfo = await Homework.prototype.getHwInfo({ hwID: req.params.hw, stuID: req.session.token.userID });
-    res.render('homework/studentHomeworkDetail', { hwInfo: hwInfo });
+    req.session.token = await config.getToken('9999', '123');
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw, req.session.token.userID);
+    res.render('homework/studentHomeworkDetail', { hwInfo: hwInfo, classHeader: classHeader });
 }
 
 /**
@@ -82,36 +84,62 @@ exports.getStuHwDetail = async (req, res) => {
  * 
  */
 exports.getStuHwSituation = async (req, res) => {
-    var hwInfo = await Homework.prototype.getHwInfo({ hwID: req.params.hw });
-    res.render('homework/studentHomeworkSituation', { hwInfo: hwInfo });
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    res.render('homework/studentHomeworkSituation', { hwInfo: hwInfo, classHeader: classHeader });
 }
 
 /**
  * 跳转至申诉界面，上传暂时不会，要用两次路由匹配？
  */
 exports.getStuHwComplain = async (req, res) => {
-    res.render("homework/studentHomeworkComplain");
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    //插入该条complain数据，似乎也没啥好验证的
+    //dev----
+    req.session.token = await config.getToken('9999', '123');
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw, req.session.token.userID);
+    res.render("homework/studentHomeworkComplain", { classHeader: classHeader, hwInfo: hwInfo });
+};
+
+/**
+ * 提交申诉
+ */
+exports.submitComplain = async (req, res) => {
+    //插入该条complain数据，似乎也没啥好验证的
+    //dev----
+    req.session.token = await config.getToken('9999', '123');
+    var ret = await Homework.prototype.submitComplain(req.session.token.userID, req.params.hw, req.body.reason);
+    if (ret == 0) {
+        res.send({ status: 0, msg: "异常，请重试。" }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
 };
 
 /**
  * 跳转至提交页面，需要一点信息
  */
 exports.getStuHwSubmit = async (req, res) => {
-    var hwInfo = await Homework.prototype.getHwInfo({ hwID: req.params.hw });
-    res.render('homework/studentHomeworkSubmit', { hwInfo: hwInfo });
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    req.session.token = await config.getToken('9999', '123');
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    res.render('homework/studentHomeworkSubmit', { hwInfo: hwInfo, classHeader: classHeader });
 }
 
 //教师作业
 exports.getTcAllHw = async (req, res) => {
-    res.render("homework/teacherHomeworkDetail");
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    res.render("homework/teacherHomeworkDetail", { classHeader: classHeader });
 };
 
 exports.getTcHwDetail = async (req, res) => {
-    res.render("homework/teacherHomeworkDetail");
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    res.render("homework/teacherHomeworkDetail", { classHeader: classHeader });
 };
 
 exports.addHw = async (req, res) => {
-    res.render("homework/teacherHomeworkAdd");
+    var classHeader = await Class.prototype.getClassHeader({ classID: req.params.classID });
+    res.render("homework/teacherHomeworkAdd", { classHeader: classHeader });
 };
 
 /**

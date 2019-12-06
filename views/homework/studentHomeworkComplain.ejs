@@ -50,25 +50,26 @@
     </div>
   </div>
   <!-- 导航栏 -->
-
   <!-- 课程信息 -->
   <div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">操作系统</h2>
-          <div class="description">
-            2019-2020秋冬 计算机科学与技术学院
-          </div>
-          <h5 class="ui header">授课老师</h5>
-          <div class="description">
-            夏莹杰
+      <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="eight wide column">
+            <h2 class="ui header"><%= classHeader.courseName %></h2>
+            <div class="description">
+              <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+              <p> <%= classHeader.courseDept %></p>
+            </div>
+            <h5 class="ui header">授课老师</h5>
+            <div class="description">
+              <%= classHeader.userName %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- 课程信息 -->
+    <!-- 课程信息 -->
+
 
   <!-- 申诉框 -->
   <div class="ui container" style="margin-top:10px;">
@@ -90,10 +91,22 @@
           </div>
         </form>
         <div style="height:20px;"></div>
-        <div class="actions">
-          <div class="ui red deny button" onclick="javascript:window.location.href='./studentHomeworkSituation'">取消
-          </div>
-          <div class="ui positive button" onclick="postComplainMsg()">提交</div>
+        <div class="ui basic segment">
+            <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
+        </div>
+        <div class="ui divider" style="margin-left: 10px;margin-right: 10px;"></div>
+        <div class="ui basic segment">
+            <form class="ui form">
+                <div class="field">
+                    <label><b style="font-size: large;">申诉原因</b></label>
+                    <textarea maxlength="300" name="reason" placeholder="不超过300个字符"></textarea>
+                </div>
+            </form>
+            <div style="height:20px;"></div>
+            <div class="actions">
+                <div class="ui red deny button" onclick="javascript:window.location.href='../detail'">取消</div>
+                <div class="ui positive button" onclick="postComplainMsg()">提交</div>
+            </div>
         </div>
       </div>
     </div>
@@ -114,27 +127,26 @@
       alert("申诉原因不能为空！");
       return;
     }
-    if ($("input[name='contact']").val().replace(' ', '') == "") {
-      alert("联系方式不能为空！");
-      return;
-    }
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "/complainBoard",
+      url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitComplain",
       data: {
-        reason: $("textarea[name='reason']").val(),
-        contact: $("input[name='contact']").val()
+        reason: $("textarea[name='reason']").val()
       },
       success: (data) => {
         if (data.status) {
           alert("提交申诉成功!");
-          $("textarea[name='reason']").val("");  //清空申诉原因和联系方式
-          $("input[name='contact']").val("");
+          window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
         } else {
           alert(data.msg);
         }
       },
+      // else if (data.status == -1) {
+      //     $(".ui.error.message").text("请输入正确的验证码！").show();
+      //   } else {
+      //     $(".ui.error.message").text("该用户名已被注册！").show();
+      //   }
       error: (err) => {
         alert("与服务器连接异常，请稍后再试!");
       }

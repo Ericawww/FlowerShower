@@ -53,22 +53,23 @@
 
   <!-- 课程信息 -->
   <div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">操作系统</h2>
-          <div class="description">
-            2019-2020秋冬 计算机科学与技术学院
-          </div>
-          <h5 class="ui header">授课老师</h5>
-          <div class="description">
-            夏莹杰
+      <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="eight wide column">
+            <h2 class="ui header"><%= classHeader.courseName %></h2>
+            <div class="description">
+              <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+              <p> <%= classHeader.courseDept %></p>
+            </div>
+            <h5 class="ui header">授课老师</h5>
+            <div class="description">
+              <%= classHeader.userName %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- 课程信息 -->
+    <!-- 课程信息 -->
 
   <!-- 课程水平菜单 -->
   <div class="ui container" style="margin-top:10px;">
@@ -140,191 +141,63 @@
           </div>
         </div>
       </div>
-      <div class="ui segment" style="background-color:rgb(255, 255, 255);">
-        <div class="ui relaxed horizontal list">
-          <div class="item" style="width: 600px;">
-            <div class="content">
-              <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a
-                    href="/homework/teacherHomeworkDetail">死锁课后习题</a></b></div>
-              <div class="homework simple description" style="margin-left: 15px;margin-top: 10px;">
+      <% if (hwList == null) { %>
+        <div class="row centered" style="text-align: center">
+        <h3>暂未布置作业</h3>
+        </div>
+      </div>
+      <% } else { %>
+        <% for(var i = 0; i < hwList.length; i++) { %>
+          <% var hw = hwList[i]; %>
+            <div class="ui segment" style="background-color:rgb(255, 255, 255);">
                 <div class="ui relaxed horizontal list">
-                  <div class="item" style="width:auto;">
+                  <div class="item" style="width: 600px;">
                     <div class="content">
-                      <div class="homework begintime">开始:2019-11-30 21:00</div>
+                      <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a href="/homework/teacherHomeworkDetail">死锁课后习题</a></b></div>
+                      <div class="homework simple description" style="margin-left: 15px;margin-top: 10px;">
+                        <div class="ui relaxed horizontal list">
+                          <div class="item" style="width:auto;">
+                            <div class="content">
+                              <div class="homework begintime">开始:<%= dateFormat(hw.startTime) %></div>
+                            </div>
+                          </div>
+                          <div class="item" style="width:auto;">
+                            <div class="content">
+                              <div class="homework endtime">截止:<%= dateFormat(hw.closeTime) %></div>
+                            </div>
+                          </div>
+                          <div class="item" style="width:auto;">
+                            <div class="content">
+                              <div class="homework type">作业形式:<% if(hw.isGroupWork==0) { %> 个人作业
+                                  <% } else { %> 小组作业
+                                <% } %>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="item" style="width:auto;">
+                  <div class="item" style="width:auto;width:150px;">
                     <div class="content">
-                      <div class="homework endtime">截止:2019-12-15 22:00</div>
+                      <div class="homework submit button"><a>修改作业</a></div>
                     </div>
                   </div>
-                  <div class="item" style="width:auto;">
+                  <div class="item" style="width:auto;width:150px;">
                     <div class="content">
-                      <div class="homework type">作业形式:个人作业</div>
+                      <div class="homework submit button"><a>删除作业</a></div>
+                    </div>
+                  </div>
+                  <div class="item" style="width:auto;margin-right:15px;">
+                    <div class="content">
+                      <div class="homework submit button"><a>批改作业</a></div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkUpdate'">修改作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a>删除作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;margin-right:15px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkMark'">批改作业</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui segment" style="background-color:rgb(255, 255, 255);">
-        <div class="ui relaxed horizontal list">
-          <div class="item" style="width: 600px;">
-            <div class="content">
-              <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a
-                    href="/homework/teacherHomeworkDetail">Linux进程管理研究报告</a></b></div>
-              <div class="homework simple description" style="margin-left: 15px;margin-top: 10px;">
-                <div class="ui relaxed horizontal list">
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework begintime">开始:2019-11-30 21:00</div>
-                    </div>
-                  </div>
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework endtime">截止:2019-12-15 22:00</div>
-                    </div>
-                  </div>
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework type">作业形式:小组作业</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkUpdate'">修改作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a>删除作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkMark'">批改作业</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui segment" style="background-color:rgb(255, 255, 255);">
-        <div class="ui relaxed horizontal list">
-          <div class="item" style="width: 600px;">
-            <div class="content">
-              <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a
-                    href="/homework/teacherHomeworkDetail">Linux系统调用实验</a></b></div>
-              <div class="homework simple description" style="margin-left: 15px;margin-top: 10px;">
-                <div class="ui relaxed horizontal list">
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework begintime">开始:2019-11-30 21:00</div>
-                    </div>
-                  </div>
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework endtime">截止:2019-12-15 22:00</div>
-                    </div>
-                  </div>
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework type">作业形式:个人作业</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkUpdate'">修改作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a>删除作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;margin-right:15px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkMark'">批改作业</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ui segment" style="background-color:rgb(255, 255, 255);">
-        <div class="ui relaxed horizontal list">
-          <div class="item" style="width: 600px;">
-            <div class="content">
-              <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a
-                    href="/homework/teacherHomeworkDetail">Linux内核模块实验</a></b></div>
-              <div class="homework simple description" style="margin-left: 15px;margin-top: 10px;">
-                <div class="ui relaxed horizontal list">
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework begintime">开始:2019-11-30 21:00</div>
-                    </div>
-                  </div>
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework endtime">截止:2019-12-15 22:00</div>
-                    </div>
-                  </div>
-                  <div class="item" style="width:auto;">
-                    <div class="content">
-                      <div class="homework type">作业形式:个人作业</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkUpdate'">修改作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a>删除作业</a></div>
-            </div>
-          </div>
-          <div class="item" style="width:auto;width:150px;">
-            <div class="content">
-              <div class="homework submit button"><a
-                  onclick="javascript:window.location.href='./teacherHomeworkMark'">批改作业</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        <% } %>
+      <% } %>
+    </div> 
   </div>
   <!-- 课程作业列表 -->
 
