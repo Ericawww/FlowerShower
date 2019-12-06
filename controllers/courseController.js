@@ -138,7 +138,7 @@ exports.writeTalk = async (req, res) => {
  * 班级成绩修改的查找
  */
 exports.gradeChange = async (req, res) => {
-    var ret = await Course.prototype.getCourseGrade(req.params.classid);
+    var ret = await Course.prototype.getCourseGrade(req.params.classID);
     if (ret == null) {
         console.log("数据库异常！");
         res.end();
@@ -146,7 +146,7 @@ exports.gradeChange = async (req, res) => {
         console.log("还没有学生有该课程成绩录入！");
         res.end();
     } else {
-        var gradeWeight = await Course.prototype.getGradeWeight(req.params.classid);
+        var gradeWeight = await Course.prototype.getGradeWeight(req.params.classID);
         var totalNumber = ret.takeTwoGrade.length;
         var totalStudentGrade = new Array();
         var userNameList = new Array();
@@ -174,30 +174,11 @@ exports.gradeChange = async (req, res) => {
 }
 
 /**
- * 旧版班级成绩修改
- */
-// exports.setGradeChange = async (req, res) => {
-//     var sql = {
-//         classID: '000001',
-//         studentID: req.body.studentID,
-//         changeType: req.body.changeItem,
-//         newScore: req.body.newScore
-//     };
-//     var ret = await Course.prototype.updateGrade(sql);
-//     if (ret == 1) {
-//         res.send({ status: 1 }).end();
-//     }
-//     else {
-//         res.send({ status: 0 }).end();
-//     }
-// }
-
-/**
  * 新版成绩修改，作业成绩无法修改，作业成绩的修改只能通过每个project成绩的修改来达成
  */
 exports.setGradeChange = async (req, res) => {
     var sql = {
-        classID: req.params.classid,
+        classID: req.params.classID,
         studentID: req.body.studentID,
         changeType: req.body.changeItem,
         newScore: req.body.newScore
@@ -217,7 +198,7 @@ exports.setGradeChange = async (req, res) => {
  */
 exports.setGradeWeightChange = async (req, res) => {
     var sql = {
-        classID: req.params.classid,
+        classID: req.params.classID,
         newUsualWeight: req.body.newUsualWeight,
         newProjectWeight: req.body.newProjectWeight,
         newExamWeight: req.body.newExamWeight

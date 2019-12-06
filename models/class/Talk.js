@@ -38,7 +38,7 @@ class Talk {
       var ret;
       if (userID == undefined) {
         ret = await conn.query(
-          "select userName, title, content, time \
+          "select talkID, userName, title, content, time \
             from talk left join user on talk.userID = user.userID \
             where courseID = ? ",
           courseID
