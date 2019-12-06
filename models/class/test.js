@@ -1,44 +1,36 @@
-var Course = require('./Course');
-var test = async () => {
-    try {
-        var ret = await Course.prototype.getCourseGrade('01');
-        var gradeWeight = await Course.prototype.getGradeWeight('01');
-        var totalNumber = ret.takeTwoGrade.length;
-        var avgUsualGrade = 0;
-        var avgHomeworkGrade = 0;
-        var avgTestGrade = 0;
-        var avgTotalGrade = 0;
-        var totalStudentGrade = new Array();
-        var userNameList = new Array();
-
-        for (var i = 0; i < ret.takeTwoGrade.length; i++) {
-            totalStudentGrade[i] = parseFloat(ret.takeTwoGrade[i].usualGrade) * parseFloat(gradeWeight[0].usualWeight) / 100
-                + parseFloat(ret.takeTwoGrade[i].examGrade) * parseFloat(gradeWeight[0].examWeight) / 100
-                + parseFloat(ret.homeworkGrade[i]) * parseFloat(gradeWeight[0].projectWeight) / 100;
-            totalStudentGrade[i] = (totalStudentGrade[i]).toFixed(2);
-            avgUsualGrade += ret.takeTwoGrade[i].usualGrade;
-            avgHomeworkGrade += parseFloat(ret.homeworkGrade[i]);
-            avgTestGrade += ret.takeTwoGrade[i].examGrade;
-            avgTotalGrade += parseFloat(totalStudentGrade[i]);
-            var returnName = await Course.prototype.getStudentName(ret.takeTwoGrade[i].studentID);
-            if (returnName.length == 1) {
-                userNameList[i] = returnName[0].userName;
-            }
-            else {
-                userNameList[i] = '定义错误';
-            }
-            console.log(totalStudentGrade[i]);
+var User = require('./User');
+var pool = require('../mysql/ConnPool');
+var test = async (classID, studentID) => {
+	try {
+        var conn = await pool.getConnection();
+        var personalMarkResult = 0;
+        var projectGrade;
+        var retFullMark = await conn.query("select sum(fullMark) as totalScore from class_project where classID = ? group by classID", [classID]);
+        var personalMark = await conn.query("select mark from class_project natural join class_project_score where studentID = ? and classID = ?", [studentID, classID]);
+        console.log(retFullMark[0].length);
+        console.log(personalMark[0].length);
+        if (retFullMark[0].length == 0) {
+            projectGrade = 100;
+            return projectGrade;
         }
-        avgTotalGrade = (avgTotalGrade / totalNumber).toFixed(2);
-        avgUsualGrade = (avgUsualGrade / totalNumber).toFixed(2);
-        avgTestGrade = (avgTestGrade / totalNumber).toFixed(2);
-        avgHomeworkGrade = (avgHomeworkGrade / totalNumber).toFixed(2);
         
+        else {
+            for (var i = 0; i < personalMark[0].length; i++) {
+                personalMarkResult += parseInt(personalMark[0][i].mark);
+            }
+            projectGrade = parseFloat(personalMarkResult * 100 / retFullMark[0][0].totalScore);
+            projectGrade = (projectGrade).toFixed(2);
+            return projectGrade;
+        }
 
     } catch (err) {
         console.log(err);
+        return null;
+    } finally {
+        conn.release();
     }
+    
 }
 
-test();
+test('02', '3170100001');
 

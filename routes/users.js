@@ -5,7 +5,8 @@ var teacherControllers = require('../controllers/teacherController');
 
 /* GET users listing. */
 router.get('/', userControllers.userIndex);
-router.get('/userGrade', (req, res) => { res.render('users/userGrade'); });
+router.get('/:userID/userGrade',userControllers.getGrade);
+
 router.get('/userClassSelect', (req, res) => { res.render('users/userClassSelect'); });
 router.get('/settings', userControllers.userSettings);
 router.post('/uploadImage', userControllers.userChangeImage);

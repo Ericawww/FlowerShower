@@ -106,7 +106,7 @@ class User {
             return null;
         } finally {
             conn.release();
-        } 
+        }
     }
 
     /**
@@ -175,6 +175,111 @@ class User {
         }
     }
 
+    /**
+     * 用户获得自己的两项成绩
+     * 
+     * @param {string} studentID 
+     */
+    async getTwoGrade(studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from take where studentID = ?", [studentID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 用户计算总成绩需要获取各项成绩的比重
+     * 
+     * @param {string} classID 
+     */
+    async getGradeWeight(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select projectWeight,examWeight,usualWeight,courseNumber from class where classID = ?", [classID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 用户姓名获取
+     * 
+     * @param {string} studentID 
+     */
+    async getStudentName(studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select userName from user where userID = ?", [studentID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 用户作业成绩计算
+     * 
+     * @param {string} studentID 
+     * @param {string} classID 
+     */
+    async getProjectGrade(studentID, classID) {
+        try {
+            var conn = await pool.getConnection();
+            var personalMarkResult = 0;
+            var projectGrade;
+            var retFullMark = await conn.query("select sum(fullMark) as totalScore from class_project where classID = ? group by classID", [classID]);
+            var personalMark = await conn.query("select mark from class_project natural join class_project_score where studentID = ? and classID = ?", [studentID, classID]);
+            if (retFullMark[0].length == 0) {
+                projectGrade = 100;
+                return projectGrade;
+            }
+            else {
+                for (var i = 0; i < personalMark[0].length; i++) {
+                    personalMarkResult += parseInt(personalMark[0][i].mark);
+                }
+                projectGrade = parseFloat(personalMarkResult * 100 / retFullMark[0][0].totalScore);
+                projectGrade = (projectGrade).toFixed(2);
+                return projectGrade;
+            }
+
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 获取课程的名称
+     * 
+     * @param {string} courseNumber 
+     */
+    async getCourseName(courseNumber) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select courseName from course where courseNumber = ?", [courseNumber]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = User;

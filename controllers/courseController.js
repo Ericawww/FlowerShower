@@ -59,10 +59,10 @@ exports.getGrade = async (req, res) => {
     var getClassID = req.params.classID;
     var ret = await Course.prototype.getCourseGrade(getClassID);
     if (ret == null) {
-        alert("数据库异常！")
+        console.log("数据库异常！");
         res.end();
     } else if (ret.takeTwoGrade.length == 0) {
-        alert("还没有学生有该课程成绩录入！")
+        console.log("还没有学生有该课程成绩录入！");
         res.end();
     } else {
         var gradeWeight = await Course.prototype.getGradeWeight(getClassID);
@@ -140,10 +140,10 @@ exports.writeTalk = async (req, res) => {
 exports.gradeChange = async (req, res) => {
     var ret = await Course.prototype.getCourseGrade(req.params.classid);
     if (ret == null) {
-        alert("数据库异常！")
+        console.log("数据库异常！");
         res.end();
     } else if (ret.length == 0) {
-        alert("还没有学生有该课程成绩录入！")
+        console.log("还没有学生有该课程成绩录入！");
         res.end();
     } else {
         var gradeWeight = await Course.prototype.getGradeWeight(req.params.classid);
