@@ -235,7 +235,7 @@ exports.getTalk = async (req, res) => {
     //显示我的帖子
     talkList = await Talk.prototype.getTalk(
       req.params.classID,
-      1 //req.session.token.userID
+      req.session.token.userID
     );
   } else {
     //显示全部帖子
@@ -254,7 +254,7 @@ exports.getTalk = async (req, res) => {
 exports.writeTalk = async (req, res) => {
   var ret = await Talk.prototype.writeTalk(
     req.params.classID,
-    1, //req.session.token.userID,
+    req.session.token.userID,
     req.body.title,
     req.body.content
   );
@@ -275,7 +275,7 @@ exports.showTalk = async (req, res) => {
   var token = req.session.token;
   var talk = await Talk.prototype.getTalk(
     req.params.classID,
-    1, //req.session.token.userID
+    req.session.token.userID,
     req.params.talkID
   );
   var comments = await Talk.prototype.getComment(
@@ -293,7 +293,7 @@ exports.addComment = async (req, res) => {
   var ret = await Talk.prototype.addComment(
     req.params.classID,
     req.params.talkID,
-    1, //req.session.userID,
+    req.session.token.userID,
     req.body.content
   );
   if (ret) {
