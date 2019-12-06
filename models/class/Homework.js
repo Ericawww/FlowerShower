@@ -17,7 +17,6 @@ class Homework {
     async submitComplain(stuID,hwID,reason) {
         try {
             var conn = await pool.getConnection();
-            console.log(reason,contact);
             var res = await conn.query("update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ", [reason, hwID,stuID]);
            return 1;
         } catch (err) {
@@ -51,15 +50,17 @@ class Homework {
     }
 
     /**
-     * 查询并返回该班级学生的所有作业
+     * 查询并返回该班级该学生的所有作业
      * @param {string} classID 
+     * @param {string} stuID 输出批改信息
      * @return {Array} 返回获取到的作业信息列表，如果出现异常返回null
      */
-    async getAllHw(classID)
+    async getAllHw(classID,stuID)
     {
         try{
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from class_project where classID = ?", [classID]);
+            var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
+            where class_project.classID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)", [classID,stuID]);
             if (ret[0].length == 0)
             {
                 return null;

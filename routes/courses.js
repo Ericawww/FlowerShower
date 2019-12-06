@@ -39,7 +39,7 @@ router.all('/class/:classID/student/hw/:hw', classController.checkHw);//courses/
 router.get('/class/:classID/student/hw/:hw/detail', classController.getStuHwDetail);// courses/classes/:classID/student/hw/:hw/detail ->作业详情
 router.get('/class/:classID/student/hw/:hw/situation',classController.getStuHwSituation);// courses/classes/:classID/student/hw/:hw/situation ->提交和批改情况
 router.get('/class/:classID/student/hw/:hw/complain',classController.getStuHwComplain);// courses/classes/:classID/student/hw/:hw/complain ->申诉
-router.get('/class/:classID/student/hw/:hw/submitComplain',classController.submitComplain);//处理申诉
+router.post('/class/:classID/student/hw/:hw/submitComplain',classController.submitComplain);//处理申诉
 router.get('/class/:classID/student/hw/:hw/submit',classController.getStuHwSubmit);// courses/classes/:classID/student/hw/:hw/submit ->提交作业
 
 router.get("/class/:classID/teacher/hw/:hw", classController.checkHw);

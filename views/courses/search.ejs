@@ -83,82 +83,73 @@
 
 
   <!-- 课程条目 -->
-  <div class="container">
-      <div class="ui grid"> 
-        <div class="one wide column"></div>
-        
+  <div class="container" style="margin-top:40px;">
+    <div class="ui grid">
+      <div class="row">
+        <div class ="one wide column"></div>
         <div class="ten wide column">
-          <div class = "ui segment"  style="margin-top:40px;">
+          <div class="ui segment" >
             <h3><a href="/courses/">全部课程</a>>>搜索结果</h3>
-              <div class="ui grid">
+            <div class="ui grid">
               <% if (courseList == null) { %>
-                <div class="row centered">
+              <div class="row centered">
                 <h3>暂无满足条件的课程。</h3>
+              </div>
+            <% } else { %>
+            <% for(var i = 0; i < courseList.length; i++) { %>
+            <% var course = courseList[i]; %>
+            <div class="row">
+              <div class="five wide column middle aligned">
+                <img src='<%= course.coursePhoto %>'>
+              </div>
+              <div class="eleven wide column">
+                <h3 class="header" style="text-align:center"><a href="/courses/<%= course.courseNumber %>">
+                    <%= course.courseName %></a></h3>
+                <div class="description">
+                  <%= course.description %>
                 </div>
               </div>
-              <% } else { %>
-                <% for(var i = 0; i < courseList.length; i++) { %>
-                  <% var course = courseList[i]; %>
-                    <div class="row">
-                      <div class="five wide column middle aligned">
-                        <img src='<%= course.coursePhoto %>'>
-                      </div>
-                      <div class="eleven wide column">
-                        <h3 class="header" style="text-align:center"><a href="/courses/<%= course.courseNumber %>"><%= course.courseName %></a></h3>
-                        <div class="description">
-                            <%= course.description %>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="ui divider"></div>
-                    <% } %>
-                <% } %>
-                
-              </div>
+            </div>
+            <div class="ui divider"></div>
+            <% } %>
+            <% } %>
             </div>
           </div>
-          <div class="ui divider"></div>
-          <% } %>
-          <% } %>
-
+        </div>
+        <!--筛选条件 TODO:表单-->
+        <div class="four wide column">
+          <div class="ui segment">
+            <p class="user-title">筛选条件</p>
+            <div class="description">
+              <p>筛选项目:
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="gender">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">项目</div>
+                  <div class="menu">
+                    <div class="item" data-value="0">按开课学院</div>
+                    <!-- 其实完全没有 -->
+                    <div class="item" data-value="1">按修读时间</div>
+                  </div>
+                </div>
+              </p>
+              <p>筛选条件:
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="gender">
+                  <i class="dropdown icon"></i>
+                  <div class="default text">条件</div>
+                  <div class="menu">
+                    <div class="item" data-value="0">计算机科学与技术学院</div>
+                    <div class="item" data-value="1">马克思主义学院</div>
+                  </div>
+                </div>
+              </p>
+              <button class="positive big ui button">确认</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <!--筛选条件 TODO:表单-->
-    <div class="four wide column" style="margin-top:40px;">
-      <div class="ui segment">
-        <p class="user-title">筛选条件</p>
-        <div class="description">
-          <p>筛选项目:
-            <div class="ui selection dropdown">
-              <input type="hidden" name="gender">
-              <i class="dropdown icon"></i>
-              <div class="default text">项目</div>
-              <div class="menu">
-                <div class="item" data-value="0">按开课学院</div>
-                <!-- 其实完全没有 -->
-                <div class="item" data-value="1">按修读时间</div>
-              </div>
-            </div>
-          </p>
-          <p>筛选条件:
-            <div class="ui selection dropdown">
-              <input type="hidden" name="gender">
-              <i class="dropdown icon"></i>
-              <div class="default text">条件</div>
-              <div class="menu">
-                <div class="item" data-value="0">计算机科学与技术学院</div>
-                <div class="item" data-value="1">马克思主义学院</div>
-              </div>
-            </div>
-          </p>
-          <button class="positive big ui button">确认</button>
-        </div>
-      </div>
-    </div>
-    <!-- 筛选条件 -->
-  </div>
   </div>
 
   <!-- 课程条目 -->

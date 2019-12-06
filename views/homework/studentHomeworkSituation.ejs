@@ -75,7 +75,7 @@
     <div class="ui container" style="margin-top:10px;">
         <div class="ui segments" style="background-color:rgb(255, 255, 255);">
             <div class="ui basic segment">
-                <button class="ui labeled icon button" onclick="javascript:window.location.href='./studentHomeworkListPage'">
+                <button class="ui labeled icon button" onclick="javascript:window.location.href='../all'">
                     <i class="chevron left icon"></i>返回
                 </button>
             </div>
@@ -147,7 +147,9 @@
                     <div class="column">
                         <div class="correct time" style="margin-left: 35px;"><b>批改时间</b></div>
                     </div>
-                    <div class="column"></div>
+                    <div class="column">
+                        <div class="correct comment" style="margin-left: 35px;"><b>评语</b></div>
+                     </div>
                     <div class="column">
                         <div class="complain button" style="margin-left: 35px;"><b>申诉</b></div>
                     </div>
@@ -166,21 +168,31 @@
                     </div>
                     <div class="column">
                         <div class="correct time" style="margin-left: 35px;">
-                            <%= hwInfo.markTime %>
+                            <%= dateFormat(hwInfo.markTime) %>
                         </div>
                     </div>
-                    <div class="column"></div>
+                    <div class="column">
+                        <%= hwInfo.comment %>
+                    </div>
                     <div class="column">
                         <div class="complain button" style="margin-left: 35px;color: rgb(10, 73, 145);">
-                            <a href="./complain">申诉</a></div>
+                         
+                    <% if ( hwInfo.complainMsg == null ) { %> 
+                        <a href="./complain">申诉</a></div>
+                    <% } else { %> 
+                        <p >已申诉，等待结果</p></div>
+                    <% } %>
+                        </div>
                     </div>
                 </div>
                 <!-- console.log(<%= hwInfo.markTime %>);     -->
 
                 <!-- 未批改情况 -->
                 <% } else { %>
-                <div class="ui five column grid">
-                    <p style="text-align:center">暂无批改记录</p>
+                <div class="ui five column grid" >
+                    <div class="row" style="text-align:center">
+                        <h3 style="text-align:center" >暂无批改记录</h3>
+                    </div>
                 </div>
                 <% } %>
 
