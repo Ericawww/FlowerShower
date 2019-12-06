@@ -173,31 +173,42 @@ exports.updateNotice = async (req, res) => {
  * 查看全部帖子
  */
 exports.getTalk = async (req, res) => {
-    var token = req.session.token;
-    var talkList = await Talk.prototype.getTalk(req.params.classID);
-    if (req.query.choice == null) choice = 0;
-    else choice = req.query.choice;
-    res.render("courses/talkBoard", {
-        talkList: talkList,
-        token: token,
-        choice: choice //设置默认显示我的帖子
-    });
+  var token = req.session.token;
+  var talkList;
+  if (req.query.choice == null) choice = 0;
+  else choice = req.query.choice;
+  if (choice == 0) {
+    //显示我的帖子
+    talkList = await Talk.prototype.getTalk(
+      req.params.classID,
+      1 //req.session.token.userID
+    );
+  } else {
+    //显示全部帖子
+    talkList = await Talk.prototype.getTalk(req.params.classID);
+  }
+  res.render("courses/talkBoard", {
+    talkList: talkList,
+    token: token,
+    choice: choice //设置默认显示我的帖子
+  });
 };
 
 /**
  * 发布帖子
  */
 exports.writeTalk = async (req, res) => {
-    var ret = await Talk.prototype.writeTalk(
-        req.body.title,
-        req.body.content,
-        req.body.time
-    );
-    if (ret) {
-        res.send({ status: 1 }).end();
-    } else {
-        res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
-    }
+  var ret = await Talk.prototype.writeTalk(
+    req.params.classID,
+    1, //req.session.token.userID,
+    req.body.title,
+    req.body.content
+  );
+  if (ret) {
+    res.send({ status: 1 }).end();
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
 };
 
 exports.addHw = async (req, res) => {

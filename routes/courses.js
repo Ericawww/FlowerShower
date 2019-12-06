@@ -48,5 +48,18 @@ router.get("/class/:classID/teacher/hw/add", classController.addHw);
 
 //申诉？
 router.post('/complainBoard', homeworkController.writeComplainBoard);//待定
+router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
+
+router.post(
+  "/class/:classID/notice/updateNotice",
+  classController.updateNotice
+);
+router.post("/class/:classID/talk/updateTalk", classController.writeTalk);
+router.post(
+  "/class/:classID/talk/:talkID/updateComment",
+  classController.addComment
+);
+//router.get('/courseGrade',courseController.getGrade);
+//router.get('/courseGradeChange', courseController.gradeChange);
 
 module.exports = router;

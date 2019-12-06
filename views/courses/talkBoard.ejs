@@ -125,11 +125,10 @@
   </div>
   <!-- 课程水平菜单 -->
 
-
   <div class="ui container" style="margin-top:10px;">
     <div class="ui pointing menu">
       <% if (choice == 0) { %>
-      <a class="item active" href="javascript:window.location.href='./talk?choice=0'">
+      <a class="item active" href="javascript:window.location.href='/courses/class/1/talk?choice=0'">
         我的帖子
       </a>
       <a class="item" href="javascript:window.location.href='./talk?choice=1'">
@@ -153,13 +152,17 @@
       </div>
     </div>
     <div class="ui segment">
+
       <!--发表帖子按钮-->
+      <% if (choice == 0) { %>
       <div class="ui container" style="margin-top:10px;">
         <button class="ui positive button" onclick="showTalkBoard()">
           <i class="add icon"></i>
           发表帖子
         </button>
       </div>
+      <% } %>
+
       <!--发表帖子按钮-->
       <!--帖子列表-->
       <div class="ui horizontal divider"></div>
@@ -175,20 +178,35 @@
       talkList[i]; var date = new Date(talk.time); var time = date.getFullYear()
       + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' +
       date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds(); %>
-        <h3 class="ui top attached header">
-          <%= talk.title %>
-        </h3>
-        <div class="ui attached segment">
-          <a class="author">Matt</a>
-          <div class="metadata">
-            <span class="date"><%= time %></span>
+        <div class="ui segment">
+          <div class="ui grid">
+            <div class="three wide column" style="background-color:rgb(122, 146, 194);">
+              <img class="ui avatar tiny image" src="/images/christian.jpg">
+              <span style="font-size:larger; color:#eeeeee"><%=talk.userName %></span>
+            </div>
+            <div class="ten wide column">
+              <p style="height: 45px;display: block;line-height: 45px;">
+                <span style="font-size:x-large;"><a href="javascript:window.location.href='./talk/<%= talk.talkID %>'"><%= talk.title %></a></span>
+              </p>
+              <div class="metadata">
+                <div class="ui grid">
+                  <div class="five wide column">
+                    <span class="date"><i class="clock outline icon"></i><%= time %></span>
+                  </div>
+                  <div class="eleven wide column">
+                    <span><i class="comment alternate outline icon">100</i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="summary"><%= talk.content %></div>
         </div>
-        <% } } %>
+        <% } %>
+        <% } %>
       </div>
-      <!--帖子列表-->
     </div>
+    <!--帖子列表-->
+  </div>
   </div>
 
   <!-- 发布帖子模态框 -->
@@ -243,12 +261,12 @@
       alert("标题不能为空！");
       return;
     }
+
     $.ajax({
       dataType: "json",
       type: "post",
-      url: location.href+"/updateTalk",
+      url: location.href.split("?")[0] + "/updateTalk",
       data: {
-        userID: token.userID,
         title: $("input[name='talkTitle']").val(),
         content: $("textarea[name='talkContent']").val(),
       },
@@ -258,6 +276,7 @@
           $("textarea[name='talkContent']").val(""); //清空帖子内容和联系方式
           $("input[name='talkTitle']").val("");
           $(".ui.modal").modal("hide");
+          window.location.reload();
         } else {
           alert(data.msg);
         }
@@ -267,21 +286,6 @@
       }
     });
   };
-
-  var switchTalk = (i) => {
-    $.ajax({
-      dataType: "json",
-      type: "get",
-      url: location.href,
-      data: {
-        choice: i
-      },
-      error: err => {
-        console.log(err);
-        alert("与服务器连接异常，请稍后再试!");
-      }
-    });
-  }
 </script>
 
 </html>
