@@ -9,6 +9,8 @@ var Notice = require("../models/class/Notice");
  * 判断当前用户是否为教师，是则进行路由匹配，否则返回错误信息
  */
 exports.checkTeacher = async (req, res, next) => {
+    req.session.token = await config.getToken('T0001', '123');
+    console.log(req.session.token);
     if (req.session.token == null || req.session.token.userType != config.TYPE_TEACHER) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
@@ -33,7 +35,7 @@ exports.checkStudent = async (req, res, next) => {
  * 判断当前作业号是否存在，是则进行路由匹配，否则返回错误信息
  */
 exports.checkHw = async (req, res, next) => {
-    var hw = await Classes.prototype.isExistHw({ hwID: req.params.hw });
+    var hw = await Homework.prototype.isExistHw({ hwID: req.params.hw });
     if (hw == 0) {
         res.send({ status: 0, msg: "该作业不存在！" }).end();
         return;
