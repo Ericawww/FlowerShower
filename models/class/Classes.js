@@ -5,32 +5,16 @@ class Classes {
     /**
      * 
      * @param {string} classID 教学班ID
-     * @param {Array} attr 附加属性, 取值可以是''
-     * @return {Object} 结果集
-     */
-    async getClassDetail(classID, attr) {
-
-    }
-
-    async getClassMembers(classID) { 
-
-    }
-
-    async importClassMembers(classID, students) { 
-        
-    }
-
-    /**
-     * 
-     * @param {string} classID 教学班ID
      * @return {Array} 满足条件的单条记录，不满足则为null
      */
     async getClassHeader(classID) {
         try {
             var conn = await pool.getConnection();
-            console.log(classID);
-            var ret = await conn.query("select course.courseName,course.courseDept,class.startTime,class.closeTime,user.userName from class inner join course inner join user on class.courseNumber=course.courseNumber and user.userID = class.teacherID where classID = ?", [classID]);
-            console.log(ret);
+            //console.log(classID);
+            var ret = await conn.query("select course.courseName,course.courseDept,class.startTime,class.closeTime,user.userName from \
+                class inner join course inner join user on class.courseNumber=course.courseNumber and user.userID = class.teacherID \
+                where classID = ?", [classID]);
+            //console.log(ret);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
         } catch (err) {
@@ -40,7 +24,6 @@ class Classes {
             conn.release();
         }
     }
-
 
     /**
      * 判断用户是否属于某个课程（包括老师、助教、学生）并给出他们的用户类型和权限
@@ -257,32 +240,139 @@ class Classes {
         }
     }
 
+
+    /**
+     * 删除某个分组
+     * 
+     * @param {string} classID
+     * @param {string} groupLeaderID
+     * @return {string} errMsg 若出错则返回出错信息，执行成功返回null
+     */
     async deleteGroup(classID, groupLeaderID) {
-
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("delete from class_group where classID = ? and groupLeaderID = ?", [classID, groupLeaderID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
+    /**
+     * 更换组长
+     * 
+     * @param {string} classID
+     * @param {string} groupLeaderID
+     * @param {string} newGroupLeaderID
+     * @return {string} errMsg 若出错则返回出错信息，执行成功返回null
+     */
     async updateGroupLeader(classID, groupLeaderID, newGroupLeaderID) {
-
+        try {
+            var conn = await pool.getConnection();
+            //相同教学班的不同分组的组长肯定不会重复，但是还是需要判断要替换的组长是否已经是某个组的组员
+            var sql = "select studentID from class_group_view where classID = ? and studentID = ?;"
+            var params = [classID, newGroupLeaderID];
+            var ret = await conn.query(sql, params);
+            if (ret[0].length > 0) throw "该学生（新组长）已经在教学班的某分组中！";
+            await conn.query("update class_group set groupLeaderID = ? where classID = ? and groupLeaderID = ?", [newGroupLeaderID, classID, groupLeaderID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
+    /**
+     * 向分组中添加一名学生
+     * 
+     * @param {string} classID
+     * @param {int} groupNumber
+     * @param {string} studentID
+     */
     async insertStudentToGroup(classID, groupNumber, studentID) {
-
+        try {
+            var conn = await pool.getConnection();
+            //判断该学生是否已经在教学班中的某个分组中存在
+            var sql = "select studentID from class_group_view where classID = ? and (studentID = ? or groupLeaderID = ?);"
+            var params = [classID, studentID, studentID];
+            var ret = await conn.query(sql, params);
+            if (ret[0].length > 0) throw "该学生已经在教学班的某分组中！";
+            await conn.query("insert into class_group_member(groupID, studentID) values( \
+                (select groupID from class_group where classID = ? and groupNumber = ?), ?)", [classID, groupNumber, studentID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
+    /**
+     * 从分组中删除一名学生
+     * 
+     * @param {string} classID
+     * @param {string} studentID
+     */
     async removeStudentFromGroup(classID, studentID) {
-
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("delete from class_group_member where studentID = ? and groupID in \
+                (select groupID from class_group where classID = ?);", [classID, studentID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
-    async uploadMaterial(classID, chapterNumber, path, submitterID) {
-
+    /**
+     * 上传资料
+     * 
+     * @param {string} classID
+     * @param {int} chapterNumber
+     * @param {string} path
+     * @param {string} submitterID
+     */
+    async uploadMaterial(classID, materialName, path, submitterID) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("insert into class_materials(classID, materialName, path, submitter, uploadTime) values \
+                (?, ?, ?, ?, CURRENT_TIMESTAMP);", [classID, materialName, path, submitterID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
-    async deleteMaterial(classID, chapterNumber, path) {
-
-    }
-
-    async removeStudentFromGroup() { 
-
+    /**
+     * 删除资料
+     * 
+     * @param {string} classID
+     * @param {int} chapterNumber 
+     * @param {string} path
+     */
+    async deleteMaterial(classID, path) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("delete from class_materials where classID = ? and path = ?;", [classID, path]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
     }
 
 }
