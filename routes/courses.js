@@ -19,7 +19,7 @@ router.post("/class/:classID/talk/:talkID/updateComment", classController.addCom
 
 
 //成绩
-router.get('/classes/:classID/teacher/courseGrade', courseControllser.getGrade);
+router.get('/classes/:classID/teacher/courseGrade', courseController.getGrade);
 router.get('/classes/:classID/teacher/:classid/courseGradeChange', courseController.gradeChange);
 router.post('/classes/:classID/teacher/:classid/gradeChange', courseController.setGradeChange);
 router.post('/classes/:classID/teacher/:classid/gradeWeightChange', courseController.setGradeWeightChange);
