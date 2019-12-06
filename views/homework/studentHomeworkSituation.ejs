@@ -130,12 +130,14 @@
             <div class="correct status" style="margin-left: 15px;"><b>状态</b></div>
           </div>
           <div class="column">
-            <div class="score" style="margin-left: 35px;"><b>分数</b></div>
+            <div class="score" style="margin-left: 15px;"><b>分数</b></div>
           </div>
           <div class="column">
-            <div class="correct time" style="margin-left: 35px;"><b>批改时间</b></div>
+            <div class="correct time" style="margin-left: 15px;"><b>批改时间</b></div>
           </div>
-          <div class="column"></div>
+          <div class="column">
+            <div class="comment" style="margin-left: 15px;"><b>评语</b></div>
+          </div>
           <div class="column">
             <div class="complain button" style="margin-left: 35px;"><b>申诉</b></div>
           </div>
@@ -146,15 +148,17 @@
             <div class="correct status" style="margin-left: 15px;color: rgb(40, 167, 69);">已批改</div>
           </div>
           <div class="column">
-            <div class="score" style="margin-left: 35px;">8.5</div>
+            <div class="score" style="margin-left: 15px;">8.5</div>
           </div>
           <div class="column">
-            <div class="correct time" style="margin-left: 35px;">2019-12-3 20:30</div>
+            <div class="correct time" style="margin-left: 15px;">2019-12-3 20:30</div>
           </div>
-          <div class="column"></div>
+          <div class="column">
+            <div class="comment" style="margin-left: 15px;">写的还可以写的还可以</div>
+          </div>
           <div class="column">
             <div class="complain button" style="margin-left: 35px;color: rgb(10, 73, 145);">
-              <a href="/homework/studentHomeworkComplain">申诉</a></div>
+              <a href="javascript:showComplainModal()">申诉</a></div>
           </div>
         </div>
         <div class="ui divider"></div>
@@ -167,11 +171,33 @@
   <div style="height:20px;"></div>
   <!-- 占位 -->
 
+  <!-- 申诉模态框-->
+  <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">申诉作业成绩</div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <textarea maxlength="300" name="complainMsg" placeholder="输入申诉原因，不超过300个字符"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui red deny button">取消</div>
+      <div class="ui positive button">提交</div>
+    </div>
+  </div>
+  <!--申诉模态框 -->
+
 </body>
 
 <script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
 <script>
+  var showComplainModal = () => {
+    $('.ui.modal').modal('show');
+  }
 </script>
 
 </html>
