@@ -302,14 +302,26 @@ exports.updateUserPwd = async (req, res) => {
  * 用户个人主页
  */
 exports.userIndex = async (req, res) => {
-	res.render("users/userPage");
+	var token = req.session.token;
+	var studentID = token.userID;
+	var courseList = new Array();
+	var ret = await User.prototype.getCourseNumber(studentID);
+	for (var i = 0; i < ret.length; i++) {
+		courseList[i] = await User.prototype.getCourseInfo(ret[i].courseNumber);
+	}
+	res.render("users/userPage", {
+		token: token,
+		courseList:courseList,
+		classIDInfo:ret
+	});
 };
 
 /**
  * 用户获得自己的所有成绩
  */
 exports.getGrade = async (req, res) => {
-	var studentID = req.params.userID;
+	var studentID = req.session.token.userID;
+	var token = req.session.token;
 	var firstPartResult = await User.prototype.getTwoGrade(studentID);
 	var gradeWeightList = new Array();
 	var projectGradeList = new Array();
@@ -355,7 +367,8 @@ exports.getGrade = async (req, res) => {
 		avgGrade: avgGrade,
 		maxGrade: maxGrade,
 		courseName: courseName,
-		studentNameValue: studentNameValue
+		studentNameValue: studentNameValue,
+		token: token
 	});
 
 }

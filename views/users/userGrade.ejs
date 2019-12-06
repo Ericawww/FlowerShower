@@ -8,9 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 	<link rel="icon" href="/images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-	<script src="/dist/semantic.js"></script>
-	<script src="/javascripts/jquery.js"></script>
-	<script src="javascripts/userGrade.js"></script>
 	<style type="text/css">
 		body {
 			background-color: #eeeeee;
@@ -68,28 +65,29 @@
 				<div class="ui vertical menu">
 					<div class="ui raised link card">
 						<div class="image">
+							<!-- <img src="/images/avatar200x200.png" /> -->
+							<% if (token.userPhoto == null) { %>
 							<img src="/images/avatar200x200.png" />
+							<% } else { %>
+							<img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
+							<% } %>
 						</div>
 						<div class="content">
 							<a class="header"><%= studentNameValue %></a>
 							<div class="description">学生</div>
 						</div>
 					</div>
-					<a class="item">
+					<a class="item" id="homePage">
 						<i class="home icon"></i>
 						首页
 					</a>
-					<a class="item">
+					<a class="item" id="myClass">
 						<i class="file outline icon"></i>
 						我的课程
 					</a>
-					<a class="item">
+					<a class="item" id="myGrade">
 						<i class="font icon"></i>
 						我的成绩
-					</a>
-					<a class="item">
-						<i class="bell outline icon"></i>
-						公告
 					</a>
 				</div>
 			</div>
@@ -181,7 +179,27 @@
 		</div>
 	</div>
 
+	<!-- 页脚 -->
+	<div class="template-footer"></div>
+	<!-- 页脚 -->
 
+	<script src="/dist/semantic.js"></script>
+	<script src="/javascripts/jquery.js"></script>
+	<script src="/javascripts/common.js"></script>
+	<script src="javascripts/userGrade.js"></script>
+	<script>
+		$('#myGrade').click(function () {
+			window.location.href = './userGrade';
+		});
+
+		$('#homePage').click(function () {
+			window.location.href = '/';
+		});
+
+		$('#myClass').click(function () {
+			window.location.href = './';
+		});
+	</script>
 </body>
 
 </html>
