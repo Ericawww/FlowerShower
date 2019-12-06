@@ -99,7 +99,7 @@
             <!-- TODO：判断截止时间是否大于今天？ -->
             <script>
                 var curDate = new Date();
-                var closeTime = new Date(<%= hwInfo.closeTime %>);
+                var closeTime = new Date("<%= hwInfo.closeTime %>");
                 console.log(curDate,closeTime);
                 if(curDate>closeTime)
                 {
@@ -207,11 +207,33 @@
     <div style="height:20px;"></div>
     <!-- 占位 -->
 
+  <!-- 申诉模态框-->
+  <div class="ui modal">
+    <i class="close icon"></i>
+    <div class="header">申诉作业成绩</div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <textarea maxlength="300" name="complainMsg" placeholder="输入申诉原因，不超过300个字符"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui red deny button">取消</div>
+      <div class="ui positive button">提交</div>
+    </div>
+  </div>
+  <!--申诉模态框 -->
+
 </body>
 
 <script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
 <script>
+  var showComplainModal = () => {
+    $('.ui.modal').modal('show');
+  }
 </script>
 
 </html>

@@ -221,3 +221,7 @@ var showCourseModal = (index) => {
     $(".modal.import").html(template);
     $(".modal.import").modal({ closable: false }).modal("show");
 }
+
+var showClasses = (index) => {
+    window.location.href='/admin/class';
+}
