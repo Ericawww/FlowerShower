@@ -311,6 +311,7 @@ exports.userIndex = async (req, res) => {
  */
 exports.getGrade = async (req, res) => {
 	var studentID = req.session.token.userID;
+	var token = req.session.token;
 	var firstPartResult = await User.prototype.getTwoGrade(studentID);
 	var gradeWeightList = new Array();
 	var projectGradeList = new Array();
@@ -356,7 +357,8 @@ exports.getGrade = async (req, res) => {
 		avgGrade: avgGrade,
 		maxGrade: maxGrade,
 		courseName: courseName,
-		studentNameValue: studentNameValue
+		studentNameValue: studentNameValue,
+		token:token
 	});
 
 }

@@ -65,26 +65,27 @@
 				<div class="ui vertical menu">
 					<div class="ui raised link card">
 						<div class="image">
-							<% if(token.userPhoto==null){ %>
+							<img src="/images/avatar200x200.png" />
+							<!-- <% if(token.userPhoto==null){ %>
 							<img src="/images/avatar200x200.png" />
 							<% } else { %>
 							<img src="<%= token.userPhoto %>" />
-							<% } %>
-						</div>
+							<% } %> -->
+						</div>s
 						<div class="content">
 							<a class="header"><%= studentNameValue %></a>
 							<div class="description">学生</div>
 						</div>
 					</div>
-					<a class="item">
+					<a class="item" id="homePage">
 						<i class="home icon"></i>
 						首页
 					</a>
-					<a class="item">
+					<a class="item" id="myClass">
 						<i class="file outline icon"></i>
 						我的课程
 					</a>
-					<a class="item">
+					<a class="item" id="myGrade">
 						<i class="font icon"></i>
 						我的成绩
 					</a>
@@ -186,6 +187,19 @@
 	<script src="/javascripts/jquery.js"></script>
 	<script src="/javascripts/common.js"></script>
 	<script src="javascripts/userGrade.js"></script>
+	<script>
+		$('#myGrade').click(function () {
+			window.location.href = './userGrade';
+		});
+
+		$('#homePage').click(function () {
+			window.location.href = '/';
+		});
+
+		$('#myClass').click(function () {
+			window.location.href = '/';
+		});
+	</script>
 </body>
 
 </html>
