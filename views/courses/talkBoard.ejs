@@ -128,7 +128,7 @@
   <div class="ui container" style="margin-top:10px;">
     <div class="ui pointing menu">
       <% if (choice == 0) { %>
-      <a class="item active" href="javascript:window.location.href='/courses/class/1/talk?choice=0'">
+      <a class="item active" href="javascript:window.location.href=''./talk?choice=0'">
         我的帖子
       </a>
       <a class="item" href="javascript:window.location.href='./talk?choice=1'">
@@ -162,7 +162,6 @@
         </button>
       </div>
       <% } %>
-
       <!--发表帖子按钮-->
       <!--帖子列表-->
       <div class="ui horizontal divider"></div>
@@ -181,12 +180,13 @@
         <div class="ui segment">
           <div class="ui grid">
             <div class="three wide column" style="background-color:rgb(122, 146, 194);">
-              <img class="ui avatar tiny image" src="/images/christian.jpg">
+              <img class="ui avatar tiny image" src="/<%= token.userPhoto %>" onerror="this.src='/images/christian.jpg'" />
               <span style="font-size:larger; color:#eeeeee"><%=talk.userName %></span>
             </div>
             <div class="ten wide column">
               <p style="height: 45px;display: block;line-height: 45px;">
-                <span style="font-size:x-large;"><a href="javascript:window.location.href='./talk/<%= talk.talkID %>'"><%= talk.title %></a></span>
+                <span style="font-size:x-large;"><a
+                    href="javascript:window.location.href='./talk/<%= talk.talkID %>'"><%= talk.title %></a></span>
               </p>
               <div class="metadata">
                 <div class="ui grid">
@@ -217,7 +217,7 @@
       <div class="ui form">
         <div class="field">
           <label>标题<span class="neccessary">*</span></label>
-          <input type="text" name="talkTitle"" placeholder=" 不超过32个字符" />
+          <input type="text" name="talkTitle" placeholder=" 不超过32个字符" />
         </div>
         <div class="field">
           <label>内容<span class="neccessary">*</span></label>
