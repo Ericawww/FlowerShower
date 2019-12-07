@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .course-title {
+      font-weight: bold;
+      font-size: medium;
+      font-family: "黑体";
+      margin: 8px 16px;
+    }
+
+    .course-info {
+      font-family: "微软雅黑";
+      margin: 8px 16px;
+    }
+
+    .user-title {
+      text-align: center;
+      font-size: large;
+      font-family: "微软雅黑";
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="pusher">
+    <!-- 导航栏 -->
+    <div class="ui menu" style="padding: 15px;">
+      <img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;" />
+      <div class="right menu" style="margin-right: 20%;">
+        <div class="item">
+          <div class="ui action left icon input">
+            <i class="search icon"></i>
+            <input type="text" placeholder="搜索感兴趣的课程" />
+            <button class="ui positive button">搜索</button>
+          </div>
+        </div>
+        <a class="item">使用教程</a>
+        <a class="item">建议反馈</a>
+      </div>
+    </div>
+    <!-- 导航栏 -->
+
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui grid">
+        <!-- 首页垂直菜单 -->
+        <div class="four wide column">
+          <div class="ui vertical menu">
+            <div class="ui raised link card">
+              <div class="image">
+                <img src="/images/avatar200x200.png" />
+              </div>
+              <div class="content">
+                <a class="header">刑卫</a>
+                <div class="description">教师</div>
+              </div>
+            </div>
+            <a class="item" id="homePage">
+              <i class="home icon"></i>
+              首页
+            </a>
+            <a class="item" id="myClass">
+              <i class="file outline icon"></i>
+              我的课程
+            </a>
+            <a class="item" id="taPrivilege">
+              <i class="list alternate outline icon"></i>
+              助教权限管理
+            </a>
+          </div>
+        </div>
+        <!-- 首页垂直菜单 -->
+        <!-- 教师课程页面 -->
+        <div class="twelve wide column">
+          <div class="ui raised segment">
+            <div class="ui grid">
+              <div class="four wide column" style="text-align: center;"><b>课程名称</b></div>
+              <div class="four wide column" style="text-align: center;"><b>课程号</b></div>
+              <div class="four wide column" style="text-align: center;"><b>开课学院</b></div>
+              <div class="four wide column" style="text-align: center;"><b>学分</b></div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui grid">
+              <div class="four wide column courseEnter"
+                style="cursor:pointer;text-align: center;font-size: 15px;font-weight: bold; color: #12a182">
+                <a>区块链与数字货币</a></div>
+              <div class="four wide column" style="text-align: center;">21191910</div>
+              <div class="four wide column" style="text-align: center;">计算机科学与技术学院</div>
+              <div class="four wide column" style="text-align: center;">2.5</div>
+              <div class="class_id_info" style="display:none;"></div>
+            </div>
+            <div class="ui divider"></div>
+            <div class="ui grid" style="margin-bottom: 10px;">
+            </div>
+          </div>
+        </div>
+        <!-- 教师课程页面 -->
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="template-footer"></div>
+    <!-- 页脚 -->
+  </div>
+
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/common.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script>
+    $('#taPrivilege').click(function () {
+      window.location.href = './manageTaPrivilege';
+    });
+
+    $('#homePage').click(function () {
+      window.location.href = '/';
+    });
+
+    $('#myClass').click(function () {
+      window.location.href = './';
+    });
+
+    $('.courseEnter').click(function () {
+      var enterLocation = "/courses/class/";
+      var classID = $(this).siblings('.class_id_info').text();
+      enterLocation += classID + "/notice";
+      window.location.href = enterLocation;
+    })
+  </script>
+
+</body>
+
+</html>
