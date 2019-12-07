@@ -10,7 +10,6 @@ var Notice = require("../models/class/Notice");
  */
 exports.checkTeacher = async (req, res, next) => {
   req.session.token = await config.getToken("T0001", "123");
-  console.log(req.session.token);
   if (
     req.session.token == null ||
     req.session.token.userType != config.TYPE_TEACHER
@@ -74,10 +73,10 @@ exports.getTcMainPage = async (req, res) => {
  * 得到所有作业，若不存在为null
  */
 exports.getStuAllHw = async (req, res) => {
-    //dev---fake session
-    req.session.token = await config.getToken('9999', '123');
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    var hwList = await Homework.prototype.getAllHw(req.params.classID, req.session.token.userID);
+  //dev---fake session
+  req.session.token = await config.getToken('9999', '123');
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  var hwList = await Homework.prototype.getAllHw(req.params.classID, req.session.token.userID);
 
   res.render("homework/studentHomeworkListPage", {
     hwList: hwList,
@@ -158,15 +157,15 @@ exports.submitComplain = async (req, res) => {
   }
 };
 exports.submitHw = async (req, res) => {
-    //插入该条complain数据，似乎也没啥好验证的
-    //dev----
-    req.session.token = await config.getToken('9999', '123');
-    var ret = await Homework.prototype.submitHw(req.session.token.userID, req.params.hw, req.body.description);
-    if (ret == 0) {
-        res.send({ status: 0, msg: "异常，请重试。" }).end();
-    } else {
-        res.send({ status: 1 }).end();
-    }
+  //插入该条complain数据，似乎也没啥好验证的
+  //dev----
+  req.session.token = await config.getToken('9999', '123');
+  var ret = await Homework.prototype.submitHw(req.session.token.userID, req.params.hw, req.body.description);
+  if (ret == 0) {
+    res.send({ status: 0, msg: "异常，请重试。" }).end();
+  } else {
+    res.send({ status: 1 }).end();
+  }
 };
 /**
  * 跳转至提交页面，需要一点信息
@@ -188,78 +187,99 @@ exports.getStuHwSubmit = async (req, res) => {
  * 教师得到当前所有班级的作业
  */
 exports.getTcAllHw = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    var hwList = await Homework.prototype.getAllHw(req.params.classID);
-    res.render("homework/teacherHomeworkListPage", { classHeader: classHeader, hwList: hwList });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  var hwList = await Homework.prototype.getAllHw(req.params.classID);
+  res.render("homework/teacherHomeworkListPage", { classHeader: classHeader, hwList: hwList });
 };
 
 /**
  * 教师得到选定作业的详细完成/批改/申诉情况
  */
 exports.getTcHwDetail = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkDetail", { classHeader: classHeader, hwInfo: hwInfo });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+  res.render("homework/teacherHomeworkDetail", { classHeader: classHeader, hwInfo: hwInfo });
 };
 
 /**
  * 教师跳转到添加作业的页面
  */
 exports.addHw = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    res.render("homework/teacherHomeworkAdd", { classHeader: classHeader });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  res.render("homework/teacherHomeworkAdd", { classHeader: classHeader });
 };
 
 /**
  * 教师跳转到更新作业的页面
  */
 exports.updateHwPage = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader });
 };
 
 /**
  * 数据库删除作业,正确返回1，错误返回0
  */
-exports.deleteHw = async(req,res)=>{
-    var ret = await Homework.prototype.deleteHw(req.params.hw);
-    if (ret == 0) {
-        res.send({ status: 0, msg: "异常，请重试。" }).end();
-    } else {
-        res.send({ status: 1 }).end();
-    }
+exports.deleteHw = async (req, res) => {
+  var ret = await Homework.prototype.deleteHw(req.params.hw);
+  if (ret == 0) {
+    res.send({ status: 0, msg: "异常，请重试。" }).end();
+  } else {
+    res.send({ status: 1 }).end();
+  }
 }
 /**
  * 批改作业
  */
 exports.markHwPage = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    res.render("homework/teacherHomeworkMark", { classHeader: classHeader });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  res.render("homework/teacherHomeworkMark", { classHeader: classHeader });
 };
 /**
- * 教师处理申诉
+ * 教师处理申诉,需要complainList和hwInfo
  */
 exports.dealComplain = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    var hwList = await Homework.prototype.getTcHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkDealComplain", { classHeader: classHeader, hwList: hwList });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  var data=await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
+  var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+  if(data==null){
+    var stuList = null;
+  }else{
+    var stuList = data.stuList;
+  }
+  res.render("homework/teacherHomeworkDealComplain", { classHeader: classHeader, hwInfo: hwInfo, complainList:stuList });
 }
 /**
  * 教师得到提交情况
  */
 exports.getSubmitSituation = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    var hwList = await Homework.prototype.getTcHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkSubmitSituation", { classHeader: classHeader, hwList: hwList });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  var data=await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
+  var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+  if(data==null){
+    var stuList = null;
+    var classInfo=null;
+  }else{
+    var stuList = data.stuList;
+    var classInfo=data.classInfo;
+  }
+   res.render("homework/teacherHomeworkSubmitSituation", { classHeader: classHeader,  stuList: stuList, classInfo: classInfo , hwInfo:hwInfo });
 }
 
 /**
- * 教师得到作业成绩分布
+ * 教师得到作业成绩分布,若不存在学生则为null
  */
 exports.getGradeSituation = async (req, res) => {
-    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    var hwList = await Homework.prototype.getTcHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkGradeSituation", { classHeader: classHeader, hwList: hwList });
+  var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+  var data=await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
+  var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+  if(data==null){
+    var stuList = null;
+    var classInfo=null;
+  }else{
+    var stuList = data.stuList;
+    var classInfo=data.classInfo;
+  }res.render("homework/teacherHomeworkGradeSituation", { classHeader: classHeader, stuList: stuList, classInfo: classInfo , hwInfo:hwInfo});
 }
 
 
@@ -268,11 +288,11 @@ exports.getGradeSituation = async (req, res) => {
  */
 exports.getCourseNotice = async (req, res) => {
 
-    //dev---fake session
-    req.session.token = await config.getToken('9999', '123');
-    var token = req.session.token;
-    var noticeList = await Notice.prototype.getCourseNotice(req.params.classID); //用课程号替换掉
-    res.render("courses/noticePage", { noticeList: noticeList, token: token });
+  //dev---fake session
+  req.session.token = await config.getToken('9999', '123');
+  var token = req.session.token;
+  var noticeList = await Notice.prototype.getCourseNotice(req.params.classID); //用课程号替换掉
+  res.render("courses/noticePage", { noticeList: noticeList, token: token });
 };
 
 /**
@@ -286,7 +306,6 @@ exports.updateNotice = async (req, res) => {
   );
   if (ret) {
     var url = "localhost" + req.headers.referer;
-    console.log(url);
     res.send({ status: 1, msg: "数据库插入成功！" });
   } else {
     res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
@@ -322,17 +341,17 @@ exports.getTalk = async (req, res) => {
  * 发布帖子
  */
 exports.writeTalk = async (req, res) => {
-    var ret = await Talk.prototype.writeTalk(
-        req.params.classID,
-        1, //req.session.token.userID,
-        req.body.title,
-        req.body.content
-    );
-    if (ret) {
-        res.send({ status: 1 }).end();
-    } else {
-        res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
-    }
+  var ret = await Talk.prototype.writeTalk(
+    req.params.classID,
+    1, //req.session.token.userID,
+    req.body.title,
+    req.body.content
+  );
+  if (ret) {
+    res.send({ status: 1 }).end();
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
 };
 
 /**
@@ -365,6 +384,71 @@ exports.addComment = async (req, res) => {
   );
   if (ret) {
     res.send({ status: 1 }).end();
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
+};
+
+/**
+ * 教师增加作业
+ */
+exports.updateHw = async (req, res) => {
+  var ret = await Homework.prototype.updateHw(
+    req.body.projectName,
+    req.params.classID,
+    req.body.startTime,
+    req.body.closeTime,
+    req.body.fullMark,
+    req.body.description,
+    req.body.isGroupWork
+  );
+  if (ret) {
+    res.send({ status: 1, msg: "数据库插入成功！" }).end();
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
+
+};
+
+/**
+ * 学生申诉后更新成绩，标记为已处理
+ */
+exports.updateScore = async(req,res) =>{
+  var ret = await Homework.prototype.updateScore(req.params.hwID,req.body.score,req.body.stuID);
+  if(ret){
+    res.send({ status: 1, msg: "数据库插入成功！" }).end();
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
+}
+/**
+ * 拒绝学生的申诉，标记为已处理
+ */
+exports.rejectComplain = async(req,res) =>{
+  var ret = await Homework.prototype.updateScore(req.params.hwID,req.body.score,req.body.stuID);
+  if(ret){
+    res.send({ status: 1, msg: "数据库插入成功！" }).end();
+  } else {
+    res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+  }
+}
+
+
+/**
+ * 教师增加作业
+ */
+exports.changeHw = async (req, res) => {
+  var ret = await Homework.prototype.changeHw(
+    req.body.projectName,
+    req.body.startTime,
+    req.body.closeTime,
+    req.body.fullMark,
+    req.body.description,
+    req.body.isGroupWork,
+    req.params.hw
+  );
+  if (ret) {
+    res.send({ status: 1, msg: "数据库插入成功！" }).end();
   } else {
     res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
   }

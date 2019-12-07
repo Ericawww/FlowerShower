@@ -79,15 +79,16 @@
         </button>
       </div>
       <div class="ui basic segment">
-        <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+        <b class="homework name" style="font-size:xx-large;">
+          <%= hwInfo.projectName %></b>
       </div>
       <div class="ui basic segment">
-          <div class="ui tabular menu">
-              <a class="item"  href="./detail">作业详情</a>
-              <a class="item"  href="./submit">作业上交情况</a>
-              <a class="item"  href="./grade">作业成绩情况</a>
-              <a class="item active" >处理成绩申诉</a>
-            </div>
+        <div class="ui tabular menu">
+          <a class="item" href="./detail">作业详情</a>
+          <a class="item" href="./submit">作业上交情况</a>
+          <a class="item" href="./grade">作业成绩情况</a>
+          <a class="item active">处理成绩申诉</a>
+        </div>
       </div>
       <div class="ui basic segment">
         <div class="correct situation" style="margin-left: 15px;font-size: large;"><b>申诉情况</b></div>
@@ -106,26 +107,40 @@
             <div class="complain button"><b>操作</b></div>
           </div>
         </div>
-        <div class="ui divider"></div>
-        <div class="ui grid">
-          <div class="three wide column">
-            <div class="student name description" style="margin-left: 15px;">dcw</div>
-          </div>
-          <div class="three wide column">
-            <div class="student id description">31700000</div>
-          </div>
-          <div class="six wide column">
-            <div class="complain reason description">提交的文件格式可能存在乱码</div>
-          </div>
-          <div class="two wide column">
-            <div class="agree complain button" style="color: rgb(10, 73, 145);">
-              <a href="javascript:showUpdateScoreModal()">同意申诉</a></div>
-          </div>
-          <div class="two wide column">
-            <div class="agree complain button" style="color: rgb(10, 73, 145);">
-              <a>拒绝申诉</a></div>
-          </div>
-        </div>
+
+        <% if(complainList==null){ %>
+        <% } else { %>
+        <% for(i=0;i < complainList.length;i++) { %>
+        <% var complain=complainList[i]; %>
+        <% if(complain.complainMsg!=null && complain.isHandleComplain == 0){ %>
+            <div class="ui divider"></div>
+            <div class="ui grid">
+              <div class="three wide column">
+                <div class="student name description" style="margin-left: 15px;">
+                  <%= complain.userName %>
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="student id description">
+                  <%= complain.studentID %>
+                </div>
+              </div>
+              <div class="six wide column">
+                <div class="complain reason description">
+                  <%= complain.complainMsg %>
+                </div>
+              </div>
+              <div class="two wide column">
+                <div class="ui positive button" style="color: rgb(10, 73, 145);" onclick="showUpdateScoreModal(<%= complain.studentID %>,<%= complain.classID %>,<%= complain.fullMark %>)">同意申诉</div>
+              </div>
+              <div class="two wide column">
+                <div class="ui positive button" style="color: rgb(10, 73, 145);" onclick="rejectComment(<%= complain.studentID %>,<%= complain.classID %>,<%= complain.mark %>)">
+                  拒绝申诉</div>
+              </div>
+            </div>
+        <% } %>
+        <%}%>
+        <%}%>
         <div class="ui divider"></div>
       </div>
     </div>
@@ -137,11 +152,11 @@
     <div class="header">修改成绩</div>
     <div class="content">
       <p>您想要将该学生的成绩修改为：</p>
-      <input type="text" placeholder="输入修改后的成绩">
+      <input type="text" name="score" placeholder="输入修改后的成绩"></input>
     </div>
     <div class="actions">
-      <div class="ui cancel button">取消</div>
-      <div class="ui positive button">确定</div>
+      <div class="ui cancel button" onclick="hideUpdateScoreModal()">取消</div>
+      <div class="ui positive button" onclick="updateScore()">确定</div>
     </div>
   </div>
   <!--修改成绩模态框-->
@@ -156,9 +171,73 @@
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
 <script>
-  var showUpdateScoreModal = () => {
+  var stuID, classID, fullMark,score;
+  var showUpdateScoreModal = (x, y, z,i) => {
     $('.ui.modal').modal('show');
-  }
+    stuID = x;
+    classID = y;
+    fullMark = z;
+  };
+  var updateScore = () => {
+    var input = $("input[name='score']").val();
+    var result = parseFloat(input);
+    var resultStr = result.toString();
+    if (input == null) {
+      alert("修改后的成绩不能为空！");
+    }
+    if (resultStr == "NaN" || result > fullMark || result < 0) {
+      alert("请输入合理数字！(0-" + fullMark + ")!");
+      return;
+    }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "updateScore",
+      data: {
+        stuID: stuID,
+        score: result
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("成绩修改成功!");
+          window.location.href = "./dealComplain"
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  };
+  var hideUpdateScoreModal = (x, y, z) => {
+    $('.ui.modal').modal('hide');
+  };
+  var rejectComment =(x,y,z) =>{
+    stuID = x;
+    classID = y;
+    score=z;
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./rejectComment",
+      data:{
+        stuID:stuID,
+        score:score
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("成绩修改成功!");
+          window.location.href = "./dealComplain"
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  };
 </script>
 
 </html>

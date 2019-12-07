@@ -127,8 +127,8 @@
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业形式</b></label>
-                  <select class="ui dropdown">
-                    <option value="">个人作业</option>
+                  <select class="ui dropdown" name="isGroupWork">
+                    <option value="0">个人作业</option>
                     <!-- <option value="0">个人作业</option> -->
                     <option value="1">小组作业</option>
                   </select>
@@ -164,7 +164,7 @@
         <div style="height:25px;"></div>
         <div class="actions">
           <div class="ui red deny button" onclick="javascript:window.location.href='./teacherHomeworkListPage'">取消</div>
-          <div class="ui positive button" onclick="postComplainMsg()">修改</div>
+          <div class="ui positive button" onclick="postHw()">修改</div>
         </div>
       </div>
     </div>
@@ -180,6 +180,88 @@
 <script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
 <script>
+  var postHw = () => {
+      if (
+        $("input[name='homeworkname']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("作业名称不能为空！");
+        return;
+      }
+      if (
+        $("input[name='startTime']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("作业开始时间不能为空！");
+        return;
+      }
+      if (
+        $("input[name='closeTime']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("作业结束时间不能为空！");
+        return;
+      }
+      if (
+        $("input[name='fullMark']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("作业满分不能为空！");
+        return;
+      }
+      if (
+        $("input[name='achieveGoal']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("完成指标不能为空！");
+        return;
+      }
+      if (
+        $("textarea[name='description']")
+          .val()
+          .replace(" ", "") == ""
+      ) {
+        alert("作业描述不能为空！");
+        return;
+      }
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "./update/changeHw",
+        data: {
+          projectName: $("input[name='homeworkname']").val(),
+          startTime: $("input[name='startTime']").val(),
+          closeTime: $("input[name='closeTime']").val(),
+          fullMark: $("input[name='fullMark']").val(),
+          achieveGoal: $("input[name='achieveGoal']").val(),
+          isGroupWork: $("select[name = 'isGroupWork']").val(),
+          description: $("textarea[name='description']").val()
+        },
+        success: data => {
+          if (data.status) {
+            alert("修改作业成功!");
+            // $("textarea[name='description']").val(""); //清空
+            // $("input[name='homeworkname']").val("");
+            // $("input[name='startTime']").val("");
+            // $("input[name='closeTime']").val("");
+            // $("input[name='fullMark']").val("");
+            // $("input[name='achieveGoal']").val("");
+            window.location.href="../all";
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: err => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    };
+
 </script>
 
 </html>

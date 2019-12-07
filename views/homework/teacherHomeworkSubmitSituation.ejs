@@ -79,7 +79,7 @@
         </button>
       </div>
       <div class="ui basic segment">
-        <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+        <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
       </div>
       <div class="ui basic segment">
         <div class="ui tabular menu">
@@ -96,19 +96,19 @@
               <div class="class student number description" style="line-height: 30px;"><b>班级学生人数</b></div>
             </div>
             <div class="column">
-              <div class="class student number" style="line-height: 30px;">50</div>
+              <div class="class student number" style="line-height: 30px;"><%= classInfo.stuNum %></div>
             </div>
             <div class="column">
               <div class="submit number description" style="line-height: 30px;"><b>已提交人数</b></div>
             </div>
             <div class="column">
-              <div class="submit number" style="line-height: 30px;">25</div>
+              <div class="submit number" style="line-height: 30px;"><%= classInfo.commitNum %></div>
             </div>
             <div class="column">
               <div class="submit number rate description" style="line-height: 30px;"><b>已提交人数比例</b></div>
             </div>
             <div class="column">
-              <div class="submit number rate" style="line-height: 30px;">50.0%</div>
+              <div class="submit number rate" style="line-height: 30px;"><%= classInfo.submitPercentage %>%</div>
             </div>
           </div>
         </div>
@@ -128,24 +128,27 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">1</td>
-                <td style="text-align: center;">3170100000</td>
-                <td style="text-align: center;">dcw</td>
-                <td style="text-align: center;">2019-12-4 19:55</td>
-                <td style="text-align: center;">已提交</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">2</td>
-                <td style="text-align: center;">3170100001</td>
-                <td style="text-align: center;">zjy</td>
-                <td style="text-align: center;">2019-12-4 19:59</td>
-                <td style="text-align: center;">未提交</td>
-                <td></td>
-              </tr>
+              <% if(stuList==null) {%>
+                <tr>
+                  <td>暂无学生。</td>
+                </tr>
+              <% } else { for(i=0;i<stuList.length;i++) { %>
+              <% var stu = stuList[i]; %>
+                <tr> 
+                  <td></td>
+                  <td style="text-align: center;"><%= i+1 %></td>
+                  <td style="text-align: center;"><%= stu.studentID %></td>
+                  <td style="text-align: center;"><%= stu.userName %></td>
+                  <% if(stu.commitTime!=null) {%>
+                  <td style="text-align: center;"><%= dateFormat(stu.commitTime)%></td>
+                  <td style="text-align: center; color: rgb(255, 0, 0);">已提交</td>
+                  <% } else { %>
+                    <td colspan="2" style="text-align: center; color: rgb(70, 228, 167);">未提交</td>
+                 <% }%>
+                  <td></td>
+                </tr>
+                <% } %>
+              <% } %>
             </tbody>
             <tfoot>
               <tr>
