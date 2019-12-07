@@ -39,155 +39,214 @@
 </head>
 
 <body>
-
-	<!-- 导航栏 -->
-	<div class="ui menu" style="padding: 15px;">
-		<img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;" />
-		<div class="right menu" style="margin-right: 20%;">
-			<div class="item">
-				<div class="ui action left icon input">
-					<i class="search icon"></i>
-					<input type="text" placeholder="搜索感兴趣的课程" />
-					<button class="ui positive button">搜索</button>
-				</div>
+	<div class="ui left blue sidebar vertical menu" id="notice">
+		<div class="item">
+			<div class="header">
+				<h2>课程公告</h2>
 			</div>
-			<a class="item">使用教程</a>
-			<a class="item">建议反馈</a>
 		</div>
-	</div>
-	<!-- 导航栏 -->
-
-
-	<div class="ui container" style="margin-top:10px;">
-		<div class="ui grid">
-			<!-- 首页垂直菜单 -->
-			<div class="four wide column">
-				<div class="ui vertical menu">
-					<div class="ui raised link card">
-						<div class="image">
-							<!-- <img src="/images/avatar200x200.png" /> -->
-							<% if (token.userPhoto == null) { %>
-							<img src="/images/avatar200x200.png" />
-							<% } else { %>
-							<img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
-							<% } %>
-						</div>
-						<div class="content">
-							<a class="header"><%= studentNameValue %></a>
-							<div class="description">学生</div>
-						</div>
-					</div>
-					<a class="item" id="homePage">
-						<i class="home icon"></i>
-						首页
-					</a>
-					<a class="item" id="myClass">
-						<i class="file outline icon"></i>
-						我的课程
-					</a>
-					<a class="item" id="myGrade">
-						<i class="font icon"></i>
-						我的成绩
-					</a>
-				</div>
+		<% for(var i=0;i<courseList.length;i++){ %>
+		<div class="item">
+			<div class="header">
+				<h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
 			</div>
-			<!-- 首页垂直菜单 -->
-			<!-- 成绩显示 -->
-			<div class="twelve wide column">
+			<% if(courseNoticeList[i].length==1){ %>
+			<div class="header"><%= courseNoticeList[i][0].title %></div>
+			<div class="ui input">
+				<p><%= courseNoticeList[i][0].content %></p>
+			</div>
+			<% } else{ %>
+			<div class="header"><i>没有通知...</i></div>
+			<% } %>
+		</div>
+		<% } %>
+	</div>
 
-				<div class="ui two item menu">
-					<a class="item">
-						<i class="paper plane outline icon"></i>
-						动态
-					</a>
-					<a class="item">
-						<i class="paper plane icon"></i>
-						最新内容
-					</a>
+	<div class="ui right blue sidebar vertical menu" id="homework">
+		<div class="item">
+			<div class="header">
+				<h2>最近作业</h2>
+			</div>
+		</div>
+		<% for(var i=0;i<courseList.length;i++){ %>
+		<div class="item">
+			<div class="header">
+				<h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
+			</div>
+			<% if(classProjectList[i].length==1){ %>
+			<div class="header"><%= classProjectList[i][0].description %></div>
+			<div class="ui input">
+				<p>截止日期:<%= dateFormat(classProjectList[i][0].closeTime) %></p>
+			</div>
+			<% } else{ %>
+			<div class="header"><i>没有作业...</i></div>
+			<% } %>
+		</div>
+		<% } %>
+	</div>
+
+	<div class="pusher">
+		<!-- 导航栏 -->
+		<div class="ui menu" style="padding: 15px;">
+			<img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;" />
+			<div class="right menu" style="margin-right: 20%;">
+				<div class="item">
+					<div class="ui action left icon input">
+						<i class="search icon"></i>
+						<input type="text" placeholder="搜索感兴趣的课程" />
+						<button class="ui positive button">搜索</button>
+					</div>
 				</div>
-				<div class="ui equal width center aligned padded grid">
-					<div class="row" style="background-color:#FFFFFF;color: #000000;">
-						<!-- <div class="ui two column centered grid">
+				<a class="item">使用教程</a>
+				<a class="item">建议反馈</a>
+			</div>
+		</div>
+		<!-- 导航栏 -->
+
+
+		<div class="ui container" style="margin-top:10px;">
+			<div class="ui grid">
+				<!-- 首页垂直菜单 -->
+				<div class="four wide column">
+					<div class="ui vertical menu">
+						<div class="ui raised link card">
+							<div class="image">
+								<!-- <img src="/images/avatar200x200.png" /> -->
+								<% if (token.userPhoto == null) { %>
+								<img src="/images/avatar200x200.png" />
+								<% } else { %>
+								<img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
+								<% } %>
+							</div>
+							<div class="content">
+								<a class="header"><%= studentNameValue %></a>
+								<div class="description">学生</div>
+							</div>
+						</div>
+						<a class="item" id="homePage">
+							<i class="home icon"></i>
+							首页
+						</a>
+						<a class="item" id="myClass">
+							<i class="file outline icon"></i>
+							我的课程
+						</a>
+						<a class="item" id="myGrade">
+							<i class="font icon"></i>
+							我的成绩
+						</a>
+					</div>
+				</div>
+				<!-- 首页垂直菜单 -->
+				<!-- 成绩显示 -->
+				<div class="twelve wide column">
+
+					<div class="ui two item menu">
+						<a class="item" id="showNotice">
+							<i class="paper plane outline icon"></i>
+							公告
+						</a>
+						<a class="item" id="showHomework">
+							<i class="paper plane icon"></i>
+							作业
+						</a>
+					</div>
+					<div class="ui equal width center aligned padded grid">
+						<div class="row" style="background-color:#FFFFFF;color: #000000;">
+							<!-- <div class="ui two column centered grid">
                         <div class="column"> -->
-						<div class="ui statistics centered">
-							<div class="statistic">
-								<div class="value">
-									<%= firstPartResult.length %>
+							<div class="ui statistics centered">
+								<div class="statistic">
+									<div class="value">
+										<%= firstPartResult.length %>
+									</div>
+									<div class="label">
+										课程数
+									</div>
 								</div>
-								<div class="label">
-									课程数
+								<div class="statistic">
+									<div class="value">
+										<%= avgGrade %>
+									</div>
+									<div class="label">
+										课程平均成绩
+									</div>
+								</div>
+								<div class="statistic">
+									<div class="value">
+										<%= maxGrade %>
+									</div>
+									<div class="label">
+										最高分
+									</div>
 								</div>
 							</div>
-							<div class="statistic">
-								<div class="value">
-									<%= avgGrade %>
-								</div>
-								<div class="label">
-									课程平均成绩
-								</div>
-							</div>
-							<div class="statistic">
-								<div class="value">
-									<%= maxGrade %>
-								</div>
-								<div class="label">
-									最高分
-								</div>
-							</div>
-						</div>
-						<!-- </div>
+							<!-- </div>
                     </div> -->
+						</div>
 					</div>
-				</div>
 
-				<div class="twelve wide column"><br></div>
+					<div class="twelve wide column"><br></div>
 
-				<div class="ui equal width center aligned padded grid">
-					<div class="row" style="background-color:#FFFFFF;color: #000000;">
-						<div class="column">
-							<div class="ui one column centered grid">
-								<div class="column">
-									<table class="ui teal table">
-										<thead>
-											<tr>
-												<th>课程名</th>
-												<th>平时成绩</th>
-												<th>作业成绩</th>
-												<th>考试成绩</th>
-												<th>总成绩</th>
-											</tr>
-										</thead>
-										<tbody>
-											<% for(var i=0;i<firstPartResult.length;i++){ %>
-											<tr>
-												<td><%= courseName[i] %></td>
-												<td><%= firstPartResult[i].usualGrade %></td>
-												<td><%= projectGradeList[i] %></td>
-												<td><%= firstPartResult[i].examGrade %></td>
-												<td><%= totalGrade[i] %></td>
-											</tr>
-											<% } %>
-										</tbody>
-									</table>
+					<div class="ui equal width center aligned padded grid">
+						<div class="row" style="background-color:#FFFFFF;color: #000000;">
+							<div class="column">
+								<div class="ui one column centered grid">
+									<div class="column">
+										<table class="ui teal table">
+											<thead>
+												<tr>
+													<th>课程名</th>
+													<th>平时成绩</th>
+													<th>作业成绩</th>
+													<th>考试成绩</th>
+													<th>总成绩</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% for(var i=0;i<firstPartResult.length;i++){ %>
+												<tr>
+													<td><%= courseName[i] %></td>
+													<td><%= firstPartResult[i].usualGrade %></td>
+													<td><%= projectGradeList[i] %></td>
+													<td><%= firstPartResult[i].examGrade %></td>
+													<td><%= totalGrade[i] %></td>
+												</tr>
+												<% } %>
+											</tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- 成绩显示 -->
 			</div>
-			<!-- 成绩显示 -->
 		</div>
+
+		<!-- 页脚 -->
+		<div class="template-footer"></div>
+		<!-- 页脚 -->
 	</div>
 
-	<!-- 页脚 -->
-	<div class="template-footer"></div>
-	<!-- 页脚 -->
-
-	<script src="/dist/semantic.js"></script>
+	
 	<script src="/javascripts/jquery.js"></script>
 	<script src="/javascripts/common.js"></script>
-	<script src="javascripts/userGrade.js"></script>
+	<script src="/dist/semantic.min.js"></script>
 	<script>
+		$('#showNotice').click(function () {
+			$('#notice')
+				.sidebar('toggle')
+				;
+		})
+
+		$('#showHomework').click(function () {
+			$('#homework')
+				.sidebar('toggle')
+				;
+		})
+
 		$('#myGrade').click(function () {
 			window.location.href = './userGrade';
 		});

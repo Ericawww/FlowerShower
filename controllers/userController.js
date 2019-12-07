@@ -313,12 +313,17 @@ exports.userIndex = async (req, res) => {
 		courseNoticeList[i] = await User.prototype.getCourseNotice(ret[i].courseNumber);
 		classProjectList[i] = await User.prototype.getClassProject(ret[i].classID);
 	}
+	req.session.course = {
+		courseNoticeList: courseNoticeList,
+		classProjectList: classProjectList,
+		courseList: courseList
+	}
 	res.render("users/userPage", {
 		token: token,
-		courseList:courseList,
-		classIDInfo:ret,
-		courseNoticeList:courseNoticeList,
-		classProjectList:classProjectList
+		courseList: courseList,
+		classIDInfo: ret,
+		courseNoticeList: courseNoticeList,
+		classProjectList: classProjectList
 	});
 };
 
@@ -337,6 +342,9 @@ exports.getGrade = async (req, res) => {
 	var avgGrade = 0;
 	var studentName = await User.prototype.getStudentName(studentID);
 	var studentNameValue;
+	var courseNoticeList = req.session.course.courseNoticeList;
+	var classProjectList = req.session.course.classProjectList;
+	var courseList = req.session.course.courseList;
 	if (studentName.length == 1) {
 		studentNameValue = studentName[0].userName;
 	}
@@ -374,7 +382,10 @@ exports.getGrade = async (req, res) => {
 		maxGrade: maxGrade,
 		courseName: courseName,
 		studentNameValue: studentNameValue,
-		token: token
+		token: token,
+		courseNoticeList: courseNoticeList,
+		classProjectList: classProjectList,
+		courseList: courseList
 	});
 
 }
