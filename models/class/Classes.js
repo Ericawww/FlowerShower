@@ -341,11 +341,12 @@ class Classes {
      * @param {string} path
      * @param {string} submitterID
      */
-    async uploadMaterial(classID, materialName, path, submitterID) {
+    async uploadMaterial(materialID, classID, materialName, path, submitterID, classProjectID) {
         try {
+            if (classProjectID == 'null') classProjectID = null;
             var conn = await pool.getConnection();
-            await conn.query("insert into class_materials(classID, materialName, path, submitter, uploadTime) values \
-                (?, ?, ?, ?, CURRENT_TIMESTAMP);", [classID, materialName, path, submitterID]);
+            await conn.query("insert into class_materials(materialID, classID, materialName, path, submitter, uploadTime, classProjectID) values \
+                (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?);", [materialID, classID, materialName, path, submitterID, classProjectID]);
             return null;
         } catch (err) {
             console.log(err);
@@ -359,17 +360,48 @@ class Classes {
      * 删除资料
      * 
      * @param {string} classID
-     * @param {int} chapterNumber 
-     * @param {string} path
+     * @param {string} classProjectID
+     * @param {int} materialID
      */
-    async deleteMaterial(classID, path) {
+    async deleteMaterial(classID, classProjectID, materialID) {
         try {
+            if (classProjectID == 'null') classProjectID = null;
             var conn = await pool.getConnection();
-            await conn.query("delete from class_materials where classID = ? and path = ?;", [classID, path]);
+            await conn.query("delete from class_materials where ((classID = ? and classProjectID is null) or (classID = ? and classProjectID = ?)) \
+                and materialID = ?;", [classID, classID, classProjectID, materialID]);
             return null;
         } catch (err) {
             console.log(err);
             return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+    
+    /**
+     * 获取课程或者Project对应的资料信息，如果classProjectID存在，则优先匹配
+     * 
+     * @param {string} classID 
+     * @param {string} classProjectID
+     * @param {string} materialID
+     */
+    async getMaterials(classID, classProjectID, materialID) {
+        try {
+            if (classProjectID == 'null') classProjectID = null;
+            var conn = await pool.getConnection();
+            var sql = "select * from class_materials natural join (select userID as submitter, userName from user) as X \
+                where (classID = ? and classProjectID is null) or (classProjectID = ?);"
+            var params = [classID, classProjectID];
+            if (materialID != null) {
+                sql = "select * from class_materials natural join (select userID as submitter, userName from user) as X \
+                where ((classID = ? and classProjectID is null) or (classProjectID = ?)) and materialID = ?;"
+                params = [classID, classProjectID, materialID];
+            }
+            var ret = await conn.query(sql, params);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
         } finally {
             conn.release();
         }

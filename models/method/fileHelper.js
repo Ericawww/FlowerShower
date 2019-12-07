@@ -28,7 +28,7 @@ module.exports = (req, name, dirName) => {
                 if (!config.FILE_EXCLUDE_TYPE.includes(extension)) {  //文件扩展名不在黑名单内
                     var newName = (new Date()).getTime() + extension;  //更改文件名
                     fs.rename(file[name].path, form.uploadDir + "/" + newName, (err) => {
-                        resolve(newName);
+                        resolve({ newName: newName, originName: file[name].name });
                         return;
                     });
                 } else {
@@ -39,6 +39,8 @@ module.exports = (req, name, dirName) => {
                 }
             }
         });
-
+        form.on('field', function (name, value) {
+            req.body[name] = value;  //这里提取的是键值对数据
+        });
     });
 }

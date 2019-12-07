@@ -51,14 +51,17 @@ router.post(
 );
 
 //验证身份
-router.all("/class/:classID/student/", classController.checkStudent); // courses/classes/:classID/student  ->匹配学生，验证身份，next
-router.all("/class/:classID/teacher/", classController.checkTeacher); //判断身份，用next()
+router.use("/class/:classID/student/", classController.checkStudent); // courses/classes/:classID/student  ->匹配学生，验证身份，next
+router.use("/class/:classID/teacher/", classController.checkTeacher); //判断身份，用next()
 
 //主页
 router.get("/class/:classID/student/main", classController.getStuMainPage); // courses/classes/:classID/student/main ->课程主页面
 router.get("/class/:classID/teacher/main", classController.getTcMainPage);
 
 //课程资料
+router.post('/class/:classID/teacher/material/receive', classController.receiveTeacherMaterial);
+router.get('/class/:classID/teacher/material/download/:materialID', classController.downloadClassMaterial);
+router.post('/class/:classID/teacher/material/remove', classController.removeClassMaterial);
 router.get('/class/:classID/teacher/material', classController.getTeacherMaterialPage);
 
 //作业
