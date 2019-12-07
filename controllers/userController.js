@@ -305,14 +305,20 @@ exports.userIndex = async (req, res) => {
 	var token = req.session.token;
 	var studentID = token.userID;
 	var courseList = new Array();
+	var courseNoticeList = new Array();
+	var classProjectList = new Array();
 	var ret = await User.prototype.getCourseNumber(studentID);
 	for (var i = 0; i < ret.length; i++) {
 		courseList[i] = await User.prototype.getCourseInfo(ret[i].courseNumber);
+		courseNoticeList[i] = await User.prototype.getCourseNotice(ret[i].courseNumber);
+		classProjectList[i] = await User.prototype.getClassProject(ret[i].classID);
 	}
 	res.render("users/userPage", {
 		token: token,
 		courseList:courseList,
-		classIDInfo:ret
+		classIDInfo:ret,
+		courseNoticeList:courseNoticeList,
+		classProjectList:classProjectList
 	});
 };
 

@@ -41,78 +41,48 @@
 <body>
   <div class="ui left blue sidebar vertical menu" id="notice">
     <div class="item">
-      <div class="header">查询类型</div>
-      <div class="ui input">
-        <select class="ui search dropdown fluid segment" id="search_item">
-          <option value="order">序号</option>
-          <option value="studentID">学号</option>
-          <option value="name">姓名</option>
-        </select>
+      <div class="header">
+        <h2>课程公告</h2>
       </div>
     </div>
+    <% for(var i=0;i<courseList.length;i++){ %>
     <div class="item">
-      <div class="header">查询值</div>
-      <div class="ui input">
-        <input type="text" placeholder="查找..." id="search_value">
+      <div class="header">
+        <h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
       </div>
-    </div>
-    <div class="item">
-      <div class="header">修改项目</div>
+      <% if(courseNoticeList[i].length==1){ %>
+      <div class="header"><%= courseNoticeList[i][0].title %></div>
       <div class="ui input">
-        <select class="ui search dropdown fluid segment" id="change_item">
-          <option value="usualGrade">平时成绩</option>
-          <!-- <option value="homeworkGrade">作业成绩</option> -->
-          <option value="examGrade">考试成绩</option>
-        </select>
+        <p><%= courseNoticeList[i][0].content %></p>
       </div>
+      <% } else{ %>
+      <div class="header"><i>没有通知...</i></div>
+      <% } %>
     </div>
-    <div class="item">
-      <div class="header">新成绩</div>
-      <div class="ui input">
-        <input type="text" placeholder="输入新成绩..." id="change_value">
-      </div>
-    </div>
-    <div class="item">
-      <button class="ui blue button floated" id="submitChange">提交成绩修改</button>
-    </div>
+    <% } %>
   </div>
 
   <div class="ui right blue sidebar vertical menu" id="homework">
     <div class="item">
-      <div class="header">查询类型</div>
-      <div class="ui input">
-        <select class="ui search dropdown fluid segment" id="search_item">
-          <option value="order">序号</option>
-          <option value="studentID">学号</option>
-          <option value="name">姓名</option>
-        </select>
+      <div class="header">
+        <h2>最近作业</h2>
       </div>
     </div>
+    <% for(var i=0;i<courseList.length;i++){ %>
     <div class="item">
-      <div class="header">查询值</div>
-      <div class="ui input">
-        <input type="text" placeholder="查找..." id="search_value">
+      <div class="header">
+        <h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
       </div>
-    </div>
-    <div class="item">
-      <div class="header">修改项目</div>
+      <% if(classProjectList[i].length==1){ %>
+      <div class="header"><%= classProjectList[i][0].description %></div>
       <div class="ui input">
-        <select class="ui search dropdown fluid segment" id="change_item">
-          <option value="usualGrade">平时成绩</option>
-          <!-- <option value="homeworkGrade">作业成绩</option> -->
-          <option value="examGrade">考试成绩</option>
-        </select>
+        <p>截止日期:<%= dateFormat(classProjectList[i][0].closeTime) %></p>
       </div>
+      <% } else{ %>
+      <div class="header"><i>没有作业...</i></div>
+      <% } %>
     </div>
-    <div class="item">
-      <div class="header">新成绩</div>
-      <div class="ui input">
-        <input type="text" placeholder="输入新成绩..." id="change_value">
-      </div>
-    </div>
-    <div class="item">
-      <button class="ui blue button floated" id="submitChange">提交成绩修改</button>
-    </div>
+    <% } %>
   </div>
 
   <div class="pusher">

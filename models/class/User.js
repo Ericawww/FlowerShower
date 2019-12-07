@@ -282,7 +282,9 @@ class User {
     }
 
     /**
+     * 根据studentID获得所有课程
      * 
+     * @param {string} studentID
      */
     async getCourseNumber(studentID) {
         try {
@@ -298,12 +300,50 @@ class User {
     }
 
     /**
+     * 根据courseNumber返回课程信息
      * 
+     * @param {string} courseNumber
      */
     async getCourseInfo(courseNumber) {
         try {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from course where courseNumber = ?", [courseNumber]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据courseNumber获得最新通知
+     * 
+     * @param {string} courseNumber 
+     */
+    async getCourseNotice(courseNumber){
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select title,content from notice where courseID= ? order by time DESC limit 1", [courseNumber]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据courseNumber得到最早交的作业
+     * 
+     * @param {string} classID
+     */
+    async getClassProject(classID){
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select description,closeTime from class_project where classID= ? order by closeTime limit 1;", [classID]);
             return ret[0];
         } catch (err) {
             console.log(err);
