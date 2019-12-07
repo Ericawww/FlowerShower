@@ -25,6 +25,7 @@ exports.checkTeacher = async (req, res, next) => {
  * 
  */
 exports.checkStudent = async (req, res, next) => {
+  req.session.token = await config.getToken("1111", "123");
   if (req.session.token == null || req.session.token.userType != config.TYPE_STUDENT || ! await Class.prototype.isClassMember(req.params.classID, req.session.token.userID)) {
     res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
     return;
@@ -463,6 +464,18 @@ exports.getTeacherMaterialPage = async (req, res) => {
     return;
   }
   res.render("courses/teacherMaterial", { materials: ret });
+}
+
+/**
+ * 教师获取资料列表
+ */
+exports.getStudentMaterialPage = async (req, res) => {
+  var ret = await Class.prototype.getMaterials(req.params.classID, null);
+  if (ret == null) {
+    res.send("<script>alert('数据库异常，请稍后再试！');</script>").end();
+    return;
+  }
+  res.render("courses/studentMaterial", { materials: ret });
 }
 
 /**

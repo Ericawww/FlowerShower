@@ -79,12 +79,6 @@
   </div>
   <!-- 课程水平菜单 -->
 
-  <!-- 教师课件 -->
-  <div class="ui container" style="margin-top:10px;">
-    <div class="ui segment" style="background-color:rgb(255, 255, 255);">
-      <div class="courseware management" style="margin-left: 15px;font-size:x-large;"><b>课件信息</b></div>
-    </div>
-  </div>
 
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
@@ -98,26 +92,20 @@
           <div class="three wide column" style="text-align: center;"><b>操作</b></div>
         </div>
         <div class="ui divider"></div>
+        <% for (let i = 0; i < materials.length; i++) { %>
         <div class="ui grid">
-          <div class="two wide column" style="text-align: center;">1</div>
-          <div class="five wide column" style="text-align: center;"><a>Linux系统调用实验.pptx</a></div>
-          <div class="three wide column" style="text-align: center;">夏莹杰</div>
-          <div class="three wide column" style="text-align: center;">2019-12-7 15:39</div>
+          <div class="two wide column" style="text-align: center;"><%= (i+1) %></div>
+          <div class="five wide column" style="text-align: center;"><%= materials[i].materialName %></div>
+          <div class="three wide column" style="text-align: center;"><%= materials[i].userName %></div>
           <div class="three wide column" style="text-align: center;">
-            <i class="blue download icon"></i><a>下载</a>
+            <%= dateFormat(materials[i].uploadTime, 'yyyy-MM-dd hh:mm:ss') %></div>
+          <div class="three wide column" style="text-align: center;">
+            <i class="blue download icon"></i><a style="margin-right: 15px;"
+              href="./material/download/<%= materials[i].materialID %>" target="_blank">下载</a>
           </div>
         </div>
         <div class="ui divider"></div>
-        <div class="ui grid">
-          <div class="two wide column" style="text-align: center;">2</div>
-          <div class="five wide column" style="text-align: center;"><a>Linux系统调用实验.docx</a></div>
-          <div class="three wide column" style="text-align: center;">夏莹杰</div>
-          <div class="three wide column" style="text-align: center;">2019-12-7 15:39</div>
-          <div class="three wide column" style="text-align: center;">
-            <i class="blue download icon"></i><a>下载</a>
-          </div>
-        </div>
-        <div class="ui divider"></div>
+        <% } %>
       </div>
     </div>
   </div>
@@ -131,7 +119,5 @@
 
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
-<script>
-</script>
 
 </html>

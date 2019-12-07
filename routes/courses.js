@@ -69,6 +69,8 @@ router.post('/class/:classID/teacher/material/receive', classController.receiveT
 router.get('/class/:classID/teacher/material/download/:materialID', classController.downloadClassMaterial);
 router.post('/class/:classID/teacher/material/remove', classController.removeClassMaterial);
 router.get('/class/:classID/teacher/material', classController.getTeacherMaterialPage);
+router.get('/class/:classID/student/material', classController.getStudentMaterialPage);
+router.get('/class/:classID/student/material/download/:materialID', classController.downloadClassMaterial);
 
 //作业
 router.get('/class/:classID/student/hw/all', classController.getStuAllHw);// courses/classes/:classID/student/hw/all ->作业列表
