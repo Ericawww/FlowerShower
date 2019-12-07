@@ -413,6 +413,90 @@ class Course {
             conn.release();
         }
     }
+
+    /**
+     * 获取某课程所有教学班
+     * 
+     * @param {string} courseNumber 
+     * @note 如果该课程不存在则返回空数组，否则至少返回一条记录（但不包含授课教师的信息）
+     */
+    async getCourseClasses(courseNumber) {
+        try {
+            var conn = await pool.getConnection();
+            var sql = "select * from course natural left outer join class as X natural left outer join \
+                (select userID as teacherID, userName as teacherName from user) as Y  where courseNumber = ? order by startTime desc; "
+            var ret = await conn.query(sql, [courseNumber]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 新建教学班
+     * 
+     * @param {Object} classAttr
+     * @return 如果无报错返回null，否则返回错误信息
+     */
+    async createClass(classAttr) {
+        try {
+            var { classID, teacherID, courseNumber, startTime, closeTime } = classAttr;
+            var conn = await pool.getConnection();
+            var sql = "insert into class(classID, teacherID, courseNumber, startTime, closeTime) values(?, ?, ?, ?, ?)"
+            await conn.query(sql, [classID, teacherID, courseNumber, startTime, closeTime]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 删除教学班
+     * 
+     * @param {string} classID
+     * @return 如果无报错返回null，否则返回错误信息
+     */
+    async deleteClass(classID) {
+        try {
+            var conn = await pool.getConnection();   
+            await conn.query("delete from class where classID = ?", [classID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 修改教学班
+     * 
+     * @param {Object} classAttr
+     * @return 如果无报错返回null，否则返回错误信息
+     */
+    async updateClass(classAttr) {
+        try {
+            var { teacherID, startTime, closeTime, classID } = classAttr;
+            var conn = await pool.getConnection();
+            var sql = "update class set teacherID = ?, startTime = ?, closeTime = ? where classID = ?";
+            await conn.query(sql, [teacherID, startTime, closeTime, classID]);
+            return null;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+
 }
 
 module.exports = Course;

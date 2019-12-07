@@ -19,27 +19,10 @@
       cursor: pointer;
     }
   </style>
+  <script>const courseNumber = "<%= classes[0].courseNumber  %>"</script>
 </head>
 
 <body>
-
-  <div class="ui right blue sidebar vertical menu">
-    <div class="item">
-      <div class="header">课程号</div>
-      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('courseNumber', this)">
-      </div>
-    </div>
-    <div class="item">
-      <div class="header">课程名称</div>
-      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('courseName', this)">
-      </div>
-    </div>
-    <div class="item">
-      <div class="header">开课学院</div>
-      <div class="ui input"><input type="text" placeholder="Search..." onchange="setSelector('courseDept', this)">
-      </div>
-    </div>
-  </div>
 
   <div class="pusher">
     <div class="ui left fixed vertical menu inverted ">
@@ -52,56 +35,47 @@
 
     <div class="box">
       <div class="ui segment">
-        <h3>教学班列表</h3>
+        <h3>《<%= classes[0].courseName  %>》教学班列表</h3>
       </div>
       <table class="ui celled padded table class-table">
         <thead>
           <tr>
-            <th colspan="9">
-              <div class="ui right floated small labeled icon red button" id="deleteClassBtn">
-                <i class="trash alternate icon"></i> 删除教学班
+            <th colspan="8">
+              <div class="ui right floated small primary labeled icon button" onclick="showClassModal()">
+                <i class="book icon"></i> 添加教学班
               </div>
-              <div class="ui right floated small primary labeled icon button">
-                <i class="book icon" onclick="showClassModal()"></i> 添加教学班
-              </div>
-              <div class="ui right floated small teal labeled icon button" id="selectClassBtn">
-                <i class="search icon"></i> 筛选
-              </div>
-              <!-- <div>
-                <a href="javascript:showModal()">test</a>
-              </div> -->
             </th>
           </tr>
           <tr>
-            <th></th>
             <th>classID</th>
             <th>teacherID</th>
-            <th>studentNumber</th>
+            <th>teacherName</th>
             <th>startTime</th>
             <th>closeTime</th>
             <th>Operation</th>
           </tr>
         </thead>
         <tbody>
+          <% if (classes[0].classID != null) { %>
+          <% for (let i = 0; i < classes.length; i++) { %>
           <tr>
-            <td class="collapsing">
-              <div class="ui fitted slider checkbox">
-                <input type="checkbox"> <label></label>
-              </div>
-            </td>
-            <td>${classID}</td>
-            <td>${teacherID}</td>
-            <td>${studentNumber}</td>
-            <td>${startTime}</td>
-            <td>${closeTime}</td>
+            <td><%= classes[i].classID %></td>
+            <td><%= classes[i].teacherID %></td>
+            <td><%= classes[i].teacherName %></td>
+            <td><%= dateFormat(classes[i].startTime, "yyyy-MM-dd") %></td>
+            <td><%= dateFormat(classes[i].closeTime, "yyyy-MM-dd") %></td>
             <td>
-              <i class="edit outline icon pointer" onclick="showClassModal()"></i>
+              <i class="edit outline icon pointer" onclick="showClassModal({ classID: '<%= classes[i].classID %>', teacherID: '<%= classes[i].teacherID %>', startTime: '<%= dateFormat(classes[i].startTime, `yyyy-MM-dd`) %>', closeTime: '<%= dateFormat(classes[i].closeTime, `yyyy-MM-dd`) %>'})"></i>
+              <i class="trash icon pointer"
+                onclick="deleteClass('<%= classes[i].classID  %>')"></i>
             </td>
           </tr>
+          <% } %>
+          <% } %>
         </tbody>
         <tfoot>
           <tr>
-            <th colspan="7" class="middle aligned">
+            <th colspan="6" class="middle aligned">
               <div class="ui right floated pagination menu">
                 <a class="icon item">
                   <i class="left chevron icon"></i>
@@ -122,107 +96,40 @@
 
   </div>
 
-  <div class="ui modal small import">
-
-  </div>
-
-  <!--添加修改教学班模态框 对应onclick="showClassModal()"
-  title可以为添加教学班或修改教学班
-  action可以为addClass()或updateClass();
-  放到js里-->
-  <div class="ui modal">
-    <div class="header">${title}</div>
+  <div class="ui tiny modal classes">
+    <div class="header">教学班设置</div>
     <div class="scrolling content">
       <form class="ui form">
-        <div class="field">
+        <div class="field classID">
           <label>ClassID</label>
-          <input type="text" name="classID" value="${classID == null ? "" : classID}"
-            onchange="currentClass.classID = $(this).val()">
-        </div>
-        <div class="field">
-          <label>TeacherID</label>
-          <input type="text" name="teacherID" value="${teacherID == null ? "" : teacherID}"
-            onchange="currentClass.teacherID = $(this).val()">
-        </div>
-        <div class="field">
-          <label>StudentNumber</label>
-          <input type="text" name="studentNumber" value="${studentNumber == null ? "" : studentNumber}"
-            onchange="currentClass.studentNumber = $(this).val()">
-        </div>
-        <div class="field">
-          <label>StartTime</label>
-          <input type="text" name="startTime" value="${startTime == null ? "" : startTime}"
-            onchange="currentClass.startTime = $(this).val()">
-        </div>
-        <div class="field">
-          <label>CloseTime</label>
-          <input type="text" name="closeTime" value="${closeTime == null ? "" : closeime}"
-            onchange="currentClass.closeime = $(this).val()">
-        </div>
-      </form>
-    </div>
-    <div class="actions">
-      <div class="ui cancel button">关闭</div>
-      <div class="ui green button" onclick="${action}">提交</div>
-    </div>
-  </div>
-
-  <!-- <div class="ui modal">
-    <div class="header">${title}</div>
-    <div class="scrolling content">
-      <form class="ui form">
-        <div class="field">
-          <label>ClassID</label>
-          <input type="text" name="classID">
+          <input type="text" name="classID" disabled >
         </div>
         <div class="field">
           <label>TeacherID</label>
           <input type="text" name="teacherID">
         </div>
         <div class="field">
-          <label>StudentNumber</label>
-          <input type="text" name="studentNumber">
-        </div>
-        <div class="field">
           <label>StartTime</label>
-          <input type="text" name="startTime">
+          <input type="date" name="startTime">
         </div>
         <div class="field">
           <label>CloseTime</label>
-          <input type="text" name="closeime">
+          <input type="date" name="closeTime">
         </div>
       </form>
     </div>
     <div class="actions">
       <div class="ui cancel button">关闭</div>
-      <div class="ui green button">提交</div>
-    </div>
-  </div> -->
-
-  <!--删除教学班模态框-->
-  <div class="ui modal delete">
-    <div class="header">删除</div>
-    <div class="content">
-      <p>确定要删除选中的<strong>5</strong>个教学班吗？</p>
-    </div>
-    <div class="actions">
-      <div class="ui cancel button">取消</div>
-      <div class="ui approve red button" onclick="deleteClass()">确定</div>
+      <div class="ui green button" onclick="createClass()">提交</div>
     </div>
   </div>
-  <!--删除教学班模态框-->
 
 </body>
 
 <script src="/javascripts/jquery.js"></script>
-<script src="/javascripts/common.js"></script>
 <script src="/javascripts/check.js"></script>
 <script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/admins/class.js"></script>
 
-<!-- <script>
-  var showModal = () => {
-    $('.ui.modal').modal('show');
-  }
-</script> -->
 
 </html>

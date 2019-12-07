@@ -14,5 +14,9 @@ router.post('/getCourses', adminControllers.getCourses);
 router.post('/importCourse', adminControllers.importCourse);
 router.post('/deleteCourses', adminControllers.deleteCourses);
 router.post('/updateCourse', adminControllers.updateCourse);
+router.post('/createClass', adminControllers.createClass);
+router.post('/updateClass', adminControllers.updateClass);
+router.post('/deleteClass', adminControllers.deleteClass);
+
 
 module.exports = router;

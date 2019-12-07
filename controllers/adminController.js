@@ -31,7 +31,14 @@ exports.getCourseManagerPage = async (req, res) => {
  * 教学班管理界面
  */
 exports.getClassManagerPage = async (req, res) => {
-    res.render('admins/class');
+    var ret = await Course.prototype.getCourseClasses(req.query.cn);
+    if (ret == null) {
+        res.send({ status: 0, msg: '数据库异常，请稍后再试！' }).end();
+    } else if (ret.length == 0) {
+        res.send({ status: 0, msg: '该课程不存在！' }).end();
+    } else {
+        res.render('admins/class', { classes: ret });
+    }
 }
 
 /**
@@ -126,6 +133,43 @@ exports.deleteCourses = async (req, res) => {
  */
 exports.updateCourse = async (req, res) => {
     var ret = await Course.prototype.updateCourse(req.body);
+    if (ret != null) {
+        res.send({ status: 0, msg: ret }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
+}
+
+/**
+ * 新建教学班
+ */
+exports.createClass = async (req, res) => {
+    req.body.classID = "Class" + new Date().getTime();
+    var ret = await Course.prototype.createClass(req.body);
+    if (ret != null) {
+        res.send({ status: 0, msg: ret }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
+}
+
+/**
+ * 修改教学班
+ */
+exports.updateClass = async (req, res) => {
+    var ret = await Course.prototype.updateClass(req.body);
+    if (ret != null) {
+        res.send({ status: 0, msg: ret }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
+}
+
+/**
+ * 删除教学班
+ */
+exports.deleteClass = async (req, res) => {
+    var ret = await Course.prototype.deleteClass(req.body.classID);
     if (ret != null) {
         res.send({ status: 0, msg: ret }).end();
     } else {
