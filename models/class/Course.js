@@ -355,6 +355,64 @@ class Course {
             conn.release();
         }
     }
+
+    /**
+     * 根据classID获得班级里的小组
+     * 
+     * @param {string} classID 
+     */
+    async getClassGroup(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group where classID = ? order by groupNumber", [classID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据classID获得没有组队的同学
+     * 
+     * @param {classID} classID 
+     */
+    async getLeftStudent(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select studentID from take where classID = ? \
+            and studentID not in \
+            (select studentID from class_group natural join class_group_member where classID = ?)",
+                [classID, classID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 获得一个组的成员的所有信息
+     * 
+     * @param {*} groupID 
+     */
+    async getGroupMemberInfo(groupID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group_member join user where studentID=userID and groupID = ?",
+                [groupID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = Course;

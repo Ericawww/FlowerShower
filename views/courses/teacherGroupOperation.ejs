@@ -113,11 +113,17 @@
               <div class="student group information" style="margin-left: 15px;font-size: 200%;margin-top: 8px;">
                 <b>学生组队信息</b></div>
             </div>
-            <div class="five wide column"></div>
-            <div class="five wide column"></div>
+            <!-- <div class="five wide column"></div>
+            <div class="five wide column"></div>            
             <div class="two wide column">
               <button class="ui button" style="background-color:#40a070;" onclick="showModal()">添加小组</button>
+            </div> -->
+            <div class="twelve wide column">
+              <div class="ui right floated green labeled icon button" onclick="showModal1()">
+                <i class="add icon"></i> 添加小组
+              </div>
             </div>
+
           </div>
         </div>
         <div class="ui divider"></div>
@@ -143,7 +149,7 @@
                 <th>姓名</th>
                 <th>学号</th>
                 <th>邮箱</th>
-                <th style="width: 15%">删除</th>
+                <th style="width: 15%"></th>
               </tr>
             </thead>
             <tbody>
@@ -157,8 +163,7 @@
                 <td>John Lilki</td>
                 <td>3170100000</td>
                 <td>jhlilk22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
+                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
               <tr>
@@ -171,8 +176,7 @@
                 <td>Jamie Harington</td>
                 <td>3170100000</td>
                 <td>jamieharingonton@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
+                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
               <tr>
@@ -185,8 +189,7 @@
                 <td>Jill Lewis</td>
                 <td>3170100000</td>
                 <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
+                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
               <tr>
@@ -199,8 +202,7 @@
                 <td>Jill Lewis</td>
                 <td>3170100000</td>
                 <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
+                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
               <tr>
@@ -213,8 +215,7 @@
                 <td>Jill Lewis</td>
                 <td>3170100000</td>
                 <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
+                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
               <tr>
@@ -227,8 +228,7 @@
                 <td>Jill Lewis</td>
                 <td>3170100000</td>
                 <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
+                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
             </tbody>
@@ -236,8 +236,9 @@
               <tr>
                 <th></th>
                 <th colspan="4">
-                  <button class="ui button"
-                    style="margin-left: 87%; width: 12%; background-color:#40a070;">添加组员</button>
+                  <div class="ui right floated green labeled icon button" onclick="showModal2()">
+                    <i class="add icon"></i> 添加组员
+                  </div>
                 </th>
               </tr>
             </tfoot>
@@ -266,7 +267,7 @@
                 <th>姓名</th>
                 <th>学号</th>
                 <th>邮箱</th>
-                <th style="width: 15%">删除</th>
+                <th style="width: 15%"></th>
               </tr>
             </thead>
             <tbody>
@@ -377,10 +378,10 @@
   <!-- 占位 -->
 
   <!--模态框-->
-  <div class="ui modal">
+  <div class="ui modal" id="addGroup">
     <i class="close icon"></i>
     <div class="header">
-      添加组员
+      添加小组
     </div>
     <div class="ui segment" style="background-color:rgb(255, 255, 255);">
       <table class="ui compact celled definition table">
@@ -471,7 +472,7 @@
             <th></th>
             <th colspan="4">
               <a href="javascript:showMarkModal()"><button class="ui button"
-                  style="margin-left: 86%; width: 13%; background-color: #40a070; color: white">添加组员</button></a>
+                  style="margin-left: 86%; width: 13%; background-color: #21b90d; color: white">添加小组</button></a>
 
             </th>
           </tr>
@@ -480,6 +481,110 @@
     </div>
 
   </div>
+
+  <div class="ui modal" id="addGroupMember">
+      <i class="close icon"></i>
+      <div class="header">
+        添加组员
+      </div>
+      <div class="ui segment" style="background-color:rgb(255, 255, 255);">
+        <table class="ui compact celled definition table">
+          <thead class="full-width">
+            <tr>
+              <th></th>
+              <th>姓名</th>
+              <th>学号</th>
+              <th>邮箱</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="collapsing">
+                <div class="ui checkbox" style="margin-left: 20px;">
+                  <input type="checkbox" name="example">
+                  <label></label>
+                </div>
+              </td>
+              <td>John Lilki</td>
+              <td>3170100000</td>
+              <td>jhlilk22@yahoo.com</td>
+  
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <div class="ui checkbox" style="margin-left: 20px;">
+                  <input type="checkbox" name="example">
+                  <label></label>
+                </div>
+              </td>
+              <td>Jamie Harington</td>
+              <td>3170100000</td>
+              <td>jamieharingonton@yahoo.com</td>
+  
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <div class="ui checkbox" style="margin-left: 20px;">
+                  <input type="checkbox" name="example">
+                  <label></label>
+                </div>
+              </td>
+              <td>Jill Lewis</td>
+              <td>3170100000</td>
+              <td>jilsewris22@yahoo.com</td>
+  
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <div class="ui checkbox" style="margin-left: 20px;">
+                  <input type="checkbox" name="example">
+                  <label></label>
+                </div>
+              </td>
+              <td>Jill Lewis</td>
+              <td>3170100000</td>
+              <td>jilsewris22@yahoo.com</td>
+  
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <div class="ui checkbox" style="margin-left: 20px;">
+                  <input type="checkbox" name="example">
+                  <label></label>
+                </div>
+              </td>
+              <td>Jill Lewis</td>
+              <td>3170100000</td>
+              <td>jilsewris22@yahoo.com</td>
+  
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <div class="ui checkbox" style="margin-left: 20px;">
+                  <input type="checkbox" name="example">
+                  <label></label>
+                </div>
+              </td>
+              <td>Jill Lewis</td>
+              <td>3170100000</td>
+              <td>jilsewris22@yahoo.com</td>
+  
+            </tr>
+          </tbody>
+          <tfoot class="full-width">
+            <tr>
+              <th></th>
+              <th colspan="4">
+                <a href="javascript:showMarkModal()"><button class="ui button"
+                    style="margin-left: 86%; width: 13%; background-color: #21b90d; color: white">添加组员</button></a>
+  
+              </th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+  
+    </div>
   <!--模态框-->
 
 </body>
@@ -488,9 +593,15 @@
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
 <script>
-  var showModal = () => {
-    $('.ui.modal').modal('show');
+  var showModal1 = () => {
+    $('#addGroup').modal('show');
   }
+
+  var showModal2 = () => {
+    $('#addGroupMember').modal('show');
+  }
+
+
 </script>
 
 </html>

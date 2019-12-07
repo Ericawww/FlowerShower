@@ -212,26 +212,48 @@ exports.setGradeWeightChange = async (req, res) => {
     }
 }
 
+/**
+ * 学生获得自己某门课程的组队信息
+ */
 exports.getGroupInfo = async (req, res) => {
     var studentID = req.session.token.userID;
     var classID = req.params.classID;
-    var ret = await Course.prototype.getGroupNumber(classID,studentID);
+    var ret = await Course.prototype.getGroupNumber(classID, studentID);
     var groupMember;
     var studentInfoList = new Array();
     var result = 0;
-    if(ret.length!=0){
+    if (ret.length != 0) {
         groupMember = await Course.prototype.getGroupMember(ret[0].groupNumber);
-        for(var i=0;i<groupMember.length;i++){
+        for (var i = 0; i < groupMember.length; i++) {
             studentInfoList[i] = await Course.prototype.getStudentInfo(groupMember[i].studentID)
         }
-        result =1;
+        result = 1;
     }
     console.log
-    res.render('courses/studentGroupInfo',{
-        ret:ret,
-        studentInfoList:studentInfoList,
-        result:result
+    res.render('courses/studentGroupInfo', {
+        ret: ret,
+        studentInfoList: studentInfoList,
+        result: result
     })
+}
 
-
+/**
+ * 老师进行课程的组队管理
+ */
+exports.groupOperation = async (req, res) => {
+    var classID = req.params.classID;
+    var classGroup = await Course.prototype.getClassGroup(classID);
+    var leftStudentList = await Course.prototype.getLeftStudent(classID);
+    var leftStudentInfoList = new Array();
+    var classGroupInfoList = new Array();
+    if(leftStudentList.length>0){
+        for(var i=0;i<leftStudentList.length;i++){
+            leftStudentInfoList[i] = await Course.prototype.getStudentInfo(leftStudentList[i].studentID); 
+        }
+    }
+    if(classGroup.length>0){
+        for(var i=0;i<classGroup.length;i++){
+            classGroupInfoList[i] = await Course.prototype.getGroupMemberInfo(classGroup[i].groupID);
+        }
+    }
 }

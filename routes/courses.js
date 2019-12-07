@@ -10,6 +10,7 @@ router.get("/search", courseController.getCourseByName); //search?courseName=...
 router.get("/group", (req,res)=>{res.render('courses/studentGroupInfo')});
 router.get("/teacher/group", (req,res)=>{res.render('courses/teacherGroupOperation')});
 router.get("/class/:classID/student/groupInfo", courseController.getGroupInfo);
+router.get("/class/:classID/teacher/groupOperation", courseController.groupOperation);
 
 router.get("/class/:classID", courseController.getUserCoursePage);
 router.get("/class/:classID/student/notice", classController.getCourseNotice);
