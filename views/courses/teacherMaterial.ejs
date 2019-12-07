@@ -99,7 +99,7 @@
         <% for (let i = 0; i < materials.length; i++) { %>
         <div class="ui grid">
           <div class="two wide column" style="text-align: center;"><%= (i+1) %></div>
-          <div class="five wide column" style="text-align: center;"><a><%= materials[i].materialName %></a></div>
+          <div class="five wide column" style="text-align: center;"><%= materials[i].materialName %></div>
           <div class="three wide column" style="text-align: center;"><%= materials[i].userName %></div>
           <div class="three wide column" style="text-align: center;"><%= dateFormat(materials[i].uploadTime, 'yyyy-MM-dd hh:mm:ss') %></div>
           <div class="three wide column" style="text-align: center;">
