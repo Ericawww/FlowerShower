@@ -36,19 +36,10 @@ router.post("/class/:classID/teacher/talk/updateTalk", classController.writeTalk
 router.post("/class/:classID/teacher/talk/:talkID/updateComment", classController.addComment);
 
 //成绩
-router.get("/class/:classID/teacher/courseGrade", courseController.getGrade);
-router.get(
-  "/class/:classID/teacher/courseGradeChange",
-  courseController.gradeChange
-);
-router.post(
-  "/class/:classID/teacher/gradeChange",
-  courseController.setGradeChange
-);
-router.post(
-  "/class/:classID/teacher/gradeWeightChange",
-  courseController.setGradeWeightChange
-);
+router.get('/class/:classID/teacher/courseGrade', courseController.getGrade);
+router.get('/class/:classID/teacher/courseGradeChange', courseController.gradeChange);
+router.post('/class/:classID/teacher/gradeChange', courseController.setGradeChange);
+router.post('/class/:classID/teacher/gradeWeightChange', courseController.setGradeWeightChange);
 
 //验证身份
 router.all("/class/:classID/student/", classController.checkStudent); // courses/classes/:classID/student  ->匹配学生，验证身份，next
