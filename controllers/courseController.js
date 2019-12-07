@@ -211,3 +211,27 @@ exports.setGradeWeightChange = async (req, res) => {
         res.send({ status: 0 }).end();
     }
 }
+
+exports.getGroupInfo = async (req, res) => {
+    var studentID = req.session.token.userID;
+    var classID = req.params.classID;
+    var ret = await Course.prototype.getGroupNumber(classID,studentID);
+    var groupMember;
+    var studentInfoList = new Array();
+    var result = 0;
+    if(ret.length!=0){
+        groupMember = await Course.prototype.getGroupMember(ret[0].groupNumber);
+        for(var i=0;i<groupMember.length;i++){
+            studentInfoList[i] = await Course.prototype.getStudentInfo(groupMember[i].studentID)
+        }
+        result =1;
+    }
+    console.log
+    res.render('courses/studentGroupInfo',{
+        ret:ret,
+        studentInfoList:studentInfoList,
+        result:result
+    })
+
+
+}

@@ -6,6 +6,11 @@ var homeworkController = require("../controllers/homeworkController");
 
 router.get("/", courseController.getAllCourse); //courses
 router.get("/search", courseController.getCourseByName); //search?courseName=...
+
+router.get("/group", (req,res)=>{res.render('courses/studentGroupInfo')});
+router.get("/teacher/group", (req,res)=>{res.render('courses/teacherGroupOperation')});
+router.get("/class/:classID/student/groupInfo", courseController.getGroupInfo);
+
 router.get("/class/:classID", courseController.getUserCoursePage);
 router.get("/class/:classID/student/notice", classController.getCourseNotice);
 router.get("/class/:classID/student/talk", classController.getTalk);
@@ -87,5 +92,7 @@ router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNu
 router.post("/class/:classID/notice/updateNotice", classController.updateNotice);
 router.post("/class/:classID/talk/updateTalk", classController.writeTalk);
 router.post("/class/:classID/talk/:talkID/updateComment", classController.addComment);
+
+
 
 module.exports = router;

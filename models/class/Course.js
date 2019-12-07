@@ -290,8 +290,64 @@ class Course {
         try {
             var conn = await pool.getConnection();
             var ret = await conn.query("update class set projectWeight = ? , examWeight = ? , usualWeight = ? where classID = ?",
-            [parseInt(sql.newProjectWeight),parseInt(sql.newExamWeight),parseInt(sql.newUsualWeight),sql.classID]);
+                [parseInt(sql.newProjectWeight), parseInt(sql.newExamWeight), parseInt(sql.newUsualWeight), sql.classID]);
             return 1;
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据classID与studentID获得小组信息
+     * 
+     * @param {string} classID
+     * @param {string}  studentID
+     */
+    async getGroupNumber(classID, studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group_member natural join class_group where classID = ? and studentID = ?",
+                [classID, studentID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据groupNumber获得所有的成员信息
+     * 
+     * @param {*} groupNumber 
+     */
+    async getGroupMember(groupNumber) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group_member  where groupID = ?", [groupNumber]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据studentID获得学生的信息
+     * 
+     * @param {string} studentID 
+     */
+    async getStudentInfo(studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from user  where userID = ?", [studentID]);
+            return ret[0];
         } catch (err) {
             console.log(err);
             return null;

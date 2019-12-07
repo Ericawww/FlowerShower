@@ -116,7 +116,11 @@
                 <div class="group id description" style="line-height: 30px;"><b>小组序号</b></div>
               </div>
               <div class="column">
-                <div class="group id" style="line-height: 30px;">13</div>
+                <% if(result==1){ %>
+                <div class="group id" style="line-height: 30px;"><%= ret[0].groupNumber %></div>
+                <% } else { %>
+                <div class="group id" style="line-height: 30px;">无</div>
+                <% } %>
               </div>
               <div class="column"></div>
               <div class="column"></div>
@@ -124,7 +128,11 @@
                 <div class="group number description" style="line-height: 30px;"><b>小组人数</b></div>
               </div>
               <div class="column">
-                <div class="group number" style="line-height: 30px;">4</div>
+                <% if(result==1){ %>
+                <div class="group id" style="line-height: 30px;"><%= studentInfoList.length %></div>
+                <% } else { %>
+                <div class="group id" style="line-height: 30px;">无</div>
+                <% } %>
               </div>
             </div>
           </div>
@@ -147,78 +155,41 @@
             <div class="email address description" style="margin-left: 35px;"><b>邮箱</b></div>
           </div>
         </div>
+        <% for(var i=0;i<studentInfoList.length;i++){ %>
         <div class="ui divider"></div>
         <div class="ui four column grid">
           <div class="column">
             <div class="student avatar and name" style="margin-left: 15px;">
-              <img class="ui avatar image" src="/images/groupmember1.png">
-              <span style="color: rgb(18,170,156);">应承峻（组长）</span>
+              <img class="ui avatar image" src="/<%= studentInfoList[i][0].userPhoto %>"
+                onerror="this.src='/images/avatar200x200.png'">
+              <% if(studentInfoList[i][0].userID==ret[0].groupLeaderID){ %>
+              <span style="color: rgb(18,170,156);"><%= studentInfoList[i][0].userName %>（组长）</span>
+              <% } else { %>
+              <span><%= studentInfoList[i][0].userName %></span>
+              <% } %>
             </div>
           </div>
           <div class="column">
-            <div class="student id" style="margin-left: 35px;margin-top: 4.22px;">3170100000</div>
+            <div class="student id" style="margin-left: 35px;margin-top: 4.22px;"><%= studentInfoList[i][0].userID %></div>
           </div>
           <div class="column">
-            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;">18888888888</div>
-          </div>
-          <div class="column">
-            <div class="email address" style="margin-left: 35px;margin-top: 4.22px;">3170100000@zju.edu.cn</div>
-          </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui four column grid">
-          <div class="column">
-            <div class="student avatar and name" style="margin-left: 15px;">
-              <img class="ui avatar image" src="/images/groupmember2.jpg">
-              <span>贺婷婷</span>
+            <% if(studentInfoList[i][0].phoneNumber==null){ %>
+            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;">-</div>
+            <% } else { %>
+            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;"><%= studentInfoList[i][0].phoneNumber %>
             </div>
+            <% } %>
           </div>
           <div class="column">
-            <div class="student id" style="margin-left: 35px;margin-top: 4.22px;">3170100000</div>
-          </div>
-          <div class="column">
-            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;">18888888888</div>
-          </div>
-          <div class="column">
-            <div class="email address" style="margin-left: 35px;margin-top: 4.22px;">3170100000@zju.edu.cn</div>
-          </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui four column grid">
-          <div class="column">
-            <div class="student avatar and name" style="margin-left: 15px;">
-              <img class="ui avatar image" src="/images/groupmember3.jpg">
-              <span>韩汶东</span>
+            <% if(studentInfoList[i][0].email==null){ %>
+            <div class="email address" style="margin-left: 35px;margin-top: 4.22px;">-</div>
+            <% } else { %>
+            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;"><%= studentInfoList[i][0].email %>
             </div>
-          </div>
-          <div class="column">
-            <div class="student id" style="margin-left: 35px;margin-top: 4.22px;">3170100000</div>
-          </div>
-          <div class="column">
-            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;">18888888888</div>
-          </div>
-          <div class="column">
-            <div class="email address" style="margin-left: 35px;margin-top: 4.22px;">3170100000@zju.edu.cn</div>
+            <% } %>
           </div>
         </div>
-        <div class="ui divider"></div>
-        <div class="ui four column grid">
-          <div class="column">
-            <div class="student avatar and name" style="margin-left: 15px;">
-              <img class="ui avatar image" src="/images/groupmember4.jpg">
-              <span>戴陈威</span>
-            </div>
-          </div>
-          <div class="column">
-            <div class="student id" style="margin-left: 35px;margin-top: 4.22px;">3170100000</div>
-          </div>
-          <div class="column">
-            <div class="phonenumber" style="margin-left: 35px;margin-top: 4.22px;">18888888888</div>
-          </div>
-          <div class="column">
-            <div class="email address" style="margin-left: 35px;margin-top: 4.22px;">3170100000@zju.edu.cn</div>
-          </div>
-        </div>
+        <% } %>
         <div class="ui divider"></div>
       </div>
     </div>
