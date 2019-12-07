@@ -254,14 +254,14 @@
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitComplain",
+      url: "./submitComplain",
       data: {
         reason: $("textarea[name='complainMsg']").val()
       },
       success: (data) => {
         if (data.status) {
           alert("提交申诉成功!");
-          window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
+          window.location.href = "./situation"
         } else {
           alert(data.msg);
         }

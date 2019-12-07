@@ -131,11 +131,10 @@
                 </div>
               </div>
               <div class="two wide column">
-                <div class="ui positive button" style="color: rgb(10, 73, 145);" onclick="showUpdateScoreModal(<%= complain.studentID %>,<%= complain.classID %>,<%= complain.fullMark %>)">同意申诉</div>
+                <div class="ui positive button" style="color: rgb(10, 73, 145);" onclick="showUpdateScoreModal({x:'<%= complain.studentID %>',y: '<%= hwInfo.classID %>',z:'<%= hwInfo.fullMark %>'})">同意申诉</div>
               </div>
               <div class="two wide column">
-                <div class="ui positive button" style="color: rgb(10, 73, 145);" onclick="rejectComment(<%= complain.studentID %>,<%= complain.classID %>,<%= complain.mark %>)">
-                  拒绝申诉</div>
+                <div class="ui positive button" style="color: rgb(10, 73, 145);" onclick="rejectComment({x:'<%= complain.studentID %>',y:'<%= hwInfo.classID %>',z:'<%= complain.mark %>'})">拒绝申诉</div>
               </div>
             </div>
         <% } %>
@@ -172,11 +171,11 @@
 <script src="/dist/semantic.min.js"></script>
 <script>
   var stuID, classID, fullMark,score;
-  var showUpdateScoreModal = (x, y, z,i) => {
+  var showUpdateScoreModal = (paramData) => {
     $('.ui.modal').modal('show');
-    stuID = x;
-    classID = y;
-    fullMark = z;
+    stuID = paramData.x;
+    classID = paramData.y;
+    fullMark = paramData.z;
   };
   var updateScore = () => {
     var input = $("input[name='score']").val();
@@ -192,17 +191,17 @@
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "updateScore",
+      url: "./updateScore",
       data: {
         stuID: stuID,
         score: result
       },
-      success: (data) => {
-        if (data.status) {
+      success: (paramData) => {
+        if (paramData.status) {
           alert("成绩修改成功!");
-          window.location.href = "./dealComplain"
+          window.location.href = "./complain"
         } else {
-          alert(data.msg);
+          alert(paramData.msg);
         }
       },
       error: (err) => {
@@ -213,10 +212,10 @@
   var hideUpdateScoreModal = (x, y, z) => {
     $('.ui.modal').modal('hide');
   };
-  var rejectComment =(x,y,z) =>{
-    stuID = x;
-    classID = y;
-    score=z;
+  var rejectComment =(paramData) =>{
+    stuID = paramData.x;
+    classID = paramData.y;
+    score=paramData.z;
     $.ajax({
       dataType: "json",
       type: "post",
@@ -227,8 +226,8 @@
       },
       success: (data) => {
         if (data.status) {
-          alert("成绩修改成功!");
-          window.location.href = "./dealComplain"
+          alert("已拒绝该申诉!");
+          window.location.href = "./complain"
         } else {
           alert(data.msg);
         }
