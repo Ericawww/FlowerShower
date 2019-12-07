@@ -3,6 +3,9 @@ var config = require("../models/statics/config");
 var Homework = require("../models/class/Homework");
 var Talk = require("../models/class/Talk");
 var Notice = require("../models/class/Notice");
+var fileHelper = require('../models/method/fileHelper');
+var utils = require('../models/method/utils');
+var path = require('path');
 
 //验证
 /**
@@ -10,10 +13,8 @@ var Notice = require("../models/class/Notice");
  */
 exports.checkTeacher = async (req, res, next) => {
   req.session.token = await config.getToken("T0001", "123");
-  if (
-    req.session.token == null ||
-    req.session.token.userType != config.TYPE_TEACHER
-  ) {
+  console.log(req.session.token);
+  if (req.session.token == null || req.session.token.userType != config.TYPE_TEACHER || ! await Class.prototype.isClassMember(req.params.classID, req.session.token.userID)) {
     res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
     return;
   }
@@ -24,10 +25,7 @@ exports.checkTeacher = async (req, res, next) => {
  * 
  */
 exports.checkStudent = async (req, res, next) => {
-  if (
-    req.session.token == null ||
-    req.session.token.userType != config.TYPE_STUDENT
-  ) {
+  if (req.session.token == null || req.session.token.userType != config.TYPE_STUDENT || ! await Class.prototype.isClassMember(req.params.classID, req.session.token.userID)) {
     res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
     return;
   }
@@ -390,9 +388,6 @@ exports.addComment = async (req, res) => {
 };
 
 
-exports.getTeacherMaterialPage = async (req, res) => {
-  res.render("courses/teacherMaterial");
-}
 /**
  * 教师增加作业
  */
@@ -457,3 +452,72 @@ exports.changeHw = async (req, res) => {
     res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
   }
 };
+
+/**
+ * 教师获取资料列表
+ */
+exports.getTeacherMaterialPage = async (req, res) => {
+  var ret = await Class.prototype.getMaterials(req.params.classID, null);
+  if (ret == null) {
+    res.send("<script>alert('数据库异常，请稍后再试！');</script>").end();
+    return;
+  }
+  res.render("courses/teacherMaterial", { materials: ret });
+}
+
+/**
+ * 上传资料
+ */
+exports.receiveTeacherMaterial = async (req, res) => {
+  try {
+    var ret = await fileHelper(req, "material", "classMaterials");
+    var materialID = ret.newName.split('.')[0];
+    console.log(materialID);
+    var errMsg = await Class.prototype.uploadMaterial(materialID, req.params.classID, ret.originName, 'private/classMaterials/' + ret.newName,
+      req.session.token.userID, req.body.classProjectID);
+    if (errMsg) {
+      utils.removeFile(path.join(__dirname, '../private/classMaterials', ret.newName));
+      res.send({ status: 0, msg: errMsg }).end();
+    } else res.send({ status: 1, newFileName: ret.newName }).end();
+  } catch (err) {
+    console.log(err);
+    res.send({ status: 0, msg: err.message }).end();
+  }
+}
+
+/**
+ * 下载资料
+ */
+exports.downloadClassMaterial = async (req, res) => {
+  //console.log(req.params.classID, req.params.classProjectID, req.params.materialID);
+  //目的是确认是本教学班的学生，如果是别教学班的学生或教师，但是修改了URL，将会拒绝其访问
+  var ret = await Class.prototype.getMaterials(req.params.classID, req.params.classProjectID, req.params.materialID);
+  if (ret.length == 0) {
+    res.send({ status: 0, msg: '您暂无权限访问' }).end();
+  } else {
+    res.sendFile(path.join(__dirname, '../', ret[0].path));
+  }
+}
+
+/**
+ * 删除资料
+ */
+exports.removeClassMaterial = async (req, res) => {
+  var ret = await Class.prototype.getMaterials(req.params.classID, req.body.classProjectID, req.body.materialID);
+  if (ret.length > 0) {
+    var oldPath = ret[0].path;
+    ret = await Class.prototype.deleteMaterial(req.params.classID, req.body.classProjectID, req.body.materialID);
+    if (ret) {
+      res.send({ status: 0, msg: ret }).end();
+    } else {
+      try {
+        await utils.removeFile(path.join(__dirname, '../', oldPath));
+        res.send({ status: 1 }).end();
+      } catch (err) {
+        res.send({ status: 0, msg: '该资料不存在' }).end();
+      }
+    }
+  } else {
+    res.send({ status: 0, msg: '该资料不存在' }).end();
+  }
+}

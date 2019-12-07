@@ -56,6 +56,11 @@ app.use(function (err, req, res, next) {
 app.locals.dateFormat = (str) => {
     return new Date(str).format('yyyy-MM-dd hh:mm');
 };
+
+app.locals.dateFormat = (str, pattern) => {
+    return new Date(str).format(pattern);
+};
+
 Date.prototype.format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1,                 //月份 
