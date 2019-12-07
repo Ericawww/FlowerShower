@@ -369,3 +369,8 @@ exports.addComment = async (req, res) => {
     res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
   }
 };
+
+
+exports.getTeacherMaterialPage = async (req, res) => {
+  res.render("courses/teacherMaterial");
+}
