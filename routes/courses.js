@@ -70,7 +70,7 @@ router.get(
   classController.getStuHwSubmit
 ); // courses/classes/:classID/student/hw/:hw/submit ->提交作业
 
-router.get("/class/:classID/teacher/hw/:hw", classController.checkHw);
+// router.get("/class/:classID/teacher/hw/:hw", classController.checkHw);
 router.get("/class/:classID/teacher/hw/all", classController.getTcAllHw);
 router.get("/class/:classID/teacher/hw/:hw", classController.getTcHwDetail);
 router.get("/class/:classID/teacher/hw/add", classController.addHw);
