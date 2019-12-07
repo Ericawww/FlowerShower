@@ -2,6 +2,7 @@ var pool = require("../mysql/ConnPool");
 
 class Classes {
 
+    
     /**
      * 
      * @param {string} classID 教学班ID
@@ -10,15 +11,12 @@ class Classes {
     async getClassHeader(classID) {
         try {
             var conn = await pool.getConnection();
-            console.log(classID);
             var ret = await conn.query("select course.courseName,course.courseDept,class.startTime,class.closeTime,user.userName from \
                 class inner join course inner join user on class.courseNumber=course.courseNumber and user.userID = class.teacherID \
                 where classID = ?", [classID]);
-            console.log(ret);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
         } catch (err) {
-            console.log(err);
             return null;
         } finally {
             conn.release();

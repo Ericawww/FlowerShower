@@ -87,7 +87,13 @@ router.get("/class/:classID/teacher/hw/:hw/grade", classController.getGradeSitua
 router.get("/class/:classID/teacher/hw/:hw/update", classController.updateHwPage);
 router.get("/class/:classID/teacher/hw/:hw/mark", classController.markHwPage);
 
-router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
+
+router.post("/class/:classID/teacher/hw/:hw/update/changeHw",classController.changeHw)
+router.post("/class/:classID/teacher/hw/verifyAddHw",classController.updateHw);
+
+router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.updateScore);
+router.post("/class/:classID/teacher/hw/:hw/rejectComment", classController.rejectComplain);
+// router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
 
 //申诉？
 router.post("/complainBoard", homeworkController.writeComplainBoard); //待定

@@ -196,7 +196,7 @@
         </div>
         <div class="item" style="width:auto;width:150px;">
           <div class="content">
-            <div class="homework submit button" ><a onclick="showConfirmDeleteModal()">删除作业</a></div>
+            <div class="homework submit button" ><a onclick="showConfirmDeleteModal(<%= hw.classID %>,<%= hw.classProjectID %>)">删除作业</a></div>
           </div>
         </div>
         <div class="item" style="width:auto;margin-right:15px;">
@@ -220,7 +220,7 @@
     </div>
     <div class="actions">
       <div class="ui cancel button">取消</div>
-      <div class="ui approve red button">确定</div>
+      <div class="ui approve red button" onclick="confirmDelete()">确定</div>
     </div>
   </div>
   <!--教师删除作业确认模态框-->
@@ -231,18 +231,21 @@
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
 <script>
-  var showConfirmDeleteModal = () => {
+  var classID,classProjectID;
+  var showConfirmDeleteModal = (xx, yy) => {
     $('.ui.modal').modal('show');
+    classID=xx;
+    classProjectID=yy;
   };
   var confirmDelete = () => {
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "/courses/class/<%= hw.classID %>/student/hw/<%= hw.classProjectID %>/deleteHw",
+      url: "/courses/class/"+classID+"/teacher/hw/"+classProjectID+"/deleteHw",
       success: (data) => {
         if (data.status) {
           alert("删除成功!");
-          window.location.href = "/courses/class/<%= hw.classID %>/student/hw/all"
+          window.location.href = "/courses/class/"+classID+"/teacher/hw/all";
         } else {
           alert(data.msg);
         }

@@ -8,7 +8,6 @@ var logger = require("morgan");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var coursesRouter = require('./routes/courses');
-var classesRouter = require('./routes/classes');
 var adminRouter = require('./routes/admins');
 
 var app = express();

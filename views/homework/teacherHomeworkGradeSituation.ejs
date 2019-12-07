@@ -79,7 +79,7 @@
         </button>
       </div>
       <div class="ui basic segment">
-        <b class="homework name" style="font-size:xx-large;">Linux进程管理研究报告</b>
+        <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
       </div>
       <div class="ui basic segment">
           <div class="ui tabular menu">
@@ -89,6 +89,7 @@
               <a class="item" href="./complain">处理成绩申诉</a>
             </div>
       </div>
+      <!--TODO，先放着，不想做-->
       <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
         <div class="ui six column grid">
           <div class="row">
@@ -96,19 +97,19 @@
               <div class="class student number description" style="line-height: 30px;"><b>班级学生人数</b></div>
             </div>
             <div class="column">
-              <div class="class student number" style="line-height: 30px;">50</div>
+              <div class="class student number" style="line-height: 30px;"><%= classInfo.stuNum %></div>
             </div>
             <div class="column">
-              <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
+              <div class="homework fullmark description" style="line-height: 30px;"><b>已批改作业人数</b></div>
             </div>
             <div class="column">
-              <div class="homework fullmark" style="line-height: 30px;">10</div>
+              <div class="homework fullmark" style="line-height: 30px;"><%= classInfo.markNum %></div>
             </div>
             <div class="column">
               <div class="class average score description" style="line-height: 30px;"><b>班级平均分</b></div>
             </div>
             <div class="column">
-              <div class="class average score" style="line-height: 30px;">8.25</div>
+              <div class="class average score" style="line-height: 30px;"><%= classInfo.avgMark %> </div>
             </div>
           </div>
         </div>
@@ -129,26 +130,24 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">1</td>
-                <td style="text-align: center;">3170100000</td>
-                <td style="text-align: center;">dcw</td>
-                <td style="text-align: center;">2019-12-4 19:55</td>
-                <td style="text-align: center;">8</td>
-                <td>不错错错错错错错错错错错错错错错错错错错错错错错错错错</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">2</td>
-                <td style="text-align: center;">3170100001</td>
-                <td style="text-align: center;">zjy</td>
-                <td style="text-align: center;">2019-12-4 19:59</td>
-                <td style="text-align: center;">8.5</td>
-                <td>可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以可以</td>
-                <td></td>
-              </tr>
+              <% if(stuList==null) {%>
+                <p>暂无批改记录</p>
+              <% } else {%>
+                <% for(i=0;i<stuList.length;i++){ %>
+                <% var stu = stuList[i]; if(stu.mark!=null){%>
+                  <tr>
+                    <td></td>
+                    <td style="text-align: center;"><%= i+1 %></td>
+                    <td style="text-align: center;"><%= stu.studentID %></td>
+                    <td style="text-align: center;"><%= stu.userName %></td>
+                    <td style="text-align: center;"><%= dateFormat(stu.markTime) %></td>
+                    <td style="text-align: center;"><%= stu.mark %></td>
+                    <td><%= stu.comment %></td>
+                    <td></td>
+                  </tr>
+                  <% } %>
+                <% } %>
+              <% } %>
             </tbody>
             <tfoot>
               <tr>
