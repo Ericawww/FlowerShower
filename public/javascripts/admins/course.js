@@ -155,7 +155,7 @@ var setCourseList = () => {
             <td>${prerequisite}</td>
             <td>
               <i class="edit outline icon pointer" onclick="showCourseModal(${i})"></i>
-              <i class="tasks icon pointer" onclick="showClasses(${i})"></i>
+              <i class="tasks icon pointer" onclick="showClasses('${courseNumber}')"></i>
             </td>
           </tr>`;
         $(table).append(courseListTemplate);
@@ -223,5 +223,5 @@ var showCourseModal = (index) => {
 }
 
 var showClasses = (index) => {
-    window.location.href='/admin/class';
+    window.location.href='/admin/class?cn=' + index;
 }
