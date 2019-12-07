@@ -63,6 +63,9 @@ router.all("/class/:classID/teacher/", classController.checkTeacher); //判断�
 router.get("/class/:classID/student/main", classController.getStuMainPage); // courses/classes/:classID/student/main ->课程主页面
 router.get("/class/:classID/teacher/main", classController.getTcMainPage);
 
+//课程资料
+router.get('/class/:classID/teacher/material', classController.getTeacherMaterialPage);
+
 //作业
 router.get('/class/:classID/student/hw/all', classController.getStuAllHw);// courses/classes/:classID/student/hw/all ->作业列表
 //hw检查作业有问题

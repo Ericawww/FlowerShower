@@ -1,10 +1,31 @@
-var pool = require('../mysql/ConnPool');
+var pool = require("../mysql/ConnPool");
 
 class Homework {
-    
-    constructor() {
+  constructor() {}
 
+  /**
+   * 学生申诉成绩功能
+   *
+   * @param {String} reason 申诉原因
+   * @param {String} stuID
+   * @param {String} hwID
+   * @return {int} 如果成功返回1，出错则返回0
+   */
+  async submitComplain(stuID, hwID, reason) {
+    try {
+      var conn = await pool.getConnection();
+      var res = await conn.query(
+        "update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ",
+        [reason, hwID, stuID]
+      );
+      return 1;
+    } catch (err) {
+      console.log(err);
+      return 0;
+    } finally {
+      conn.release();
     }
+  }
 
     /**
      * 学生申诉成绩功能
