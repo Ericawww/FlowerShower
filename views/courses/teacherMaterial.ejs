@@ -8,36 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <link rel="icon" href="/images/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
   <style type="text/css">
     body {
       background-color: #eeeeee;
     }
-
-    .footer.segment {
-      padding: 5em 0em;
-    }
-
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
-
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
-
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
-    }
-
-    
   </style>
 </head>
 
@@ -117,12 +91,15 @@
           </div>
           <div class="item" style="width: 350px;">
             <div class="content">
-              <button class="ui button" style="margin-left: 160%; width: 40%; background-color: #40a070;height: 40px; font-weight: bold; font-size: 15px; color:white; ">上 传 资 料</button>
+              <div class="ui labeled icon button">
+                <i class="pause icon"></i>
+                Pause
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="ui segment" style="background-color:#fffef97;">
+      <div class="ui segment">
         <div class="ui grid">
           <div class="two wide column" style="margin-left: 10px; font-size: 18px; font-weight: bold; text-align: center;" >序号</div>
           <div class="five wide column" style="font-size: 18px; font-weight: bold; text-align: center;" >资料名称</div>  
@@ -161,7 +138,7 @@
 
 </body>
 
-<script src="jquery.js"></script>
+<script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
 <script>
 </script>
