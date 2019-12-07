@@ -125,7 +125,7 @@ class Homework {
         }
     }
     /**
-     * 得到作业的详细信息，
+     * 得到作业的详细信息，若传入studentID则返回批改记录，若未传入则返回作业的信息
      * @param {string} hwID
      * @param {string} stuID
      * @return {Array} 返回作业的详细信息,出错为null-返回的是一条记录
@@ -296,7 +296,8 @@ class Homework {
     async updateScore(hwID,score,stuID){
         try {
             var conn = await pool.getConnection();
-            var res = await conn.query("update class_project_score set mark = ? where classProjectID = ? and studentID = ?", [score, hwID, stuID]);
+            console.log(hwID,score,stuID);
+            var res = await conn.query("update class_project_score set mark = ?, isHandleComplain = 1 where classProjectID = ? and studentID = ?", [score, hwID, stuID]);
             if (res == 0) {
                 return 0;
             } else {

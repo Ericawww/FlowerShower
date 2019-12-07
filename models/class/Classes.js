@@ -14,6 +14,7 @@ class Classes {
             var ret = await conn.query("select course.courseName,course.courseDept,class.startTime,class.closeTime,user.userName from \
                 class inner join course inner join user on class.courseNumber=course.courseNumber and user.userID = class.teacherID \
                 where classID = ?", [classID]);
+            console.log(classID,ret[0]);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
         } catch (err) {
