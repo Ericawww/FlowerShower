@@ -16,25 +16,6 @@
     .footer.segment {
       padding: 5em 0em;
     }
-
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
-
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
-
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
-    }
   </style>
 </head>
 
@@ -87,19 +68,8 @@
 
   <div class="pusher">
     <!-- 导航栏 -->
-    <div class="ui menu" style="padding: 15px;">
-      <img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;" />
-      <div class="right menu" style="margin-right: 20%;">
-        <div class="item">
-          <div class="ui action left icon input">
-            <i class="search icon"></i>
-            <input type="text" placeholder="搜索感兴趣的课程" />
-            <button class="ui positive button">搜索</button>
-          </div>
-        </div>
-        <a class="item">使用教程</a>
-        <a class="item">建议反馈</a>
-      </div>
+    <div class="main navBar">
+      
     </div>
     <!-- 导航栏 -->
 
@@ -125,10 +95,6 @@
             <a class="item" id="homePage">
               <i class="home icon"></i>
               首页
-            </a>
-            <a class="item" id="myClass">
-              <i class="file outline icon"></i>
-              我的课程
             </a>
             <a class="item" id="myGrade">
               <i class="font icon"></i>
@@ -183,25 +149,21 @@
   </div>
 
   <script src="/javascripts/jquery.js"></script>
-  <script src="/javascripts/common.js"></script>
+  <script src="/javascripts/header.js"></script>
   <script src="/dist/semantic.min.js"></script>
   <script>
     $('#myGrade').click(function () {
-      window.location.href = './userGrade';
+      window.location.href = '/users/userGrade';
     });
 
     $('#homePage').click(function () {
       window.location.href = '/';
     });
 
-    $('#myClass').click(function () {
-      window.location.href = './';
-    });
-
     $('.courseEnter').click(function () {
       var enterLocation = "/courses/class/";
       var classID = $(this).siblings('.class_id_info').text();
-      enterLocation += classID + "/notice";
+      enterLocation += classID + "/student/notice";
       window.location.href = enterLocation;
     })
 

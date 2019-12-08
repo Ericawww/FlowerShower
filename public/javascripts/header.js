@@ -37,7 +37,8 @@ var msgboardModalTemplate = `  <div class="ui msgboard modal">
   </div>`;
 
 $(() => {
-    $("body").prepend(navBarTemplate);
+    var searchCheck = $(".main.navBar");
+    if (searchCheck.length == 0) $("body").prepend(navBarTemplate);
     $.ajax({
         dataType: "json",
         type: "get",
@@ -50,7 +51,6 @@ $(() => {
         },
         error: (err) => {
             alert('与服务器连接异常，请稍后再试!');
-
         }
     });
 });
