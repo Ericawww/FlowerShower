@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 var courseController = require("../controllers/courseController");
 var classController = require("../controllers/classController");
-var homeworkController = require("../controllers/homeworkController");
 
 /**
  * 验证阶段
@@ -99,9 +98,6 @@ router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.update
 router.post("/class/:classID/teacher/hw/:hw/rejectComment", classController.rejectComplain);
 // router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
 
-//申诉？
-router.post("/complainBoard", homeworkController.writeComplainBoard); //待定
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
-
 
 module.exports = router;
