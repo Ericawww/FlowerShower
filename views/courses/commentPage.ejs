@@ -153,7 +153,7 @@
         <% for(i = 0; i < comments.length; i++) { var comment = comments[i]; %>
         <div class="comment">
           <a class="avatar">
-            <img src="/images/christian.jpg">
+            <img src="/<%= token.userPhoto %>" onerror="this.src='/images/christian.jpg'">
           </a>
           <div class="content">
             <a class="author"><%= comment.userName %></a>

@@ -13,8 +13,8 @@ var gUser;
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-    req.session.token = await config.getToken("T0001", "123");
-    // req.session.token = await config.getToken("1111", "123");
+    // req.session.token = await config.getToken("T0001", "123");
+    req.session.token = await config.getToken("1111", "123");
     var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
     if (req.session.token == null || !ret) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
@@ -28,7 +28,7 @@ exports.checkClassMember = async (req, res, next) => {
  * 判断当前用户是否为教师，是则进行路由匹配，否则返回错误信息
  */
 exports.checkTeacher = async (req, res, next) => {
-    if (!gUser || !gUser.privilege || gUser.privilege == 0) {
+    if (!gUser || !gUser.privilege) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
     }
@@ -39,6 +39,10 @@ exports.checkTeacher = async (req, res, next) => {
  * 判断当前用户是否为学生，是则进行路由匹配，否则返回错误信息
  */
 exports.checkStudent = async (req, res, next) => {
+    if (!gUser || gUser.privilege > 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     next();
 };
 
@@ -312,7 +316,7 @@ exports.getTalk = async (req, res) => {
 exports.writeTalk = async (req, res) => {
     var ret = await Talk.prototype.writeTalk(
         req.params.classID,
-        1, //req.session.token.userID,
+        req.session.token.userID,
         req.body.title,
         req.body.content
     );
@@ -336,6 +340,8 @@ exports.showTalk = async (req, res) => {
         comments: comments
     });
 };
+
+
 
 exports.addComment = async (req, res) => {
     var ret = await Talk.prototype.addComment(req.params.classID, req.params.talkID, req.session.token.userID, req.body.content);

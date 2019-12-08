@@ -91,39 +91,72 @@
     </div>
   </div>
   <!-- 课程信息 -->
-
-  <!-- 课程水平菜单 -->
-  <div class="ui container" style="margin-top:10px;">
-    <div class="ui six item menu">
-      <a class="content">
-        <a class="item" href="javascript:window.location.href='./notice'"">
-            <i class=" bell outline icon"></i>
-          公告
+    <% if(token.userType != 0) { %>
+    <!-- 课程水平菜单 -->
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui six item menu">
+        <a class="content">
+          <a class="item" href="./notice">
+            <i class="bell outline icon"></i>
+            公告
+          </a>
+          <a class="item" href="./material">
+            <i class="folder outline icon"></i>
+            课件
+          </a>
+          <a class="item" href="./hw/all">
+            <i class="pencil alternate icon"></i>
+            作业
+          </a>
+          <a class="item" href="./groupOperation">
+            <i class="users icon"></i>
+            分组学习
+          </a>
+          <a class="item" href="./courseGrade">
+            <i class="clipboard outline icon"></i>
+            成绩
+          </a>
+          <a class="item active" href="./talk">
+            <i class="comment outline icon"></i>
+            讨论
+          </a>
         </a>
-        <a class="item">
-          <i class="folder outline icon"></i>
-          课件
-        </a>
-        <a class="item">
-          <i class="pencil alternate icon"></i>
-          作业
-        </a>
-        <a class="item">
-          <i class="users icon"></i>
-          分组学习
-        </a>
-        <a class="item">
-          <i class="clipboard outline icon"></i>
-          成绩
-        </a>
-        <a class="item" href="javascript:window.location.href='./talk?choice=0'">
-          <i class="comment outline icon"></i>
-          讨论
-        </a>
-      </a>
+      </div>
     </div>
-  </div>
-  <!-- 课程水平菜单 -->
+    <!-- 课程水平菜单 -->
+    <% } else {%>
+    <!-- 课程水平菜单 -->
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui five item menu">
+        <a class="content">
+          <a class="item" href="./notice">
+            <i class="bell outline icon"></i>
+            公告
+          </a>
+          <a class="item" href="./material">
+            <i class="folder outline icon"></i>
+            课件
+          </a>
+          <a class="item " href="./hw/all">
+            <i class="pencil alternate icon"></i>
+            作业
+          </a>
+          <a class="item" href="./groupInfo">
+            <i class="users icon"></i>
+            分组学习
+          </a>
+          <a class="item active" href="./talk">
+            <i class="comment outline icon"></i>
+            讨论
+          </a>
+        </a>
+      </div>
+    </div>
+    <!-- 课程水平菜单 -->
+    <% } %>
+    <!--教师编辑通知栏-->
+
+
 
   <div class="ui container" style="margin-top:10px;">
     <div class="ui pointing menu">
