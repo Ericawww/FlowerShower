@@ -2,406 +2,396 @@
 <html>
 
 <head>
-	<title>高校教学管理平台</title>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-	<link rel="icon" href="/images/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-	<link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
-	<style type="text/css">
-		body {
-			background-color: #eeeeee;
-		}
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
 
-		.footer.segment {
-			padding: 5em 0em;
-		}
+    .footer.segment {
+      padding: 5em 0em;
+    }
 
-		.box {
-			margin: 20px 10% 100px 10%;
-		}
+    .box {
+      margin: 20px 10% 100px 10%;
+    }
 
-		.course-title {
-			font-weight: bold;
-			font-size: medium;
-			font-family: "黑体";
-			margin: 8px 16px;
-		}
+    .course-title {
+      font-weight: bold;
+      font-size: medium;
+      font-family: "黑体";
+      margin: 8px 16px;
+    }
 
-		.course-info {
-			font-family: "微软雅黑";
-			margin: 8px 16px;
-		}
+    .course-info {
+      font-family: "微软雅黑";
+      margin: 8px 16px;
+    }
 
-		.user-title {
-			text-align: center;
-			font-size: large;
-			font-family: "微软雅黑";
-			font-size: 20px;
-		}
-	</style>
+    .user-title {
+      text-align: center;
+      font-size: large;
+      font-family: "微软雅黑";
+      font-size: 20px;
+    }
+  </style>
 </head>
 
 <body>
-	<div class="ui right blue sidebar vertical menu">
-		<div class="item">
-			<div class="header">查询类型</div>
-			<div class="ui input">
-				<select class="ui search dropdown fluid segment" id="search_item">
-					<option value="order">序号</option>
-					<option value="studentID">学号</option>
-					<option value="name">姓名</option>
-				</select>
-			</div>
-		</div>
-		<div class="item">
-			<div class="header">查询值</div>
-			<div class="ui input">
-				<input type="text" placeholder="查找..." id="search_value">
-			</div>
-		</div>
-		<div class="item">
-			<div class="header">修改项目</div>
-			<div class="ui input">
-				<select class="ui search dropdown fluid segment" id="change_item">
-					<option value="usualGrade">平时成绩</option>
-					<!-- <option value="homeworkGrade">作业成绩</option> -->
-					<option value="examGrade">考试成绩</option>
-				</select>
-			</div>
-		</div>
-		<div class="item">
-			<div class="header">新成绩</div>
-			<div class="ui input">
-				<input type="text" placeholder="输入新成绩..." id="change_value">
-			</div>
-		</div>
-		<div class="item">
-			<button class="ui blue button floated" id="submitChange">提交成绩修改</button>
-		</div>
-	</div>
-	<div class="pusher">
-		<!-- 导航栏 -->
-		<div class="ui menu" style="padding: 15px;">
-			<img src="/images/logo.png" style="display: flex; left: auto; margin-left: 30%;">
-			<div class="right menu" style="margin-right: 20%;">
-				<div class="item">
-					<div class="ui action left icon input">
-						<i class="search icon"></i>
-						<input type="text" placeholder="搜索感兴趣的课程">
-						<button class="ui positive button">搜索</button>
-					</div>
-				</div>
-				<a class="item">使用教程</a>
-				<a class="item">建议反馈</a>
-			</div>
-		</div>
-		<!-- 导航栏 -->
+  <div class="ui right blue sidebar vertical menu">
+    <div class="item">
+      <div class="header">查询类型</div>
+      <div class="ui input">
+        <select class="ui search dropdown fluid segment" id="search_item">
+          <option value="order">序号</option>
+          <option value="studentID">学号</option>
+          <option value="name">姓名</option>
+        </select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">查询值</div>
+      <div class="ui input">
+        <input type="text" placeholder="查找..." id="search_value">
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">修改项目</div>
+      <div class="ui input">
+        <select class="ui search dropdown fluid segment" id="change_item">
+          <option value="usualGrade">平时成绩</option>
+          <!-- <option value="homeworkGrade">作业成绩</option> -->
+          <option value="examGrade">考试成绩</option>
+        </select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="header">新成绩</div>
+      <div class="ui input">
+        <input type="text" placeholder="输入新成绩..." id="change_value">
+      </div>
+    </div>
+    <div class="item">
+      <button class="ui blue button floated" id="submitChange">提交成绩修改</button>
+    </div>
+  </div>
+  <div class="pusher">
+    <!-- 导航栏 -->
+    <div class="main navBar">
+      
+    </div>
+    <!-- 导航栏 -->
 
-		<div class="box">
-			<div class="ui container">
+    <div class="box">
+      <div class="ui container">
 
-				<div class="ui segment">
-					<h3>修改成绩</h3>
-				</div>
+        <div class="ui segment">
+          <h3>修改成绩</h3>
+        </div>
 
-			</div>
+      </div>
 
-			<div class="ui container" style="margin-top: 10px">
-			</div>
+      <div class="ui container" style="margin-top: 10px">
+      </div>
 
 
 
-			<div class="ui container" style="margin-top: 10px">
-				<table class="ui celled padded table user-table">
-					<thead>
-						<tr>
-							<th colspan="7">
-								<button class="ui green button right floated" id="changeAlgorithm">修改总成绩算法</button>
+      <div class="ui container" style="margin-top: 10px">
+        <table class="ui celled padded table user-table">
+          <thead>
+            <tr>
+              <th colspan="7">
+                <button class="ui green button right floated" id="changeAlgorithm">修改总成绩算法</button>
 
-								<button class="ui blue button right floated" id="changePersonalGrade">修改个人成绩</button>
-							</th>
-						</tr>
-						<tr>
-							<th>序号</th>
-							<th>学号</th>
-							<th>姓名</th>
-							<th>平时成绩</th>
-							<th>作业成绩</th>
-							<th>考试成绩</th>
-							<th>总成绩</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% for(var i=0;i<data.takeTwoGrade.length;i++){ %>
-						<tr>
-							<td class="order_number"><%= i+1 %></td>
-							<td class="student_id"><%= data.takeTwoGrade[i].studentID %></td>
-							<td class="user_name"><%= userNameList[i] %></td>
-							<td class="usual_grade active"><%= data.takeTwoGrade[i].usualGrade %></td>
-							<td class="homework_grade disabled"><%= data.homeworkGrade[i] %></td>
-							<td class="test_grade"><%= data.takeTwoGrade[i].examGrade %></td>
-							<td class="disabled"><%= studentTotalGrade[i] %></td>
-						</tr>
-						<% } %>
-					</tbody>
-				</table>
-			</div>
+                <button class="ui blue button right floated" id="changePersonalGrade">修改个人成绩</button>
+              </th>
+            </tr>
+            <tr>
+              <th>序号</th>
+              <th>学号</th>
+              <th>姓名</th>
+              <th>平时成绩</th>
+              <th>作业成绩</th>
+              <th>考试成绩</th>
+              <th>总成绩</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0;i<data.takeTwoGrade.length;i++){ %>
+            <tr>
+              <td class="order_number"><%= i+1 %></td>
+              <td class="student_id"><%= data.takeTwoGrade[i].studentID %></td>
+              <td class="user_name"><%= userNameList[i] %></td>
+              <td class="usual_grade active"><%= data.takeTwoGrade[i].usualGrade %></td>
+              <td class="homework_grade disabled"><%= data.homeworkGrade[i] %></td>
+              <td class="test_grade"><%= data.takeTwoGrade[i].examGrade %></td>
+              <td class="disabled"><%= studentTotalGrade[i] %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
 
-			<div class="ui basic modal">
-				<div class="ui icon header">
-					<i class="archive icon"></i>
-					修改成绩构成算法(%)
-				</div>
-				<div class="content">
-					<div class="ui grid">
-						<div class="ui left action input">
-							<div class="ui large green horizontal label" style="text-align: center;padding: 10px;">平时成绩</div>
-							<input type="text" value="<%= gradeWeight.usualWeight %>" style="width: 180px;" class="check_input"
-								id="usualWeightValue">
-						</div>
-						<div class="ui left action input">
-							<div class="ui large green horizontal label" style="text-align: center;padding: 10px;">作业成绩</div>
-							<input type="text" value="<%= gradeWeight.projectWeight %>" style="width: 180px;" class="check_input"
-								id="projectWeightValue">
-						</div>
-						<div class="ui left action input">
-							<div class="ui large green horizontal label" style="text-align: center;padding: 10px;">考试成绩</div>
-							<input type="text" value="<%= gradeWeight.examWeight %>" style="width: 180px;" class="check_input"
-								id="examWeightValue">
-						</div>
-						<p style="padding: 20px;visibility:hidden;" id="weight_err_info">三项权值的和不为100!</p>
-					</div>
-				</div>
-				<div class="actions">
-					<div class="ui red basic cancel inverted button">
-						<i class="remove icon"></i>
-						取消
-					</div>
-					<div class="ui green ok inverted button" id="changeWeight">
-						<i class="checkmark icon"></i>
-						提交
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+      <div class="ui basic modal">
+        <div class="ui icon header">
+          <i class="archive icon"></i>
+          修改成绩构成算法(%)
+        </div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="ui left action input">
+              <div class="ui large green horizontal label" style="text-align: center;padding: 10px;">平时成绩</div>
+              <input type="text" value="<%= gradeWeight.usualWeight %>" style="width: 180px;" class="check_input"
+                id="usualWeightValue">
+            </div>
+            <div class="ui left action input">
+              <div class="ui large green horizontal label" style="text-align: center;padding: 10px;">作业成绩</div>
+              <input type="text" value="<%= gradeWeight.projectWeight %>" style="width: 180px;" class="check_input"
+                id="projectWeightValue">
+            </div>
+            <div class="ui left action input">
+              <div class="ui large green horizontal label" style="text-align: center;padding: 10px;">考试成绩</div>
+              <input type="text" value="<%= gradeWeight.examWeight %>" style="width: 180px;" class="check_input"
+                id="examWeightValue">
+            </div>
+            <p style="padding: 20px;visibility:hidden;" id="weight_err_info">三项权值的和不为100!</p>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="ui red basic cancel inverted button">
+            <i class="remove icon"></i>
+            取消
+          </div>
+          <div class="ui green ok inverted button" id="changeWeight">
+            <i class="checkmark icon"></i>
+            提交
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
-	<script src="/swiper/package/js/swiper.min.js"></script>
-	<script src="/javascripts/jquery.js"></script>
-	<script src="/dist/semantic.min.js"></script>
-	<script>
-		$('#changePersonalGrade').click(function () {
-			$('.ui.sidebar')
-				.sidebar('toggle')
-				;
-		})
+  <script src="/swiper/package/js/swiper.min.js"></script>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script src="/javascripts/header.js"></script>
+  <script>
+    $('#changePersonalGrade').click(function () {
+      $('.ui.sidebar')
+        .sidebar('toggle')
+        ;
+    })
 
-		$('.ui.dropdown')
-			.dropdown()
-			;
-		$('#changeWeight').click(function () {
-			var newUsualWeight = $('#usualWeightValue').val();
-			var newProjectWeight = $('#projectWeightValue').val();
-			var newExamWeight = $('#examWeightValue').val();
-			$.ajax({
-				dataType: "json",
-				type: "post",
-				url: "./gradeWeightChange",
-				data: {
-					newUsualWeight: newUsualWeight,
-					newProjectWeight: newProjectWeight,
-					newExamWeight: newExamWeight
-				},
-				success: (data) => {
-					if (data.status) {
-						alert("修改成功！");
-						window.location.reload();
-					} else {
-						alert("修改失败！");
-					}
-				},
-				error: (err) => {
-					$(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
-				}
-			});
-		})
+    $('.ui.dropdown')
+      .dropdown()
+      ;
+    $('#changeWeight').click(function () {
+      var newUsualWeight = $('#usualWeightValue').val();
+      var newProjectWeight = $('#projectWeightValue').val();
+      var newExamWeight = $('#examWeightValue').val();
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "./gradeWeightChange",
+        data: {
+          newUsualWeight: newUsualWeight,
+          newProjectWeight: newProjectWeight,
+          newExamWeight: newExamWeight
+        },
+        success: (data) => {
+          if (data.status) {
+            alert("修改成功！");
+            window.location.reload();
+          } else {
+            alert("修改失败！");
+          }
+        },
+        error: (err) => {
+          $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+        }
+      });
+    })
 
-		$('.check_input').on('input', function (err) {
-			var usualWeight = $('#usualWeightValue').val();
-			var projectWeight = $('#projectWeightValue').val();
-			var examWeight = $('#examWeightValue').val();
-			var totalWeight = parseInt(usualWeight) + parseInt(projectWeight) + parseInt(examWeight);
-			if (totalWeight != 100) {
-				$('#weight_err_info').css("visibility", "visible");
-				$('.ui.large.horizontal.label').removeClass("green").addClass("red");
-				$('#changeWeight').addClass("disabled");
-			}
-			else {
-				$('#weight_err_info').css("visibility", "hidden");
-				$('.ui.large.horizontal.label').removeClass("red").addClass("green");
-				$('#changeWeight').removeClass("disabled");
-			}
-		})
+    $('.check_input').on('input', function (err) {
+      var usualWeight = $('#usualWeightValue').val();
+      var projectWeight = $('#projectWeightValue').val();
+      var examWeight = $('#examWeightValue').val();
+      var totalWeight = parseInt(usualWeight) + parseInt(projectWeight) + parseInt(examWeight);
+      if (totalWeight != 100) {
+        $('#weight_err_info').css("visibility", "visible");
+        $('.ui.large.horizontal.label').removeClass("green").addClass("red");
+        $('#changeWeight').addClass("disabled");
+      }
+      else {
+        $('#weight_err_info').css("visibility", "hidden");
+        $('.ui.large.horizontal.label').removeClass("red").addClass("green");
+        $('#changeWeight').removeClass("disabled");
+      }
+    })
 
-		$("#change_item").change(function () {
-			var highLight = $('#change_item option:selected').val();
-			var searchVal = $('#search_value').val();
-			var searchType = $('#search_item').val();
-			var getElement = new Array();
-			if (searchType == 'order') {
-				getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
-			}
-			else if (searchType == 'studentID') {
-				getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
-			}
-			else {
-				getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
-			}
-			if (getElement.length == 0) {
-				if (highLight == "usualGrade") {
-					$("td.usual_grade").addClass("active");
-					$("td.homework_grade").removeClass("active");
-					$("td.test_grade").removeClass("active");
-				}
-				else if (highLight == "homeworkGrade") {
-					$("td.usual_grade").removeClass("active");
-					$("td.homework_grade").addClass("active");
-					$("td.test_grade").removeClass("active");
-				}
-				else {
-					$("td.usual_grade").removeClass("active");
-					$("td.homework_grade").removeClass("active");
-					$("td.test_grade").addClass("active");
-				}
-			}
-			else {
-				$("td.usual_grade").removeClass("active");
-				$("td.homework_grade").removeClass("active");
-				$("td.test_grade").removeClass("active");
-				if (highLight == 'usualGrade') {
-					getElement.siblings('.usual_grade').addClass("active");
-				}
-				else if (highLight == 'homeworkGrade') {
-					getElement.siblings('.homework_grade').addClass("active");
-				}
-				else {
-					getElement.siblings('.test_grade').addClass("active");
-				}
-			}
-		})
+    $("#change_item").change(function () {
+      var highLight = $('#change_item option:selected').val();
+      var searchVal = $('#search_value').val();
+      var searchType = $('#search_item').val();
+      var getElement = new Array();
+      if (searchType == 'order') {
+        getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
+      }
+      else if (searchType == 'studentID') {
+        getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
+      }
+      else {
+        getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
+      }
+      if (getElement.length == 0) {
+        if (highLight == "usualGrade") {
+          $("td.usual_grade").addClass("active");
+          $("td.homework_grade").removeClass("active");
+          $("td.test_grade").removeClass("active");
+        }
+        else if (highLight == "homeworkGrade") {
+          $("td.usual_grade").removeClass("active");
+          $("td.homework_grade").addClass("active");
+          $("td.test_grade").removeClass("active");
+        }
+        else {
+          $("td.usual_grade").removeClass("active");
+          $("td.homework_grade").removeClass("active");
+          $("td.test_grade").addClass("active");
+        }
+      }
+      else {
+        $("td.usual_grade").removeClass("active");
+        $("td.homework_grade").removeClass("active");
+        $("td.test_grade").removeClass("active");
+        if (highLight == 'usualGrade') {
+          getElement.siblings('.usual_grade').addClass("active");
+        }
+        else if (highLight == 'homeworkGrade') {
+          getElement.siblings('.homework_grade').addClass("active");
+        }
+        else {
+          getElement.siblings('.test_grade').addClass("active");
+        }
+      }
+    })
 
-		$('#search_value').on('input', function (err) {
-			var highLight = $('#change_item option:selected').val();
-			var searchVal = $('#search_value').val();
-			var searchType = $('#search_item').val();
-			var getElement = new Array();
-			if (searchType == 'order') {
-				getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
-			}
-			else if (searchType == 'studentID') {
-				getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
-			}
-			else {
-				getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
-			}
-			if (getElement.length == 0) {
-				if (highLight == "usualGrade") {
-					$("td.usual_grade").addClass("active");
-					$("td.homework_grade").removeClass("active");
-					$("td.test_grade").removeClass("active");
-				}
-				else if (highLight == "homeworkGrade") {
-					$("td.usual_grade").removeClass("active");
-					$("td.homework_grade").addClass("active");
-					$("td.test_grade").removeClass("active");
-				}
-				else {
-					$("td.usual_grade").removeClass("active");
-					$("td.homework_grade").removeClass("active");
-					$("td.test_grade").addClass("active");
-				}
-			}
-			else {
-				$("td.usual_grade").removeClass("active");
-				$("td.homework_grade").removeClass("active");
-				$("td.test_grade").removeClass("active");
-				if (highLight == 'usualGrade') {
-					getElement.siblings('.usual_grade').addClass("active");
-				}
-				else if (highLight == 'homeworkGrade') {
-					getElement.siblings('.homework_grade').addClass("active");
-				}
-				else {
-					getElement.siblings('.test_grade').addClass("active");
-				}
-			}
-		})
+    $('#search_value').on('input', function (err) {
+      var highLight = $('#change_item option:selected').val();
+      var searchVal = $('#search_value').val();
+      var searchType = $('#search_item').val();
+      var getElement = new Array();
+      if (searchType == 'order') {
+        getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
+      }
+      else if (searchType == 'studentID') {
+        getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
+      }
+      else {
+        getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
+      }
+      if (getElement.length == 0) {
+        if (highLight == "usualGrade") {
+          $("td.usual_grade").addClass("active");
+          $("td.homework_grade").removeClass("active");
+          $("td.test_grade").removeClass("active");
+        }
+        else if (highLight == "homeworkGrade") {
+          $("td.usual_grade").removeClass("active");
+          $("td.homework_grade").addClass("active");
+          $("td.test_grade").removeClass("active");
+        }
+        else {
+          $("td.usual_grade").removeClass("active");
+          $("td.homework_grade").removeClass("active");
+          $("td.test_grade").addClass("active");
+        }
+      }
+      else {
+        $("td.usual_grade").removeClass("active");
+        $("td.homework_grade").removeClass("active");
+        $("td.test_grade").removeClass("active");
+        if (highLight == 'usualGrade') {
+          getElement.siblings('.usual_grade').addClass("active");
+        }
+        else if (highLight == 'homeworkGrade') {
+          getElement.siblings('.homework_grade').addClass("active");
+        }
+        else {
+          getElement.siblings('.test_grade').addClass("active");
+        }
+      }
+    })
 
-		$('#search_item').change(function () {
-			$('#search_value').val("");
-			$('#change_item').trigger('change');
-		})
+    $('#search_item').change(function () {
+      $('#search_value').val("");
+      $('#change_item').trigger('change');
+    })
 
-		$('#submitChange').click(function () {
-			var highLight = $('#change_item option:selected').val();
-			var searchVal = $('#search_value').val();
-			var searchType = $('#search_item').val();
-			var getElement = new Array();
-			if (searchType == 'order') {
-				getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
-			}
-			else if (searchType == 'studentID') {
-				getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
-			}
-			else {
-				getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
-			}
-			if (getElement.length == 0) {
-				alert("找不到对应的学生");
-			}
-			else {
-				var studentID;
-				if (searchType == 'studentID') {
-					studentID = searchVal;
-				}
-				else {
-					studentID = getElement.siblings('.student_id').text();
-				}
-				$.ajax({
-					dataType: "json",
-					type: "post",
-					url: "./gradeChange",
-					data: {
-						changeItem: highLight,
-						studentID: studentID,
-						newScore: $('#change_value').val()
-					},
-					success: (data) => {
-						if (data.status) {
-							alert("修改成功！");
-							window.location.reload();
-						} else {
-							alert("修改失败！");
-						}
-					},
-					error: (err) => {
-						$(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
-					}
-				});
-			}
-		})
+    $('#submitChange').click(function () {
+      var highLight = $('#change_item option:selected').val();
+      var searchVal = $('#search_value').val();
+      var searchType = $('#search_item').val();
+      var getElement = new Array();
+      if (searchType == 'order') {
+        getElement = $('td.order_number').filter(":contains('" + searchVal + "')");
+      }
+      else if (searchType == 'studentID') {
+        getElement = $('td.student_id').filter(":contains('" + searchVal + "')");
+      }
+      else {
+        getElement = $('td.user_name').filter(":contains('" + searchVal + "')");
+      }
+      if (getElement.length == 0) {
+        alert("找不到对应的学生");
+      }
+      else {
+        var studentID;
+        if (searchType == 'studentID') {
+          studentID = searchVal;
+        }
+        else {
+          studentID = getElement.siblings('.student_id').text();
+        }
+        $.ajax({
+          dataType: "json",
+          type: "post",
+          url: "./gradeChange",
+          data: {
+            changeItem: highLight,
+            studentID: studentID,
+            newScore: $('#change_value').val()
+          },
+          success: (data) => {
+            if (data.status) {
+              alert("修改成功！");
+              window.location.reload();
+            } else {
+              alert("修改失败！");
+            }
+          },
+          error: (err) => {
+            $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+          }
+        });
+      }
+    })
 
-		$('#changeAlgorithm').click(function () {
-			$('.ui.modal')
-				.modal('show')
-				;
-		})
+    $('#changeAlgorithm').click(function () {
+      $('.ui.modal')
+        .modal('show')
+        ;
+    })
 
-	</script>
+  </script>
 
 </body>
 
