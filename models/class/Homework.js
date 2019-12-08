@@ -198,7 +198,8 @@ class Homework {
                     commitNum: commitNum,
                     markNum: markNum,
                     avgMark: (markSum / markNum).toFixed(2),
-                    submitPercentage: (commitNum / stuNum).toFixed(2) * 100
+                    submitPercentage: (commitNum / stuNum).toFixed(2) * 100,
+                    markPercentage: (markNum / stuNum).toFixed(2) * 100
                 };
                 var data = {
                     stuList: stuList,
