@@ -2,7 +2,7 @@ var pool = require("../mysql/ConnPool");
 
 class Classes {
 
-    
+
     /**
      * 
      * @param {string} classID 教学班ID
@@ -376,7 +376,7 @@ class Classes {
             conn.release();
         }
     }
-    
+
     /**
      * 获取课程或者Project对应的资料信息，如果classProjectID存在，则优先匹配
      * 
@@ -406,6 +406,27 @@ class Classes {
         }
     }
 
+    /**
+     * 教师批改作业
+     * @param classProjectID 课程号
+     * @param studentID 学生号
+     * @param mark 分数
+     * @param comment 评语
+     * @return 批改成功返回1，否则返回0
+     */
+    async assignMark(classProjectID, studentID, mark, markTime, comment) {
+        try {
+            var conn = await pool.getConnection();
+            conn.query("insert into class_project_score(classProjectID,studentID,mark,markTime,comment) \
+            values(?,?,?,CURRENT_TIMESTAMP,?)", [classProjectID, studentID, mark, comment]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = Classes;

@@ -1,218 +1,297 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>高校教学管理平台</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+    <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+    <style type="text/css">
+      body {
+        background-color: #eeeeee;
+      }
 
-<head>
-  <title>高校教学管理平台</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <link rel="icon" href="/images/favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
-  <style type="text/css">
-    body {
-      background-color: #eeeeee;
-    }
+      .footer.segment {
+        padding: 5em 0em;
+      }
 
-    .footer.segment {
-      padding: 5em 0em;
-    }
+      .course-title {
+        font-weight: bold;
+        font-size: medium;
+        font-family: "黑体";
+        margin: 8px 16px;
+      }
 
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
+      .course-info {
+        font-family: "微软雅黑";
+        margin: 8px 16px;
+      }
 
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
+      .user-title {
+        text-align: center;
+        font-size: large;
+        font-family: "微软雅黑";
+        font-size: 20px;
+      }
+    </style>
+  </head>
 
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- 导航栏 -->
-  <div class="ui inverted menu" style="padding: 1px;">
-    <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
-    <div class="right menu" style="margin-right: 20%;">
-      <div class="item"><i class="bell outline icon"></i></div>
-      <a class="item">我的主页</a>
-      <a class="item">夏莹杰</a>
-    </div>
-  </div>
-  <!-- 导航栏 -->
-
-  <!-- 课程信息 -->
-  <div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">操作系统</h2>
-          <div class="description">
-            2019-2020秋冬 计算机科学与技术学院
-          </div>
-          <h5 class="ui header">授课老师</h5>
-          <div class="description">
-            夏莹杰
-          </div>
-        </div>
+  <body>
+    <!-- 导航栏 -->
+    <div class="ui inverted menu" style="padding: 1px;">
+      <img
+        class="ui tiny image"
+        src="/images/学在浙大.png"
+        style="display: flex; left: auto; margin-left: 20%;"
+      />
+      <div class="right menu" style="margin-right: 20%;">
+        <div class="item"><i class="bell outline icon"></i></div>
+        <a class="item">我的主页</a>
+        <a class="item">夏莹杰</a>
       </div>
     </div>
-  </div>
-  <!-- 课程信息 -->
+    <!-- 导航栏 -->
 
-  <!--批改作业-->
-  <div class="ui container" style="margin-top:10px;">
-    <div class="ui segments" style="background-color:rgb(255, 255, 255);">
-      <div class="ui basic segment">
-        <button class="ui labeled icon button" onclick="javascript:window.location.href='../all'">
-          <i class="chevron left icon"></i>返回
-        </button>
-      </div>
-      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-        <div class="ui six column grid">
-          <div class="row">
-            <div class="column">
-              <div class="class student number description" style="line-height: 30px;"><b>班级学生人数</b></div>
+    <!-- 课程信息 -->
+    <div class="ui container">
+      <div
+        class="ui segment"
+        style="margin-top:10px;background-color: rgb(220,220,220);"
+      >
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="four wide column">
+            <h2 class="ui header">操作系统</h2>
+            <div class="description">
+              2019-2020秋冬 计算机科学与技术学院
             </div>
-            <div class="column">
-              <div class="class student number" style="line-height: 30px;">50</div>
-            </div>
-            <div class="column">
-              <div class="homework fullmark description" style="line-height: 30px;"><b>已批改人数</b></div>
-            </div>
-            <div class="column">
-              <div class="homework fullmark" style="line-height: 30px;">20</div>
-            </div>
-            <div class="column">
-              <div class="class average score description" style="line-height: 30px;"><b>已批改比例</b></div>
-            </div>
-            <div class="column">
-              <div class="class average score" style="line-height: 30px;">40%</div>
+            <h5 class="ui header">授课老师</h5>
+            <div class="description">
+              夏莹杰
             </div>
           </div>
         </div>
       </div>
-      <div class="ui basic segment">
-        <div class="box">
-          <table class="ui celled padded table">
-            <thead>
-              <tr>
-                <th></th>
-                <th style="width:60px;text-align: center;">序号</th>
-                <th style="width:110px;text-align: center;">学号</th>
-                <th style="width:60px;text-align: center;">姓名</th>
-                <th style="width:135px;text-align: center;">提交时间</th>
-                <th style="width:90px;text-align: center;">批改状态</th>
-                <th style="width:135px;text-align: center;">批改时间</th>
-                <th style="width:90px;text-align: center;">作业成绩</th>
-                <th style="width:auto;text-align: center;word-wrap:break-word;word-break:break-all;">评语</th>
-                <th style="width:70px;text-align: center;">操作</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">1</td>
-                <td style="text-align: center;">3170100000</td>
-                <td style="text-align: center;">dcw</td>
-                <td style="text-align: center;">2019-12-4 19:55</td>
-                <td style="text-align: center;">已批改</td>
-                <td style="text-align: center;">2019-12-4 20:21</td>
-                <td style="text-align: center;">8</td>
-                <td>牛皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮</td>
-                <td style="text-align: center;"><a href="javascript:showMarkModal()">批改</a></td>
-                <td></td>
-              </tr>
-              <tr>
-                <td></td>
-                <td style="text-align: center;">2</td>
-                <td style="text-align: center;">3170100001</td>
-                <td style="text-align: center;">zjy</td>
-                <td style="text-align: center;">2019-12-4 19:59</td>
-                <td style="text-align: center;">已批改</td>
-                <td style="text-align: center;">2019-12-4 20:21</td>
-                <td style="text-align: center;">8.5</td>
-                <td>牛皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮</td>
-                <td style="text-align: center;"><a href="javascript:showMarkModal()">批改</a></td>
-                <td></td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th colspan="11" class="middle aligned">
-                  <div class="ui right floated pagination menu">
-                    <a class="icon item">
-                      <i class="left chevron icon"></i>
-                    </a>
-                    <a class="item">1</a>
-                    <a class="item">2</a>
-                    <a class="item">3</a>
-                    <a class="item">4</a>
-                    <a class="icon item">
-                      <i class="right chevron icon"></i>
-                    </a>
-                  </div>
-                </th>
-              </tr>
-            </tfoot>
-          </table>
+    </div>
+    <!-- 课程信息 -->
+
+    <!--批改作业-->
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+        <div class="ui basic segment">
+          <button
+            class="ui labeled icon button"
+            onclick="javascript:window.location.href='../all'"
+          >
+            <i class="chevron left icon"></i>返回
+          </button>
+        </div>
+        <div
+          class="ui basic segment"
+          style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;"
+        >
+          <div class="ui six column grid">
+            <div class="row">
+              <div class="column">
+                <div
+                  class="class student number description"
+                  style="line-height: 30px;"
+                >
+                  <b>班级学生人数</b>
+                </div>
+              </div>
+              <div class="column">
+                <div class="class student number" style="line-height: 30px;">
+                  50
+                </div>
+              </div>
+              <div class="column">
+                <div
+                  class="homework fullmark description"
+                  style="line-height: 30px;"
+                >
+                  <b>已批改人数</b>
+                </div>
+              </div>
+              <div class="column">
+                <div class="homework fullmark" style="line-height: 30px;">
+                  20
+                </div>
+              </div>
+              <div class="column">
+                <div
+                  class="class average score description"
+                  style="line-height: 30px;"
+                >
+                  <b>已批改比例</b>
+                </div>
+              </div>
+              <div class="column">
+                <div class="class average score" style="line-height: 30px;">
+                  40%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui basic segment">
+          <div class="box">
+            <table class="ui celled padded table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th style="width:60px;text-align: center;">序号</th>
+                  <th style="width:110px;text-align: center;">学号</th>
+                  <th style="width:60px;text-align: center;">姓名</th>
+                  <th style="width:135px;text-align: center;">提交时间</th>
+                  <th style="width:90px;text-align: center;">批改状态</th>
+                  <th style="width:135px;text-align: center;">批改时间</th>
+                  <th style="width:90px;text-align: center;">作业成绩</th>
+                  <th
+                    style="width:auto;text-align: center;word-wrap:break-word;word-break:break-all;"
+                  >
+                    评语
+                  </th>
+                  <th style="width:70px;text-align: center;">操作</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td style="text-align: center;">1</td>
+                  <td style="text-align: center;">3170100000</td>
+                  <td style="text-align: center;">dcw</td>
+                  <td style="text-align: center;">2019-12-4 19:55</td>
+                  <td style="text-align: center;">已批改</td>
+                  <td style="text-align: center;">2019-12-4 20:21</td>
+                  <td style="text-align: center;">8</td>
+                  <td>
+                    牛皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮
+                  </td>
+                  <td style="text-align: center;">
+                    <a href="javascript:showMarkModal()">批改</a>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td style="text-align: center;">2</td>
+                  <td style="text-align: center;">3170100001</td>
+                  <td style="text-align: center;">zjy</td>
+                  <td style="text-align: center;">2019-12-4 19:59</td>
+                  <td style="text-align: center;">已批改</td>
+                  <td style="text-align: center;">2019-12-4 20:21</td>
+                  <td style="text-align: center;">8.5</td>
+                  <td>
+                    牛皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮皮
+                  </td>
+                  <td style="text-align: center;">
+                    <a href="javascript:showMarkModal()">批改</a>
+                  </td>
+                  <td></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="11" class="middle aligned">
+                    <div class="ui right floated pagination menu">
+                      <a class="icon item">
+                        <i class="left chevron icon"></i>
+                      </a>
+                      <a class="item">1</a>
+                      <a class="item">2</a>
+                      <a class="item">3</a>
+                      <a class="item">4</a>
+                      <a class="icon item">
+                        <i class="right chevron icon"></i>
+                      </a>
+                    </div>
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!--批改作业-->
+    <!--批改作业-->
 
-  <!-- 占位 -->
-  <div style="height:25px;"></div>
-  <!-- 占位 -->
+    <!-- 占位 -->
+    <div style="height:25px;"></div>
+    <!-- 占位 -->
 
-  <!-- 模态框 -->
-  <div class="ui modal">
-    <i class="close icon"></i>
-    <div class="header">批改作业</div>
-    <div class="content">
-      <div class="ui form">
-        <div class="field">
-          <label>学生获得的成绩 <span class="neccessary"></span></label>
-          <input type="text" name="mark" placeholder="输入学生该作业的成绩">
-        </div>
-        <div class="field">
-          <label>评语 <span class="neccessary"></span></label>
-          <textarea maxlength="250" placeholder="不超过300个字符" name="comment"></textarea>
-        </div>
-        <div class="field">
-          <label>下载学生作业文件</label>
-          <button class="ui teal button">下载文件</button>
+    <!-- 模态框 -->
+    <div class="ui modal">
+      <i class="close icon"></i>
+      <div class="header">批改作业</div>
+      <div class="content">
+        <div class="ui form">
+          <div class="field">
+            <label>学生获得的成绩 <span class="neccessary"></span></label>
+            <input type="text" name="mark" placeholder="输入学生该作业的成绩" />
+          </div>
+          <div class="field">
+            <label>评语 <span class="neccessary"></span></label>
+            <textarea
+              maxlength="250"
+              placeholder="不超过300个字符"
+              name="comment"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label>下载学生作业文件</label>
+            <button class="ui teal button">下载文件</button>
+          </div>
         </div>
       </div>
+      <div class="actions">
+        <div class="ui red deny button">取消</div>
+        <div class="ui positive button" onclick="assignMark()">提交</div>
+      </div>
     </div>
-    <div class="actions">
-      <div class="ui red deny button">取消</div>
-      <div class="ui positive button" onclick="postMsg()">提交</div>
-    </div>
-  </div>
-  <!-- 模态框 -->
+    <!-- 模态框 -->
+  </body>
 
-</body>
-
-<script src="/swiper/package/js/swiper.min.js"></script>
-<script src="/javascripts/jquery.js"></script>
-<script src="/dist/semantic.min.js"></script>
-<script>
-  var showMarkModal = () => {
-    $('.ui.modal').modal('show');
-  }
-</script>
-
+  <script src="/swiper/package/js/swiper.min.js"></script>
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/dist/semantic.min.js"></script>
+  <script>
+    var showMarkModal = () => {
+      $(".ui.modal").modal("show");
+    };
+    var assignMark = () => {
+      if ($["input[name = 'mark'"].val().replace(" ", "") == "") {
+        alert("分数不能为空！");
+        return;
+      }
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "./assignMark",
+        data: {
+          title: $("input[name='mark']").val(),
+          content: $("textarea[name='comment']").val()
+        },
+        success: data => {
+          if (data.status) {
+            alert("批改成功!");
+            $("textarea[name='comment'']").val(""); //清空帖子内容和联系方式
+            $("input[name='mark']").val("");
+            $(".ui.modal").modal("hide");
+            window.location.reload();
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: err => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    };
+  </script>
 </html>
