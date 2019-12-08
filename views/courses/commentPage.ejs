@@ -92,38 +92,7 @@
   </div>
   <!-- 课程信息 -->
 
-  <!-- 课程水平菜单 -->
-  <div class="ui container" style="margin-top:10px;">
-    <div class="ui six item menu">
-      <a class="content">
-        <a class="item" href="javascript:window.location.href='./notice'"">
-            <i class=" bell outline icon"></i>
-          公告
-        </a>
-        <a class="item">
-          <i class="folder outline icon"></i>
-          课件
-        </a>
-        <a class="item">
-          <i class="pencil alternate icon"></i>
-          作业
-        </a>
-        <a class="item">
-          <i class="users icon"></i>
-          分组学习
-        </a>
-        <a class="item">
-          <i class="clipboard outline icon"></i>
-          成绩
-        </a>
-        <a class="item" href="javascript:window.location.href='./talk'">
-          <i class="comment outline icon"></i>
-          讨论
-        </a>
-      </a>
-    </div>
-  </div>
-  <!-- 课程水平菜单 -->
+ 
 
   <!--帖子详情-->
   <% var date = new Date(talk[0].time); var time = date.getFullYear()
@@ -184,7 +153,7 @@
         <% for(i = 0; i < comments.length; i++) { var comment = comments[i]; %>
         <div class="comment">
           <a class="avatar">
-            <img src="/images/christian.jpg">
+            <img src="/<%= token.userPhoto %>" onerror="this.src='/images/christian.jpg'">
           </a>
           <div class="content">
             <a class="author"><%= comment.userName %></a>

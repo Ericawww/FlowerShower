@@ -28,6 +28,13 @@ exports.index = async (req, res) => {
 };
 
 /**
+ * 获取用户token
+ */
+exports.getToken = async (req, res) => {
+    res.send({ token: req.session.token }).end();
+};
+
+/**
  * 用户身份校验，校验成功返回1，校验失败返回0
  */
 exports.userVerify = async (req, res) => {

@@ -28,7 +28,7 @@ exports.checkClassMember = async (req, res, next) => {
  * 判断当前用户是否为教师，是则进行路由匹配，否则返回错误信息
  */
 exports.checkTeacher = async (req, res, next) => {
-    if (!gUser || !gUser.privilege || gUser.privilege == 0) {
+    if (!gUser || !gUser.privilege) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
     }
@@ -39,6 +39,10 @@ exports.checkTeacher = async (req, res, next) => {
  * 判断当前用户是否为学生，是则进行路由匹配，否则返回错误信息
  */
 exports.checkStudent = async (req, res, next) => {
+    if (!gUser || gUser.privilege > 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     next();
 };
 
@@ -182,7 +186,7 @@ exports.addHw = async (req, res) => {
 exports.updateHwPage = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader,hwInfo:hwInfo });
+    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader, hwInfo: hwInfo });
 };
 
 /**
@@ -201,7 +205,17 @@ exports.deleteHw = async (req, res) => {
  */
 exports.markHwPage = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    res.render("homework/teacherHomeworkMark", { classHeader: classHeader });
+    var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    var stuList, classInfo;
+    if (data == null) {
+        stuList = null;
+        classInfo = null;
+    } else {
+        stuList = data.stuList;
+        classInfo = data.classInfo;
+    }
+    res.render("homework/teacherHomeworkMark", { classHeader: classHeader, stuList: stuList, classInfo: classInfo, hwInfo: hwInfo });
 };
 /**
  * 教师处理申诉,需要complainList和hwInfo
@@ -302,7 +316,7 @@ exports.getTalk = async (req, res) => {
 exports.writeTalk = async (req, res) => {
     var ret = await Talk.prototype.writeTalk(
         req.params.classID,
-        1, //req.session.token.userID,
+        req.session.token.userID,
         req.body.title,
         req.body.content
     );
@@ -326,6 +340,8 @@ exports.showTalk = async (req, res) => {
         comments: comments
     });
 };
+
+
 
 exports.addComment = async (req, res) => {
     var ret = await Talk.prototype.addComment(req.params.classID, req.params.talkID, req.session.token.userID, req.body.content);
@@ -466,5 +482,17 @@ exports.removeClassMaterial = async (req, res) => {
         }
     } else {
         res.send({ status: 0, msg: '该资料不存在' }).end();
+    }
+};
+
+/**
+ * 教师批改作业
+ */
+exports.assignMark = async (req, res) => {
+    var ret = await Class.prototype.assignMark(req.params.hw, req.body.stuID, req.body.mark, req.body.content);
+    if (ret) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
     }
 };

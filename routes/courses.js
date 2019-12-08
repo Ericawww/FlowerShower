@@ -91,6 +91,7 @@ router.get("/class/:classID/teacher/hw/:hw/grade", classController.getGradeSitua
 router.get("/class/:classID/teacher/hw/:hw/update", classController.updateHwPage);
 router.get("/class/:classID/teacher/hw/:hw/mark", classController.markHwPage);
 
+router.post("/class/:classID/teacher/hw/:hw/assignMark", classController.assignMark);
 router.post("/class/:classID/teacher/hw/:hw/update/changeHw", classController.changeHw);
 router.post("/class/:classID/teacher/hw/verifyAddHw", classController.updateHw);
 
