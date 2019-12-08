@@ -39,7 +39,7 @@ class Classes {
                  (select userID , 3 as type, privilege from assistant where classID = ? and userID = ? limit 1)";
             var params = [classID, userID, classID, userID, classID, userID];
             var ret = await conn.query(sql, params);
-            if (ret[0].length > 0) return true;
+            if (ret[0].length > 0) return ret[0][0];
             else return false;
         } catch (err) {
             console.log(err);
