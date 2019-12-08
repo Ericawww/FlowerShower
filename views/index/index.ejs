@@ -43,38 +43,6 @@
 </head>
 
 <body>
-  <!-- 导航栏 -->
-  <div class="ui menu" style="padding: 15px;">
-    <a href="" style="display: flex; left: auto; margin-left: 30%;"><img src="/images/logo.png" /></a>
-    <div class="right menu" style="margin-right: 20%;">
-      <div class="item">
-        <div class="ui action left icon input">
-          <i class="search icon"></i>
-          <input type="text" placeholder="搜索感兴趣的课程" />
-          <button class="ui positive button">搜索</button>
-        </div>
-      </div>
-      <a class="item">使用教程</a>
-      <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
-      <% if (token != null) { %>
-      <div class="item image" style="background: none;">
-        <div class="ui icon top right pointing dropdown" id="photo-drop">
-          <% if (token.userPhoto != null) { %>
-          <img class="ui circular image" src="<%= token.userPhoto %>" style="width:32px;" onerror="this.src='/images/user.png'" />
-          <% } else { %>
-          <img class="ui circular image" src="images/user.png" style="width:32px;" />
-          <% } %>
-          <div class="menu">
-            <div class="item" onclick="clickItem(2)">个人中心</div>
-            <div class="item" onclick="clickItem(1)">设置</div>
-            <div class="item" onclick="clickItem(0)">注销</div>
-          </div>
-        </div>
-      </div>
-      <% } %>
-    </div>
-  </div>
-  <!-- 导航栏 -->
 
   <!-- 轮播框等 -->
   <div class="ui container" style="margin-top:50px;">
@@ -174,33 +142,16 @@
   <!-- 页脚 -->
 
   <!-- 模态框 -->
-  <div class="ui modal">
-    <i class="close icon"></i>
-    <div class="header">留言反馈</div>
-    <div class="content">
-      <div class="ui form">
-        <div class="field">
-          <label>留言内容 <span class="neccessary">*</span></label>
-          <textarea maxlength="250" placeholder="不超过300个字符" name="content"></textarea>
-        </div>
-        <div class="field">
-          <label>您的联系方式 <span class="neccessary">*</span></label>
-          <input type="text" name="contact" placeholder="可以是电话或邮箱，不超过32个字符" />
-        </div>
-      </div>
-    </div>
-    <div class="actions">
-      <div class="ui red deny button">取消</div>
-      <div class="ui positive button" onclick="postMsg()">提交</div>
-    </div>
-  </div>
+
   <!-- 模态框 -->
+
 </body>
 
-<script src="swiper/package/js/swiper.min.js"></script>
-<script src="javascripts/jquery.js"></script>
-<script src="dist/semantic.min.js"></script>
-<script src="javascripts/common.js"></script>
+<script src="/swiper/package/js/swiper.min.js"></script>
+<script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/header.js"></script>
+<script src="/javascripts/common.js"></script>
 <script>
   $(document).ready(() => {
     var mySwiper = new Swiper(".swiper-container", {

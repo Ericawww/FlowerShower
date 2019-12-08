@@ -14,5 +14,6 @@ router.post('/regist', userControllers.userRegist);
 router.post('/msgBoard', userControllers.writeMsgBoard);
 router.post('/mailVerifyCode', userControllers.mailVerifyCode);
 router.post('/resetPasswd', userControllers.resetPasswd);
+router.get('/getUserToken', userControllers.getToken);
 
 module.exports = router;
