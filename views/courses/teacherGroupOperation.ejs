@@ -154,17 +154,20 @@
                 <td class="collapsing">
                   <div class="ui radio checkbox" style="margin-left: 20px;">
                     <% if(classGroup[i].groupLeaderID==classGroupInfoList[i][j].studentID){ %>
-                    <input type="radio" name="<%= classGroup[i].groupID%>" checked="checked">
+                    <input type="radio" name="<%= classGroup[i].groupID%>" checked="checked" class="leader">
                     <% } else { %>
-                    <input type="radio" name="<%= classGroup[i].groupID%>">
+                    <input type="radio" name="<%= classGroup[i].groupID%>" class="leader">
                     <% } %>
+                    <div class="getStuID" style="display: none;"><%= classGroupInfoList[i][j].userID %></div>
                     <label></label>
                   </div>
                 </td>
                 <td><%= classGroupInfoList[i][j].userName %></td>
-                <td><%= classGroupInfoList[i][j].userID %></td>
+                <td class="studentID"><%= classGroupInfoList[i][j].userID %></td>
                 <td><%= classGroupInfoList[i][j].email %></td>
-                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
+                <td style="text-align: center;">
+                  <div class="groupMove" style="cursor: pointer;"><i class="blue sign-out icon"
+                      style="display:inline-block"></i><a>删除</a></div>
                 </td>
               </tr>
               <% } %>
@@ -178,6 +181,8 @@
                     <i class="add icon"></i> 添加组员
                   </div>
                   <div style="display: none;" class="enterGroupIDInfo"><%= classGroup[i].groupID %></div>
+                  <div style="display: none;" class="groupNumberNow"><%= classGroupInfoList[i].length %></div>
+                  <div style="display: none;" class="groupLeaderID"><%= classGroup[i].groupLeaderID %></div>
                 </th>
               </tr>
             </tfoot>
@@ -215,7 +220,8 @@
           <tr>
             <td class="collapsing">
               <div class="ui checkbox" style="margin-left: 20px;">
-                <input type="checkbox" name="example">
+                <input type="checkbox" name="newGroup">
+                <div style="display: none;" class="getAddStudentID"><%= leftStudentInfoList[i][0].userID %></div>
                 <label></label>
               </div>
             </td>
@@ -318,6 +324,92 @@
       traditional: true,
       data: {
         groupID: groupID,
+        addStudentIDList: addStudentIDList,
+        count: count
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("添加成功！");
+          window.location.reload();
+        } else {
+          alert("添加失败！");
+        }
+      },
+      error: (err) => {
+        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+      }
+    });
+  })
+
+  $('.groupMove').click(function () {
+    var groupID = $(this).parents('table').find('.enterGroupIDInfo').text();
+    var studentID = $(this).parents('td').siblings('.studentID').text();
+    var groupMemberCount = $(this).parents('table').find('.groupNumberNow').text();
+    var groupLeaderID = $(this).parents('table').find('.groupLeaderID').text();
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./removeGroupMember",
+      traditional: true,
+      data: {
+        groupID: groupID,
+        studentID: studentID,
+        groupMemberCount: groupMemberCount,
+        groupLeaderID: groupLeaderID
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("删除成功！");
+          window.location.reload();
+        } else {
+          alert("删除失败！");
+        }
+      },
+      error: (err) => {
+        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+      }
+    });
+  })
+
+  $('.leader').change(function () {
+    var groupID = $(this).parents('table').find('.enterGroupIDInfo').text();
+    var newLeaderStudentID = $(this).parents('table').find('.leader:checked').siblings('.getStuID').text();
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./changeGroupLeader",
+      traditional: true,
+      data: {
+        groupID: groupID,
+        newLeaderStudentID: newLeaderStudentID
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("变更成功！");
+          window.location.reload();
+        } else {
+          alert("变更失败！");
+        }
+      },
+      error: (err) => {
+        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+      }
+    });
+  })
+
+  $('#submit1').click(function () {
+    var addStudentIDList = new Array();
+    var count = 0;
+    $("input:checkbox[name='newGroup']:checked").each(function () {
+      addStudentIDList[count] = $(this).siblings('.getAddStudentID').text();
+      count++;
+    });
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./addNewGroup",
+      traditional: true,
+      data: {
         addStudentIDList: addStudentIDList,
         count: count
       },
