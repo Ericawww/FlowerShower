@@ -495,4 +495,4 @@ exports.assignMark = async (req, res) => {
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
     }
-}
+};
