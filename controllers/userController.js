@@ -345,8 +345,7 @@ exports.getGrade = async (req, res) => {
     var courseList = req.session.course.courseList;
     if (studentName.length == 1) {
         studentNameValue = studentName[0].userName;
-    }
-    else {
+    } else {
         studentNameValue = "定义错误";
     }
     for (var i = 0; i < firstPartResult.length; i++) {
@@ -364,8 +363,7 @@ exports.getGrade = async (req, res) => {
         var courseNameItem = await User.prototype.getCourseName(gradeWeight[0].courseNumber);
         if (courseNameItem.length == 1) {
             courseName[i] = courseNameItem[0].courseName;
-        }
-        else {
+        } else {
             courseName[i] = "定义错误";
         }
     }

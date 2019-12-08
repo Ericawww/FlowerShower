@@ -22,8 +22,7 @@ module.exports = (req, name, dirName) => {
                         return;
                     });
                 }
-            }
-            else {
+            } else {
                 var num = file[name].path.lastIndexOf(".");
                 var extension = file[name].path.substr(num).toLowerCase();
                 if (!config.FILE_EXCLUDE_TYPE.includes(extension)) {  //文件扩展名不在黑名单内
@@ -32,8 +31,7 @@ module.exports = (req, name, dirName) => {
                         resolve({ newName: newName, originName: file[name].name });
                         return;
                     });
-                }
-                else {
+                } else {
                     fs.unlink(file[name].path, (err) => {
                         reject("禁止上传" + extension + "格式的文件！");
                         return;

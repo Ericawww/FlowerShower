@@ -43,12 +43,10 @@ exported.removeFile = (path) => {
 exported.dateFormat = (date, fmt) => {
     if (date instanceof Date) {
         return date.Format(fmt);
-    }
-    else {
+    } else {
         try {
             return new Date(date).Format(fmt);
-        }
-        catch (err) {
+        } catch (err) {
             return null;
         }
     }

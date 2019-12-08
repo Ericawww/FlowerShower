@@ -17,11 +17,9 @@ class Classes {
             console.log(classID, ret[0]);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
-        }
-        catch (err) {
+        } catch (err) {
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -43,12 +41,10 @@ class Classes {
             var ret = await conn.query(sql, params);
             if (ret[0].length > 0) return ret[0][0];
             else return false;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -67,12 +63,10 @@ class Classes {
             var params = [classID, classID];
             var ret = await conn.query(sql, params);
             return ret[0];
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -93,8 +87,7 @@ class Classes {
                     let sql = "insert into take(studentID, classID, usualGrade, examGrade) values (?, ?, ?, ?)";
                     let params = [students[i].studentID, classID, students[i].usualGrade, students[i].examGrade];
                     await conn.query(sql, params);
-                }
-                catch (err) {
+                } catch (err) {
                     errList.push({
                         index: i,
                         studentID: students[i].studentID,
@@ -103,12 +96,10 @@ class Classes {
                 }
             }
             return errList;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -129,8 +120,7 @@ class Classes {
                     let sql = "update take set usualGrade = ?, examGrade = ? where classID = ? and studentID = ?";
                     let params = [students[i].usualGrade, students[i].examGrade, classID, students[i].studentID];
                     await conn.query(sql, params);
-                }
-                catch (err) {
+                } catch (err) {
                     errList.push({
                         index: i,
                         studentID: students[i].studentID,
@@ -139,12 +129,10 @@ class Classes {
                 }
             }
             return errList;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -169,8 +157,7 @@ class Classes {
                     //删除该用户在教学班中的分组信息
                     //删除该用户在教学班中的讨论、留言信息（不需要）
                     //删除该用户在教学班中的考试信息
-                }
-                catch (err) {
+                } catch (err) {
                     errList.push({
                         index: i,
                         studentID: students[i],
@@ -179,12 +166,10 @@ class Classes {
                 }
             }
             return errList;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -214,12 +199,10 @@ class Classes {
             var params = [classID];
             var ret = await conn.query(sql, params);
             return ret[0];
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -242,19 +225,16 @@ class Classes {
             var ret = await conn.query(sql, params);
             if (ret[0].length > 0) {  //该组长已经是本教学班某个分组的成员
                 throw "该组长已经是本教学班中某小组的成员！";
-            }
-            else {
+            } else {
                 sql = "insert into class_group(classID, groupNumber, groupLeaderID) values(?, ?, ?)";
                 params = [classID, groupNumber, groupLeaderID];
                 ret = await conn.query(sql, params);
             }
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -272,12 +252,10 @@ class Classes {
             var conn = await pool.getConnection();
             await conn.query("delete from class_group where classID = ? and groupLeaderID = ?", [classID, groupLeaderID]);
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -300,12 +278,10 @@ class Classes {
             if (ret[0].length > 0) throw "该学生（新组长）已经在教学班的某分组中！";
             await conn.query("update class_group set groupLeaderID = ? where classID = ? and groupLeaderID = ?", [newGroupLeaderID, classID, groupLeaderID]);
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -328,12 +304,10 @@ class Classes {
             await conn.query("insert into class_group_member(groupID, studentID) values( \
                 (select groupID from class_group where classID = ? and groupNumber = ?), ?)", [classID, groupNumber, studentID]);
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -350,12 +324,10 @@ class Classes {
             await conn.query("delete from class_group_member where studentID = ? and groupID in \
                 (select groupID from class_group where classID = ?);", [classID, studentID]);
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -375,12 +347,10 @@ class Classes {
             await conn.query("insert into class_materials(materialID, classID, materialName, path, submitter, uploadTime, classProjectID) values \
                 (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?);", [materialID, classID, materialName, path, submitterID, classProjectID]);
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -399,12 +369,10 @@ class Classes {
             await conn.query("delete from class_materials where ((classID = ? and classProjectID is null) or (classID = ? and classProjectID = ?)) \
                 and materialID = ?;", [classID, classID, classProjectID, materialID]);
             return null;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return err.message;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
@@ -430,12 +398,10 @@ class Classes {
             }
             var ret = await conn.query(sql, params);
             return ret[0];
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return null;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }

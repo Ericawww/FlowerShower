@@ -54,12 +54,8 @@ app.use(function (err, req, res, next) {
 });
 
 app.locals.dateFormat = (str, pattern) => {
-    try {
-        if (pattern != null) return new Date(str).format(pattern);
-        return new Date(str).format('yyyy-MM-dd hh:mm');
-    } catch (err) {
-        return null;
-    }
+    if (pattern != null) return new Date(str).format(pattern);
+    return new Date(str).format('yyyy-MM-dd hh:mm');
 };
 
 Date.prototype.format = function (fmt) {
@@ -81,6 +77,6 @@ Date.prototype.format = function (fmt) {
         }
     }
     return fmt;
-}
+};
 
 module.exports = app;

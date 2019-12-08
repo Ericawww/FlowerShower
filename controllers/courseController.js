@@ -73,8 +73,7 @@ exports.getGrade = async (req, res) => {
             var returnName = await Course.prototype.getStudentName(ret.takeTwoGrade[i].studentID);
             if (returnName.length == 1) {
                 userNameList[i] = returnName[0].userName;
-            }
-            else {
+            } else {
                 userNameList[i] = '定义错误';
             }
         }
@@ -146,8 +145,7 @@ exports.gradeChange = async (req, res) => {
             var returnName = await Course.prototype.getStudentName(ret.takeTwoGrade[i].studentID);
             if (returnName.length == 1) {
                 userNameList[i] = returnName[0].userName;
-            }
-            else {
+            } else {
                 userNameList[i] = '定义错误';
             }
         }
@@ -174,8 +172,7 @@ exports.setGradeChange = async (req, res) => {
 
     if (ret == 1) {
         res.send({ status: 1 }).end();
-    }
-    else {
+    } else {
         res.send({ status: 0 }).end();
     }
 };
@@ -193,8 +190,7 @@ exports.setGradeWeightChange = async (req, res) => {
     var ret = await Course.prototype.updateGradeWeight(sql);
     if (ret == 1) {
         res.send({ status: 1 }).end();
-    }
-    else {
+    } else {
         res.send({ status: 0 }).end();
     }
 };
