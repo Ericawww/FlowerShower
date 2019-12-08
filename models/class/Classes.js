@@ -405,6 +405,31 @@ class Classes {
             conn.release();
         }
     }
+    /**
+     * 教师批改作业
+     * @param classProjectID 课程号
+     * @param studentID 学生号
+     * @param mark 分数
+     * @param comment 评语
+     * @return 批改成功返回1，否则返回0
+     */
+    async assignMark(classProjectID, studentID, mark, comment) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = conn.query("update class_project_score set mark = ?, markTime =  CURRENT_TIMESTAMP, comment = ? \
+            where  classProjectID = ? and studentID = ? ", [mark, comment, classProjectID, studentID]);
+            if (ret) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }
+    }
 
     /**
      * 教师批改作业

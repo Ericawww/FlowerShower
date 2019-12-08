@@ -50,25 +50,26 @@
     </div>
   </div>
   <!-- 导航栏 -->
-
   <!-- 课程信息 -->
   <div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">操作系统</h2>
-          <div class="description">
-            2019-2020秋冬 计算机科学与技术学院
-          </div>
-          <h5 class="ui header">授课老师</h5>
-          <div class="description">
-            夏莹杰
+      <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="eight wide column">
+            <h2 class="ui header"><%= classHeader.courseName %></h2>
+            <div class="description">
+              <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+              <p> <%= classHeader.courseDept %></p>
+            </div>
+            <h5 class="ui header">授课老师</h5>
+            <div class="description">
+              <%= classHeader.userName %>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- 课程信息 -->
+    <!-- 课程信息 -->
+
 
   <!--添加作业-->
   <!--TODO:添加按钮脚本-->

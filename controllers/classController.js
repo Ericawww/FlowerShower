@@ -13,8 +13,8 @@ var gUser;
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-    //req.session.token = await config.getToken("T0001", "123");
-    req.session.token = await config.getToken("1111", "123");
+    req.session.token = await config.getToken("T0001", "123");
+    // req.session.token = await config.getToken("1111", "123");
     var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
     if (req.session.token == null || !ret) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
@@ -201,7 +201,17 @@ exports.deleteHw = async (req, res) => {
  */
 exports.markHwPage = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    res.render("homework/teacherHomeworkMark", { classHeader: classHeader });
+    var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    var stuList, classInfo;
+    if (data == null) {
+        stuList = null;
+        classInfo = null;
+    } else {
+        stuList = data.stuList;
+        classInfo = data.classInfo;
+    }
+    res.render("homework/teacherHomeworkMark", { classHeader: classHeader, stuList: stuList, classInfo: classInfo, hwInfo: hwInfo });
 };
 /**
  * 教师处理申诉,需要complainList和hwInfo
@@ -480,3 +490,15 @@ exports.removeClassMaterial = async (req, res) => {
         }
     }
 };
+
+/**
+ * 教师批改作业
+ */
+exports.assignMark = async (req, res) => {
+    var ret = await Class.prototype.assignMark(req.params.hw, req.body.stuID, req.body.mark, req.body.content);
+    if (ret) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+    }
+}
