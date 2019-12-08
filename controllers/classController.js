@@ -194,7 +194,7 @@ exports.deleteHw = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
 /**
  * 批改作业
  */
@@ -209,13 +209,14 @@ exports.dealComplain = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    var stuList;
     if (data == null) {
-        var stuList = null;
+        stuList = null;
     } else {
-        var stuList = data.stuList;
+        stuList = data.stuList;
     }
     res.render("homework/teacherHomeworkDealComplain", { classHeader: classHeader, hwInfo: hwInfo, complainList: stuList });
-}
+};
 /**
  * 教师得到提交情况
  */
@@ -223,15 +224,16 @@ exports.getSubmitSituation = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    var stuList, classInfo;
     if (data == null) {
-        var stuList = null;
-        var classInfo = null;
+        stuList = null;
+        classInfo = null;
     } else {
-        var stuList = data.stuList;
-        var classInfo = data.classInfo;
+        stuList = data.stuList;
+        classInfo = data.classInfo;
     }
     res.render("homework/teacherHomeworkSubmitSituation", { classHeader: classHeader, stuList: stuList, classInfo: classInfo, hwInfo: hwInfo });
-}
+};
 
 /**
  * 教师得到作业成绩分布,若不存在学生则为null
@@ -240,14 +242,15 @@ exports.getGradeSituation = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    var stuList, classInfo;
     if (data == null) {
-        var stuList = null;
-        var classInfo = null;
+        stuList = null;
+        classInfo = null;
     } else {
-        var stuList = data.stuList;
-        var classInfo = data.classInfo;
+        stuList = data.stuList;
+        classInfo = data.classInfo;
     } res.render("homework/teacherHomeworkGradeSituation", { classHeader: classHeader, stuList: stuList, classInfo: classInfo, hwInfo: hwInfo });
-}
+};
 
 
 /**
@@ -265,7 +268,7 @@ exports.getCourseNotice = async (req, res) => {
 exports.updateNotice = async (req, res) => {
     var ret = await Notice.prototype.updataNotice(req.params.classID, req.body.title, req.body.content);
     if (ret) {
-        var url = "localhost" + req.headers.referer;
+        //var url = "localhost" + req.headers.referer;
         res.send({ status: 1, msg: "数据库插入成功！" });
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
@@ -277,7 +280,7 @@ exports.updateNotice = async (req, res) => {
  */
 exports.getTalk = async (req, res) => {
     var token = req.session.token;
-    var talkList;
+    var talkList, choice;
     if (req.query.choice == null) choice = 0;
     else choice = req.query.choice;
     if (choice == 0) {
@@ -357,7 +360,7 @@ exports.updateScore = async (req, res) => {
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
     }
-}
+};
 /**
  * 拒绝学生的申诉，标记为已处理
  */
@@ -368,7 +371,7 @@ exports.rejectComplain = async (req, res) => {
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
     }
-}
+};
 
 
 /**
@@ -394,7 +397,7 @@ exports.getTeacherMaterialPage = async (req, res) => {
         return;
     }
     res.render("courses/teacherMaterial", { materials: ret });
-}
+};
 
 /**
  * 教师获取资料列表
@@ -406,7 +409,7 @@ exports.getStudentMaterialPage = async (req, res) => {
         return;
     }
     res.render("courses/studentMaterial", { materials: ret });
-}
+};
 
 /**
  * 上传资料
@@ -426,7 +429,7 @@ exports.receiveTeacherMaterial = async (req, res) => {
         console.log(err);
         res.send({ status: 0, msg: err.message }).end();
     }
-}
+};
 
 /**
  * 下载资料
@@ -440,7 +443,7 @@ exports.downloadClassMaterial = async (req, res) => {
     } else {
         res.sendFile(path.join(__dirname, '../', ret[0].path));
     }
-}
+};
 
 /**
  * 删除资料
@@ -463,4 +466,4 @@ exports.removeClassMaterial = async (req, res) => {
     } else {
         res.send({ status: 0, msg: '该资料不存在' }).end();
     }
-}
+};

@@ -1,7 +1,7 @@
 var User = require('./User');
 var pool = require('../mysql/ConnPool');
 var test = async (classID, studentID) => {
-	try {
+    try {
         var conn = await pool.getConnection();
         var personalMarkResult = 0;
         var projectGrade;
@@ -23,14 +23,16 @@ var test = async (classID, studentID) => {
             return projectGrade;
         }
 
-    } catch (err) {
+    }
+    catch (err) {
         console.log(err);
         return null;
-    } finally {
+    }
+    finally {
         conn.release();
     }
     
-}
+};
 
 test('02', '3170100001');
 

@@ -1,6 +1,5 @@
 var pool = require('../mysql/ConnPool');
 var User = require('../class/User');
-var Course = require('../class/Course');
 var USER_ALL = 3;
 var GENDER_ALL = 2;
 
@@ -45,10 +44,12 @@ class Admin extends User {
             var conn = await pool.getConnection();
             var ret = await conn.query(sql, params);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -70,7 +71,8 @@ class Admin extends User {
                 try {
                     await conn.query("insert into user(userID, userName, userPwd, email, userType) \
                     values(?, ?, ?, ?, ?)", params);
-                } catch (err) {
+                }
+                catch (err) {
                     errList.push({
                         index: i,
                         userID: user.userID,
@@ -79,10 +81,12 @@ class Admin extends User {
                 }
             }
             return errList;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -100,7 +104,8 @@ class Admin extends User {
             for (let i = 0; i < lists.length; i++) {
                 try {
                     await conn.query("delete from user where userID = ?", lists[i]);
-                } catch (err) {
+                }
+                catch (err) {
                     errList.push({
                         index: i,
                         userID: lists[i].userID,
@@ -109,10 +114,12 @@ class Admin extends User {
                 }
             }
             return errList;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }

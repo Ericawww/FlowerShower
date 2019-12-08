@@ -14,13 +14,15 @@ class Course {
             var sql = "insert into course(courseNumber, courseName, coursePhoto, courseDept, credit, prerequisite, \
                 description, outline) values (?, ?, ?, ?, ?, ?, ?, ?)";
             var params = [course.courseNumber, course.courseName, course.coursePhoto, course.courseDept, course.credit,
-            course.prerequisite, course.description, course.outline];
+                course.prerequisite, course.description, course.outline];
             await conn.query(sql, params);
             return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return err.message;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -39,7 +41,8 @@ class Course {
             for (let i = 0; i < courseList.length; i++) {
                 try {
                     await conn.query("delete from course where courseNumber = ?", courseList[i]);
-                } catch (err) {
+                }
+                catch (err) {
                     errList.push({
                         index: i,
                         courseNumber: courseList[i].courseNumber,
@@ -48,10 +51,12 @@ class Course {
                 }
             }
             return errList;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -70,7 +75,8 @@ class Course {
             if ('newCourseNumber' in course) {
                 sql += "?";
                 params.push(course.newCourseNumber);
-            } else {
+            }
+            else {
                 sql += "courseNumber";
             }
             if ('courseName' in course) {
@@ -105,10 +111,12 @@ class Course {
             params.push(course.courseNumber);
             await conn.query(sql, params);
             return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return err.message;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -141,10 +149,12 @@ class Course {
             //console.log(params);
             //console.log(ret[0]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -165,12 +175,12 @@ class Course {
             var allProjectResult = allProject[0];
             var totalHomeworkMark = 0;
             if (allProjectResult.length != 0) {
-                for (var i = 0; i < allProjectResult.length; i++) {
+                for (let i = 0; i < allProjectResult.length; i++) {
                     totalHomeworkMark += allProjectResult[i].fullMark;
                 }
                 var studentProjectScore = await conn.query("select studentID,sum(mark) as totalMark from class_project natural join class_project_score where classID = ? group by studentID", [classID]);
                 var studentProjectScoreResult = studentProjectScore[0];
-                for (var i = 0; i < takeTwoGrade.length; i++) {
+                for (let i = 0; i < takeTwoGrade.length; i++) {
                     var j;
                     for (j = 0; j < studentProjectScoreResult.length; j++) {
                         if (takeTwoGrade[i].studentID == studentProjectScoreResult[j].studentID) {
@@ -186,19 +196,21 @@ class Course {
                 }
             }
             else {
-                for (var i = 0; i < takeTwoGrade.length; i++) {
+                for (let i = 0; i < takeTwoGrade.length; i++) {
                     homeworkGrade[i] = 100;
                 }
             }
             var data = {
                 takeTwoGrade: takeTwoGrade,
                 homeworkGrade: homeworkGrade
-            }
+            };
             return data;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -208,10 +220,12 @@ class Course {
             var conn = await pool.getConnection();
             var ret = await conn.query("select userName from user where userID = ?", [studentID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -224,10 +238,12 @@ class Course {
             //ret[0]包含满足条件的teacherID-还需要userName和userPhoto
             if (ret[0].length > 0) return ret[0];
             else return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -255,10 +271,12 @@ class Course {
                     [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -273,10 +291,12 @@ class Course {
             var conn = await pool.getConnection();
             var ret = await conn.query("select projectWeight,examWeight,usualWeight from class where classID = ?", [classID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -292,10 +312,12 @@ class Course {
             var ret = await conn.query("update class set projectWeight = ? , examWeight = ? , usualWeight = ? where classID = ?",
                 [parseInt(sql.newProjectWeight), parseInt(sql.newExamWeight), parseInt(sql.newUsualWeight), sql.classID]);
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -312,10 +334,12 @@ class Course {
             var ret = await conn.query("select * from class_group_member natural join class_group where classID = ? and studentID = ?",
                 [classID, studentID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -330,10 +354,12 @@ class Course {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from class_group_member  where groupID = ?", [groupNumber]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -348,10 +374,12 @@ class Course {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from user  where userID = ?", [studentID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -366,10 +394,12 @@ class Course {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from class_group where classID = ? order by groupNumber", [classID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -385,12 +415,14 @@ class Course {
             var ret = await conn.query("select studentID from take where classID = ? \
             and studentID not in \
             (select studentID from class_group natural join class_group_member where classID = ?)",
-                [classID, classID]);
+            [classID, classID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -406,10 +438,12 @@ class Course {
             var ret = await conn.query("select * from class_group_member join user where studentID=userID and groupID = ?",
                 [groupID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -424,13 +458,15 @@ class Course {
         try {
             var conn = await pool.getConnection();
             var sql = "select * from course natural left outer join class as X natural left outer join \
-                (select userID as teacherID, userName as teacherName from user) as Y  where courseNumber = ? order by startTime desc; "
+                (select userID as teacherID, userName as teacherName from user) as Y  where courseNumber = ? order by startTime desc; ";
             var ret = await conn.query(sql, [courseNumber]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -445,13 +481,15 @@ class Course {
         try {
             var { classID, teacherID, courseNumber, startTime, closeTime } = classAttr;
             var conn = await pool.getConnection();
-            var sql = "insert into class(classID, teacherID, courseNumber, startTime, closeTime) values(?, ?, ?, ?, ?)"
+            var sql = "insert into class(classID, teacherID, courseNumber, startTime, closeTime) values(?, ?, ?, ?, ?)";
             await conn.query(sql, [classID, teacherID, courseNumber, startTime, closeTime]);
             return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return err.message;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -467,10 +505,12 @@ class Course {
             var conn = await pool.getConnection();   
             await conn.query("delete from class where classID = ?", [classID]);
             return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return err.message;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -488,10 +528,12 @@ class Course {
             var sql = "update class set teacherID = ?, startTime = ?, closeTime = ? where classID = ?";
             await conn.query(sql, [teacherID, startTime, closeTime, classID]);
             return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return err.message;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }

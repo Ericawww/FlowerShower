@@ -12,6 +12,6 @@ exported.FILE_EXCLUDE_TYPE = "";  //文件上传格式黑名单  [eg: ".exe.js"]
 exported.getToken = async (userID, userPwd) => {
     var ret = await User.prototype.login(userID, userPwd);
     return ret[0];
-}
+};
 
 module.exports = exported;

@@ -1,35 +1,10 @@
 var pool = require("../mysql/ConnPool");
 
 class Homework {
-  constructor() {}
-
-  /**
-   * 学生申诉成绩功能
-   *
-   * @param {String} reason 申诉原因
-   * @param {String} stuID
-   * @param {String} hwID
-   * @return {int} 如果成功返回1，出错则返回0
-   */
-  async submitComplain(stuID, hwID, reason) {
-    try {
-      var conn = await pool.getConnection();
-      var res = await conn.query(
-        "update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ",
-        [reason, hwID, stuID]
-      );
-      return 1;
-    } catch (err) {
-      console.log(err);
-      return 0;
-    } finally {
-      conn.release();
-    }
-  }
 
     /**
      * 学生申诉成绩功能
-     * 
+     *
      * @param {String} reason 申诉原因
      * @param {String} stuID
      * @param {String} hwID
@@ -38,19 +13,18 @@ class Homework {
     async submitComplain(stuID, hwID, reason) {
         try {
             var conn = await pool.getConnection();
-            var res = await conn.query("update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ", [reason, hwID, stuID]);
-            if (res == 0) {
-                return 0;
-            } else {
-                return 1;
-            }
-        } catch (err) {
+            await conn.query("update class_project_score set complainMsg = ? where classProjectID = ? and studentID = ? ", [reason, hwID, stuID]);
+            return 1;
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
+
     /**
      * 学生申诉成绩功能
      * 
@@ -65,13 +39,16 @@ class Homework {
             var res = await conn.query("update class_project_score set commitMsg = ?,commitTime = current_timestamp() where classProjectID = ? and studentID = ? ", [description, hwID, stuID]);
             if (res == 0) {
                 return 0;
-            } else {
+            }
+            else {
                 return 1;
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -88,10 +65,12 @@ class Homework {
                 return 0;
             }
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -104,23 +83,24 @@ class Homework {
      */
     async getAllHw(classID, stuID) {
         try {
+            var ret;
             var conn = await pool.getConnection();
             if (stuID != undefined) {
-                var ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
+                ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
                 where class_project.classID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)", [classID, stuID]);
             }
             else {
-                var ret = await conn.query("select * from class_project where classID = ?", [classID]);
+                ret = await conn.query("select * from class_project where classID = ?", [classID]);
             }
-            console.log(ret[0]);
-            if (ret[0].length == 0) {
-                return null;
-            }
-            return ret[0];
-        } catch (err) {
+            //console.log(ret[0]);
+            if (ret[0].length == 0) return null;
+            else return ret[0];
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -132,6 +112,7 @@ class Homework {
      */
     async getHwInfo(hwID, stuID) {
         try {
+            var ret;
             var conn = await pool.getConnection();
             console.log(stuID);
             if (stuID != undefined) {
@@ -139,17 +120,19 @@ class Homework {
                 var params = [hwID, stuID];
                 var sql = "select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
                 where class_project.classProjectID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)";
-                var ret = await conn.query(sql, params);
+                ret = await conn.query(sql, params);
             }
             else {
-                var ret = await conn.query("select * from class_project where classProjectID = ?", [hwID]);
+                ret = await conn.query("select * from class_project where classProjectID = ?", [hwID]);
             }
             console.log(ret[0][0]);//TEST：看下null到底显示成了啥
             return ret[0][0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -165,10 +148,12 @@ class Homework {
              where class_project.classProjectID = ? and  class_project_score.complainMsg is not null and class_project.closeTime > current_timestamp();", [hwID]);
             console.log(ret[0]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -180,12 +165,14 @@ class Homework {
     async deleteHw(hwID) {
         try {
             var conn = await pool.getConnection();
-            var res = await conn.query("delete from class_project where classProjectID = ? ", [hwID]);
+            await conn.query("delete from class_project where classProjectID = ? ", [hwID]);
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -203,7 +190,8 @@ class Homework {
             (select studentID from take,user where take.classID= ?  and take.studentID=user.userID)", [hwID, classID]);
             if (res.length == 0) {
                 return null;
-            } else {
+            }
+            else {
                 var commitNum = 0, stuNum = 0, markNum = 0;
                 var i = 0;
                 var markSum = 0;
@@ -229,17 +217,19 @@ class Homework {
                     markNum: markNum,
                     avgMark: (markSum / markNum).toFixed(2),
                     submitPercentage: (commitNum / stuNum).toFixed(2) * 100
-                }
+                };
                 var data = {
                     stuList: stuList,
                     classInfo: classInfo
-                }
+                };
                 return data;
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -280,10 +270,12 @@ class Homework {
                 ]
             );
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -293,20 +285,23 @@ class Homework {
      * @param {string} score
      * @param {string} stuID
      */
-    async updateScore(hwID,score,stuID){
+    async updateScore(hwID, score, stuID){
         try {
             var conn = await pool.getConnection();
-            console.log(hwID,score,stuID);
+            console.log(hwID, score, stuID);
             var res = await conn.query("update class_project_score set mark = ?, isHandleComplain = 1 where classProjectID = ? and studentID = ?", [score, hwID, stuID]);
             if (res == 0) {
                 return 0;
-            } else {
+            }
+            else {
                 return 1;
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -321,45 +316,48 @@ class Homework {
    * @param isGroupWork
    * @return 1表示成功，0表示失败
    */
-  async changeHw(
-    homeworkname,
-    startTime,
-    closeTime,
-    fullMark,
-    description,
-    isGroupWork,
-    classProjectID
-  ) {
-    try {
-      var conn = await pool.getConnection();
-      console.log(classProjectID);
-      var ret=conn.query(
-        "update class_project set \
+    async changeHw(
+        homeworkname,
+        startTime,
+        closeTime,
+        fullMark,
+        description,
+        isGroupWork,
+        classProjectID
+    ) {
+        try {
+            var conn = await pool.getConnection();
+            console.log(classProjectID);
+            var ret=conn.query(
+                "update class_project set \
             projectName = ?,description = ? \
            ,fullMark = ? ,startTime = ? \
            ,closeTime = ?,isGroupWork = ? \
             where classProjectID = ?",
-        [
-          homeworkname,
-          description,
-          fullMark,
-          startTime,
-          closeTime,
-          isGroupWork,
-          classProjectID
-        ]
-      );
-    if (ret) {
-        return 1;
-    } else {
-        return 0;
+                [
+                    homeworkname,
+                    description,
+                    fullMark,
+                    startTime,
+                    closeTime,
+                    isGroupWork,
+                    classProjectID
+                ]
+            );
+            if (ret) {
+                return 1;
+            }
+            else {
+                return 0;
+            }
+        }
+        catch (err) {
+            console.log(err);
+            return 0;
+        }
+        finally {
+            conn.release();
+        }
     }
-    } catch (err) {
-      console.log(err);
-      return 0;
-    } finally {
-      conn.release();
-    }
-  }
 }
 module.exports = Homework;

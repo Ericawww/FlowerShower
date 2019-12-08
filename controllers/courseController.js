@@ -1,4 +1,5 @@
 var Course = require("../models/class/Course");
+var Talk = require("../models/class/Talk");
 
 /**
  * 返回所有课程
@@ -133,7 +134,7 @@ exports.gradeChange = async (req, res) => {
         res.end();
     } else {
         var gradeWeight = await Course.prototype.getGradeWeight(req.params.classID);
-        var totalNumber = ret.takeTwoGrade.length;
+        //var totalNumber = ret.takeTwoGrade.length;
         var totalStudentGrade = new Array();
         var userNameList = new Array();
 
@@ -157,7 +158,7 @@ exports.gradeChange = async (req, res) => {
             gradeWeight: gradeWeight[0]
         });
     }
-}
+};
 
 /**
  * 新版成绩修改，作业成绩无法修改，作业成绩的修改只能通过每个project成绩的修改来达成
@@ -177,7 +178,7 @@ exports.setGradeChange = async (req, res) => {
     else {
         res.send({ status: 0 }).end();
     }
-}
+};
 
 /**
  * 各项成绩比重修改
@@ -188,7 +189,7 @@ exports.setGradeWeightChange = async (req, res) => {
         newUsualWeight: req.body.newUsualWeight,
         newProjectWeight: req.body.newProjectWeight,
         newExamWeight: req.body.newExamWeight
-    }
+    };
     var ret = await Course.prototype.updateGradeWeight(sql);
     if (ret == 1) {
         res.send({ status: 1 }).end();
@@ -196,7 +197,7 @@ exports.setGradeWeightChange = async (req, res) => {
     else {
         res.send({ status: 0 }).end();
     }
-}
+};
 
 /**
  * 学生获得自己某门课程的组队信息
@@ -211,17 +212,16 @@ exports.getGroupInfo = async (req, res) => {
     if (ret.length != 0) {
         groupMember = await Course.prototype.getGroupMember(ret[0].groupNumber);
         for (var i = 0; i < groupMember.length; i++) {
-            studentInfoList[i] = await Course.prototype.getStudentInfo(groupMember[i].studentID)
+            studentInfoList[i] = await Course.prototype.getStudentInfo(groupMember[i].studentID);
         }
         result = 1;
     }
-    console.log
     res.render('courses/studentGroupInfo', {
         ret: ret,
         studentInfoList: studentInfoList,
         result: result
-    })
-}
+    });
+};
 
 /**
  * 老师进行课程的组队管理
@@ -233,13 +233,14 @@ exports.groupOperation = async (req, res) => {
     var leftStudentInfoList = new Array();
     var classGroupInfoList = new Array();
     if (leftStudentList.length > 0) {
-        for (var i = 0; i < leftStudentList.length; i++) {
+        for (let i = 0; i < leftStudentList.length; i++) {
             leftStudentInfoList[i] = await Course.prototype.getStudentInfo(leftStudentList[i].studentID);
         }
     }
     if (classGroup.length > 0) {
-        for (var i = 0; i < classGroup.length; i++) {
+        for (let i = 0; i < classGroup.length; i++) {
             classGroupInfoList[i] = await Course.prototype.getGroupMemberInfo(classGroup[i].groupID);
         }
     }
-}
+    
+};

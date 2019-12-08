@@ -11,11 +11,11 @@ exported.randomString = (len) => {
     var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
     var maxPos = $chars.length;
     var pwd = '';
-    for (i = 0; i < len; i++) {
+    for (let i = 0; i < len; i++) {
         pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
     }
     return pwd;
-}
+};
 
 /**
  * 删除文件
@@ -31,7 +31,7 @@ exported.removeFile = (path) => {
             else resolve(true);
         });
     });
-}
+};
 
 /**
  * 日期格式化
@@ -43,14 +43,16 @@ exported.removeFile = (path) => {
 exported.dateFormat = (date, fmt) => {
     if (date instanceof Date) {
         return date.Format(fmt);
-    } else {
+    }
+    else {
         try {
             return new Date(date).Format(fmt);
-        } catch (err) {
+        }
+        catch (err) {
             return null;
         }
     }
-}
+};
 
 /**
  * 判断是否是yyyy-MM-dd格式的字符串
@@ -63,7 +65,7 @@ exported.isYMDDate = (mystring) => {
     var arr = reg.exec(str);
     if (!reg.test(str) && RegExp.$2 <= 12 && RegExp.$3 <= 31) return false;
     return true;
-}
+};
 
 
 Date.prototype.Format = function (fmt) {
@@ -82,7 +84,7 @@ Date.prototype.Format = function (fmt) {
         if (new RegExp("(" + k + ")").test(fmt))
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
-}
+};
 
 
 module.exports = exported;

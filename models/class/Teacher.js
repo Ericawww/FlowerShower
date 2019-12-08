@@ -21,10 +21,12 @@ class Teacher extends Assistant {
             var conn = await pool.getConnection();
             await conn.query("update teacher_info set position = ?, profile = ?, patent = ?, course = ?, papers = ? where teacherID = ?", params);
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -42,13 +44,16 @@ class Teacher extends Assistant {
             if (ret[0].length == 0) {  //对应条目不存在则插入
                 await conn.query("insert into teacher_info(teacherID) values(?)", [teacherID]);
                 return new Object();
-            } else {  //存在条目直接返回
+            }
+            else {  //存在条目直接返回
                 return ret[0][0];
             }
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }

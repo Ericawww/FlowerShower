@@ -20,8 +20,8 @@ router.get("/search", courseController.getCourseByName); //根据名字搜索某
 /**
  * 课程分组
  */
-router.get("/group", (req, res) => { res.render('courses/studentGroupInfo') });
-router.get("/teacher/group", (req, res) => { res.render('courses/teacherGroupOperation') });
+router.get("/group", (req, res) => { res.render('courses/studentGroupInfo'); });
+router.get("/teacher/group", (req, res) => { res.render('courses/teacherGroupOperation'); });
 router.get("/class/:classID/student/groupInfo", courseController.getGroupInfo);
 router.get("/class/:classID/teacher/groupOperation", courseController.groupOperation);
 
@@ -92,7 +92,7 @@ router.get("/class/:classID/teacher/hw/:hw/grade", classController.getGradeSitua
 router.get("/class/:classID/teacher/hw/:hw/update", classController.updateHwPage);
 router.get("/class/:classID/teacher/hw/:hw/mark", classController.markHwPage);
 
-router.post("/class/:classID/teacher/hw/:hw/update/changeHw", classController.changeHw)
+router.post("/class/:classID/teacher/hw/:hw/update/changeHw", classController.changeHw);
 router.post("/class/:classID/teacher/hw/verifyAddHw", classController.updateHw);
 
 router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.updateScore);

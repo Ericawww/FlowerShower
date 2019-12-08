@@ -14,9 +14,11 @@ class Notice {
                 courseID
             ]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -39,11 +41,13 @@ class Notice {
                 params
             );
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log("发布公告失败");
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }

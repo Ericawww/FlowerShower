@@ -19,10 +19,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from user where (userID = ? or email = ?) and userPwd = ?", [userID, userID, userPwd]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -39,10 +41,12 @@ class User {
             var ret = await conn.query("select * from user where (userID = ? or email = ?)", [userID, userID]);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -101,10 +105,12 @@ class User {
             params.push(user.userID);
             await conn.query(sql, params);
             return await this.getUserInfo(user.userID);
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -126,11 +132,14 @@ class User {
                 await conn.query("insert into user(userID, userName, userPwd, email, phoneNumber) \
                     values(?, ?, ?, ?, ?)", params);
                 return 1;
-            } else return 0;
-        } catch (err) {
+            }
+            else return 0;
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -147,10 +156,12 @@ class User {
             var conn = await pool.getConnection();
             await conn.query("update user set userPwd = ? where email = ?", [newPwd, email]);
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -167,10 +178,12 @@ class User {
             var conn = await pool.getConnection();
             await conn.query("update user set userPhoto = ? where userID = ?", [newPath, userID]);
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -185,10 +198,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from take where studentID = ?", [studentID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -203,10 +218,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select projectWeight,examWeight,usualWeight,courseNumber from class where classID = ?", [classID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -221,10 +238,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select userName from user where userID = ?", [studentID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -255,10 +274,12 @@ class User {
                 return projectGrade;
             }
 
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -273,10 +294,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select courseName from course where courseNumber = ?", [courseNumber]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -291,10 +314,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select courseNumber,classID from take natural join class where studentID = ?", [studentID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -309,10 +334,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from course where courseNumber = ?", [courseNumber]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -327,10 +354,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select title,content from notice where courseID= ? order by time DESC limit 1", [courseNumber]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -345,10 +374,12 @@ class User {
             var conn = await pool.getConnection();
             var ret = await conn.query("select description,closeTime from class_project where classID= ? order by closeTime limit 1;", [classID]);
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return null;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }

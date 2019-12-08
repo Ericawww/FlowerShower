@@ -17,10 +17,12 @@ class Talk {
                 [courseID, userID, title, content]
             );
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -41,14 +43,16 @@ class Talk {
             where courseID = ? ",
                     courseID
                 );
-            } else if (talkID == undefined) {
+            }
+            else if (talkID == undefined) {
                 ret = await conn.query(
                     "select talkID, userName, title, content, time \
               from talk left join user on talk.userID = user.userID \
               where courseID = ? and talk.userID = ?",
                     [courseID, userID]
                 );
-            } else {
+            }
+            else {
                 ret = await conn.query(
                     "select talkID, userName, title, content, time \
             from talk left join user on talk.userID = user.userID \
@@ -57,10 +61,12 @@ class Talk {
                 );
             }
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -79,10 +85,12 @@ class Talk {
                 [courseID, talkID]
             );
             return ret[0];
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }
@@ -104,10 +112,12 @@ class Talk {
                 [courseID, talkID, userID, content]
             );
             return 1;
-        } catch (err) {
+        }
+        catch (err) {
             console.log(err);
             return 0;
-        } finally {
+        }
+        finally {
             conn.release();
         }
     }

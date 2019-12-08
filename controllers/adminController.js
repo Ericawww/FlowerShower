@@ -11,21 +11,21 @@ exports.checkAdmin = async (req, res, next) => {
         return;
     }
     next();
-}
+};
 
 /**
  * 用户管理界面
  */
 exports.getUserManagerPage = async (req, res) => {
     res.render('admins/index');
-}
+};
 
 /**
  * 课程管理界面
  */
 exports.getCourseManagerPage = async (req, res) => {
     res.render('admins/course');
-}
+};
 
 /**
  * 教学班管理界面
@@ -39,7 +39,7 @@ exports.getClassManagerPage = async (req, res) => {
     } else {
         res.render('admins/class', { classes: ret });
     }
-}
+};
 
 /**
  * 获取用户列表
@@ -51,7 +51,7 @@ exports.getUsers = async (req, res) => {
     } else {
         res.send({ status: 1, users: ret }).end();
     }
-}
+};
 
 /**
  * 批量导入用户
@@ -64,7 +64,7 @@ exports.importUsers = async (req, res) => {
     } else {
         res.send({ status: 1, errList: ret }).end();
     }
-}
+};
 
 /**
  * 批量删除用户
@@ -77,7 +77,7 @@ exports.deleteUsers = async (req, res) => {
     } else {
         res.send({ status: 1, errList: ret }).end();
     }
-}
+};
 
 /**
  * 修改用户信息
@@ -89,7 +89,7 @@ exports.updateUser = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
 
 /**
  * 获取课程列表
@@ -101,7 +101,7 @@ exports.getCourses = async (req, res) => {
     } else {
         res.send({ status: 1, courses: ret }).end();
     }
-}
+};
 
 /**
  * 导入课程
@@ -113,7 +113,7 @@ exports.importCourse = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
 
 /**
  * 批量删除课程
@@ -126,7 +126,7 @@ exports.deleteCourses = async (req, res) => {
     } else {
         res.send({ status: 1, errList: ret }).end();
     }
-}
+};
 
 /**
  * 修改课程信息
@@ -138,7 +138,7 @@ exports.updateCourse = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
 
 /**
  * 新建教学班
@@ -151,7 +151,7 @@ exports.createClass = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
 
 /**
  * 修改教学班
@@ -163,7 +163,7 @@ exports.updateClass = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
 
 /**
  * 删除教学班
@@ -175,4 +175,4 @@ exports.deleteClass = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
-}
+};
