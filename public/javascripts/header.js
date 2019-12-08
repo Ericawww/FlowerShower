@@ -1,18 +1,20 @@
 var navBarTemplate = `
-  <div class="ui menu" style="padding: 15px;">
-    <a href="" style="display: flex; left: auto; margin-left: 30%;"><img src="/images/logo.png" /></a>
-    <div class="right menu" style="margin-right: 20%;">
-      <div class="item">
-        <div class="ui action left icon input">
-          <i class="search icon"></i>
-          <input type="text" placeholder="搜索感兴趣的课程" />
-          <button class="ui positive button">搜索</button>
+    <div class="main navBar">
+        <div class="ui menu" style="padding: 15px;">
+            <a href="/" style="display: flex; left: auto; margin-left: 30%;"><img src="/images/logo.png" /></a>
+            <div class="right menu" style="margin-right: 20%;">
+            <div class="item">
+                <div class="ui action left icon input">
+                <i class="search icon"></i>
+                <input type="text" placeholder="搜索感兴趣的课程" />
+                <button class="ui positive button">搜索</button>
+                </div>
+            </div>
+            <a class="item">使用教程</a>
+            <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
+            </div>
         </div>
-      </div>
-      <a class="item">使用教程</a>
-      <a class="item" href="javascript:showMsgBoard()">留言反馈</a>
-    </div>
-  </div>`;
+    </div>`;
 var msgboardModalTemplate = `  <div class="ui msgboard modal">
     <i class="close icon"></i>
     <div class="header">留言反馈</div>
@@ -35,6 +37,7 @@ var msgboardModalTemplate = `  <div class="ui msgboard modal">
   </div>`;
 
 $(() => {
+    $("body").prepend(navBarTemplate);
     $.ajax({
         dataType: "json",
         type: "get",
@@ -43,12 +46,11 @@ $(() => {
         success: (data) => {
             if (data.token != null) {
                 setNavBar(data.token);
-            } else {
-                $("div.navBar").html(navBarTemplate);
             }
         },
         error: (err) => {
             alert('与服务器连接异常，请稍后再试!');
+
         }
     });
 });
@@ -84,7 +86,7 @@ var setNavBar = (token) => {
                 </div>
             </div>
         </div>`;
-    $("body").prepend(navBarTemplate);
+    $(".main.navBar").html(navBarTemplate);
     $(".ui.dropdown").dropdown();
     $("body").append(msgboardModalTemplate);
 }
@@ -127,5 +129,5 @@ var submitMessageBoardMsg = () => {
 };
 
 var searchCourse = () => {
-    
+
 }
