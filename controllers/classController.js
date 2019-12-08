@@ -182,7 +182,7 @@ exports.addHw = async (req, res) => {
 exports.updateHwPage = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader,hwInfo:hwInfo });
+    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader, hwInfo: hwInfo });
 };
 
 /**
@@ -466,5 +466,17 @@ exports.removeClassMaterial = async (req, res) => {
         }
     } else {
         res.send({ status: 0, msg: '该资料不存在' }).end();
+    }
+
+    /**
+     * 教师批改作业
+     */
+    exports.assignMark = async (req, res) => {
+        var ret = await Class.prototype.assignMark(req.params.Hw, req.body.stuID, req.body.mark, req.body.content);
+        if (ret) {
+            res.send({ status: 1 }).end();
+        } else {
+            res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+        }
     }
 };

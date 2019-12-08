@@ -1,185 +1,234 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>高校教学管理平台</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <link rel="icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+    <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+    <style type="text/css">
+      body {
+        background-color: #eeeeee;
+      }
 
-<head>
-  <title>高校教学管理平台</title>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <link rel="icon" href="/images/favicon.ico" />
-  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
-  <style type="text/css">
-    body {
-      background-color: #eeeeee;
-    }
+      .footer.segment {
+        padding: 5em 0em;
+      }
 
-    .footer.segment {
-      padding: 5em 0em;
-    }
+      .course-title {
+        font-weight: bold;
+        font-size: medium;
+        font-family: "黑体";
+        margin: 8px 16px;
+      }
 
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
+      .course-info {
+        font-family: "微软雅黑";
+        margin: 8px 16px;
+      }
 
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
+      .user-title {
+        text-align: center;
+        font-size: large;
+        font-family: "微软雅黑";
+        font-size: 20px;
+      }
+    </style>
+  </head>
 
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- 导航栏 -->
-  <div class="ui inverted menu" style="padding: 1px;">
-    <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
-    <div class="right menu" style="margin-right: 20%;">
-      <div class="item"><i class="bell outline icon"></i></div>
-      <a class="item">我的主页</a>
-      <a class="item">夏莹杰</a>
+  <body>
+    <!-- 导航栏 -->
+    <div class="ui inverted menu" style="padding: 1px;">
+      <img
+        class="ui tiny image"
+        src="/images/学在浙大.png"
+        style="display: flex; left: auto; margin-left: 20%;"
+      />
+      <div class="right menu" style="margin-right: 20%;">
+        <div class="item"><i class="bell outline icon"></i></div>
+        <a class="item">我的主页</a>
+        <a class="item">夏莹杰</a>
+      </div>
     </div>
-  </div>
-  <!-- 导航栏 -->
+    <!-- 导航栏 -->
 
-  <!-- 课程信息 -->
-  <div class="ui container">
-        <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-          <div class="ui stackable inverted divided equal height stackable grid">
-            <div class="eight wide column">
-              <h2 class="ui header"><%= classHeader.courseName %></h2>
-              <div class="description">
-                <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
-                <p> <%= classHeader.courseDept %></p>
-              </div>
-              <h5 class="ui header">授课老师</h5>
-              <div class="description">
-                <%= classHeader.userName %>
-              </div>
+    <!-- 课程信息 -->
+    <div class="ui container">
+      <div
+        class="ui segment"
+        style="margin-top:10px;background-color: rgb(220,220,220);"
+      >
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="eight wide column">
+            <h2 class="ui header"><%= classHeader.courseName %></h2>
+            <div class="description">
+              <p>
+                <%= dateFormat(classHeader.startTime) %>-<%=
+                dateFormat(classHeader.closeTime) %>
+              </p>
+              <p><%= classHeader.courseDept %></p>
+            </div>
+            <h5 class="ui header">授课老师</h5>
+            <div class="description">
+              <%= classHeader.userName %>
             </div>
           </div>
         </div>
       </div>
-      <!-- 课程信息 -->
-  <!--添加作业-->
-  <!--TODO:添加按钮脚本-->
-  <div class="ui container" style="margin-top:10px;">
-    <div class="ui segments" style="background-color:rgb(255, 255, 255);">
-      <div class="ui basic segment">
-        <button class="ui labeled icon button" onclick="javascript:window.location.href='./teacherHomeworkListPage'">
-          <i class="chevron left icon"></i>返回
-        </button>
-      </div>
-      <div class="ui basic segment">
-        <form class="ui form">
-          <div class="ui grid">
-            <div class="column">
-              <div class="field">
-                <label><b style="font-size: large;">作业名称</b></label>
-                <input type="text" name="homeworkname" placeholder="请输入作业名称">
-              </div>
-            </div>
-          </div>
-          <div class="ui two column grid">
-            <div class="row">
+    </div>
+    <!-- 课程信息 -->
+    <!--添加作业-->
+    <!--TODO:添加按钮脚本-->
+    <div class="ui container" style="margin-top:10px;">
+      <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+        <div class="ui basic segment">
+          <button
+            class="ui labeled icon button"
+            onclick="javascript:window.location.href='./all'"
+          >
+            <i class="chevron left icon"></i>返回
+          </button>
+        </div>
+        <div class="ui basic segment">
+          <form class="ui form">
+            <div class="ui grid">
               <div class="column">
                 <div class="field">
-                  <label><b style="font-size: large;">作业开始时间</b></label>
-                  <input type="text" name="startTime" placeholder="请输入作业开始时间（如：2019-12-3 21:00）">
-                </div>
-              </div>
-              <div class="column">
-                <div class="field">
-                  <label><b style="font-size: large;">作业截止时间</b></label>
-                  <input type="text" name="closeTime" placeholder="请输入作业截止时间（如：2019-12-13 21:00）">
+                  <label><b style="font-size: large;">作业名称</b></label>
+                  <input
+                    type="text"
+                    name="homeworkname"
+                    placeholder="请输入作业名称"
+                  />
                 </div>
               </div>
             </div>
-          </div>
-          <div class="ui four column grid">
-            <div class="row">
-              <div class="column">
-                <div class="field">
-                  <label><b style="font-size: large;">占成绩比例</b></label>
-                  <input type="text" name="weight" placeholder="请输入占成绩的百分比" style="width:min-content;">
+            <div class="ui two column grid">
+              <div class="row">
+                <div class="column">
+                  <div class="field">
+                    <label><b style="font-size: large;">作业开始时间</b></label>
+                    <input
+                      type="text"
+                      name="startTime"
+                      placeholder="请输入作业开始时间（如：2019-12-3 21:00）"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="column"></div>
-              <div class="column">
-                <div class="field">
-                  <label><b style="font-size: large;">作业满分</b></label>
-                  <input type="text" name="fullMark" placeholder="请输入作业的满分" style="width:min-content;">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="ui four column grid">
-            <div class="row">
-              <div class="column">
-                <div class="field">
-                  <label><b style="font-size: large;">作业形式</b></label>
-                  <select class="ui dropdown" name="isGroupWork">
-                    <!-- <option value="">作业形式</option> -->
-                    <option value="0">个人作业</option>
-                    <option value="1">小组作业</option>
-                  </select>
-                </div>
-              </div>
-              <div class="column"></div>
-              <div class="column">
-                <div class="field">
-                  <label><b style="font-size: large;">完成指标</b></label>
-                  <input type="text" name="achieveGoal" placeholder="请输入完成指标（如：提交作业）">
+                <div class="column">
+                  <div class="field">
+                    <label><b style="font-size: large;">作业截止时间</b></label>
+                    <input
+                      type="text"
+                      name="closeTime"
+                      placeholder="请输入作业截止时间（如：2019-12-13 21:00）"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="ui grid">
-            <div class="column">
-              <div class="field">
-                <label><b style="font-size: large;">作业描述</b></label>
-                <textarea maxlength="1000" name="description" placeholder="作业内容描述，不超过1024个字符"></textarea>
+            <div class="ui four column grid">
+              <div class="row">
+                <div class="column">
+                  <div class="field">
+                    <label><b style="font-size: large;">占成绩比例</b></label>
+                    <input
+                      type="text"
+                      name="weight"
+                      placeholder="请输入占成绩的百分比"
+                      style="width:min-content;"
+                    />
+                  </div>
+                </div>
+                <div class="column"></div>
+                <div class="column">
+                  <div class="field">
+                    <label><b style="font-size: large;">作业满分</b></label>
+                    <input
+                      type="text"
+                      name="fullMark"
+                      placeholder="请输入作业的满分"
+                      style="width:min-content;"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="ui grid">
-            <div class="column">
-              <div class="field">
-                <label><b style="font-size: large;">上传文件</b></label>
-                <button class="ui teal button">上传文件</button>
+            <div class="ui four column grid">
+              <div class="row">
+                <div class="column">
+                  <div class="field">
+                    <label><b style="font-size: large;">作业形式</b></label>
+                    <select class="ui dropdown" name="isGroupWork">
+                      <!-- <option value="">作业形式</option> -->
+                      <option value="0">个人作业</option>
+                      <option value="1">小组作业</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="column"></div>
+                <div class="column">
+                  <div class="field">
+                    <label><b style="font-size: large;">完成指标</b></label>
+                    <input
+                      type="text"
+                      name="achieveGoal"
+                      placeholder="请输入完成指标（如：提交作业）"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+            <div class="ui grid">
+              <div class="column">
+                <div class="field">
+                  <label><b style="font-size: large;">作业描述</b></label>
+                  <textarea
+                    maxlength="1000"
+                    name="description"
+                    placeholder="作业内容描述，不超过1024个字符"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="ui grid">
+              <div class="column">
+                <div class="field">
+                  <label><b style="font-size: large;">上传文件</b></label>
+                  <button class="ui teal button">上传文件</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div style="height:25px;"></div>
+          <div class="actions">
+            <div
+              class="ui red deny button"
+              onclick="javascript:window.location.href='./'"
+            >
+              取消
+            </div>
+            <div class="ui positive button" onclick="postHw()">添加</div>
           </div>
-        </form>
-        <div style="height:25px;"></div>
-        <div class="actions">
-          <div class="ui red deny button" onclick="javascript:window.location.href='./'">取消</div>
-          <div class="ui positive button" onclick="postHw()">添加</div>
         </div>
       </div>
     </div>
-  </div>
-  <!--添加作业-->
+    <!--添加作业-->
 
-  <!-- 占位 -->
-  <div style="height:25px;"></div>
-  <!-- 占位 -->
+    <!-- 占位 -->
+    <div style="height:25px;"></div>
+    <!-- 占位 -->
+  </body>
 
-</body>
-
-<script src="/swiper/package/js/swiper.min.js"></script>
-<script src="/javascripts/jquery.js"></script>
-<script>
- var postHw = () => {
+  <script src="/swiper/package/js/swiper.min.js"></script>
+  <script src="/javascripts/jquery.js"></script>
+  <script>
+    var postHw = () => {
       if (
         $("input[name='homeworkname']")
           .val()
@@ -250,7 +299,7 @@
             // $("input[name='closeTime']").val("");
             // $("input[name='fullMark']").val("");
             // $("input[name='achieveGoal']").val("");
-            window.location.href="./all";
+            window.location.href = "./all";
           } else {
             alert(data.msg);
           }
@@ -260,6 +309,5 @@
         }
       });
     };
-</script>
-
+  </script>
 </html>
