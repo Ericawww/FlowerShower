@@ -238,5 +238,22 @@ exports.groupOperation = async (req, res) => {
             classGroupInfoList[i] = await Course.prototype.getGroupMemberInfo(classGroup[i].groupID);
         }
     }
-    
+    res.render('courses/teacherGroupOperation', {
+        leftStudentInfoList: leftStudentInfoList,
+        classGroupInfoList: classGroupInfoList,
+        classGroup: classGroup
+    });
 };
+
+exports.addGroupMember = async (req, res) => {
+    var groupID = req.body.groupID;
+    var addStudentIDList = req.body.addStudentIDList;
+    var count = req.body.count;
+    var ret = await Course.prototype.addGroupMember(groupID, addStudentIDList, count);
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0 }).end();
+    }
+};
+

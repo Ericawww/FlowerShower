@@ -23,6 +23,7 @@ router.get("/group", (req, res) => { res.render('courses/studentGroupInfo'); });
 router.get("/teacher/group", (req, res) => { res.render('courses/teacherGroupOperation'); });
 router.get("/class/:classID/student/groupInfo", courseController.getGroupInfo);
 router.get("/class/:classID/teacher/groupOperation", courseController.groupOperation);
+router.post("/class/:classID/teacher/addGroupMember", courseController.addGroupMember);
 
 /**
  * 教学班主页
@@ -95,7 +96,7 @@ router.post("/class/:classID/teacher/hw/verifyAddHw", classController.updateHw);
 
 router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.updateScore);
 router.post("/class/:classID/teacher/hw/:hw/rejectComment", classController.rejectComplain);
- router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
+router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
 
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
 

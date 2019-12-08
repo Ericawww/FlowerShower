@@ -113,30 +113,26 @@
               <div class="student group information" style="margin-left: 15px;font-size: 200%;margin-top: 8px;">
                 <b>学生组队信息</b></div>
             </div>
-            <!-- <div class="five wide column"></div>
-            <div class="five wide column"></div>            
-            <div class="two wide column">
-              <button class="ui button" style="background-color:#40a070;" onclick="showModal()">添加小组</button>
-            </div> -->
             <div class="twelve wide column">
-              <div class="ui right floated green labeled icon button" onclick="showModal1()">
+              <div class="ui right floated green labeled icon button" id="addGroup">
                 <i class="add icon"></i> 添加小组
               </div>
             </div>
 
           </div>
         </div>
+        <% for(let i=0;i<classGroup.length;i++){ %>
         <div class="ui divider"></div>
         <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1.5%;margin-right: 1.5%;">
           <div class="ui six column grid">
             <div class="column">
               <div class="group id" style="margin-left: 1%;font-size: 14px;color: black; font-weight: bold;">
-                小组序号：520
+                小组序号：<%= classGroup[i].groupNumber %>
               </div>
             </div>
             <div class="column">
               <div class="group membercount" style="margin-left: -10%; font-size: 14px; font-weight: bold;">
-                小组人数：6人
+                小组人数：<%= classGroupInfoList[i].length %>人
               </div>
             </div>
           </div>
@@ -153,220 +149,41 @@
               </tr>
             </thead>
             <tbody>
+              <% for(let j=0;j<classGroupInfoList[i].length;j++){ %>
               <tr>
                 <td class="collapsing">
                   <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio" checked="checked">
+                    <% if(classGroup[i].groupLeaderID==classGroupInfoList[i][j].studentID){ %>
+                    <input type="radio" name="<%= classGroup[i].groupID%>" checked="checked">
+                    <% } else { %>
+                    <input type="radio" name="<%= classGroup[i].groupID%>">
+                    <% } %>
                     <label></label>
                   </div>
                 </td>
-                <td>John Lilki</td>
-                <td>3170100000</td>
-                <td>jhlilk22@yahoo.com</td>
+                <td><%= classGroupInfoList[i][j].userName %></td>
+                <td><%= classGroupInfoList[i][j].userID %></td>
+                <td><%= classGroupInfoList[i][j].email %></td>
                 <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
                 </td>
               </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jamie Harington</td>
-                <td>3170100000</td>
-                <td>jamieharingonton@yahoo.com</td>
-                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td style="text-align: center;"><i class="blue sign-out icon" style="display:inline-block"></i><a>删除</a>
-                </td>
-              </tr>
+              <% } %>
+
             </tbody>
             <tfoot class="full-width">
               <tr>
                 <th></th>
                 <th colspan="4">
-                  <div class="ui right floated green labeled icon button" onclick="showModal2()">
+                  <div class="ui right floated green labeled icon button addGroupMember">
                     <i class="add icon"></i> 添加组员
                   </div>
+                  <div style="display: none;" class="enterGroupIDInfo"><%= classGroup[i].groupID %></div>
                 </th>
               </tr>
             </tfoot>
           </table>
         </div>
-        <div class="ui divider"></div>
-        <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1.5%;margin-right: 1.5%;">
-          <div class="ui six column grid">
-            <div class="column">
-              <div class="group id" style="margin-left: 1%;font-size: 14px;color: black; font-weight: bold;">
-                小组序号：520
-              </div>
-            </div>
-            <div class="column">
-              <div class="group membercount" style="margin-left: -10%; font-size: 14px; font-weight: bold;">
-                小组人数：6人
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="ui basic segment" style="background-color:rgb(255, 255, 255);">
-          <table class="ui compact celled definition table">
-            <thead class="full-width">
-              <tr>
-                <th style="width:80px">选择组长</th>
-                <th>姓名</th>
-                <th>学号</th>
-                <th>邮箱</th>
-                <th style="width: 15%"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio1" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>John Lilki</td>
-                <td>3170100000</td>
-                <td>jhlilk22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio1" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jamie Harington</td>
-                <td>3170100000</td>
-                <td>jamieharingonton@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio1" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio1" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio1" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui radio checkbox" style="margin-left: 20px;">
-                    <input type="radio" name="radio1" checked="checked">
-                    <label></label>
-                  </div>
-                </td>
-                <td>Jill Lewis</td>
-                <td>3170100000</td>
-                <td>jilsewris22@yahoo.com</td>
-                <td><button class="ui button"
-                    style="width: 60%; margin-left: 20%; background-color: #c21f30;color: white; font-size: 12px;">删&nbsp除</button>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot class="full-width">
-              <tr>
-                <th></th>
-                <th colspan="4">
-                  <button class="ui button"
-                    style="margin-left: 87%; width: 12%; background-color:#40a070;">添加组员</button>
-                </th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
+        <% } %>
         <div class="ui divider"></div>
       </div>
     </div>
@@ -378,7 +195,7 @@
   <!-- 占位 -->
 
   <!--模态框-->
-  <div class="ui modal" id="addGroup">
+  <div class="ui modal" id="addGroupTable">
     <i class="close icon"></i>
     <div class="header">
       添加小组
@@ -394,6 +211,7 @@
           </tr>
         </thead>
         <tbody>
+          <%  for(let i=0;i<leftStudentInfoList.length;i++){ %>
           <tr>
             <td class="collapsing">
               <div class="ui checkbox" style="margin-left: 20px;">
@@ -401,79 +219,18 @@
                 <label></label>
               </div>
             </td>
-            <td>John Lilki</td>
-            <td>3170100000</td>
-            <td>jhlilk22@yahoo.com</td>
-
+            <td><%= leftStudentInfoList[i][0].userName %></td>
+            <td><%= leftStudentInfoList[i][0].userID %></td>
+            <td><%= leftStudentInfoList[i][0].email %></td>
           </tr>
-          <tr>
-            <td class="collapsing">
-              <div class="ui checkbox" style="margin-left: 20px;">
-                <input type="checkbox" name="example">
-                <label></label>
-              </div>
-            </td>
-            <td>Jamie Harington</td>
-            <td>3170100000</td>
-            <td>jamieharingonton@yahoo.com</td>
-
-          </tr>
-          <tr>
-            <td class="collapsing">
-              <div class="ui checkbox" style="margin-left: 20px;">
-                <input type="checkbox" name="example">
-                <label></label>
-              </div>
-            </td>
-            <td>Jill Lewis</td>
-            <td>3170100000</td>
-            <td>jilsewris22@yahoo.com</td>
-
-          </tr>
-          <tr>
-            <td class="collapsing">
-              <div class="ui checkbox" style="margin-left: 20px;">
-                <input type="checkbox" name="example">
-                <label></label>
-              </div>
-            </td>
-            <td>Jill Lewis</td>
-            <td>3170100000</td>
-            <td>jilsewris22@yahoo.com</td>
-
-          </tr>
-          <tr>
-            <td class="collapsing">
-              <div class="ui checkbox" style="margin-left: 20px;">
-                <input type="checkbox" name="example">
-                <label></label>
-              </div>
-            </td>
-            <td>Jill Lewis</td>
-            <td>3170100000</td>
-            <td>jilsewris22@yahoo.com</td>
-
-          </tr>
-          <tr>
-            <td class="collapsing">
-              <div class="ui checkbox" style="margin-left: 20px;">
-                <input type="checkbox" name="example">
-                <label></label>
-              </div>
-            </td>
-            <td>Jill Lewis</td>
-            <td>3170100000</td>
-            <td>jilsewris22@yahoo.com</td>
-
-          </tr>
+          <%  } %>
         </tbody>
         <tfoot class="full-width">
           <tr>
             <th></th>
             <th colspan="4">
-              <a href="javascript:showMarkModal()"><button class="ui button"
+              <a><button class="ui button" id="submit1"
                   style="margin-left: 86%; width: 13%; background-color: #21b90d; color: white">添加小组</button></a>
-
             </th>
           </tr>
         </tfoot>
@@ -482,109 +239,51 @@
 
   </div>
 
-  <div class="ui modal" id="addGroupMember">
-      <i class="close icon"></i>
-      <div class="header">
-        添加组员
-      </div>
-      <div class="ui segment" style="background-color:rgb(255, 255, 255);">
-        <table class="ui compact celled definition table">
-          <thead class="full-width">
-            <tr>
-              <th></th>
-              <th>姓名</th>
-              <th>学号</th>
-              <th>邮箱</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="collapsing">
-                <div class="ui checkbox" style="margin-left: 20px;">
-                  <input type="checkbox" name="example">
-                  <label></label>
-                </div>
-              </td>
-              <td>John Lilki</td>
-              <td>3170100000</td>
-              <td>jhlilk22@yahoo.com</td>
-  
-            </tr>
-            <tr>
-              <td class="collapsing">
-                <div class="ui checkbox" style="margin-left: 20px;">
-                  <input type="checkbox" name="example">
-                  <label></label>
-                </div>
-              </td>
-              <td>Jamie Harington</td>
-              <td>3170100000</td>
-              <td>jamieharingonton@yahoo.com</td>
-  
-            </tr>
-            <tr>
-              <td class="collapsing">
-                <div class="ui checkbox" style="margin-left: 20px;">
-                  <input type="checkbox" name="example">
-                  <label></label>
-                </div>
-              </td>
-              <td>Jill Lewis</td>
-              <td>3170100000</td>
-              <td>jilsewris22@yahoo.com</td>
-  
-            </tr>
-            <tr>
-              <td class="collapsing">
-                <div class="ui checkbox" style="margin-left: 20px;">
-                  <input type="checkbox" name="example">
-                  <label></label>
-                </div>
-              </td>
-              <td>Jill Lewis</td>
-              <td>3170100000</td>
-              <td>jilsewris22@yahoo.com</td>
-  
-            </tr>
-            <tr>
-              <td class="collapsing">
-                <div class="ui checkbox" style="margin-left: 20px;">
-                  <input type="checkbox" name="example">
-                  <label></label>
-                </div>
-              </td>
-              <td>Jill Lewis</td>
-              <td>3170100000</td>
-              <td>jilsewris22@yahoo.com</td>
-  
-            </tr>
-            <tr>
-              <td class="collapsing">
-                <div class="ui checkbox" style="margin-left: 20px;">
-                  <input type="checkbox" name="example">
-                  <label></label>
-                </div>
-              </td>
-              <td>Jill Lewis</td>
-              <td>3170100000</td>
-              <td>jilsewris22@yahoo.com</td>
-  
-            </tr>
-          </tbody>
-          <tfoot class="full-width">
-            <tr>
-              <th></th>
-              <th colspan="4">
-                <a href="javascript:showMarkModal()"><button class="ui button"
-                    style="margin-left: 86%; width: 13%; background-color: #21b90d; color: white">添加组员</button></a>
-  
-              </th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-  
+  <div class="ui modal" id="addGroupMemberTable">
+    <i class="close icon"></i>
+    <div class="header">
+      添加组员
     </div>
+    <div class="ui segment" style="background-color:rgb(255, 255, 255);">
+      <table class="ui compact celled definition table">
+        <thead class="full-width">
+          <tr>
+            <th></th>
+            <th>姓名</th>
+            <th>学号</th>
+            <th>邮箱</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%  for(let i=0;i<leftStudentInfoList.length;i++){ %>
+          <tr>
+            <td class="collapsing">
+              <div class="ui checkbox" style="margin-left: 20px;">
+                <input type="checkbox" name="example">
+                <div style="display: none;" class="getAddStudentID"><%= leftStudentInfoList[i][0].userID %></div>
+                <label></label>
+              </div>
+            </td>
+            <td><%= leftStudentInfoList[i][0].userName %></td>
+            <td><%= leftStudentInfoList[i][0].userID %></td>
+            <td><%= leftStudentInfoList[i][0].email %></td>
+          </tr>
+          <%  } %>
+        </tbody>
+        <tfoot class="full-width">
+          <tr>
+            <th></th>
+            <th colspan="4">
+              <a><button class="ui button" id="submit2"
+                  style="margin-left: 86%; width: 13%; background-color: #21b90d; color: white">添加组员</button></a>
+              <div style="display: none;" id="enterGroupID"></div>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+  </div>
   <!--模态框-->
 
 </body>
@@ -593,13 +292,48 @@
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
 <script>
-  var showModal1 = () => {
-    $('#addGroup').modal('show');
-  }
+  $('#addGroup').click(function () {
+    $('#addGroupTable').modal('show');
+  })
 
-  var showModal2 = () => {
-    $('#addGroupMember').modal('show');
-  }
+  $('.addGroupMember').click(function () {
+    $('#addGroupMemberTable').modal('show')
+    $('#enterGroupID').text($(this).siblings('.enterGroupIDInfo').text());
+  })
+
+  $('#submit2').click(function () {
+    var groupID = $('#enterGroupID').text();
+    var addStudentIDList = new Array();
+    var count = 0;
+
+    $("input:checkbox[name='example']:checked").each(function () {
+      addStudentIDList[count] = $(this).siblings('.getAddStudentID').text();
+      count++;
+    });
+
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./addGroupMember",
+      traditional: true,
+      data: {
+        groupID: groupID,
+        addStudentIDList: addStudentIDList,
+        count: count
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("添加成功！");
+          window.location.reload();
+        } else {
+          alert("添加失败！");
+        }
+      },
+      error: (err) => {
+        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+      }
+    });
+  })
 
 
 </script>
