@@ -483,18 +483,6 @@ exports.removeClassMaterial = async (req, res) => {
     } else {
         res.send({ status: 0, msg: '该资料不存在' }).end();
     }
-
-    /**
-     * 教师批改作业
-     */
-    exports.assignMark = async (req, res) => {
-        var ret = await Class.prototype.assignMark(req.params.Hw, req.body.stuID, req.body.mark, req.body.content);
-        if (ret) {
-            res.send({ status: 1 }).end();
-        } else {
-            res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
-        }
-    }
 };
 
 /**
