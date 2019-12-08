@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <link rel="icon" href="/images/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
   <style type="text/css">
     body {
       background-color: #eeeeee;
@@ -45,7 +44,7 @@
     <img class="ui tiny image" src="/images/学在浙大.png" style="display: flex; left: auto; margin-left: 20%;" />
     <div class="right menu" style="margin-right: 20%;">
       <div class="item"><i class="bell outline icon"></i></div>
-      <a class="item">我的主页</a>  
+      <a class="item">我的主页</a>
       <a class="item">Timeless</a>
     </div>
   </div>
@@ -53,31 +52,31 @@
 
   <!-- 课程信息 -->
   <div class="ui container">
-      <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-        <div class="ui stackable inverted divided equal height stackable grid">
-          <div class="eight wide column">
-            <h2 class="ui header"><%= classHeader.courseName %></h2>
-            <div class="description">
-              <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
-              <p> <%= classHeader.courseDept %></p>
-            </div>
-            <h5 class="ui header">授课老师</h5>
-            <div class="description">
-              <%= classHeader.userName %>
-            </div>
+    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="eight wide column">
+          <h2 class="ui header"><%= classHeader.courseName %></h2>
+          <div class="description">
+            <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+            <p> <%= classHeader.courseDept %></p>
+          </div>
+          <h5 class="ui header">授课老师</h5>
+          <div class="description">
+            <%= classHeader.userName %>
           </div>
         </div>
       </div>
     </div>
-    <!-- 课程信息 -->
-    
+  </div>
+  <!-- 课程信息 -->
+
   <!-- 作业提交 -->
   <!-- TODO:文件接口待添加 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
       <div class="ui basic segment">
-        <button class="ui labeled icon button" >
-          <i class="chevron left icon"></i><a href = "./detail" style="color: #000000;">返回</a>
+        <button class="ui labeled icon button">
+          <i class="chevron left icon"></i><a href="./detail" style="color: #000000;">返回</a>
         </button>
       </div>
       <div class="ui basic segment">
@@ -119,7 +118,7 @@
         <div class="actions">
           <div class="ui red deny button" onclick="javascript:window.location.href='./detail'">取消</div>
           <!-- TODO:提交 -->
-          <div class="ui positive button" onclick = "javascript:submitHw()">提交</div>
+          <div class="ui positive button" onclick="javascript:submitHw()">提交</div>
         </div>
       </div>
     </div>
@@ -132,39 +131,39 @@
 
 </body>
 
-<script src="/swiper/package/js/swiper.min.js"></script>
 <script src="/javascripts/jquery.js"></script>
 <script>
   var submitHw = () => {
-  // if ($("textarea[name='description']").val().replace(' ', '') == "") {
-  //   alert("申诉原因不能为空！");
-  //   return;
-  // }
-  $.ajax({
-    dataType: "json",
-    type: "post",
-    url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitHw",
-    data: {
-      description: $("textarea[name='description']").val()
-    },
-    success: (data) => {
-      if (data.status) {
-        alert("作业提交成功!");
-        window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
-      } else {
-        alert(data.msg);
+    // if ($("textarea[name='description']").val().replace(' ', '') == "") {
+    //   alert("申诉原因不能为空！");
+    //   return;
+    // }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitHw",
+      data: {
+        description: $("textarea[name='description']").val()
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("作业提交成功!");
+          window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
+        } else {
+          alert(data.msg);
+        }
+      },
+      // 作业上交失败
+      // else if (data.status == -1) {
+      //     $(".ui.error.message").text("请输入正确的验证码！").show();
+      //   } else {
+      //     $(".ui.error.message").text("该用户名已被注册！").show();
+      //   }
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
       }
-    },
-    // 作业上交失败
-    // else if (data.status == -1) {
-    //     $(".ui.error.message").text("请输入正确的验证码！").show();
-    //   } else {
-    //     $(".ui.error.message").text("该用户名已被注册！").show();
-    //   }
-    error: (err) => {
-      alert("与服务器连接异常，请稍后再试!");
-    }
-  });
-}
+    });
+  }
 </script>
+
 </html>

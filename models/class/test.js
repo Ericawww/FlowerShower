@@ -12,9 +12,7 @@ var test = async (classID, studentID) => {
         if (retFullMark[0].length == 0) {
             projectGrade = 100;
             return projectGrade;
-        }
-        
-        else {
+        } else {
             for (var i = 0; i < personalMark[0].length; i++) {
                 personalMarkResult += parseInt(personalMark[0][i].mark);
             }
@@ -23,12 +21,10 @@ var test = async (classID, studentID) => {
             return projectGrade;
         }
 
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
         return null;
-    }
-    finally {
+    } finally {
         conn.release();
     }
     

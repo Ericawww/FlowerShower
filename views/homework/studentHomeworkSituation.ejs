@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <link rel="icon" href="/images/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
-  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
   <style type="text/css">
     body {
       background-color: #eeeeee;
@@ -18,24 +17,6 @@
       padding: 5em 0em;
     }
 
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
-
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
-
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
-    }
   </style>
 </head>
 
@@ -82,7 +63,7 @@
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
       <div class="ui basic segment">
-        <button class="ui labeled icon button" onclick="javascript:window.location.href='../all'">
+        <button class="ui labeled icon button" onclick="window.location.href='../all'">
           <i class="chevron left icon"></i>返回
         </button>
       </div>
@@ -107,7 +88,7 @@
       <!-- TODO：判断截止时间是否大于今天？ -->
       <script>
         var curDate = new Date();
-        var closeTime = new Date(<%= hwInfo.closeTime %>);
+        var closeTime = new Date("<%= hwInfo.closeTime %>");
         console.log(curDate, closeTime);
         if (curDate > closeTime) {
           <div class="ui basic segment">
@@ -194,7 +175,6 @@
         </div>
       </div>
     </div>
-    <!-- console.log(<%= hwInfo.markTime %>);     -->
 
     <!-- 未批改情况 -->
     <% } else { %>

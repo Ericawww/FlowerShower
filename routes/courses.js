@@ -73,7 +73,6 @@ router.get('/class/:classID/student/material/download/:materialID', classControl
  * 课程作业管理
  */
 router.get('/class/:classID/student/hw/all', classController.getStuAllHw);// courses/classes/:classID/student/hw/all ->作业列表
-//hw检查作业有问题
 //router.use('/class/:classID/student/hw/:hw', classController.checkHw);//courses/classes/:classID/student/hw/:hw ->学生作业，验证作业，next
 router.get('/class/:classID/student/hw/:hw/detail', classController.getStuHwDetail);// courses/classes/:classID/student/hw/:hw/detail ->作业详情
 router.get('/class/:classID/student/hw/:hw/situation', classController.getStuHwSituation);// courses/classes/:classID/student/hw/:hw/situation ->提交和批改情况

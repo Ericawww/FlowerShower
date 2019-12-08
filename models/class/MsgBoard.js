@@ -18,12 +18,10 @@ class MsgBoard {
             var conn = await pool.getConnection();
             await conn.query("insert into msgboard(content, contact) values(?, ?)", [content, contact]);
             return 1;
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err);
             return 0;
-        }
-        finally {
+        } finally {
             conn.release();
         }
     }
