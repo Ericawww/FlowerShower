@@ -181,7 +181,8 @@ exports.addHw = async (req, res) => {
  */
 exports.updateHwPage = async (req, res) => {
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
-    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader });
+    var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
+    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader,hwInfo:hwInfo });
 };
 
 /**

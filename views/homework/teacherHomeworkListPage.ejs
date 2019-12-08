@@ -196,7 +196,7 @@
         </div>
         <div class="item" style="width:auto;width:150px;">
           <div class="content">
-            <div class="homework submit button" ><a onclick="showConfirmDeleteModal(<%= hw.classID %>,<%= hw.classProjectID %>)">删除作业</a></div>
+            <div class="homework submit button" ><a onclick="showConfirmDeleteModal(<%= hw.classProjectID %>)">删除作业</a></div>
           </div>
         </div>
         <div class="item" style="width:auto;margin-right:15px;">
@@ -231,21 +231,20 @@
 <script src="/javascripts/jquery.js"></script>
 <script src="/dist/semantic.min.js"></script>
 <script>
-  var classID,classProjectID;
-  var showConfirmDeleteModal = (xx, yy) => {
+  var classProjectID;
+  var showConfirmDeleteModal = (x) => {
     $('.ui.modal').modal('show');
-    classID=xx;
-    classProjectID=yy;
+    classProjectID=x;
   };
   var confirmDelete = () => {
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "/courses/class/"+classID+"/teacher/hw/"+classProjectID+"/deleteHw",
+      url: "./"+classProjectID+"/deleteHw",
       success: (data) => {
         if (data.status) {
           alert("删除成功!");
-          window.location.href = "/courses/class/"+classID+"/teacher/hw/all";
+          window.location.href = "./all";
         } else {
           alert(data.msg);
         }

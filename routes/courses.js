@@ -96,7 +96,7 @@ router.post("/class/:classID/teacher/hw/verifyAddHw", classController.updateHw);
 
 router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.updateScore);
 router.post("/class/:classID/teacher/hw/:hw/rejectComment", classController.rejectComplain);
-// router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
+ router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
 
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
 
