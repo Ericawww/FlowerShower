@@ -6,8 +6,8 @@ var navBarTemplate = `
             <div class="item">
                 <div class="ui action left icon input">
                 <i class="search icon"></i>
-                <input type="text" placeholder="搜索感兴趣的课程" />
-                <button class="ui positive button">搜索</button>
+                <input type="text" placeholder="搜索感兴趣的课程" name="searchCourse" />
+                <button class="ui positive button" onclick="searchCourse()" >搜索</button>
                 </div>
             </div>
             <a class="item">使用教程</a>
@@ -129,5 +129,7 @@ var submitMessageBoardMsg = () => {
 };
 
 var searchCourse = () => {
-
+    var searchCourseName = $("input[name='searchCourse']").val();
+    console.log(searchCourseName);
+    window.location.href="/courses/search?courseName="+searchCourseName;
 }

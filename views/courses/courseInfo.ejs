@@ -69,7 +69,7 @@
           <div class="ui top attached tabular menu">
             <a class="active item" data-tab="first"> 课程简介</a>
             <a class="item" data-tab="second">课程大纲</a>
-            <a class="item" data-tab="third">课程评论</a>
+            <a class="item" data-tab="third">教师简介</a>
           </div>
           <div class="ui bottom attached tab segment active" data-tab="first">
             <div class="content">
@@ -85,21 +85,26 @@
               </div>
             </div>
           </div>
-          <!--TODO:针对课程的评论？先放着 nmd-->
+           <!--TODO:针对课程的评论？先放着->变更为教师个人主页信息-->
           <div class="ui bottom attached tab segment" data-tab="third">
             <div class="content">
               <div class="description">
                 <div class="ui items">
                   <div class="item">
                     <div class="content">
-                      <a class="header">老师不错</a>
-                      <div class="description">
-                        就是作业太多了
-                      </div>
-                      <div class="extra">
-                        <i class="green check icon"></i>
-                        121 Votes
-                      </div>
+                        <% if (teacherList == null || teacherList.length == 0) { %>
+                        <h3>暂无老师教授该课程。</h3>
+                        <% }else { %> <% for (var i = 0; i < teacherList.length;i++){ %>
+                        <% var teacher = teacherList[i]; %>
+                        <a class="header"><%= teacher.userName %></a>  <%= teacher.position %>
+                        <h3>个人简介</h3>
+                        <p><%= teacher.profile %></p>
+                        <h3>教授课程</h3>
+                        <p><%= teacher.course %></p>
+                        <h3>发表论文</h3>
+                        <p><%= teacher.papers %></p>
+                        <div class="divider"></div>
+                        <% } %> <% }%>
                     </div>
                   </div>
                 </div>
@@ -114,7 +119,7 @@
               授课老师
             </p>
             <div class="description">
-              <% if (teacherList == null) { %>
+              <% if (teacherList == null || teacherList.length ==0 ) { %>
               <h3>暂无老师教授该课程。</h3>
               <% }else { %> <% for (var i = 0; i < teacherList.length;i++){ %>
               <% var teacher = teacherList[i]; %>
@@ -132,38 +137,7 @@
   <!-- 课程内容+授课教师 -->
 
   <!-- 页脚 -->
-  <div class="ui inverted vertical footer segment" style="background-color: rgb(21, 126, 217); margin-top: 50px;">
-    <div class="ui container">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h4 class="ui inverted header">指导老师</h4>
-          <div class="ui inverted link list">
-            <p>
-              <a href="https://person.zju.edu.cn/0092031" target="_blank" class="item"
-                style="color: white;">浙江大学计算机科学与技术学院 邢卫</a>
-            </p>
-            <p>
-              <a href="https://person.zju.edu.cn/0097412" target="_blank" class="item"
-                style="color: white;">浙江大学计算机科学与技术学院 金波</a>
-            </p>
-          </div>
-        </div>
-        <div class="three wide column">
-          <h4 class="ui inverted header">项目作者</h4>
-          <div class="ui inverted link list">
-            <p>贺婷婷 应承峻 韩汶东</p>
-            <p>张佳瑶 方陶然 戴陈威</p>
-          </div>
-        </div>
-        <div class="seven wide column">
-          <h4 class="ui inverted header">技术支持</h4>
-          <p>浙江大学计算机科学与技术学院-SEM&SRE-Group13</p>
-          <p>软件工程专业-软件工程管理&软件需求工程-项目</p>
-          <p>Group13</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="template-footer"></div>
   <!-- 页脚 -->
 </body>
 

@@ -218,7 +218,7 @@ class Course {
         try {
             var conn = await pool.getConnection();
             //极其怀疑正确性
-            var ret = await conn.query("select teacherID,userName,userPhoto from user inner join class on user.userID = class.teacherID where courseNumber=? ", [courseNumber]);
+            var ret = await conn.query("select * from user inner join class inner join teacher_info on user.userID = class.teacherID and class.teacherID = teacher_info.teacherID where courseNumber=? ", [courseNumber]);
             //ret[0]包含满足条件的teacherID-还需要userName和userPhoto
             if (ret[0].length > 0) return ret[0];
             else return null;
