@@ -64,7 +64,7 @@
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
       <div class="ui basic segment">
-        <button class="ui labeled icon button">
+        <button class="ui labeled icon button"  onclick="window.location.href = '../all'">
           <i class="chevron left icon"></i><a href="./detail" style="color: #000000;">返回</a>
         </button>
       </div>
@@ -72,10 +72,15 @@
         <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
       </div>
       <div class="ui basic segment">
-        <!-- TODO:下载 -->
-        <a style="margin-right: 10px;">下载我的文件</a>
+        <% if (hwInfo.filePath != null && typeof(hwInfo.filePath) == "string") { %>
+          <% var arr = hwInfo.filePath.split("/"); %>
+          <% var fileName = arr[arr.length - 1 ]; %>
+        <a style="margin-right: 10px;" href="./myhw" target="_blank"  download="<%= fileName %>">下载我的文件</a>
+        <% } %>
         <!-- TODO:上传 -->
-        <button class="ui teal button">上传文件</button>
+        <button class="ui teal button" onclick="showUploadModal()">上传文件</button>
+        <!-- 上传文件名 -->
+        <a id="materialName"></a>
       </div>
       <div style="height:1px;"></div>
       <div class="ui segments">
@@ -99,15 +104,20 @@
         </div>
         <form class="ui form">
           <div class="field">
-            <textarea maxlength="300" name="description"></textarea>
+            <textarea maxlength="300" name="description"><%= hwInfo.commitMsg %></textarea>
           </div>
         </form>
       </div>
       <div class="ui basic segment">
         <div class="actions">
-          <div class="ui red deny button" onclick="javascript:window.location.href='./detail'">取消</div>
+          <div class="ui teal progress" style="margin-top:20px;">
+            <div class="bar">
+              <div class="progress"></div>
+            </div>
+          </div>
+          <div class="ui red deny button" onclick="window.location.href='./detail'">取消</div>
           <!-- TODO:提交 -->
-          <div class="ui positive button" onclick="javascript:submitHw()">提交</div>
+          <div class="ui positive button" onclick="submitHw()">提交</div>
         </div>
       </div>
     </div>
@@ -118,42 +128,56 @@
   <div style="height:20px;"></div>
   <!-- 占位 -->
 
+  <div class="ui tiny modal upload">
+    <div class="header">上传资料</div>
+    <div class="content">
+      <p>请选择需要上传的文件</p>
+      <input type="file" id="material" />
+    </div>
+    <div class="actions">
+      <div class="ui positive button" id="selectFileBtn">确定</div>
+      <div class="ui cancel button">取消</div>
+    </div>
+  </div>
+
 </body>
 
 <script src="/javascripts/jquery.js"></script>
 <script src="/javascripts/header.js"></script>
+<script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/courses/stuHwSubmit.js"></script>
 <script>
-  var submitHw = () => {
-    // if ($("textarea[name='description']").val().replace(' ', '') == "") {
-    //   alert("申诉原因不能为空！");
-    //   return;
-    // }
-    $.ajax({
-      dataType: "json",
-      type: "post",
-      url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitHw",
-      data: {
-        description: $("textarea[name='description']").val()
-      },
-      success: (data) => {
-        if (data.status) {
-          alert("作业提交成功!");
-          window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
-        } else {
-          alert(data.msg);
-        }
-      },
-      // 作业上交失败
-      // else if (data.status == -1) {
-      //     $(".ui.error.message").text("请输入正确的验证码！").show();
-      //   } else {
-      //     $(".ui.error.message").text("该用户名已被注册！").show();
-      //   }
-      error: (err) => {
-        alert("与服务器连接异常，请稍后再试!");
-      }
-    });
-  }
+  // var submitHw = () => {
+  //   // if ($("textarea[name='description']").val().replace(' ', '') == "") {
+  //   //   alert("申诉原因不能为空！");
+  //   //   return;
+  //   // }
+  //   $.ajax({
+  //     dataType: "json",
+  //     type: "post",
+  //     url: "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/submitHw",
+  //     data: {
+  //       description: $("textarea[name='description']").val()
+  //     },
+  //     success: (data) => {
+  //       if (data.status) {
+  //         alert("作业提交成功!");
+  //         window.location.href = "/courses/class/<%= hwInfo.classID %>/student/hw/<%= hwInfo.classProjectID %>/situation"
+  //       } else {
+  //         alert(data.msg);
+  //       }
+  //     },
+  //     // 作业上交失败
+  //     // else if (data.status == -1) {
+  //     //     $(".ui.error.message").text("请输入正确的验证码！").show();
+  //     //   } else {
+  //     //     $(".ui.error.message").text("该用户名已被注册！").show();
+  //     //   }
+  //     error: (err) => {
+  //       alert("与服务器连接异常，请稍后再试!");
+  //     }
+  //   });
+  // }
 </script>
 
 </html>

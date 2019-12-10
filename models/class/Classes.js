@@ -430,28 +430,6 @@ class Classes {
             conn.release();
         }
     }
-
-    /**
-     * 教师批改作业
-     * @param classProjectID 课程号
-     * @param studentID 学生号
-     * @param mark 分数
-     * @param comment 评语
-     * @return 批改成功返回1，否则返回0
-     */
-    async assignMark(classProjectID, studentID, mark, markTime, comment) {
-        try {
-            var conn = await pool.getConnection();
-            conn.query("insert into class_project_score(classProjectID,studentID,mark,markTime,comment) \
-            values(?,?,?,CURRENT_TIMESTAMP,?)", [classProjectID, studentID, mark, comment]);
-            return 1;
-        } catch (err) {
-            console.log(err);
-            return 0;
-        } finally {
-            conn.release();
-        }
-    }
 }
 
 module.exports = Classes;

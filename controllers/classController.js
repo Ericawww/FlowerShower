@@ -133,13 +133,40 @@ exports.submitComplain = async (req, res) => {
  * 提交作业 TODO：文件上传
  */
 exports.submitHw = async (req, res) => {
-    var ret = await Homework.prototype.submitHw(req.session.token.userID, req.params.hw, req.body.description);
-    if (ret == 0) {
-        res.send({ status: 0, msg: "异常，请重试。" }).end();
-    } else {
-        res.send({ status: 1 }).end();
+    try {
+        var ret = await fileHelper(req, "material", "studentProjects");
+        var hw = await Homework.prototype.getHwInfo(req.params.hw, req.session.token.userID);
+        if (hw == null) {
+            try {
+                utils.removeFile(path.join(__dirname, '../private/studentProjects', ret.newName));
+            } catch (err) {
+                console.log(err);
+            }
+            res.send({ status: 0, msg: '该学生对应的该作业不存在！' }).end();
+        }
+        ret = await Homework.prototype.submitHw(req.session.token.userID, req.params.hw, req.body.description, 'private/studentProjects/' + ret.newName);
+        if (ret == 0) {
+            try {
+                utils.removeFile(path.join(__dirname, '../private/studentProjects', ret.newName));
+            } catch (err) {
+                console.log(err);
+            }
+            res.send({ status: 0, msg: '上传失败，请稍后再试' }).end();
+        } else {
+            try {
+                console.log(hw.filePath);
+                if (hw.filePath != null) utils.removeFile(path.join(__dirname, '../', hw.filePath));
+            } catch (err) {
+                console.log(err);
+            }
+            res.send({ status: 1 }).end();
+        }
+    } catch (err) {
+        console.log(err);
+        res.send({ status: 0, msg: err.message }).end();
     }
 };
+
 /**
  * 跳转至提交页面，需要一点信息
  */
@@ -494,5 +521,18 @@ exports.assignMark = async (req, res) => {
         res.send({ status: 1 }).end();
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+    }
+};
+
+
+/**
+ * 学生下载资料
+ */
+exports.downloadClassMaterial = async (req, res) => {
+    var ret = await Homework.prototype.getHwInfo(req.params.hw, req.session.token.userID);
+    if (ret == null) {
+        res.send({ status: 0, msg: '您暂无权限访问' }).end();
+    } else {
+        res.sendFile(path.join(__dirname, '../', ret.filePath));
     }
 };

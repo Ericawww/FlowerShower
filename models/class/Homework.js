@@ -24,22 +24,20 @@ class Homework {
     }
 
     /**
-     * 学生申诉成绩功能
+     * 学生提交作业
      * 
      * @param {String} description 
      * @param {String} stuID
      * @param {String} hwID
      * @return {int} 如果成功返回1，出错则返回0
      */
-    async submitHw(stuID, hwID, description) {
+    async submitHw(stuID, hwID, description, filePath) {
         try {
             var conn = await pool.getConnection();
-            var res = await conn.query("update class_project_score set commitMsg = ?,commitTime = current_timestamp() where classProjectID = ? and studentID = ? ", [description, hwID, stuID]);
-            if (res == 0) {
-                return 0;
-            } else {
-                return 1;
-            }
+            var sql = "update class_project_score set filePath = ?, commitMsg = ?, commitTime = CURRENT_TIMESTAMP where classProjectID = ? and studentID = ? ";
+            var params = [filePath, description, hwID, stuID];
+            await conn.query(sql, params);
+            return 1;
         } catch (err) {
             console.log(err);
             return 0;
@@ -264,7 +262,7 @@ class Homework {
      * @param {string} score
      * @param {string} stuID
      */
-    async updateScore(hwID, score, stuID){
+    async updateScore(hwID, score, stuID) {
         try {
             var conn = await pool.getConnection();
             console.log(hwID, score, stuID);
@@ -304,7 +302,7 @@ class Homework {
         try {
             var conn = await pool.getConnection();
             console.log(classProjectID);
-            var ret=conn.query(
+            var ret = conn.query(
                 "update class_project set \
             projectName = ?,description = ? \
            ,fullMark = ? ,startTime = ? \
