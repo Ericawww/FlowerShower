@@ -14,7 +14,7 @@ class Course {
             var sql = "insert into course(courseNumber, courseName, coursePhoto, courseDept, credit, prerequisite, \
                 description, outline) values (?, ?, ?, ?, ?, ?, ?, ?)";
             var params = [course.courseNumber, course.courseName, course.coursePhoto, course.courseDept, course.credit,
-                course.prerequisite, course.description, course.outline];
+            course.prerequisite, course.description, course.outline];
             await conn.query(sql, params);
             return null;
         } catch (err) {
@@ -242,13 +242,7 @@ class Course {
             if (sql.changeType == "usualGrade") {
                 ret = await conn.query("update take set usualGrade = ? where classID = ? and studentID = ?",
                     [parseInt(sql.newScore), sql.classID, sql.studentID]);
-            }
-            // 因为现在学生的作业成绩无法直接修改，所以下面的语句被注释掉了
-            // else if (sql.changeType == "homeworkGrade") {
-            //     ret = await conn.query("update take set homeworkGrade = ? where classID = ? and studentID = ?",
-            //         [parseInt(sql.newScore), sql.classID, sql.studentID]);
-            // }
-            else {
+            } else {
                 ret = await conn.query("update take set examGrade = ? where classID = ? and studentID = ?",
                     [parseInt(sql.newScore), sql.classID, sql.studentID]);
             }
@@ -382,8 +376,7 @@ class Course {
             var conn = await pool.getConnection();
             var ret = await conn.query("select studentID from take where classID = ? \
             and studentID not in \
-            (select studentID from class_group natural join class_group_member where classID = ?)",
-            [classID, classID]);
+            (select studentID from class_group natural join class_group_member where classID = ?)", [classID, classID]);
             return ret[0];
         } catch (err) {
             console.log(err);
@@ -462,7 +455,7 @@ class Course {
      */
     async deleteClass(classID) {
         try {
-            var conn = await pool.getConnection();   
+            var conn = await pool.getConnection();
             await conn.query("delete from class where classID = ?", [classID]);
             return null;
         } catch (err) {
@@ -494,7 +487,184 @@ class Course {
         }
     }
 
+    /**
+     * 根据groupID向group中加入新成员
+     * 
+     * @param {string} groupID 
+     * @param {struct} addStudentIDList 
+     */
+    async addGroupMember(groupID, addStudentIDList, count) {
+        try {
+            var conn = await pool.getConnection();
+            if (count == 1) {
+                await conn.query("insert into class_group_member(groupID, studentID) values (?, ?)", [groupID, addStudentIDList]);
+            } else {
+                for (let i = 0; i < count; i++) {
+                    await conn.query("insert into class_group_member(groupID, studentID) values (?, ?)", [groupID, addStudentIDList[i]]);
+                }
+            }
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }
+    }
 
+    /**
+     * 删除一个小组最后一个成员，需要删除这个组
+     * 
+     * @param {string} classID 
+     * @param {string} groupID 
+     * @param {string} studentID 
+     */
+    async deleteGroup(classID, groupID, studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select groupNumber from class_group where groupID = ?", [groupID]);
+            var groupNumber = parseInt(ret[0][0].groupNumber);
+            await conn.query("delete from class_group_member where groupID = ? and studentID = ?", [groupID, studentID]);
+            await conn.query("delete from class_group where groupID = ?", [groupID]);
+            await conn.query("update class_group set groupNumber = groupNumber - 1 where classID = ? and groupNumber > ?", [classID, parseInt(groupNumber)]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 随机改变某个组的组长，因为组长被删除了
+     * 
+     * @param {string} groupID 
+     * @param {string} studentID 
+     */
+    async changeLeader(groupID, studentID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group_member where studentID != ? and groupID = ? LIMIT 1;", [studentID, groupID]);
+            await conn.query("update class_group set groupLeaderID = ? where groupID = ?", [ret[0][0].studentID, groupID]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 从一个小组删除一个成员
+     * 
+     * @param {string} groupID 
+     * @param {string} studentID 
+     */
+    async deleteGroupMember(groupID, studentID) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("delete from class_group_member where groupID = ? and studentID = ?", [groupID, studentID]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 改变某个组的组长
+     * 
+     * @param {string} groupID 
+     * @param {string} studentID 
+     */
+    async changeGroupLeader(groupID, studentID) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query("update class_group set groupLeaderID = ? where groupID = ?", [studentID, groupID]);
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+    
+    /**
+     * 获得下一个应该的班级序号
+     * 
+     * @param {string} classID 
+     */
+    async getNextClassOrder(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group where classID = ? order by groupNumber DESC limit 1;", [classID]);
+            if (ret[0].length == 0) {
+                return 1;
+            } else {
+                return ret[0][0].groupNumber;
+            }
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 获得下一个组的groupID
+     */
+    async getNextGroupID() {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_group order by groupID DESC limit 1;");
+            if (ret[0].length == 0) {
+                return 1;
+            } else {
+                return ret[0][0].groupID;
+            }
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 添加一个新的组
+     * 
+     * @param {string} classID 
+     * @param {string} addStudentIDList 
+     * @param {string} count 
+     * @param {string} nextClassOrder 
+     * @param {string} nextGroupID 
+     */
+    async addNewGroup(classID, addStudentIDList, count, nextClassOrder, nextGroupID) {
+        try {
+            var conn = await pool.getConnection();
+            if (count == 1) {
+                await conn.query("insert into class_group(groupID, classID, groupNumber, groupLeaderID) values (?, ?, ?, ?)", [nextGroupID, classID, nextClassOrder, addStudentIDList]);
+                await conn.query("insert into class_group_member(groupID, studentID) values (?, ?)", [nextGroupID, addStudentIDList]);
+            } else {
+                await conn.query("insert into class_group(groupID, classID, groupNumber, groupLeaderID) values (?, ?, ?, ?)", [nextGroupID, classID, nextClassOrder, addStudentIDList[0]]);
+                for (let i = 0; i < count; i++) {
+                    await conn.query("insert into class_group_member(groupID, studentID) values (?, ?)", [nextGroupID, addStudentIDList[i]]);
+                }
+            }
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return err.message;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = Course;

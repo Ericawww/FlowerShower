@@ -212,5 +212,81 @@ exports.groupOperation = async (req, res) => {
             classGroupInfoList[i] = await Course.prototype.getGroupMemberInfo(classGroup[i].groupID);
         }
     }
-    
+    res.render('courses/teacherGroupOperation', {
+        leftStudentInfoList: leftStudentInfoList,
+        classGroupInfoList: classGroupInfoList,
+        classGroup: classGroup
+    });
+};
+
+/**
+ * 添加小组成员
+ */
+exports.addGroupMember = async (req, res) => {
+    var groupID = req.body.groupID;
+    var addStudentIDList = req.body.addStudentIDList;
+    var count = req.body.count;
+    var ret = await Course.prototype.addGroupMember(groupID, addStudentIDList, count);
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0 }).end();
+    }
+};
+
+/**
+ * 删除小组成员
+ */
+exports.removeGroupMember = async (req, res) => {
+    var groupID = req.body.groupID;
+    var studentID = req.body.studentID;
+    var classID = req.params.classID;
+    var groupMemberCount = req.body.groupMemberCount;
+    var groupLeaderID = req.body.groupLeaderID;
+    var ret;
+    if (groupMemberCount == 1) {
+        await Course.prototype.deleteGroup(classID, groupID, studentID);
+        ret = 1;
+    } else {
+        if (studentID == groupLeaderID) {
+            await Course.prototype.changeLeader(groupID, studentID);
+        }
+        ret = await Course.prototype.deleteGroupMember(groupID, studentID);
+    }
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0 }).end();
+    }
+};
+
+/**
+ * 改变小组组长
+ */
+exports.changeGroupLeader = async (req, res) => {
+    var groupID = req.body.groupID;
+    var newLeaderStudentID = req.body.newLeaderStudentID;
+    var ret = await Course.prototype.changeGroupLeader(groupID, newLeaderStudentID);
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0 }).end();
+    }
+};
+
+/**
+ * 添加小组
+ */
+exports.addNewGroup = async (req, res) => {
+    var classID = req.params.classID;
+    var addStudentIDList = req.body.addStudentIDList;
+    var count = req.body.count;
+    var nextClassOrder = parseInt(await Course.prototype.getNextClassOrder(classID)) + 1;
+    var nextGroupID = parseInt(await Course.prototype.getNextGroupID()) + 1;
+    var ret = await Course.prototype.addNewGroup(classID, addStudentIDList, count, nextClassOrder, nextGroupID);
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0 }).end();
+    }
 };

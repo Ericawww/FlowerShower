@@ -39,109 +39,105 @@
 </head>
 
 <body>
-  <div class="ui left blue sidebar vertical menu" id="notice">
-    <div class="item">
-      <div class="header">
-        <h2>课程公告</h2>
-      </div>
-    </div>
-    <% for(var i=0;i<courseList.length;i++){ %>
-    <div class="item">
-      <div class="header">
-        <h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
-      </div>
-      <% if(courseNoticeList[i].length==1){ %>
-      <div class="header"><%= courseNoticeList[i][0].title %></div>
-      <div class="ui input">
-        <p><%= courseNoticeList[i][0].content %></p>
-      </div>
-      <% } else{ %>
-      <div class="header"><i>没有通知...</i></div>
-      <% } %>
-    </div>
-    <% } %>
-  </div>
+	<div class="ui left blue sidebar vertical menu" id="notice">
+		<div class="item">
+			<div class="header">
+				<h2>课程公告</h2>
+			</div>
+		</div>
+		<% for(var i=0;i<courseList.length;i++){ %>
+		<div class="item">
+			<div class="header">
+				<h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
+			</div>
+			<% if(courseNoticeList[i].length==1){ %>
+			<div class="header"><%= courseNoticeList[i][0].title %></div>
+			<div class="ui input">
+				<p><%= courseNoticeList[i][0].content %></p>
+			</div>
+			<% } else{ %>
+			<div class="header"><i>没有通知...</i></div>
+			<% } %>
+		</div>
+		<% } %>
+	</div>
 
-  <div class="ui right blue sidebar vertical menu" id="homework">
-    <div class="item">
-      <div class="header">
-        <h2>最近作业</h2>
-      </div>
-    </div>
-    <% for(var i=0;i<courseList.length;i++){ %>
-    <div class="item">
-      <div class="header">
-        <h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
-      </div>
-      <% if(classProjectList[i].length==1){ %>
-      <div class="header"><%= classProjectList[i][0].description %></div>
-      <div class="ui input">
-        <p>截止日期:<%= dateFormat(classProjectList[i][0].closeTime) %></p>
-      </div>
-      <% } else{ %>
-      <div class="header"><i>没有作业...</i></div>
-      <% } %>
-    </div>
-    <% } %>
-  </div>
+	<div class="ui right blue sidebar vertical menu" id="homework">
+		<div class="item">
+			<div class="header">
+				<h2>最近作业</h2>
+			</div>
+		</div>
+		<% for(var i=0;i<courseList.length;i++){ %>
+		<div class="item">
+			<div class="header">
+				<h4 style="color:rgb(63, 125, 241);"><%= courseList[i][0].courseName %></h4>
+			</div>
+			<% if(classProjectList[i].length==1){ %>
+			<div class="header"><%= classProjectList[i][0].description %></div>
+			<div class="ui input">
+				<p>截止日期:<%= dateFormat(classProjectList[i][0].closeTime) %></p>
+			</div>
+			<% } else{ %>
+			<div class="header"><i>没有作业...</i></div>
+			<% } %>
+		</div>
+		<% } %>
+	</div>
 
-  <div class="pusher">
-    <!-- 导航栏 -->
-    <div class="main navBar">
-      
-    </div>
-    <!-- 导航栏 -->
+	<div class="pusher">
 
-    <div class="ui container" style="margin-top:10px;">
-      <div class="ui grid">
-        <!-- 首页垂直菜单 -->
-        <div class="four wide column">
-          <div class="ui vertical menu">
-            <div class="ui raised link card">
-              <div class="image">
-                <!-- <img src="/images/avatar200x200.png" /> -->
-                <% if (token.userPhoto == null) { %>
-                <img src="/images/avatar200x200.png" />
-                <% } else { %>
-                <img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
-                <% } %>
-              </div>
-              <div class="content">
-                <a class="header"><%= studentNameValue %></a>
-                <div class="description">学生</div>
-              </div>
-            </div>
-            <a class="item" id="homePage">
-              <i class="home icon"></i>
-              首页
-            </a>
-            <a class="item" id="myClass">
-              <i class="file outline icon"></i>
-              我的课程
-            </a>
-            <a class="item" id="myGrade">
-              <i class="font icon"></i>
-              我的成绩
-            </a>
-          </div>
-        </div>
-        <!-- 首页垂直菜单 -->
-        <!-- 成绩显示 -->
-        <div class="twelve wide column">
 
-          <div class="ui two item menu">
-            <a class="item" id="showNotice">
-              <i class="paper plane outline icon"></i>
-              公告
-            </a>
-            <a class="item" id="showHomework">
-              <i class="paper plane icon"></i>
-              作业
-            </a>
-          </div>
-          <div class="ui equal width center aligned padded grid">
-            <div class="row" style="background-color:#FFFFFF;color: #000000;">
-              <!-- <div class="ui two column centered grid">
+		<div class="ui container" style="margin-top:10px;">
+			<div class="ui grid">
+				<!-- 首页垂直菜单 -->
+				<div class="four wide column">
+					<div class="ui vertical menu">
+						<div class="ui raised link card">
+							<div class="image">
+								<!-- <img src="/images/avatar200x200.png" /> -->
+								<% if (token.userPhoto == null) { %>
+								<img src="/images/avatar200x200.png" />
+								<% } else { %>
+								<img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
+								<% } %>
+							</div>
+							<div class="content">
+								<a class="header"><%= studentNameValue %></a>
+								<div class="description">学生</div>
+							</div>
+						</div>
+						<a class="item" id="homePage">
+							<i class="home icon"></i>
+							首页
+						</a>
+						<a class="item" id="myClass">
+							<i class="file outline icon"></i>
+							我的课程
+						</a>
+						<!-- <a class="item" id="myGrade">
+							<i class="font icon"></i>
+							我的成绩
+						</a> -->
+					</div>
+				</div>
+				<!-- 首页垂直菜单 -->
+				<!-- 成绩显示 -->
+				<div class="twelve wide column">
+
+					<div class="ui two item menu">
+						<a class="item" id="showNotice">
+							<i class="paper plane outline icon"></i>
+							公告
+						</a>
+						<a class="item" id="showHomework">
+							<i class="paper plane icon"></i>
+							作业
+						</a>
+					</div>
+					<div class="ui equal width center aligned padded grid">
+						<div class="row" style="background-color:#FFFFFF;color: #000000;">
+							<!-- <div class="ui two column centered grid">
                         <div class="column"> -->
               <div class="ui statistics centered">
                 <div class="statistic">

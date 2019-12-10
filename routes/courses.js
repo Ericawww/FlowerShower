@@ -19,10 +19,12 @@ router.get("/search", courseController.getCourseByName); //根据名字搜索某
 /**
  * 课程分组
  */
-router.get("/group", (req, res) => { res.render('courses/studentGroupInfo'); });
-router.get("/teacher/group", (req, res) => { res.render('courses/teacherGroupOperation'); });
 router.get("/class/:classID/student/groupInfo", courseController.getGroupInfo);
 router.get("/class/:classID/teacher/groupOperation", courseController.groupOperation);
+router.post("/class/:classID/teacher/addGroupMember", courseController.addGroupMember);
+router.post("/class/:classID/teacher/removeGroupMember", courseController.removeGroupMember);
+router.post("/class/:classID/teacher/changeGroupLeader", courseController.changeGroupLeader);
+router.post("/class/:classID/teacher/addNewGroup", courseController.addNewGroup);
 
 /**
  * 教学班主页
