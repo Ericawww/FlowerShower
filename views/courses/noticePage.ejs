@@ -166,7 +166,7 @@
   <!--通知信息栏-->
 
   <!-- 发布通知模态框 -->
-  <div class="ui modal" id="updateNotice">
+  <div class="ui notice modal" id="updateNotice">
     <i class="close icon"></i>
     <div class="header">发布公告</div>
     <div class="content">
@@ -199,7 +199,7 @@
 <script>
   //发布通知
   var showNoticeBoard = () => {
-    $(".ui.modal").modal("show");
+    $(".ui.notice.modal").modal("show");
   };
   var postNotice = () => {
     if (
@@ -231,7 +231,7 @@
           alert("发布公告成功!");
           $("textarea[name='noticeContent']").val(""); //清空公告内容和联系方式
           $("input[name='noticeTitle']").val("");
-          $(".ui.modal").modal("hide");
+          $(".ui.notice.modal").modal("hide");
           window.location.reload();
         } else {
           alert(data.msg);
