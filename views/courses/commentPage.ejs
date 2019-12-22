@@ -59,8 +59,6 @@
   </div>
   <!-- 课程信息 -->
 
- 
-
   <!--帖子详情-->
   <% var date = new Date(talk[0].time); var time = date.getFullYear()
       + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' +
@@ -93,8 +91,8 @@
                   <div class="five wide column">
                     <span class="date"><i class="clock outline icon"></i><%= time %></span>
                   </div>
-                  <div class="eleven wide column">
-                    <span><i class="comment alternate outline icon">100</i></span>
+                  <div class="five wide column">
+                    <span><i class="fire icon"></i><%= talk[0].likes %></span>
                   </div>
                 </div>
               </div>
@@ -110,6 +108,10 @@
         </div>
       </div>
       <!--帖子内容-->
+      <div class="ui hidden divider"></div>
+      <div class="ui blue labeled submit icon button" onclick="addLikes()">
+        <i class="thumbs outline up icon"></i>点赞
+      </div>
       <div class="ui hidden divider"></div>
       <!--评论详情-->
       <h3 class="ui  header">评论</h3>
@@ -186,6 +188,23 @@
       }
     });
   }
+  var addLikes = () => {
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: location.href + "/addLikes",
+      success: data => {
+        if (data.status) {
+          window.location.reload();
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: err => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  };
 </script>
 
 </html>
