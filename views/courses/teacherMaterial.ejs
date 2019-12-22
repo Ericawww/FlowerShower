@@ -20,14 +20,15 @@
   <div class="ui container">
     <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
       <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">操作系统</h2>
+        <div class="eight wide column">
+          <h2 class="ui header"><%= classHeader.courseName %></h2>
           <div class="description">
-            2019-2020秋冬 计算机科学与技术学院
+            <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+            <p> <%= classHeader.courseDept %></p>
           </div>
           <h5 class="ui header">授课老师</h5>
           <div class="description">
-            夏莹杰
+            <%= classHeader.userName %>
           </div>
         </div>
       </div>
@@ -35,7 +36,7 @@
   </div>
   <!-- 课程信息 -->
 
- <!-- 课程水平菜单 -->
+  <!-- 课程水平菜单 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui six item menu">
       <a class="content">
@@ -89,10 +90,13 @@
           <div class="two wide column" style="text-align: center;"><%= (i+1) %></div>
           <div class="five wide column" style="text-align: center;"><%= materials[i].materialName %></div>
           <div class="three wide column" style="text-align: center;"><%= materials[i].userName %></div>
-          <div class="three wide column" style="text-align: center;"><%= dateFormat(materials[i].uploadTime, 'yyyy-MM-dd hh:mm:ss') %></div>
           <div class="three wide column" style="text-align: center;">
-            <i class="blue download icon"></i><a style="margin-right: 15px;" href="./material/download/<%= materials[i].materialID %>" target="_blank">下载</a>
-            <i class="blue trash alternate icon"></i><a href="javascript:removeMaterial(<%= materials[i].materialID %>)" >删除</a>
+            <%= dateFormat(materials[i].uploadTime, 'yyyy-MM-dd hh:mm:ss') %></div>
+          <div class="three wide column" style="text-align: center;">
+            <i class="blue download icon"></i><a style="margin-right: 15px;"
+              href="./material/download/<%= materials[i].materialID %>" target="_blank">下载</a>
+            <i class="blue trash alternate icon"></i><a
+              href="javascript:removeMaterial(<%= materials[i].materialID %>)">删除</a>
           </div>
         </div>
         <div class="ui divider"></div>

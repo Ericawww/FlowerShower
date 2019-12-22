@@ -301,7 +301,8 @@ exports.getGradeSituation = async (req, res) => {
 exports.getCourseNotice = async (req, res) => {
     var token = req.session.token;
     var noticeList = await Notice.prototype.getCourseNotice(req.params.classID); //用课程号替换掉
-    res.render("courses/noticePage", { noticeList: noticeList, token: token });
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
+    res.render("courses/noticePage", { noticeList: noticeList, token: token, classHeader: classHeader });
 };
 
 /**
@@ -330,7 +331,9 @@ exports.getTalk = async (req, res) => {
     } else {
         talkList = await Talk.prototype.getTalk(req.params.classID);//显示全部帖子
     }
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     res.render("courses/talkBoard", {
+        classHeader: classHeader,
         talkList: talkList,
         token: token,
         choice: choice //设置默认显示我的帖子
@@ -361,7 +364,9 @@ exports.showTalk = async (req, res) => {
     var token = req.session.token;
     var talk = await Talk.prototype.getTalk(req.params.classID, req.session.token.userID, req.params.talkID);
     var comments = await Talk.prototype.getComment(req.params.classID, req.params.talkID);
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     res.render("courses/commentPage", {
+        classHeader: classHeader,
         token: token,
         talk: talk,
         comments: comments
@@ -436,11 +441,15 @@ exports.changeHw = async (req, res) => {
  */
 exports.getTeacherMaterialPage = async (req, res) => {
     var ret = await Class.prototype.getMaterials(req.params.classID, null);
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     if (ret == null) {
         res.send("<script>alert('数据库异常，请稍后再试！');</script>").end();
         return;
     }
-    res.render("courses/teacherMaterial", { materials: ret });
+    res.render("courses/teacherMaterial", {
+        materials: ret,
+        classHeader: classHeader
+    });
 };
 
 /**
@@ -448,11 +457,12 @@ exports.getTeacherMaterialPage = async (req, res) => {
  */
 exports.getStudentMaterialPage = async (req, res) => {
     var ret = await Class.prototype.getMaterials(req.params.classID, null);
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     if (ret == null) {
         res.send("<script>alert('数据库异常，请稍后再试！');</script>").end();
         return;
     }
-    res.render("courses/studentMaterial", { materials: ret });
+    res.render("courses/studentMaterial", { classHeader: classHeader, materials: ret });
 };
 
 /**

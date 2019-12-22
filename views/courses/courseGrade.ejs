@@ -48,14 +48,15 @@
   <div class="ui container">
     <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
       <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="four wide column">
-          <h2 class="ui header">软件工程管理</h2>
+        <div class="eight wide column">
+          <h2 class="ui header"><%= classHeader.courseName %></h2>
           <div class="description">
-            2019-2020秋 计算机科学与技术学院
+            <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+            <p> <%= classHeader.courseDept %></p>
           </div>
           <h5 class="ui header">授课老师</h5>
           <div class="description">
-            邢卫
+            <%= classHeader.userName %>
           </div>
         </div>
       </div>
