@@ -1,8 +1,46 @@
 var pool = require("../mysql/ConnPool");
 
 class Classes {
-
-
+    /**
+     * 查询该userID是否开设courseNumber对应课程，是则返回该class记录，否则返回null
+     * @param {String} userID 
+     * @param {String} courseNumber 
+     */
+    async isClassTeacher(userID, courseNumber){
+        //只返回一条记录【一个教师多个教学班？】
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class where teacherID = ? and courseNumber = ?", [userID,courseNumber]);
+            console.log(userID + " " + courseNumber);
+            console.log(ret[0])
+            if (ret[0].length > 0) return ret[0][0];
+            else return null;
+        } catch (err) {
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+    /**
+     * 查询该userID是否上了该courseNumber对应课程，是则返回该take记录，否则返回null
+     * @param {String} userID 
+     * @param {String} courseNumber 
+     */
+    async isClassStudent(userID, courseNumber){
+        //只返回一条记录
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from take natural join class where studentID = ? and courseNumber= ?", [userID,courseNumber]);
+            console.log(userID+" "+courseNumber);
+            console.log(ret[0])
+            if (ret[0].length > 0) return ret[0][0];
+            else return null;
+        } catch (err) {
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
     /**
      * 
      * @param {string} classID 教学班ID

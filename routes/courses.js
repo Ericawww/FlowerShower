@@ -102,6 +102,7 @@ router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.update
 router.post("/class/:classID/teacher/hw/:hw/rejectComment", classController.rejectComplain);
 router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
 
+router.post("/enterClass",classController.enterClass);
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
 
 module.exports = router;

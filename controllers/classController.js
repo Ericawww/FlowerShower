@@ -9,12 +9,13 @@ var path = require('path');
 
 var gUser;
 
+
 /**
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-     req.session.token = await config.getToken("T0001", "123");
-    // req.session.token = await config.getToken("1111", "123");
+    // req.session.token = await config.getToken("T0001", "123");
+    req.session.token = await config.getToken("1111", "123");
     var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
     if (req.session.token == null || !ret) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
@@ -128,6 +129,24 @@ exports.submitComplain = async (req, res) => {
         res.send({ status: 1 }).end();
     }
 };
+/**
+ * 进入课程，验证身份
+ */
+exports.enterClass = async (req,res)=>{
+    //教师
+    var isTeacher = await Class.prototype.isClassTeacher(req.session.token.userID,req.body.courseNumber);
+    var isStudent = await Class.prototype.isClassStudent(req.session.token.userID,req.body.courseNumber);
+    //成功返回班级编号，status1表示教师，2表示学生，0表示无权限，classID, msg返回错误信息
+    if (isTeacher == null && isStudent == null) {
+        res.send({ status: 0, msg: "您暂无权限进行此操作，仅允许教师和学生进入教学班" }).end();
+    } else if(isTeacher == null) {
+        //学生
+        res.send({ status: 2, classID:isStudent.classID}).end();
+    }else{
+        //教师
+        res.send({ status: 1, classID:isTeacher.classID}).end();
+    }
+}
 
 /**
  * 提交作业 TODO：文件上传

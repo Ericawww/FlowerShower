@@ -51,7 +51,7 @@
         <p>课程代码：<%= courseInfo.courseName %></p>
         <p>开课学院：<%= courseInfo.courseDept %></p>
         <p>预修要求: <%= courseInfo.prerequisite %></p>
-        <button class="positive big ui button">进入课程</button>
+        <button class="positive big ui button" onclick="enterClass('<%= courseInfo.courseNumber %>')">进入课程</button>
       </div>
       <div class="three wide column">
         <p></p>
@@ -147,6 +147,36 @@
 <script src="/javascripts/header.js"></script>
 <script>
   $(".tabular.menu .item").tab();
+</script>
+<script>
+  var courseNumber;
+  var enterClass = (x) => {
+    courseNumber=x
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "enterClass",
+      data: {
+        courseNumber:courseNumber
+      },
+      success: (data) => {
+        //教师
+        if (data.status==1) {
+          window.location.href = "/courses/class/"+data.classID+"/teacher/notice"
+        //学生
+        } else if(data.status==2){
+          window.location.href = "/courses/class/"+data.classID+"/student/notice"
+        //无权限
+        } else{
+          alert(data.msg);
+        }
+      },
+      //验证失败
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  }
 </script>
 
 </html>
