@@ -208,8 +208,8 @@
       <p>确定要删除选中的这个作业吗？</p>
     </div>
     <div class="actions">
-      <div class="ui cancel button">取消</div>
       <div class="ui approve red button" onclick="confirmDelete()">确定</div>
+      <div class="ui cancel button">取消</div>
     </div>
   </div>
   <!--教师删除作业确认模态框-->
@@ -223,7 +223,7 @@
 <script>
   var classProjectID;
   var showConfirmDeleteModal = (x) => {
-    $('.ui.modal').modal('show');
+    $('.ui.modal.delete').modal('show');
     classProjectID=x;
   };
   var confirmDelete = () => {

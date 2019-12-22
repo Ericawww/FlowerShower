@@ -181,7 +181,7 @@
     <!-- 占位 -->
 
     <!-- 模态框 -->
-    <div class="ui modal">
+    <div class="ui modal mark">
       <i class="close icon"></i>
       <div class="header">批改作业</div>
       <div class="content">
@@ -205,8 +205,8 @@
         </div>
       </div>
       <div class="actions">
-        <div class="ui red deny button">取消</div>
         <div class="ui positive button" onclick="assignMark()">提交</div>
+        <div class="ui red deny button">取消</div>
       </div>
     </div>
     <!-- 模态框 -->
@@ -218,7 +218,7 @@
 <script>
   var stuID,fullMark;
   var showMarkModal = (x,y) => {
-    $(".ui.modal").modal("show");
+    $(".ui.modal.mark").modal("show");
     stuID = x;
     fullMark = y;
   };
@@ -249,7 +249,7 @@
           alert("批改成功!");
           $("textarea[name='comment']").val(""); 
           $("input[name='mark']").val("");
-          $(".ui.modal").modal("hide");
+          $(".ui.modal.mark").modal("hide");
         } else {
           alert(data.msg);
         }
