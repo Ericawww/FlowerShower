@@ -226,8 +226,8 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui red deny button">取消</div>
       <div class="ui positive button" onclick="postTalk()">发表</div>
+      <div class="ui red deny button">取消</div>
     </div>
   </div>
   <!-- 发布帖子模态框 -->
@@ -276,7 +276,7 @@
           alert("发表帖子成功!");
           $("textarea[name='talkContent']").val(""); //清空帖子内容和联系方式
           $("input[name='talkTitle']").val("");
-          $(".ui.modal").modal("hide");
+          $(".ui.talk.modal").modal("hide");
           window.location.reload();
         } else {
           alert(data.msg);
