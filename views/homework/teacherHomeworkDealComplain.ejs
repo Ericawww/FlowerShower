@@ -138,15 +138,15 @@
   <!-- 作业详情 -->
 
   <!--修改成绩模态框-->
-  <div class="ui modal">
+  <div class="ui modal update">
     <div class="header">修改成绩</div>
     <div class="content">
       <p>您想要将该学生的成绩修改为：</p>
       <input type="text" name="score" placeholder="输入修改后的成绩"></input>
     </div>
     <div class="actions">
-      <div class="ui cancel button" onclick="hideUpdateScoreModal()">取消</div>
       <div class="ui positive button" onclick="updateScore()">确定</div>
+      <div class="ui cancel button" onclick="hideUpdateScoreModal()">取消</div>
     </div>
   </div>
   <!--修改成绩模态框-->
@@ -164,7 +164,7 @@
 <script>
   var stuID, classID, fullMark,score;
   var showUpdateScoreModal = (paramData) => {
-    $('.ui.modal').modal('show');
+    $('.ui.modal.update').modal('show');
     stuID = paramData.x;
     classID = paramData.y;
     fullMark = paramData.z;
@@ -202,7 +202,7 @@
     });
   };
   var hideUpdateScoreModal = (x, y, z) => {
-    $('.ui.modal').modal('hide');
+    $('.ui.modal.update').modal('hide');
   };
   var rejectComment =(paramData) =>{
     stuID = paramData.x;
