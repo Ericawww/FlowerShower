@@ -1,5 +1,6 @@
 var Course = require("../models/class/Course");
 var Talk = require("../models/class/Talk");
+var Class = require("../models/class/Classes");
 
 /**
  * 返回所有课程
@@ -45,6 +46,7 @@ exports.getCourseInfo = async (req, res) => {
 exports.getGrade = async (req, res) => {
     var getClassID = req.params.classID;
     var ret = await Course.prototype.getCourseGrade(getClassID);
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     if (ret == null) {
         console.log("数据库异常！");
         res.end();
@@ -82,6 +84,7 @@ exports.getGrade = async (req, res) => {
         avgTestGrade = (avgTestGrade / totalNumber).toFixed(2);
         avgHomeworkGrade = (avgHomeworkGrade / totalNumber).toFixed(2);
         res.render('courses/courseGrade', {
+            classHeader: classHeader,
             data: ret,
             studentTotalGrade: totalStudentGrade,
             avgUsualGrade: avgUsualGrade,

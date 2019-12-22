@@ -27,14 +27,18 @@
         <div class="ui vertical menu">
           <div class="ui raised link card">
             <div class="image">
+              <% if (token.userPhoto == null) { %>
               <img src="/images/avatar200x200.png" />
+              <% } else { %>
+              <img src="/<%= token.userPhoto %>" onerror="this.src='/images/avatar200x200.png'" />
+              <% } %>
             </div>
             <div class="content">
-              <a class="header">刑卫</a>
+              <a class="header"><%= token.userName %></a>
               <div class="description">教师</div>
             </div>
           </div>
-          <a class="item" id="homePage">
+          <a class="item" id="homePage" onclick="window.location.href='/'">
             <i class="home icon"></i>
             首页
           </a>
@@ -59,15 +63,18 @@
             <div class="four wide column" style="text-align: center;"><b>学分</b></div>
           </div>
           <div class="ui divider"></div>
+          <% for(var i=0;i<courseList.length;i++) { %>
           <div class="ui grid">
             <div class="four wide column courseEnter"
               style="cursor:pointer;text-align: center;font-size: 15px;font-weight: bold; color: #12a182">
-              <a>区块链与数字货币</a></div>
-            <div class="four wide column" style="text-align: center;">21191910</div>
-            <div class="four wide column" style="text-align: center;">计算机科学与技术学院</div>
-            <div class="four wide column" style="text-align: center;">2.5</div>
-            <div class="class_id_info" style="display:none;"></div>
+              <a><%= courseList[i][0].courseName %></a></div>
+            <div class="four wide column" style="text-align: center;"><%= courseList[i][0].courseNumber %></div>
+            <div class="four wide column" style="text-align: center;"><%= courseList[i][0].courseDept %></div>
+            <div class="four wide column" style="text-align: center;"><%= courseList[i][0].credit %></div>
+            <div class="class_id_info" style="display:none;"><%= myCourse[i].classID %></div>
           </div>
+          <% } %>
+
           <div class="ui divider"></div>
           <div class="ui grid" style="margin-bottom: 10px;">
           </div>
@@ -95,13 +102,13 @@
     });
 
     $('#myClass').click(function () {
-      window.location.href = './';
+      window.location.href = './users';
     });
 
     $('.courseEnter').click(function () {
       var enterLocation = "/courses/class/";
       var classID = $(this).siblings('.class_id_info').text();
-      enterLocation += classID + "/notice";
+      enterLocation += classID + "/teacher/main";
       window.location.href = enterLocation;
     })
   </script>

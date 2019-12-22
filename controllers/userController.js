@@ -309,27 +309,41 @@ exports.updateUserPwd = async (req, res) => {
 exports.userIndex = async (req, res) => {
     var token = req.session.token;
     var studentID = token.userID;
+    var teacherID = token.userID;
     var courseList = new Array();
     var courseNoticeList = new Array();
     var classProjectList = new Array();
     var ret = await User.prototype.getCourseNumber(studentID);
-    for (var i = 0; i < ret.length; i++) {
-        courseList[i] = await User.prototype.getCourseInfo(ret[i].courseNumber);
-        courseNoticeList[i] = await User.prototype.getCourseNotice(ret[i].courseNumber);
-        classProjectList[i] = await User.prototype.getClassProject(ret[i].classID);
+    if (token.userType == 0) {
+        for (let i = 0; i < ret.length; i++) {
+            courseList[i] = await User.prototype.getCourseInfo(ret[i].courseNumber);
+            courseNoticeList[i] = await User.prototype.getCourseNotice(ret[i].courseNumber);
+            classProjectList[i] = await User.prototype.getClassProject(ret[i].classID);
+        }
+        req.session.course = {
+            courseNoticeList: courseNoticeList,
+            classProjectList: classProjectList,
+            courseList: courseList
+        };
+        res.render("users/userPage", {
+            token: token,
+            courseList: courseList,
+            classIDInfo: ret,
+            courseNoticeList: courseNoticeList,
+            classProjectList: classProjectList
+        });
+    } else if (token.userType == 1) {
+        var myCourse = await User.prototype.getMyCourseNumber(teacherID);
+        for (let i = 0; i < myCourse.length; i++) {
+            courseList[i] = await User.prototype.getCourseInfo(myCourse[i].courseNumber);
+        }
+        res.render("users/teacherPage", {
+            token: token,
+            courseList: courseList,
+            myCourse: myCourse
+        });
     }
-    req.session.course = {
-        courseNoticeList: courseNoticeList,
-        classProjectList: classProjectList,
-        courseList: courseList
-    };
-    res.render("users/userPage", {
-        token: token,
-        courseList: courseList,
-        classIDInfo: ret,
-        courseNoticeList: courseNoticeList,
-        classProjectList: classProjectList
-    });
+
 };
 
 /**
@@ -360,8 +374,8 @@ exports.getGrade = async (req, res) => {
         gradeWeightList[i] = gradeWeight[0];
         projectGradeList[i] = await User.prototype.getProjectGrade(studentID, firstPartResult[i].classID);
         totalGrade[i] = parseFloat(firstPartResult[i].usualGrade) * parseFloat(gradeWeight[0].usualWeight) / 100
-			+ parseFloat(firstPartResult[i].examGrade) * parseFloat(gradeWeight[0].examWeight) / 100
-			+ parseFloat(projectGradeList[i]) * parseFloat(gradeWeight[0].projectWeight) / 100;
+            + parseFloat(firstPartResult[i].examGrade) * parseFloat(gradeWeight[0].examWeight) / 100
+            + parseFloat(projectGradeList[i]) * parseFloat(gradeWeight[0].projectWeight) / 100;
         totalGrade[i] = (totalGrade[i]).toFixed(2);
         if (totalGrade[i] > maxGrade) {
             maxGrade = totalGrade[i];

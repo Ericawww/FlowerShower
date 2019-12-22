@@ -351,6 +351,19 @@ class User {
             conn.release();
         }
     }
+
+    async getMyCourseNumber(userID){
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select classID,courseNumber from class where teacherID = ?", [userID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
 }
 
 module.exports = User;
