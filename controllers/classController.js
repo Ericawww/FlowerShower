@@ -3,6 +3,7 @@ var config = require("../models/statics/config");
 var Homework = require("../models/class/Homework");
 var Talk = require("../models/class/Talk");
 var Notice = require("../models/class/Notice");
+var Assistant = require("../models/class/Assistant");
 var fileHelper = require('../models/method/fileHelper');
 var utils = require('../models/method/utils');
 var path = require('path');
@@ -13,7 +14,7 @@ var gUser;
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-     req.session.token = await config.getToken("T0001", "123");
+    req.session.token = await config.getToken("T0001", "123");
     // req.session.token = await config.getToken("1111", "123");
     var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
     if (req.session.token == null || !ret) {
@@ -534,5 +535,63 @@ exports.downloadClassMaterial = async (req, res) => {
         res.send({ status: 0, msg: '您暂无权限访问' }).end();
     } else {
         res.sendFile(path.join(__dirname, '../', ret.filePath));
+    }
+};
+
+
+/**
+ * 助教管理界面
+ */
+exports.getAssistantManagerPage = async (req, res) => {
+    console.log(req.params.classID);
+    res.render('users/manageTaPrivilege');
+};
+
+
+/**
+ * 获取助教信息
+ */
+exports.getAssistants = async (req, res) => {
+    var ret = await Assistant.prototype.getAssistants(req.params.classID);
+    if (ret == null) {
+        res.send({ status: 0, msg: '数据库异常,请稍后再试' }).end();
+    } else {
+        res.send({ status: 1, assistants: ret }).end();
+    }
+};
+
+/**
+ * 添加助教
+ */
+exports.insertAssistant = async (req, res) => {
+    var ret = await Assistant.prototype.insertAssistant(req.params.classID, req.body.userID, Assistant.prototype.parsePrivilege(req.body.privilege));
+    if (ret != null) {
+        res.send({ status: 0, msg: ret }).end();
+    } else {
+        res.send({ status: 1, assistants: ret }).end();
+    }
+};
+
+/**
+ * 删除助教
+ */
+exports.deleteAssistant = async (req, res) => {
+    var ret = await Assistant.prototype.deleteAssistant(req.params.classID, req.body.userID);
+    if (ret != null) {
+        res.send({ status: 0, msg: ret }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
+};
+
+/**
+ * 修改助教权限
+ */
+exports.updateAssistant = async (req, res) => {
+    var ret = await Assistant.prototype.updateAssistantPrivilege(req.params.classID, req.body.userID, Assistant.prototype.parsePrivilege(req.body.privilege));
+    if (ret != null) {
+        res.send({ status: 0, msg: ret }).end();
+    } else {
+        res.send({ status: 1 }).end();
     }
 };
