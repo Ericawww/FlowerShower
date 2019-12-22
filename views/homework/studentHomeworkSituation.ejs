@@ -216,7 +216,7 @@
   <!-- 占位 -->
 
   <!-- 申诉模态框-->
-  <div class="ui modal">
+  <div class="ui modal Complain">
     <i class="close icon"></i>
     <div class="header">申诉作业成绩</div>
     <div class="content">
@@ -227,8 +227,8 @@
       </div>
     </div>
     <div class="actions">
-      <div class="ui red deny button" onclick="hideComplainModal()">取消</div>
       <div class="ui positive button" onclick="postComplainMsg()">提交</div>
+      <div class="ui red deny button" onclick="hideComplainModal()">取消</div>
     </div>
   </div>
   <!--申诉模态框 -->
@@ -240,7 +240,7 @@
 <script src="/javascripts/header.js"></script>
 <script>
   var showComplainModal = () => {
-    $('.ui.modal').modal('show');
+    $('.ui.modal.Complain').modal('show');
   };
   var postComplainMsg = () => {
     if ($("textarea[name='complainMsg']").val().replace(' ', '') == "") {
@@ -268,7 +268,7 @@
     });
   };
   var hideComplainModal = () => {
-    $('.ui.modal').modal('hide');
+    $('.ui.modal.Complain').modal('hide');
   };
 </script>
 

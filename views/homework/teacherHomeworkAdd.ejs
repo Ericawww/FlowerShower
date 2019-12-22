@@ -99,9 +99,8 @@
                   <div class="field">
                     <label><b style="font-size: large;">作业开始时间</b></label>
                     <input
-                      type="text"
+                      type="datetime-local"
                       name="startTime"
-                      placeholder="请输入作业开始时间（如：2019-12-3 21:00）"
                     />
                   </div>
                 </div>
@@ -109,36 +108,8 @@
                   <div class="field">
                     <label><b style="font-size: large;">作业截止时间</b></label>
                     <input
-                      type="text"
+                      type="datetime-local"
                       name="closeTime"
-                      placeholder="请输入作业截止时间（如：2019-12-13 21:00）"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="ui four column grid">
-              <div class="row">
-                <div class="column">
-                  <div class="field">
-                    <label><b style="font-size: large;">占成绩比例</b></label>
-                    <input
-                      type="text"
-                      name="weight"
-                      placeholder="请输入占成绩的百分比"
-                      style="width:min-content;"
-                    />
-                  </div>
-                </div>
-                <div class="column"></div>
-                <div class="column">
-                  <div class="field">
-                    <label><b style="font-size: large;">作业满分</b></label>
-                    <input
-                      type="text"
-                      name="fullMark"
-                      placeholder="请输入作业的满分"
-                      style="width:min-content;"
                     />
                   </div>
                 </div>
@@ -159,11 +130,12 @@
                 <div class="column"></div>
                 <div class="column">
                   <div class="field">
-                    <label><b style="font-size: large;">完成指标</b></label>
+                    <label><b style="font-size: large;">作业满分</b></label>
                     <input
                       type="text"
-                      name="achieveGoal"
-                      placeholder="请输入完成指标（如：提交作业）"
+                      name="fullMark"
+                      placeholder="请输入作业的满分"
+                      style="width:min-content;"
                     />
                   </div>
                 </div>
@@ -192,13 +164,13 @@
           </form>
           <div style="height:25px;"></div>
           <div class="actions">
+            <div class="ui positive button" onclick="postHw()">添加</div>
             <div
               class="ui red deny button"
               onclick="javascript:window.location.href='./'"
             >
               取消
             </div>
-            <div class="ui positive button" onclick="postHw()">添加</div>
           </div>
         </div>
       </div>
@@ -248,14 +220,6 @@
         return;
       }
       if (
-        $("input[name='achieveGoal']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("完成指标不能为空！");
-        return;
-      }
-      if (
         $("textarea[name='description']")
           .val()
           .replace(" ", "") == ""
@@ -272,7 +236,6 @@
           startTime: $("input[name='startTime']").val(),
           closeTime: $("input[name='closeTime']").val(),
           fullMark: $("input[name='fullMark']").val(),
-          achieveGoal: $("input[name='achieveGoal']").val(),
           isGroupWork: $("select[name = 'isGroupWork']").val(),
           description: $("textarea[name='description']").val()
         },
@@ -284,7 +247,6 @@
             // $("input[name='startTime']").val("");
             // $("input[name='closeTime']").val("");
             // $("input[name='fullMark']").val("");
-            // $("input[name='achieveGoal']").val("");
             window.location.href = "./all";
           } else {
             alert(data.msg);

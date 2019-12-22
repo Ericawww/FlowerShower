@@ -1,5 +1,5 @@
 $("#pic").click(() => {
-    $('.ui.modal').modal('show');
+    $('.ui.modal.uploadPhoto').modal('show');
 });
 $("#userImage").cropper({
     aspectRatio: 1 / 1,
