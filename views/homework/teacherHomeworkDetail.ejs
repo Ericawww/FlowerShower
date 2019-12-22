@@ -42,95 +42,91 @@
 <body>
   <!-- 课程信息 -->
   <div class="ui container">
-        <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-          <div class="ui stackable inverted divided equal height stackable grid">
-            <div class="eight wide column">
-              <h2 class="ui header"><%= classHeader.courseName %></h2>
-              <div class="description">
-                <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
-                <p> <%= classHeader.courseDept %></p>
-              </div>
-              <h5 class="ui header">授课老师</h5>
-              <div class="description">
-                <%= classHeader.userName %>
-              </div>
+    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="eight wide column">
+          <h2 class="ui header"><%= classHeader.courseName %></h2>
+          <div class="description">
+            <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+            <p> <%= classHeader.courseDept %></p>
+          </div>
+          <h5 class="ui header">授课老师</h5>
+          <div class="description">
+            <%= classHeader.userName %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 课程信息 -->
+
+  <!-- 作业详情 -->
+  <div class="ui container" style="margin-top:10px;">
+    <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+      <div class="ui basic segment">
+        <button class="ui labeled icon button" onclick="javascript:window.location.href='../all'">
+          <i class="chevron left icon"></i>返回
+        </button>
+      </div>
+      <div class="ui basic segment">
+        <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
+      </div>
+
+      <div class="ui basic segment">
+        <div class="ui tabular menu">
+          <a class="item active">作业详情</a>
+          <a class="item" href="./submit">作业上交情况</a>
+          <a class="item" href="./grade">作业成绩情况</a>
+          <a class="item" href="./complain">处理成绩申诉</a>
+        </div>
+      </div>
+      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
+        <div class="ui six column grid">
+          <div class="column">
+            <div class="homework begintime description" style="line-height: 30px;"><b>作业开始时间</b></div>
+            <div class="homework type description" style="line-height: 30px;"><b>作业形式</b></div>
+          </div>
+          <div class="column">
+            <div class="homework begintime" style="line-height: 30px;"><%= dateFormat(hwInfo.startTime) %></div>
+            <div class="homework type" style="line-height: 30px;"><% if(hwInfo.isGroupWork==0) { %>个人作业
+              <% } else { %> 小组作业
+              <% } %>
+            </div>
+          </div>
+          <div class="column"></div>
+          <div class="column">
+            <div class="homework endtime description" style="line-height: 30px;"><b>作业截止时间</b></div>
+            <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
+          </div>
+          <div class="column">
+            <div class="homework endtime" style="line-height: 30px;"><%= dateFormat(hwInfo.closeTime) %></div>
+            <div class="homework fullmark" style="line-height: 30px;"><%= hwInfo.fullMark %></div>
+          </div>
+        </div>
+      </div>
+      <div class="ui basic segment"></div>
+      <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
+        <div class="ui basic segment">
+          <b style="font-size: large;">评分方式</b>（教师评阅100％）
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui basic segment">
+          <div class="ui bulleted list">
+            <div class="item">
+              <b style="font-size:larger;">教师评阅</b>
+              <p style="line-height: 40px;"><b style="margin-left:20px;margin-right: 100px;">占成绩比例</b> 100%</p>
             </div>
           </div>
         </div>
       </div>
-      <!-- 课程信息 -->
-
-  <!-- 作业详情 -->
-  <div class="ui container" style="margin-top:10px;">
-      <div class="ui segments" style="background-color:rgb(255, 255, 255);">
-          <div class="ui basic segment">
-              <button class="ui labeled icon button" onclick="javascript:window.location.href='../all'">
-                   <i class="chevron left icon"></i>返回
-              </button>
-          </div>
-          <div class="ui basic segment">
-              <b class="homework name" style="font-size:xx-large;"><%= hwInfo.projectName %></b>
-          </div>
-          
-          <div class="ui basic segment">
-              <div class="ui tabular menu">
-                  <a class="item active">作业详情</a>
-                  <a class="item" href="./submit">作业上交情况</a>
-                  <a class="item" href="./grade">作业成绩情况</a>
-                  <a class="item" href="./complain">处理成绩申诉</a>
-              </div>
-          </div>
-          <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-              <div class="ui six column grid">       
-                  <div class="column">
-                      <div class="homework begintime description" style="line-height: 30px;"><b>作业开始时间</b></div>
-                      <div class="homework type description" style="line-height: 30px;"><b>作业形式</b></div>
-                      <div class="homework weight description" style="line-height: 30px;"><b>占成绩比例</b></div>
-                  </div>  
-                  <div class="column">
-                      <div class="homework begintime" style="line-height: 30px;"><%= dateFormat(hwInfo.startTime) %></div>
-                      <div class="homework type" style="line-height: 30px;"><% if(hwInfo.isGroupWork==0) { %>个人作业
-                                <% } else { %> 小组作业
-                              <% } %>
-                      </div>
-                      <div class="homework weight" style="line-height: 30px;">5.0%</div>
-                  </div>
-                  <div class="column"></div>
-                  <div class="column">   
-                      <div class="homework fullmark description" style="line-height: 30px;"><b>作业满分</b></div>
-                      <div class="homework endtime description" style="line-height: 30px;"><b>作业截止时间</b></div>
-                      <div class="homework goal description" style="line-height: 30px;"><b>完成指标</b></div>
-                  </div>
-                  <div class="column">
-                      <div class="homework fullmark" style="line-height: 30px;"><%= hwInfo.mark %></div>
-                      <div class="homework endtime" style="line-height: 30px;"><%= dateFormat(hwInfo.closeTime) %></div>
-                      <div class="homework goal" style="line-height: 30px;">提交作业</div>
-                  </div>
-              </div>
-          </div>
-          <div class="ui basic segment"></div>
-          <div class="ui basic segment" style="background-color: rgb(220,220,220);margin-left: 1%;margin-right: 1%;">
-              <div class="ui basic segment">
-                  <b style="font-size: large;">评分方式</b>（教师评阅100％）
-              </div>
-              <div class="ui divider"></div>
-              <div class="ui basic segment">
-                  <div class="ui bulleted list">
-                      <div class="item">
-                          <b style="font-size:larger;">教师评阅</b>
-                          <p style="line-height: 40px;"><b style="margin-left:20px;margin-right: 100px;">占成绩比例</b> 100%</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="ui divider"></div>
-          <div class="ui basic segment">
-              <p style="margin-left: 15px;"><%= hwInfo.description %></p>
-          </div>
-        </div>
+      <div class="ui divider"></div>
+      <div class="ui basic segment">
+        <p style="margin-left: 15px;"><%= hwInfo.description %></p>
+      </div>
     </div>
-    <!-- 作业详情 -->
- 
+  </div>
+  <!-- 作业详情 -->
+
 
   <!-- 占位 -->
   <div style="height:20px;"></div>
