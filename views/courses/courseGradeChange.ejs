@@ -138,7 +138,7 @@
         </table>
       </div>
 
-      <div class="ui basic modal">
+      <div class="ui basic modal" id="changeGradeModal">
         <div class="ui icon header">
           <i class="archive icon"></i>
           修改成绩构成算法(%)
@@ -386,7 +386,7 @@
     })
 
     $('#changeAlgorithm').click(function () {
-      $('.ui.modal')
+      $('#changeGradeModal')
         .modal('show')
         ;
     })
