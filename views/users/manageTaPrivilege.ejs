@@ -16,25 +16,6 @@
     .footer.segment {
       padding: 5em 0em;
     }
-
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
-
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
-
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
-    }
   </style>
 </head>
 
@@ -60,17 +41,13 @@
                 <div class="description">教师</div>
               </div>
             </div>
-            <a class="item" id="homePage">
+            <a class="item" href="/">
               <i class="home icon"></i>
               首页
             </a>
-            <a class="item" id="myClass">
+            <a class="item" href="/users">
               <i class="file outline icon"></i>
               我的课程
-            </a>
-            <a class="item" id="taPrivilege">
-              <i class="list alternate outline icon"></i>
-              助教权限管理
             </a>
           </div>
         </div>
@@ -78,15 +55,11 @@
         <!-- 动态 -->
         <div class="twelve wide column">
           <div class="ui segments" style="background-color: rgb(255, 255, 255);">
-            <div class="ui basic segment">
+            <div class="ui basic segment" style="padding-bottom: 0;">
               <h3 style="margin-left: 5px;">助教管理</h3>
               <div class="ui divider"></div>
-              <button class="ui right floated small primary labeled icon button">
-                <i class="add icon"></i> 添加助教
-              </button>
             </div>
-            <div class="ui basic segment"></div>
-            <div class="ui basic segment" style="background-color:rgb(255, 255, 255);">
+            <div class="ui basic segment" style="background-color:rgb(255, 255, 255); padding-top: 0;">
               <table class="ui compact celled definition table">
                 <thead class="full-width">
                   <tr>
@@ -97,20 +70,19 @@
                     <th style="text-align: center;">删除助教</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td style="text-align: center;">AS-00001</td>
-                    <td style="text-align: center;">方陶然</td>
-                    <td style="text-align: center;">上传资料 作业管理 班级成绩管理 课程通知管理</td>
-                    <td style="text-align: center;"><i class="edit icon"></i></td>
-                    <td style="text-align: center;"><i class="trash alternate outline icon"></i></td>
-                  </tr>
+                <tbody id="ass-tb-body">
+                  
                 </tbody>
                 <tfoot class="full-width">
+                  <tr>
+                    <th colspan="5">
+                      <div class="ui right floated small primary labeled icon button" onclick="showTAModal()">
+                        <i class="user icon"></i> 添加助教
+                      </div>
+                    </th>
+                  </tr>
                 </tfoot>
               </table>
-            </div>
-            <div class="ui grid" style="margin-bottom: 20px;">
             </div>
           </div>
         </div>
@@ -122,135 +94,11 @@
     <div class="template-footer"></div>
     <!-- 页脚 -->
 
-    <!--添加助教模态框-->
-    <div class="ui modal addTA">
-      <i class="close icon"></i>
-      <div class="header">添加助教</div>
-      <div class="content">
-        <div class="ui form">
-          <b style="margin-right: 15px;">请输入助教ID</b>
-          <div class="ui input">
-            <input type="text" placeholder="输入助教ID">
-          </div>
-          <table class="ui compact celled definition table">
-            <thead class="full-width">
-              <tr>
-                <th style="width: 200px;text-align: center;">选择权限</th>
-                <th style="text-align: center;">权限名称</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">上传资料</td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">作业管理</td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">班级成绩管理</td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">课程通知管理</td>
-              </tr>
-            </tbody>
-            <tfoot class="full-width">
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      <div class="actions">
-        <div class="ui positive button">添加</div>
-        <div class="ui red deny button">取消</div>
-      </div>
-    </div>
-    <!--添加助教模态框-->
+    <!--助教模态框-->
+    <div class="ui modal" id="add-TA-modal">
 
-    <!--修改助教权限模态框-->
-    <div class="ui modal updateTAprivilege">
-      <i class="close icon"></i>
-      <div class="header">修改助教权限</div>
-      <div class="content">
-        <div class="ui form">
-          <table class="ui compact celled definition table">
-            <thead class="full-width">
-              <tr>
-                <th style="width: 200px;text-align: center;">选择权限</th>
-                <th style="text-align: center;">权限名称</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">上传资料</td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">作业管理</td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">班级成绩管理</td>
-              </tr>
-              <tr>
-                <td class="collapsing">
-                  <div class="ui checkbox" style="margin-left: 80px;">
-                    <input type="checkbox" name="privilege setup">
-                    <label></label>
-                  </div>
-                </td>
-                <td style="text-align: center;">课程通知管理</td>
-              </tr>
-            </tbody>
-            <tfoot class="full-width">
-            </tfoot>
-          </table>
-        </div>
-      </div>
-      <div class="actions">
-        <div class="ui positive button">提交</div>
-        <div class="ui red deny button">取消</div>
-      </div>
     </div>
-    <!--修改助教权限模态框-->
+    <!--助教模态框-->
 
   </div>
 
@@ -258,30 +106,8 @@
   <script src="/javascripts/common.js"></script>
   <script src="/dist/semantic.min.js"></script>
   <script src="/javascripts/header.js"></script>
-  <script>
-    $('#taPrivilege').click(function () {
-      window.location.href = './manageTaPrivilege';
-    });
+  <script src="/javascripts/courses/assistantManage.js"></script>
 
-    $('#homePage').click(function () {
-      window.location.href = '/';
-    });
-
-    $('#myClass').click(function () {
-      window.location.href = './';
-    });
-
-    $('.courseEnter').click(function () {
-      var enterLocation = "/courses/class/";
-      var classID = $(this).siblings('.class_id_info').text();
-      enterLocation += classID + "/notice";
-      window.location.href = enterLocation;
-    })
-
-    var showModal = () => {
-      $('.ui.modal').modal('show');
-    }
-  </script>
 
 </body>
 

@@ -103,7 +103,17 @@ router.post("/class/:classID/teacher/hw/:hw/updateScore", classController.update
 router.post("/class/:classID/teacher/hw/:hw/rejectComment", classController.rejectComplain);
 router.post("/class/:classID/teacher/hw/:hw/deleteHw", classController.deleteHw);
 
-router.post("/enterClass",classController.enterClass);
+/**
+ * 课程助教管理
+ */
+router.get("/class/:classID/teacher/assistant", classController.getAssistantManagerPage);
+router.get("/class/:classID/teacher/assistant/get", classController.getAssistants);
+router.post("/class/:classID/teacher/assistant/insert", classController.insertAssistant);
+router.post("/class/:classID/teacher/assistant/delete", classController.deleteAssistant);
+router.post("/class/:classID/teacher/assistant/update", classController.updateAssistant);
+
+
+
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
 
 module.exports = router;
