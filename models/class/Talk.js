@@ -35,24 +35,29 @@ class Talk {
             var conn = await pool.getConnection();
             var ret;
             if (userID == undefined && talkID == undefined) {
+                //全部帖子
+                var sql = "select talkID, userName, title, likes, content, time \
+                from talk left join user on talk.userID = user.userID \
+        where courseID = ? order by likes";
+                console.log(sql);
                 ret = await conn.query(
-                    "select talkID, userName, title, content, time \
-            from talk left join user on talk.userID = user.userID \
-            where courseID = ? ",
+                    sql,
                     courseID
                 );
             } else if (talkID == undefined) {
+                //我的帖子
                 ret = await conn.query(
-                    "select talkID, userName, title, content, time \
-              from talk left join user on talk.userID = user.userID \
-              where courseID = ? and talk.userID = ?",
+                    "select talkID, userName, title, content, time, likes \
+                    from talk left join user on talk.userID = user.userID \
+                    where courseID = ? and talk.userID = ? order by likes",
                     [courseID, userID]
                 );
             } else {
+                //具体的帖子
                 ret = await conn.query(
-                    "select talkID, userName, title, content, time \
+                    "select talkID, userName, title, content, time, likes \
             from talk left join user on talk.userID = user.userID \
-            where talk.talkID = ?",
+            where talk.talkID = ? order by likes",
                     talkID
                 );
             }
@@ -111,6 +116,25 @@ class Talk {
             conn.release();
         }
     }
-    
+
+    /**
+     * 点赞
+     * @param {String} talkID 帖子ID
+     */
+    async addLikes(talkID) {
+        try {
+            var conn = await pool.getConnection();
+            await conn.query(
+                "update talk set likes = likes + 1 where talkID = ?",
+                talkID
+            );
+            return 1;
+        } catch (err) {
+            console.log(err);
+            return 0;
+        } finally {
+            conn.release();
+        }
+    }
 }
 module.exports = Talk;

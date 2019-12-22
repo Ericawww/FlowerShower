@@ -13,7 +13,7 @@ var gUser;
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-     req.session.token = await config.getToken("T0001", "123");
+    //req.session.token = await config.getToken("T0001", "123");
     // req.session.token = await config.getToken("1111", "123");
     var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
     if (req.session.token == null || !ret) {
@@ -368,7 +368,19 @@ exports.showTalk = async (req, res) => {
     });
 };
 
-
+/**
+ * 点赞
+ */
+exports.addLikes = async (req, res) => {
+    var ret = await Talk.prototype.addLikes(
+        req.params.talkID
+    );
+    if (ret) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+    }
+}
 
 exports.addComment = async (req, res) => {
     var ret = await Talk.prototype.addComment(req.params.classID, req.params.talkID, req.session.token.userID, req.body.content);
