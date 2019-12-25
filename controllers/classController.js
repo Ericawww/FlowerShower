@@ -15,8 +15,9 @@ var gUser;
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-    // req.session.token = await config.getToken("T0001", "123");
-    req.session.token = await config.getToken("1111", "123");
+    //req.session.token = await config.getToken("T0001", "123");
+   // req.session.token = await config.getToken("0001", "123");
+   console.log(req.session.token);
     var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
     if (req.session.token == null || !ret) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();

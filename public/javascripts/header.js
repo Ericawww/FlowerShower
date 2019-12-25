@@ -69,7 +69,7 @@ var setNavBar = (token) => {
             <div class="item">
                 <div class="ui action left icon input">
                 <i class="search icon"></i>
-                <input type="text" placeholder="搜索感兴趣的课程" name="interestCourse" />
+                <input type="text" placeholder="搜索感兴趣的课程" name="searchCourse" />
                 <button class="ui positive button" onclick="searchCourse()">搜索</button>
                 </div>
             </div>

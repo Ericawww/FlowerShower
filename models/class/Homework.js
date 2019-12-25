@@ -82,7 +82,7 @@ class Homework {
             } else {
                 ret = await conn.query("select * from class_project where classID = ?", [classID]);
             }
-            //console.log(ret[0]);
+            console.log(ret[0]);
             if (ret[0].length == 0) return null;
             else return ret[0];
         } catch (err) {

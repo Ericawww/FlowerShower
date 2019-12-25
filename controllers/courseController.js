@@ -14,6 +14,7 @@ exports.getAllCourse = async (req, res) => {
  * 返回按课程名匹配到的课程信息
  */
 exports.getCourseByName = async (req, res) => {
+    console.log(req.query.courseName)
     var courseList = await Course.prototype.getCourses({
         courseName: req.query.courseName
     });
