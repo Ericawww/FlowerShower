@@ -113,7 +113,7 @@ router.post("/class/:classID/teacher/assistant/delete", classController.deleteAs
 router.post("/class/:classID/teacher/assistant/update", classController.updateAssistant);
 
 
-
+router.post("/enterClass",classController.enterClass);
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
 
 module.exports = router;
