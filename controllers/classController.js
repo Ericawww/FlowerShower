@@ -14,7 +14,7 @@ var path = require('path');
  */
 exports.checkClassMember = async (req, res, next) => {
     // req.session.token = await config.getToken("T0001", "123");
-    req.session.token = await config.getToken("1111", "123");
+    //req.session.token = await config.getToken("1111", "123");
     console.log(req.session.token);
     var ret;
     if (req.session.token == null || ! (ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID))) {
