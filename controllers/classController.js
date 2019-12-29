@@ -14,8 +14,8 @@ var path = require('path');
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-    req.session.token = await config.getToken("T0001", "123");
-    // req.session.token = await config.getToken("1111", "123");
+    //req.session.token = await config.getToken("T0001", "123");
+    req.session.token = await config.getToken("1111", "123");
     //req.session.token = await config.getToken("AS0001", "123");
     console.log(req.session.token);
     var ret;
@@ -177,7 +177,7 @@ exports.submitHw = async (req, res) => {
             res.send({ status: 0, msg: '上传失败，请稍后再试' }).end();
         } else {
             try {
-                console.log(hw.filePath);
+                //console.log(hw.filePath);
                 if (hw.filePath != null) utils.removeFile(path.join(__dirname, '../', hw.filePath));
             } catch (err) {
                 console.log(err);
@@ -680,7 +680,7 @@ exports.downloadClassMaterial = async (req, res) => {
  * 助教管理界面
  */
 exports.getAssistantManagerPage = async (req, res) => {
-    console.log(req.params.classID);
+    //console.log(req.params.classID);
     res.render('users/manageTaPrivilege');
 };
 

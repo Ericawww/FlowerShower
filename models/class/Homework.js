@@ -77,12 +77,12 @@ class Homework {
             var ret;
             var conn = await pool.getConnection();
             if (stuID != undefined) {
-                ret = await conn.query("select * from class_project left outer join class_project_score on class_project.classProjectID = class_project_score.classProjectID \
-                where class_project.classID = ? and (class_project_score.studentID is null or class_project_score.studentID = ?)", [classID, stuID]);
+                ret = await conn.query("select * from (select * from class_project where classID = ?) as X natural left outer join \
+                    (select * from class_project_score where studentID = ?) as Y; ", [classID, stuID]);
             } else {
                 ret = await conn.query("select * from class_project where classID = ?", [classID]);
             }
-            console.log(ret[0]);
+            //console.log(ret[0]);
             if (ret[0].length == 0) return null;
             else return ret[0];
         } catch (err) {
@@ -102,7 +102,7 @@ class Homework {
         try {
             var ret;
             var conn = await pool.getConnection();
-            console.log(stuID);
+            //console.log(stuID);
             if (stuID != undefined) {
                 //需要注意：未提交过的作业不存在与class_project_score，此时相关的列的值均为NULL，列名均为
                 var params = [hwID, stuID];
@@ -131,7 +131,7 @@ class Homework {
             var ret = await conn.query("select * from class_project join class_project_score \
             on class_project.classProjectID = class_project_score.classProjectID \
              where class_project.classProjectID = ? and  class_project_score.complainMsg is not null and class_project.closeTime > current_timestamp();", [hwID]);
-            console.log(ret[0]);
+            //console.log(ret[0]);
             return ret[0];
         } catch (err) {
             console.log(err);
@@ -279,6 +279,7 @@ class Homework {
             conn.release();
         }
     }
+
     /**
    * 教师更改作业
    * @param homeworkname 作业名称
@@ -301,7 +302,7 @@ class Homework {
     ) {
         try {
             var conn = await pool.getConnection();
-            console.log(classProjectID);
+            //console.log(classProjectID);
             var ret = conn.query(
                 "update class_project set \
             projectName = ?,description = ? \
