@@ -6,7 +6,7 @@ class Classes {
      * @param {String} userID 
      * @param {String} courseNumber 
      */
-    async isClassTeacher(userID, courseNumber){
+    async isClassTeacher(userID, courseNumber) {
         //只返回一条记录【一个教师多个教学班？】
         try {
             var conn = await pool.getConnection();
@@ -26,12 +26,12 @@ class Classes {
      * @param {String} userID 
      * @param {String} courseNumber 
      */
-    async isClassStudent(userID, courseNumber){
+    async isClassStudent(userID, courseNumber) {
         //只返回一条记录
         try {
             var conn = await pool.getConnection();
             var ret = await conn.query("select * from take natural join class where studentID = ? and courseNumber= ?", [userID, courseNumber]);
-            console.log(userID+" "+courseNumber);
+            console.log(userID + " " + courseNumber);
             console.log(ret[0]);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
@@ -490,7 +490,7 @@ class Classes {
             conn.release();
         }
     }
-    
+
 }
 
 module.exports = Classes;
