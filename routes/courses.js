@@ -126,9 +126,7 @@ router.post("/class/:classID/teacher/quiz/create", classController.nullPage); //
 router.post("/class/:classID/teacher/quiz/delete", classController.nullPage); //deleteQuiz
 router.post("/class/:classID/teacher/quiz/insert", quizController.insertProblemToQuiz); //insertProblemToQuiz
 router.post("/class/:classID/teacher/quiz/remove", classController.nullPage); //removeProblemFromQuiz
-router.post("/class/:classID/student/quiz/submit", classController.nullPage); //submitQuiz
-
-
+router.post("/class/:classID/student/quiz/submit", quizController.submitQuiz); //submitQuiz
 
 
 router.post("/enterClass", classController.enterClass);

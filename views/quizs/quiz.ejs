@@ -68,10 +68,14 @@
           <div class="ui grid">
             <div class="four wide column">
               <div class="student exam description" style="margin-left: 15px;font-size: 200%;margin-top: 8px;">
-                <b>练习1</b></div>
+                <b><%= quizName[0].description %></b>
+                <% if(flag==1){ %>
+                <b>(答案)</b>
+                <% } %>
+              </div>
             </div>
             <div class="twelve wide column">
-              <div class="ui right floated small primary labeled icon button" onclick="showSubmitQuestionModal()">
+              <div class="ui right floated small primary labeled icon button" onclick="submitAnswer()" id="submitButton">
                 <i class="upload icon"></i> 提交
               </div>
             </div>
@@ -79,95 +83,69 @@
         </div>
         <div class="ui divider"></div>
         <div class="ui internally celled grid">
+          <% for(var i = 0;i<ret.length;i++){ %>
           <div class="row">
             <div class="sixteen wide column">
               <div class="ui grid">
-                <div class="one wide column">
-                  <b>1</b>
-                </div>
-                <div class="fifteen wide column">
-                  <span>Which one below is NOT a valid Java identifier?（3分）</span>
+                <div class="sixteen wide column">
+                  <span><b><%= i+1 %></b>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= ret[i].description %></span>
+                  <span>(<b class="problem_score"><%= ret[i].score%></b>分)</span>
+                  <span class="problem_answer" style="display: none;"><%= ret[i].answer %></span>
+                  <div class="correctOrNot" style="color: rgb(255, 59, 48);height:30px;display: none;"></div>
                 </div>
               </div>
               <div class="ui grid">
                 <div class="column">
                   <div class="ui checkbox">
-                    <input type="checkbox">
-                    <label>A.Each</label>
+                    <input type="checkbox" class="choiceA" value="1">
+                    <label>A.<%= ret[i].choiceA %></label>
                   </div>
                 </div>
               </div>
               <div class="ui grid">
                 <div class="column">
                   <div class="ui checkbox">
-                    <input type="checkbox">
-                    <label>A.Each</label>
+                    <input type="checkbox" class="choiceB" value="2">
+                    <label>B.<%= ret[i].choiceB %></label>
                   </div>
                 </div>
               </div>
+              <% if(ret[i].choiceC != null){ %>
               <div class="ui grid">
                 <div class="column">
                   <div class="ui checkbox">
-                    <input type="checkbox">
-                    <label>A.Each</label>
+                    <input type="checkbox" class="choiceC" value="4">
+                    <label>C.<%= ret[i].choiceC %></label>
                   </div>
                 </div>
               </div>
+              <% } %>
+              <% if(ret[i].choiceD != null){ %>
               <div class="ui grid">
                 <div class="column">
                   <div class="ui checkbox">
-                    <input type="checkbox">
-                    <label>A.Each</label>
+                    <input type="checkbox" class="choiceD" value="8">
+                    <label>D.<%= ret[i].choiceD %></label>
                   </div>
                 </div>
               </div>
+              <% } %>
               <div class="ui grid">
-                <div style="color: rgb(255, 59, 48);height:30px;">答案正确</div>
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="sixteen wide column">
-              <div class="ui grid">
-                <div class="one wide column">
-                  <b>2</b>
-                </div>
-                <div class="fifteen wide column">
-                  <span>Java允许创建不规则数组，即Java多维数组中各行的列数可以不同。（2分）</span>
-                </div>
-              </div>
-              <div class="ui grid">
-                <div class="column">
-                  <div class="ui checkbox">
-                    <input type="checkbox">
-                    <label>T</label>
-                  </div>
-                </div>
-              </div>
-              <div class="ui grid">
-                <div class="column">
-                  <div class="ui checkbox">
-                    <input type="checkbox">
-                    <label>F</label>
-                  </div>
-                </div>
-              </div>
-              <div class="ui grid">
-                <div style="color: rgb(255, 59, 48);height:30px;">答案正确</div>
-              </div>
-            </div>
-          </div>
+          <% } %>
         </div>
         <div class="ui divider"></div>
       </div>
+      <div id="flag" style="display: none;"><%= flag %></div>
+      <div id="quizID" style="display: none;"><%= quizName[0].classProjectID %></div>
     </div>
     <!-- 题库管理 -->
 
     <!-- 占位 -->
     <div style="height:20px;"></div>
     <!-- 占位 -->
-
-
 </body>
 
 <script src="/javascripts/jquery.js"></script>
@@ -177,6 +155,91 @@
   var showAddQuestionModal = () => {
     $('.ui.modal.add').modal('show');
   };
+</script>
+<script>
+  var answerList = new Array;
+  $('.problem_answer').each(function () {
+    var item = $(this).text();
+    answerList.push(item);
+  })
+  var flag = $('#flag').text();
+  if (parseInt(flag) == 1) {
+    var i = 0;
+    $('div.row').each(function () {
+      if ((parseInt(answerList[i]) & 1) > 0) {
+        $(this).find('.choiceA').attr("checked", true);
+      }
+      if ((parseInt(answerList[i]) & 2) > 0) {
+        $(this).find('.choiceB').attr("checked", true);
+      }
+      if ((parseInt(answerList[i]) & 4) > 0) {
+        $(this).find('.choiceC').attr("checked", true);
+      }
+      if ((parseInt(answerList[i]) & 8) > 0) {
+        $(this).find('.choiceD').attr("checked", true);
+      }
+      i++;
+    })
+    $('.choiceA').attr("disabled","disabled");
+    $('.choiceB').attr("disabled","disabled");
+    $('.choiceC').attr("disabled","disabled");
+    $('.choiceD').attr("disabled","disabled");
+    $('#submitButton').css("display","none");
+  }
+
+  var submitAnswer = () => {
+    var totalScore = 0;
+    var i = 0;
+    $('div.row').each(function () {
+      var answerVal = 0;
+      var score = parseInt($(this).find('.problem_score').text());
+      if ($(this).find('.choiceA').is(':checked')) {
+        answerVal += parseInt($(this).find('.choiceA').val());
+      }
+      if ($(this).find('.choiceB').is(':checked')) {
+        answerVal += parseInt($(this).find('.choiceB').val());
+      }
+      if ($(this).find('.choiceC').is(':checked')) {
+        answerVal += parseInt($(this).find('.choiceC').val());
+      }
+      if ($(this).find('.choiceD').is(':checked')) {
+        answerVal += parseInt($(this).find('.choiceD').val());
+      }
+      if (flag != 1) {
+        if (answerVal == parseInt(answerList[i])) {
+          totalScore += score;
+          $(this).find('.correctOrNot').css("display", "inline");
+          $(this).find('.correctOrNot').text("答案正确");
+        } else {
+          $(this).find('.correctOrNot').css("display", "inline");
+          $(this).find('.correctOrNot').text("答案错误");
+        }
+      }
+      i++;
+    })
+    var quizID = $('#quizID').text();
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./submit",
+      traditional: true,
+      data: {
+        quizID: quizID,
+        score: totalScore,
+        flag: flag
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("提交成功！");
+        } else {
+          alert("提交失败！");
+        }
+      },
+      error: (err) => {
+        $(".ui.error.message").text("与服务器连接异常，请稍后再试!").show();
+      }
+    });
+  }
 </script>
 
 </html>

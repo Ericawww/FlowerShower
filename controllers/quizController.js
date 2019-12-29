@@ -56,3 +56,40 @@ exports.insertProblemToQuiz = async (req, res) => {
         res.send({ status: 1 }).end();
     }
 };
+
+/**
+ * 学生获得考试试题
+ */
+exports.getQuizProblems = async (req, res) => {
+    var quizID = req.query.qID;
+    var studentID = req.session.token.userID;
+    var flag = await Quiz.prototype.getUserQuizStatus(studentID, quizID);
+    var ret = await Quiz.prototype.getQuizProblems(quizID);
+    var quizName = await Quiz.prototype.getQuizName(quizID);
+    var data = {
+        ret: ret,
+        flag: flag,
+        quizName: quizName
+    };
+    console.log(data.ret.length);
+    res.render('quizs/quiz', data);
+};
+
+/**
+ * 提交测试
+ */
+exports.submitQuiz = async (req, res) => {
+    var studentID = req.session.token.userID;
+    var flag = req.body.flag;
+    var ret;
+    if (parseInt(flag) == 1) {
+        ret = 0;
+    } else {
+        ret = await Quiz.prototype.submitQuiz({ studentID: studentID, classProjectID: req.body.quizID, mark: req.body.score });
+    }
+    if (ret == 1) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0 }).end();
+    }
+};
