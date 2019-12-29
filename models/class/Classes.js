@@ -10,9 +10,9 @@ class Classes {
         //只返回一条记录【一个教师多个教学班？】
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from class where teacherID = ? and courseNumber = ?", [userID,courseNumber]);
+            var ret = await conn.query("select * from class where teacherID = ? and courseNumber = ?", [userID, courseNumber]);
             console.log(userID + " " + courseNumber);
-            console.log(ret[0])
+            console.log(ret[0]);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
         } catch (err) {
@@ -30,9 +30,9 @@ class Classes {
         //只返回一条记录
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from take natural join class where studentID = ? and courseNumber= ?", [userID,courseNumber]);
+            var ret = await conn.query("select * from take natural join class where studentID = ? and courseNumber= ?", [userID, courseNumber]);
             console.log(userID+" "+courseNumber);
-            console.log(ret[0])
+            console.log(ret[0]);
             if (ret[0].length > 0) return ret[0][0];
             else return null;
         } catch (err) {
@@ -468,6 +468,29 @@ class Classes {
             conn.release();
         }
     }
+
+    /**
+     * 根据教学班编号获取课程号
+     * 
+     * @param {string} classID 
+     */
+    async getCourseNumberByClassID(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select courseNumber from class where classID = ?;", [classID]);
+            if (ret[0].length == 1) {
+                return ret[0][0].courseNumber;
+            } else {
+                return null;
+            }
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+    
 }
 
 module.exports = Classes;

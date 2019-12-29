@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var courseController = require("../controllers/courseController");
 var classController = require("../controllers/classController");
+var quizController = require("../controllers/quizController");
 
 /**
  * 验证阶段
@@ -115,7 +116,7 @@ router.post("/class/:classID/teacher/assistant/update", classController.updateAs
 /**
  * 课程测验
  */
-router.get("/class/:classID/teacher/quiz/bank", classController.nullPage); //getProblemBank
+router.get("/class/:classID/teacher/quiz/bank", quizController.getProblemBankPage); //getProblemBank
 router.get("/class/:classID/teacher/quiz/problems", classController.nullPage);  //getQuizProblems
 router.get("/class/:classID/student/quiz/problems", classController.nullPage);  //getQuizProblems
 router.post("/class/:classID/teacher/quiz/bank/create", classController.nullPage);  //createProblem

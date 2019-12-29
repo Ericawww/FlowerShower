@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+
+    .footer.segment {
+      padding: 5em 0em;
+    }
+
+    .course-title {
+      font-weight: bold;
+      font-size: medium;
+      font-family: "黑体";
+      margin: 8px 16px;
+    }
+
+    .course-info {
+      font-family: "微软雅黑";
+      margin: 8px 16px;
+    }
+
+    .user-title {
+      text-align: center;
+      font-size: large;
+      font-family: "微软雅黑";
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 题库管理 -->
+  <div class="ui container" style="margin-top:10px;">
+    <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+      <div class="ui basic segment">
+        <div class="ui basic segment">
+          <div class="ui grid">
+            <div class="four wide column">
+              <div class="student group information" style="margin-left: 15px;font-size: 200%;margin-top: 8px;">
+                <b>题库管理</b></div>
+            </div>
+            <div class="twelve wide column">
+              <div class="ui right floated small primary labeled icon button" onclick="showAddQuestionModal()">
+                <i class="add icon"></i> 添加试题
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui internally celled grid">
+          <div class="row">
+            <div class="fourteen wide column">
+              <div class="ui grid">
+                <div class="one wide column">
+                  <b>1</b>
+                </div>
+                <div class="fifteen wide column">
+                  <span>Which one below is NOT a valid Java identifier?（3分）</span>
+                </div>
+              </div>
+              <div class="ui grid">
+                <div class="column">
+                  A.Each
+                </div>
+              </div>
+              <div class="ui grid">
+                <div class="column">
+                  A.Each
+                </div>
+              </div>
+              <div class="ui grid">
+                <div class="column">
+                  A.Each
+                </div>
+              </div>
+              <div class="ui grid">
+                <div style="color: rgb(255, 59, 48);height:30px;">答案：C</div>
+              </div>
+            </div>
+            <div class="two wide column">
+              <div style="height:80px;"></div>
+              <div class="question delete button" style="margin-left: 20px;"><a>删除试题</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui divider"></div>
+      </div>
+    </div>
+    <!-- 题库管理 -->
+
+    <!-- 占位 -->
+    <div style="height:20px;"></div>
+    <!-- 占位 -->
+
+    <div class="ui modal add">
+      <div class="header">添加试题</div>
+      <div class="scrolling content">
+        <form class="ui form">
+          <div class="field">
+            <label>试题分值</label>
+            <input type="text" name="score">
+          </div>
+          <div class="field">
+            <label>试题描述</label>
+            <textarea maxlength="500" name="question"></textarea>
+          </div>
+          <div class="field">
+            <label>选项1</label>
+            <textarea maxlength="300" name="choose1"></textarea>
+          </div>
+          <div class="field">
+            <label>选项2</label>
+            <textarea maxlength="300" name="choose2"></textarea>
+          </div>
+          <div class="field">
+            <label>选项3</label>
+            <textarea maxlength="300" name="choose3"></textarea>
+          </div>
+          <div class="field">
+            <label>选项4</label>
+            <textarea maxlength="300" name="choose4"></textarea>
+          </div>
+          <div class="field">
+            <label>答案</label>
+            <div class="ui four column grid">
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项1</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项2</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项3</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项4</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="actions">
+        <div class="ui green button">提交</div>
+        <div class="ui cancel button">关闭</div>
+      </div>
+    </div>
+
+</body>
+
+<script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/header.js"></script>
+<script>
+  var showAddQuestionModal = () => {
+    $('.ui.modal.add').modal({ closable: false }).modal("show");
+  };
+</script>
+
+</html>

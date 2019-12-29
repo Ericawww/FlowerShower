@@ -29,12 +29,12 @@ class Quiz {
      * @note answer应该在前端做好数值映射，选项非空判断也应该在前端完成
      * @return 正确插入返回null, 出现异常返回报错信息
      */
-    async createProblem(problem) {
-        let { problemID, courseNumber, description, choiceA, choiceB, choiceC, choiceD, answer, submitter } = problem;
+    async createProblem(courseNumber, problem, submitter) {
+        let { description, choiceA, choiceB, choiceC, choiceD, answer } = problem;
         try {
             var conn = await pool.getConnection();
             await conn.query("insert into problem_bank(courseNumber, description, choiceA, choiceB, choiceC, choiceD, answer, submitter) \
-                values(?, ?, ?, ?, ?, ?, ?, ?)", [problemID, courseNumber, description, choiceA, choiceB, choiceC, choiceD, answer, submitter]);
+                values(?, ?, ?, ?, ?, ?, ?, ?)", [courseNumber, description, choiceA, choiceB, choiceC, choiceD, answer, submitter]);
             return null;
         } catch (err) {
             console.log(err);
