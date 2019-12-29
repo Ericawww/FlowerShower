@@ -122,10 +122,8 @@ router.get("/class/:classID/teacher/quiz/problems", classController.nullPage);  
 router.get("/class/:classID/student/quiz/problems", classController.nullPage);  //getQuizProblems
 router.post("/class/:classID/teacher/quiz/bank/create", quizController.createProblem);  //createProblem
 router.post("/class/:classID/teacher/quiz/bank/delete", quizController.deleteProblem); //deleteProblem
-router.post("/class/:classID/teacher/quiz/create", classController.nullPage); //createQuiz
-router.post("/class/:classID/teacher/quiz/delete", classController.nullPage); //deleteQuiz
 router.post("/class/:classID/teacher/quiz/insert", quizController.insertProblemToQuiz); //insertProblemToQuiz
-router.post("/class/:classID/teacher/quiz/remove", classController.nullPage); //removeProblemFromQuiz
+router.post("/class/:classID/teacher/quiz/remove", quizController.removeProblemFromQuiz); //removeProblemFromQuiz
 router.post("/class/:classID/student/quiz/submit", quizController.submitQuiz); //submitQuiz
 
 

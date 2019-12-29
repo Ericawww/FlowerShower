@@ -57,6 +57,16 @@ exports.insertProblemToQuiz = async (req, res) => {
     }
 };
 
+exports.removeProblemFromQuiz = async (req, res) => {
+    var msg = await Quiz.prototype.removeProblemFromQuiz(req.body.classProjectID, req.body.problemID);
+    if (msg) {
+        res.send({ status: 0, msg: msg }).end();
+    } else {
+        res.send({ status: 1 }).end();
+    }
+};
+
+
 /**
  * 学生获得考试试题
  */
@@ -71,7 +81,7 @@ exports.getQuizProblems = async (req, res) => {
         flag: flag,
         quizName: quizName
     };
-    console.log(data.ret.length);
+    //console.log(data.ret.length);
     res.render('quizs/quiz', data);
 };
 

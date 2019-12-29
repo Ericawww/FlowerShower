@@ -4,6 +4,7 @@ var Homework = require("../models/class/Homework");
 var Talk = require("../models/class/Talk");
 var Notice = require("../models/class/Notice");
 var Assistant = require("../models/class/Assistant");
+var Quiz = require("../models/class/Quiz");
 var fileHelper = require('../models/method/fileHelper');
 var utils = require('../models/method/utils');
 var path = require('path');
@@ -13,8 +14,9 @@ var path = require('path');
  * 判断当前用户是该教学班中的成员
  */
 exports.checkClassMember = async (req, res, next) => {
-    // req.session.token = await config.getToken("T0001", "123");
-    req.session.token = await config.getToken("1111", "123");
+    req.session.token = await config.getToken("T0001", "123");
+    // req.session.token = await config.getToken("1111", "123");
+    //req.session.token = await config.getToken("AS0001", "123");
     console.log(req.session.token);
     var ret;
     if (req.session.token == null || ! (ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID))) {
@@ -254,7 +256,9 @@ exports.updateHwPage = async (req, res) => {
     }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader, hwInfo: hwInfo });
+    var problems = [];
+    if (hwInfo.isGroupWork == config.PROJECT_TYPE_QUIZ) problems = await Quiz.prototype.getQuizProblems(req.params.hw);
+    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader, hwInfo: hwInfo, problems: problems });
 };
 
 /**
