@@ -1,7 +1,7 @@
 var pool = require("../mysql/ConnPool");
 
 class Notice {
-    
+
     /**
      * 获得通知
      * @param {String} courseID 课程号
@@ -10,7 +10,7 @@ class Notice {
     async getCourseNotice(courseID) {
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from notice where courseID = ?", [
+            var ret = await conn.query("select * from notice where courseID = ? order by time", [
                 courseID
             ]);
             return ret[0];

@@ -94,6 +94,11 @@
                   <div class="five wide column">
                     <span><i class="fire icon"></i><%= talk[0].likes %></span>
                   </div>
+                  <div class="five wide column">
+                    <% if(talk[0].userID == token.userID) { %>
+                      <i class="trash alternate outline icon" onclick="deleteTalk()"></i>删除
+                    <% } %>
+                  </div>
                 </div>
               </div>
             </div>
@@ -187,7 +192,7 @@
         alert("与服务器连接异常，请稍后再试!");
       }
     });
-  }
+  };
   var addLikes = () => {
     $.ajax({
       dataType: "json",
@@ -205,6 +210,26 @@
       }
     });
   };
+
+  var deleteTalk = () => {
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: window.location.href+"/deleteTalk",
+      data: {},
+      success: data => {
+        if (data.status) {
+          alert("删除帖子成功!");
+          window.location.replace(window.location.href.split("talk")[0]+"talk");
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: err => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  }; 
 </script>
 
 </html>
