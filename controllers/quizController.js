@@ -71,7 +71,7 @@ exports.removeProblemFromQuiz = async (req, res) => {
  * 学生获得考试试题
  */
 exports.getQuizProblems = async (req, res) => {
-    var quizID = req.query.qids;
+    var quizID = req.query.qid;
     var studentID = req.session.token.userID;
     var flag = await Quiz.prototype.getUserQuizStatus(studentID, quizID);
     var ret = await Quiz.prototype.getQuizProblems(quizID);
