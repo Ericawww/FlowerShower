@@ -637,3 +637,12 @@ exports.updateAssistant = async (req, res) => {
         res.send({ status: 1 }).end();
     }
 };
+
+
+
+/**
+ * 空页面
+ */
+exports.nullPage = (req, res) => {
+    res.send("Page to be determined").end();
+};
