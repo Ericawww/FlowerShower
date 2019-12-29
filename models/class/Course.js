@@ -14,7 +14,7 @@ class Course {
             var sql = "insert into course(courseNumber, courseName, coursePhoto, courseDept, credit, prerequisite, \
                 description, outline) values (?, ?, ?, ?, ?, ?, ?, ?)";
             var params = [course.courseNumber, course.courseName, course.coursePhoto, course.courseDept, course.credit,
-            course.prerequisite, course.description, course.outline];
+                course.prerequisite, course.description, course.outline];
             await conn.query(sql, params);
             return null;
         } catch (err) {

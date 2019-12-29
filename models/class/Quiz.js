@@ -106,14 +106,32 @@ class Quiz {
         }
     }
 
+    /**
+     * 获取教学班的所有quiz
+     * 
+     * @param {string} classID 
+     */
+    async getQuiz(classID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select classProjectID as value, projectName as name from class_project where classID = ? and isGroupWork = ?", [classID, config.PROJECT_TYPE_QUIZ]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
+            return null;
+        } finally {
+            conn.release();
+        }
+    }
+
     async insertProblemToQuiz(classProjectID, problemID, score) {
         try {
             var conn = await pool.getConnection();
             await conn.query("insert into project_problem(classProjectID, problemID, score) values (?, ?, ?)", [classProjectID, problemID, score]);
-            return 1;
+            return null;
         } catch (err) {
             console.log(err);
-            return 0;
+            return err.message;
         } finally {
             conn.release();
         }

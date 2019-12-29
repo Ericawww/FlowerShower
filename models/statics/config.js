@@ -10,6 +10,10 @@ exported.FILE_EXCLUDE_TYPE = "";  //文件上传格式黑名单  [eg: ".exe.js"]
 exported.PROJECT_TYPE_PERSONAL = 0;
 exported.PROJECT_TYPE_GROUP = 1;
 exported.PROJECT_TYPE_QUIZ = 3;
+exported.ASSISTANT_PRIVILEGE_MATERIAL = 1;
+exported.ASSISTANT_PRIVILEGE_HOMEWORK = 2;
+exported.ASSISTANT_PRIVILEGE_GRADE = 4;
+exported.ASSISTANT_PRIVILEGE_NOTICE = 8;
 
 /* 自动登录，供测试者测试使用 */
 exported.getToken = async (userID, userPwd) => {

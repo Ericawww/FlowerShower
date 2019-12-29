@@ -1,4 +1,5 @@
 var pool = require('../mysql/ConnPool');
+var config = require('../statics/config');
 var User = require('../class/User');
 
 /**
@@ -9,10 +10,10 @@ var User = require('../class/User');
     课程通知管理  8
  */
 
-var PRIVILEGE_MATERIAL = 1;
-var PRIVILEGE_HOMEWORK = 2;
-var PRIVILEGE_GRADE = 4;
-var PRIVILEGE_NOTICE = 8;
+var PRIVILEGE_MATERIAL = config.PRIVILEGE_MATERIAL;
+var PRIVILEGE_HOMEWORK = config.PRIVILEGE_HOMEWORK;
+var PRIVILEGE_GRADE = config.PRIVILEGE_GRADE;
+var PRIVILEGE_NOTICE = config.PRIVILEGE_NOTICE;
 
 class Assistant extends User {
 

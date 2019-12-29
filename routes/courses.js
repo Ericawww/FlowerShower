@@ -117,15 +117,16 @@ router.post("/class/:classID/teacher/assistant/update", classController.updateAs
  * 课程测验
  */
 router.get("/class/:classID/teacher/quiz/bank", quizController.getProblemBankPage); //getProblemBank
+router.get("/class/:classID/teacher/quiz/all", quizController.getQuiz); //getQuiz
 router.get("/class/:classID/teacher/quiz/problems", classController.nullPage);  //getQuizProblems
 router.get("/class/:classID/student/quiz/problems", classController.nullPage);  //getQuizProblems
-router.post("/class/:classID/teacher/quiz/bank/create", classController.nullPage);  //createProblem
-router.post("/class/:classID/teacher/quiz/bank/delete", classController.nullPage); //deleteProblem
+router.post("/class/:classID/teacher/quiz/bank/create", quizController.createProblem);  //createProblem
+router.post("/class/:classID/teacher/quiz/bank/delete", quizController.deleteProblem); //deleteProblem
 router.post("/class/:classID/teacher/quiz/create", classController.nullPage); //createQuiz
 router.post("/class/:classID/teacher/quiz/delete", classController.nullPage); //deleteQuiz
-router.post("/class/:classID/teacher/quiz/insert", classController.nullPage); //insertProblemToQuiz
+router.post("/class/:classID/teacher/quiz/insert", quizController.insertProblemToQuiz); //insertProblemToQuiz
 router.post("/class/:classID/teacher/quiz/remove", classController.nullPage); //removeProblemFromQuiz
-router.post("/class/:classID/student/quiz/submit", classController.nullPage); //removeProblemFromQuiz
+router.post("/class/:classID/student/quiz/submit", classController.nullPage); //submitQuiz
 
 
 
