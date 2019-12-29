@@ -136,6 +136,11 @@ class Quiz {
         }
     }
 
+    /**
+     * 获取小测题
+     * 
+     * @param {String} classProjectID 
+     */
     async getQuizProblems(classProjectID) {
         try {
             var conn = await pool.getConnection();
@@ -148,11 +153,16 @@ class Quiz {
         }
     }
 
+    /**
+     * 提交小测
+     * 
+     * @param {struct} answers 
+     */
     async submitQuiz(answers) {
         let { studentID, classProjectID, mark } = answers;
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("insert into class_project_score(classProjectID, studentID, commitTime, mark) values (?, ?, CURRENT_TIMESTAMP, ?)", [classProjectID, studentID, mark]);
+            await conn.query("insert into class_project_score(classProjectID, studentID, commitTime, mark) values (?, ?, CURRENT_TIMESTAMP, ?)", [classProjectID, studentID, mark]);
             return 1;
         } catch (err) {
             console.log(err);
@@ -162,6 +172,12 @@ class Quiz {
         }
     }
 
+    /**
+     * 获取用户是否做过了这个小测
+     * 
+     * @param {*} studentID 
+     * @param {*} classProjectID 
+     */
     async getUserQuizStatus(studentID, classProjectID) {
         try {
             var conn = await pool.getConnection();
@@ -174,6 +190,23 @@ class Quiz {
         } catch (err) {
             console.log(err);
             return 0;
+        } finally {
+            conn.release();
+        }
+    }
+
+    /**
+     * 根据classProjectID获得project的信息
+     * 
+     * @param {String} classProjectID 
+     */
+    async getQuizName(classProjectID) {
+        try {
+            var conn = await pool.getConnection();
+            var ret = await conn.query("select * from class_project where classProjectID = ?", [classProjectID]);
+            return ret[0];
+        } catch (err) {
+            console.log(err);
         } finally {
             conn.release();
         }
