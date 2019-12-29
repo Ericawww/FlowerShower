@@ -104,19 +104,25 @@
   <!--删除作业没有页面，点击相应作业进行删除-->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments">
-      <div class="ui grey segment" style="background-color:rgb(221, 219, 219);">
-        <div class="ui relaxed horizontal list">
-          <div class="item" style="width: 350px;">
-            <div class="content">
-              <div class="homework item list" style="margin-left: 15px;"><b>作业名称</b></div>
+      <div class="ui segment">
+        <div class="ui four column grid">
+          <div class="column">
+            <div class="ui green labeled icon button">
+              <i class="plus square icon"></i> <span style="font-size: 110%;" onclick="javascript:window.location.href='./add'">添加作业</span>
             </div>
           </div>
-          <div class="item" style="width: 236px;">
+          <div class="column">
+            <div class="ui green labeled icon button">
+              <i class="shopping basket icon"></i> <span style="font-size: 110%;">题库管理</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui grey segment" style="background-color:rgb(221, 219, 219);">
+        <div class="ui relaxed horizontal list">
+          <div class="item" style="width: 603px;">
             <div class="content">
-              <div class="homework item list">
-                <i class="plus square icon"></i>
-                <b><a style="color: darkred;font-size: larger;" onclick="javascript:window.location.href='./add'">添加作业</a></b>
-              </div>
+              <div class="homework item list" style="margin-left: 15px;"><b>作业名称</b></div>
             </div>
           </div>
           <div class="item" style="width: 150px;">
@@ -148,7 +154,8 @@
       <div class="ui relaxed horizontal list">
         <div class="item" style="width: 600px;">
           <div class="content">
-            <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a href="./<%= hw.classProjectID %>/detail"><%= hw.projectName %></a></b></div>
+            <div class="homework name" style="margin-left: 15px;font-size: large;"><b><a
+                  href="./<%= hw.classProjectID %>/detail"><%= hw.projectName %></a></b></div>
             <div class="homework simple description" style="margin-left: 15px;margin-top: 10px;">
               <div class="ui relaxed horizontal list">
                 <div class="item" style="width:auto;">
@@ -185,7 +192,8 @@
         </div>
         <div class="item" style="width:auto;width:150px;">
           <div class="content">
-            <div class="homework submit button" ><a onclick="showConfirmDeleteModal(<%= hw.classProjectID %>)">删除作业</a></div>
+            <div class="homework submit button"><a onclick="showConfirmDeleteModal(<%= hw.classProjectID %>)">删除作业</a>
+            </div>
           </div>
         </div>
         <div class="item" style="width:auto;margin-right:15px;">
@@ -224,13 +232,13 @@
   var classProjectID;
   var showConfirmDeleteModal = (x) => {
     $('.ui.modal.delete').modal('show');
-    classProjectID=x;
+    classProjectID = x;
   };
   var confirmDelete = () => {
     $.ajax({
       dataType: "json",
       type: "post",
-      url: "./"+classProjectID+"/deleteHw",
+      url: "./" + classProjectID + "/deleteHw",
       success: (data) => {
         if (data.status) {
           alert("删除成功!");
