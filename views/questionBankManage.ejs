@@ -40,26 +40,6 @@
 </head>
 
 <body>
-  <!-- 课程信息 -->
-  <div class="ui container">
-    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-      <div class="ui stackable inverted divided equal height stackable grid">
-        <div class="eight wide column">
-          <h2 class="ui header">Java应用技术</h2>
-          <div class="description">
-            <p>2019-11-11 - 2019-11-11</p>
-            <p> 计算机科学与技术学院</p>
-          </div>
-          <h5 class="ui header">授课老师</h5>
-          <div class="description">
-            鲁伟明
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 课程信息 -->
-
   <!-- 题库管理 -->
   <div class="ui container" style="margin-top:10px;">
     <div class="ui segments" style="background-color:rgb(255, 255, 255);">
@@ -89,18 +69,19 @@
                   <span>Which one below is NOT a valid Java identifier?（3分）</span>
                 </div>
               </div>
-              <div class="ui four column grid">
+              <div class="ui grid">
                 <div class="column">
                   A.Each
                 </div>
+              </div>
+              <div class="ui grid">
                 <div class="column">
-                  B.$2
+                  A.Each
                 </div>
+              </div>
+              <div class="ui grid">
                 <div class="column">
-                  C.goto
-                </div>
-                <div class="column">
-                  D.名字
+                  A.Each
                 </div>
               </div>
               <div class="ui grid">
@@ -108,35 +89,7 @@
               </div>
             </div>
             <div class="two wide column">
-              <div style="height:35px;"></div>
-              <div class="question delete button" style="margin-left: 20px;"><a>删除试题</a>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="fourteen wide column">
-              <div class="ui grid">
-                <div class="one wide column">
-                  <b>2</b>
-                </div>
-                <div class="fifteen wide column">
-                  <span>Java允许创建不规则数组，即Java多维数组中各行的列数可以不同。（2分）</span>
-                </div>
-              </div>
-              <div class="ui four column grid">
-                <div class="column">
-                  T
-                </div>
-                <div class="column">
-                  F
-                </div>
-              </div>
-              <div class="ui grid">
-                <div style="color: rgb(255, 59, 48);height:30px;">答案：T</div>
-              </div>
-            </div>
-            <div class="two wide column">
-              <div style="height:35px;"></div>
+              <div style="height:80px;"></div>
               <div class="question delete button" style="margin-left: 20px;"><a>删除试题</a>
               </div>
             </div>
@@ -181,7 +134,32 @@
           </div>
           <div class="field">
             <label>答案</label>
-            <input type="text" name="answer">
+            <div class="ui four column grid">
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项1</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项2</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项3</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label>选项4</label>
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -198,7 +176,7 @@
 <script src="/javascripts/header.js"></script>
 <script>
   var showAddQuestionModal = () => {
-    $('.ui.modal.add').modal('show');
+    $('.ui.modal.add').modal({ closable: false }).modal("show");
   };
 </script>
 
