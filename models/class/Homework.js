@@ -34,9 +34,16 @@ class Homework {
     async submitHw(stuID, hwID, description, filePath) {
         try {
             var conn = await pool.getConnection();
-            var sql = "update class_project_score set filePath = ?, commitMsg = ?, commitTime = CURRENT_TIMESTAMP where classProjectID = ? and studentID = ? ";
-            var params = [filePath, description, hwID, stuID];
-            await conn.query(sql, params);
+            var ret = await conn.query("select * from class_project_score where classProjectID = ? and studentID = ?", [hwID, stuID]);
+            if (ret[0].length == 0) {
+                let sql = "insert into class_project_score(filePath, commitMsg, commitTime, classProjectID, studentID) values (?,?,CURRENT_TIMESTAMP,?,?)";
+                let params = [filePath, description, hwID, stuID];
+                await conn.query(sql, params);
+            } else {
+                let sql = "update class_project_score set filePath = ?, commitMsg = ?, commitTime = CURRENT_TIMESTAMP where classProjectID = ? and studentID = ? ";
+                let params = [filePath, description, hwID, stuID];
+                await conn.query(sql, params);
+            }            
             return 1;
         } catch (err) {
             console.log(err);
