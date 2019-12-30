@@ -15,7 +15,7 @@ var path = require('path');
  */
 exports.checkClassMember = async (req, res, next) => {
     //req.session.token = await config.getToken("T0001", "123");
-    req.session.token = await config.getToken("1111", "123");
+    // req.session.token = await config.getToken("1111", "123");
     //req.session.token = await config.getToken("AS0001", "123");
     console.log(req.session.token);
     var ret;
@@ -459,7 +459,7 @@ exports.deleteTalk = async (req, res) => {
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
     }
-}
+};
 
 /**
  * 点赞
