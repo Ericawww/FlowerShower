@@ -46,10 +46,10 @@
             <i class="file outline icon"></i>
             我的课程
           </a>
-          <a class="item" id="taPrivilege">
+          <!-- <a class="item" id="taPrivilege">
             <i class="list alternate outline icon"></i>
             助教权限管理
-          </a>
+          </a> -->
         </div>
       </div>
       <!-- 首页垂直菜单 -->
@@ -60,7 +60,8 @@
             <div class="four wide column" style="text-align: center;"><b>课程名称</b></div>
             <div class="four wide column" style="text-align: center;"><b>课程号</b></div>
             <div class="four wide column" style="text-align: center;"><b>开课学院</b></div>
-            <div class="four wide column" style="text-align: center;"><b>学分</b></div>
+            <div class="two wide column" style="text-align: center;"><b>学分</b></div>
+            <div class="two wide column" style="text-align: center;"><b></b></div>
           </div>
           <div class="ui divider"></div>
           <% for(var i=0;i<courseList.length;i++) { %>
@@ -70,7 +71,8 @@
               <a><%= courseList[i][0].courseName %></a></div>
             <div class="four wide column" style="text-align: center;"><%= courseList[i][0].courseNumber %></div>
             <div class="four wide column" style="text-align: center;"><%= courseList[i][0].courseDept %></div>
-            <div class="four wide column" style="text-align: center;"><%= courseList[i][0].credit %></div>
+            <div class="two wide column" style="text-align: center;"><%= courseList[i][0].credit %></div>
+            <div class="two wide column" style="text-align: center;"><a href="/courses/class/<%= myCourse[i].classID %>/teacher/assistant">助教管理</a></div>
             <div class="class_id_info" style="display:none;"><%= myCourse[i].classID %></div>
           </div>
           <% } %>
