@@ -47,6 +47,8 @@ $(() => {
         success: (data) => {
             if (data.token != null) {
                 setNavBar(data.token);
+            } else {
+                $("body").append(msgboardModalTemplate);
             }
         },
         error: (err) => {
