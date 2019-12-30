@@ -140,15 +140,11 @@ class Quiz {
     async removeProblemFromQuiz(classProjectID, problemID) {
         try {
             var conn = await pool.getConnection();
-            var ret = await conn.query("select * from class_project_score where classProjectID = ?", [classProjectID]);
-            if (ret[0].length != 0) {
-                return -1;
-            }
             await conn.query("delete from project_problem where classProjectID = ? and problemID = ?", [classProjectID, problemID]);
-            return 1;
+            return null;
         } catch (err) {
             console.log(err);
-            return 0;
+            return err.message;
         } finally {
             conn.release();
         }

@@ -13,28 +13,10 @@
     body {
       background-color: #eeeeee;
     }
-
-    .footer.segment {
-      padding: 5em 0em;
-    }
-
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
-
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
-
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
+    .overflow-text {
+      overflow: hidden; /*自动隐藏文字*/
+      text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+      white-space: nowrap;/*强制不换行*/
     }
   </style>
 </head>
@@ -42,23 +24,23 @@
 <body>
   <!-- 课程信息 -->
   <div class="ui container">
-      <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
-        <div class="ui stackable inverted divided equal height stackable grid">
-          <div class="eight wide column">
-            <h2 class="ui header"><%= classHeader.courseName %></h2>
-            <div class="description">
-              <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
-              <p> <%= classHeader.courseDept %></p>
-            </div>
-            <h5 class="ui header">授课老师</h5>
-            <div class="description">
-              <%= classHeader.userName %>
-            </div>
+    <div class="ui segment" style="margin-top:10px;background-color: rgb(220,220,220);">
+      <div class="ui stackable inverted divided equal height stackable grid">
+        <div class="eight wide column">
+          <h2 class="ui header"><%= classHeader.courseName %></h2>
+          <div class="description">
+            <p><%= dateFormat(classHeader.startTime) %>-<%= dateFormat(classHeader.closeTime) %></p>
+            <p> <%= classHeader.courseDept %></p>
+          </div>
+          <h5 class="ui header">授课老师</h5>
+          <div class="description">
+            <%= classHeader.userName %>
           </div>
         </div>
       </div>
     </div>
-    <!-- 课程信息 -->
+  </div>
+  <!-- 课程信息 -->
 
 
   <!--添加作业-->
@@ -85,13 +67,15 @@
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业开始时间</b></label>
-                  <input type="datetime-local" name="startTime" value="<%= dateFormat(hwInfo.startTime, 'yyyy-MM-ddThh:mm') %>">
+                  <input type="datetime-local" name="startTime"
+                    value="<%= dateFormat(hwInfo.startTime, 'yyyy-MM-ddThh:mm') %>">
                 </div>
               </div>
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业截止时间</b></label>
-                  <input type="datetime-local" name="closeTime" value="<%= dateFormat(hwInfo.closeTime, 'yyyy-MM-ddThh:mm') %>">
+                  <input type="datetime-local" name="closeTime"
+                    value="<%= dateFormat(hwInfo.closeTime, 'yyyy-MM-ddThh:mm') %>">
                 </div>
               </div>
             </div>
@@ -101,12 +85,10 @@
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业形式</b></label>
-                  <select class="ui dropdown" name="isGroupWork" value= 
-                    <% if(hwInfo.isGroupWork == 0){%>0
-                    <% } else{ %>1
-                    <% } %>>
-                    <option value="0">个人作业</option>
-                    <option value="1">小组作业</option>
+                  <select class="ui dropdown" name="isGroupWork">
+                    <option value="0" <% if (hwInfo.isGroupWork == 0) { %>selected<% } %>>个人作业</option>
+                    <option value="1" <% if (hwInfo.isGroupWork == 1) { %>selected<% } %>>小组作业</option>
+                    <option value="3" <% if (hwInfo.isGroupWork == 3) { %>selected<% } %>>测验</option>
                   </select>
                 </div>
               </div>
@@ -114,7 +96,7 @@
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业满分</b></label>
-                  <input type="text" name="fullMark" value="<%= hwInfo.fullMark%>" style="width:min-content;">
+                  <input type="text" name="fullMark" value="<%= hwInfo.fullMark%>" style="width:min-content;" <% if (hwInfo.isGroupWork == 3) { %>disabled<% } %>>
                 </div>
               </div>
             </div>
@@ -127,16 +109,51 @@
               </div>
             </div>
           </div>
+
+          <% if (hwInfo.isGroupWork == 3) { %>
           <div class="ui grid">
             <div class="column">
               <div class="field">
-                <label><b style="font-size: large;">再次上传文件</b></label>
-                <button class="ui teal button">再次上传文件</button>
+                <label><b style="font-size: large;">练习题目</b></label>
+                <div class="ui divider"></div>
+                <div class="ui grid">
+                  <div class="four wide column">
+                    <div style="margin-left: 15px;"><b>试题序号</b></div>
+                  </div>
+                  <div class="eight wide column">
+                    <div><b>试题描述</b></div>
+                  </div>
+                  <div class="two wide column">
+                    <div><b>试题分值</b></div>
+                  </div>
+                  <div class="two wide column">
+                    <div><b>操作</b></div>
+                  </div>
+                </div>
+                <% for (let i = 0; i < problems.length; i++) { %>
+                <div class="ui divider"></div>
+                <div class="ui grid">
+                  <div class="four wide column">
+                    <div style="margin-left: 15px;"><b><%= (i+1) %></b></div>
+                  </div>
+                  <div class="eight wide column">
+                    <div class="overflow-text"><b><%= problems[i].description %></b></div>
+                  </div>
+                  <div class="two wide column">
+                    <div><b><%= problems[i].score %>分</b></div>
+                  </div>
+                  <div class="two wide column">
+                    <div><a href="javascript:removeProblemFromQuiz('<%= problems[i].problemID %>')">删除</a></div>
+                  </div>
+                </div>
+                <% } %>
+                <div class="ui divider"></div>
               </div>
             </div>
           </div>
+          <% } %>
         </form>
-        <div style="height:25px;"></div>
+        <div style="height:15px;"></div>
         <div class="actions">
           <div class="ui positive button" onclick="postHw()">修改</div>
           <div class="ui red deny button" onclick="javascript:window.location.href='../all' ">取消</div>
@@ -157,87 +174,103 @@
 <script src="/javascripts/header.js"></script>
 <script>
   var postHw = () => {
-      if (
-        $("input[name='homeworkname']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("作业名称不能为空！");
-        return;
+    if (
+      $("input[name='homeworkname']")
+        .val()
+        .replace(" ", "") == ""
+    ) {
+      alert("作业名称不能为空！");
+      return;
+    }
+    if (
+      $("input[name='startTime']")
+        .val()
+        .replace(" ", "") == ""
+    ) {
+      alert("作业开始时间不能为空！");
+      return;
+    }
+    if (
+      $("input[name='closeTime']")
+        .val()
+        .replace(" ", "") == ""
+    ) {
+      alert("作业结束时间不能为空！");
+      return;
+    }
+    if (
+      $("input[name='fullMark']")
+        .val()
+        .replace(" ", "") == ""
+    ) {
+      alert("作业满分不能为空！");
+      return;
+    }
+    if (
+      $("textarea[name='description']")
+        .val()
+        .replace(" ", "") == ""
+    ) {
+      alert("作业描述不能为空！");
+      return;
+    }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./update/changeHw",
+      data: {
+        projectName: $("input[name='homeworkname']").val(),
+        startTime: $("input[name='startTime']").val(),
+        closeTime: $("input[name='closeTime']").val(),
+        fullMark: $("input[name='fullMark']").val(),
+        achieveGoal: $("input[name='achieveGoal']").val(),
+        isGroupWork: $("select[name = 'isGroupWork']").val(),
+        description: $("textarea[name='description']").val()
+      },
+      success: data => {
+        if (data.status) {
+          alert("修改作业成功!");
+          // $("textarea[name='description']").val(""); //清空
+          // $("input[name='homeworkname']").val("");
+          // $("input[name='startTime']").val("");
+          // $("input[name='closeTime']").val("");
+          // $("input[name='fullMark']").val("");
+          // $("input[name='achieveGoal']").val("");
+          window.location.href = "../all";
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: err => {
+        alert("与服务器连接异常，请稍后再试!");
       }
-      if (
-        $("input[name='startTime']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("作业开始时间不能为空！");
-        return;
-      }
-      if (
-        $("input[name='closeTime']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("作业结束时间不能为空！");
-        return;
-      }
-      if (
-        $("input[name='fullMark']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("作业满分不能为空！");
-        return;
-      }
-      if (
-        $("input[name='achieveGoal']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("完成指标不能为空！");
-        return;
-      }
-      if (
-        $("textarea[name='description']")
-          .val()
-          .replace(" ", "") == ""
-      ) {
-        alert("作业描述不能为空！");
-        return;
-      }
+    });
+  };
+  var removeProblemFromQuiz = (problemID) => {
+    const quizID = "<%= hwInfo.classProjectID  %>";
+    if (confirm("确认要移除该题吗？")) {
       $.ajax({
         dataType: "json",
         type: "post",
-        url: "./update/changeHw",
+        url: "../../quiz/remove",
         data: {
-          projectName: $("input[name='homeworkname']").val(),
-          startTime: $("input[name='startTime']").val(),
-          closeTime: $("input[name='closeTime']").val(),
-          fullMark: $("input[name='fullMark']").val(),
-          achieveGoal: $("input[name='achieveGoal']").val(),
-          isGroupWork: $("select[name = 'isGroupWork']").val(),
-          description: $("textarea[name='description']").val()
+          problemID: problemID,
+          classProjectID: quizID
         },
-        success: data => {
+        success: (data) => {
           if (data.status) {
-            alert("修改作业成功!");
-            // $("textarea[name='description']").val(""); //清空
-            // $("input[name='homeworkname']").val("");
-            // $("input[name='startTime']").val("");
-            // $("input[name='closeTime']").val("");
-            // $("input[name='fullMark']").val("");
-            // $("input[name='achieveGoal']").val("");
-            window.location.href="../all";
+            alert("移除成功!");
+            window.location.reload();
           } else {
             alert(data.msg);
           }
         },
-        error: err => {
+        error: (err) => {
           alert("与服务器连接异常，请稍后再试!");
         }
       });
-    };
-
+    }
+  }
 </script>
 
 </html>
