@@ -1,7 +1,7 @@
 var pool = require("../mysql/ConnPool");
 
 class Notice {
-    
+
     /**
      * 获得通知
      * @param {String} courseID 课程号

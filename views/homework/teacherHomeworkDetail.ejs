@@ -88,8 +88,11 @@
           </div>
           <div class="column">
             <div class="homework begintime" style="line-height: 30px;"><%= dateFormat(hwInfo.startTime) %></div>
-            <div class="homework type" style="line-height: 30px;"><% if(hwInfo.isGroupWork==0) { %>个人作业
-              <% } else { %> 小组作业
+            <div class="homework type" style="line-height: 30px;">
+              <% if (hwInfo.isGroupWork == 0) { %> 个人作业
+              <% } else if (hwInfo.isGroupWork == 1) { %> 小组作业
+              <% } else { %>
+              测验
               <% } %>
             </div>
           </div>

@@ -1,7 +1,7 @@
 var pool = require('../mysql/ConnPool');
 
 class MsgBoard {
-    
+
     constructor() {
 
     }

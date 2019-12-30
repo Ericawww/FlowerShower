@@ -13,28 +13,10 @@
     body {
       background-color: #eeeeee;
     }
-
-    .footer.segment {
-      padding: 5em 0em;
-    }
-
-    .course-title {
-      font-weight: bold;
-      font-size: medium;
-      font-family: "黑体";
-      margin: 8px 16px;
-    }
-
-    .course-info {
-      font-family: "微软雅黑";
-      margin: 8px 16px;
-    }
-
-    .user-title {
-      text-align: center;
-      font-size: large;
-      font-family: "微软雅黑";
-      font-size: 20px;
+    .overflow-text {
+      overflow: hidden; /*自动隐藏文字*/
+      text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+      white-space: nowrap;/*强制不换行*/
     }
   </style>
 </head>
@@ -103,10 +85,10 @@
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业形式</b></label>
-                  <select class="ui dropdown" name="isGroupWork" value=<% if(hwInfo.isGroupWork == 0){%>0 <% } else{ %>1
-                    <% } %>>
-                    <option value="0">个人作业</option>
-                    <option value="1">小组作业</option>
+                  <select class="ui dropdown" name="isGroupWork">
+                    <option value="0" <% if (hwInfo.isGroupWork == 0) { %>selected<% } %>>个人作业</option>
+                    <option value="1" <% if (hwInfo.isGroupWork == 1) { %>selected<% } %>>小组作业</option>
+                    <option value="3" <% if (hwInfo.isGroupWork == 3) { %>selected<% } %>>测验</option>
                   </select>
                 </div>
               </div>
@@ -114,7 +96,7 @@
               <div class="column">
                 <div class="field">
                   <label><b style="font-size: large;">作业满分</b></label>
-                  <input type="text" name="fullMark" value="<%= hwInfo.fullMark%>" style="width:min-content;">
+                  <input type="text" name="fullMark" value="<%= hwInfo.fullMark%>" style="width:min-content;" <% if (hwInfo.isGroupWork == 3) { %>disabled<% } %>>
                 </div>
               </div>
             </div>
@@ -127,6 +109,8 @@
               </div>
             </div>
           </div>
+
+          <% if (hwInfo.isGroupWork == 3) { %>
           <div class="ui grid">
             <div class="column">
               <div class="field">
@@ -136,35 +120,38 @@
                   <div class="four wide column">
                     <div style="margin-left: 15px;"><b>试题序号</b></div>
                   </div>
-                  <div class="four wide column">
+                  <div class="eight wide column">
                     <div><b>试题描述</b></div>
                   </div>
-                  <div class="four wide column">
+                  <div class="two wide column">
                     <div><b>试题分值</b></div>
                   </div>
-                  <div class="four wide column">
+                  <div class="two wide column">
                     <div><b>操作</b></div>
                   </div>
                 </div>
+                <% for (let i = 0; i < problems.length; i++) { %>
                 <div class="ui divider"></div>
                 <div class="ui grid">
                   <div class="four wide column">
-                    <div style="margin-left: 15px;"><b>1</b></div>
+                    <div style="margin-left: 15px;"><b><%= (i+1) %></b></div>
                   </div>
-                  <div class="four wide column">
-                    <div><b>1</b></div>
+                  <div class="eight wide column">
+                    <div class="overflow-text"><b><%= problems[i].description %></b></div>
                   </div>
-                  <div class="four wide column">
-                    <div><b>2分</b></div>
+                  <div class="two wide column">
+                    <div><b><%= problems[i].score %>分</b></div>
                   </div>
-                  <div class="four wide column">
-                    <div><a>删除</a></div>
+                  <div class="two wide column">
+                    <div><a href="javascript:removeProblemFromQuiz('<%= problems[i].problemID %>')">删除</a></div>
                   </div>
                 </div>
+                <% } %>
                 <div class="ui divider"></div>
               </div>
             </div>
           </div>
+          <% } %>
         </form>
         <div style="height:15px;"></div>
         <div class="actions">
@@ -220,14 +207,6 @@
       return;
     }
     if (
-      $("input[name='achieveGoal']")
-        .val()
-        .replace(" ", "") == ""
-    ) {
-      alert("完成指标不能为空！");
-      return;
-    }
-    if (
       $("textarea[name='description']")
         .val()
         .replace(" ", "") == ""
@@ -267,7 +246,31 @@
       }
     });
   };
-
+  var removeProblemFromQuiz = (problemID) => {
+    const quizID = "<%= hwInfo.classProjectID  %>";
+    if (confirm("确认要移除该题吗？")) {
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "../../quiz/remove",
+        data: {
+          problemID: problemID,
+          classProjectID: quizID
+        },
+        success: (data) => {
+          if (data.status) {
+            alert("移除成功!");
+            window.location.reload();
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: (err) => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    }
+  }
 </script>
 
 </html>

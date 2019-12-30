@@ -14,7 +14,6 @@ exports.getAllCourse = async (req, res) => {
  * 返回按课程名匹配到的课程信息
  */
 exports.getCourseByName = async (req, res) => {
-    console.log(req.query.courseName)
     var courseList = await Course.prototype.getCourses({
         courseName: req.query.courseName
     });
@@ -177,6 +176,7 @@ exports.setGradeWeightChange = async (req, res) => {
  * 学生获得自己某门课程的组队信息
  */
 exports.getGroupInfo = async (req, res) => {
+    var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var studentID = req.session.token.userID;
     var classID = req.params.classID;
     var ret = await Course.prototype.getGroupNumber(classID, studentID);
@@ -191,6 +191,7 @@ exports.getGroupInfo = async (req, res) => {
         result = 1;
     }
     res.render('courses/studentGroupInfo', {
+        classHeader:classHeader,
         ret: ret,
         studentInfoList: studentInfoList,
         result: result

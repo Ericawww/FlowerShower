@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var courseController = require("../controllers/courseController");
 var classController = require("../controllers/classController");
+var quizController = require("../controllers/quizController");
 
 /**
  * 验证阶段
@@ -38,12 +39,14 @@ router.get("/class/:classID/teacher/main", classController.getTcMainPage);
 router.get("/class/:classID/student/notice", classController.getCourseNotice);
 router.get("/class/:classID/student/talk", classController.getTalk);
 router.get("/class/:classID/student/talk/:talkID", classController.showTalk);
+router.post("/class/:classID/student/talk/:talkID/deleteTalk", classController.deleteTalk);
 router.get("/class/:classID/student/talk/:talkID/return", classController.getTalk);
 
 router.get("/class/:classID/teacher/notice", classController.getCourseNotice);
 router.get("/class/:classID/teacher/talk", classController.getTalk);
 router.get("/class/:classID/teacher/talk/:talkID", classController.showTalk);
-router.get("/class/:classID/teacher/talk/:talkID/addLikes", classController.addLikes);
+router.post("/class/:classID/teacher/talk/:talkID/addLikes", classController.addLikes);
+router.post("/class/:classID/teacher/talk/:talkID/deleteTalk", classController.deleteTalk);
 router.get("/class/:classID/teacher/talk/:talkID/return", classController.getTalk);
 
 router.post("/class/:classID/student/notice/updateNotice", classController.updateNotice);
@@ -112,8 +115,20 @@ router.post("/class/:classID/teacher/assistant/insert", classController.insertAs
 router.post("/class/:classID/teacher/assistant/delete", classController.deleteAssistant);
 router.post("/class/:classID/teacher/assistant/update", classController.updateAssistant);
 
+/**
+ * 课程测验
+ */
+router.get("/class/:classID/teacher/quiz/bank", quizController.getProblemBankPage); //getProblemBank
+router.get("/class/:classID/teacher/quiz/all", quizController.getQuiz); //getQuiz
+router.get("/class/:classID/student/quiz/problems", quizController.getQuizProblems);  //getQuizProblems
+router.post("/class/:classID/teacher/quiz/bank/create", quizController.createProblem);  //createProblem
+router.post("/class/:classID/teacher/quiz/bank/delete", quizController.deleteProblem); //deleteProblem
+router.post("/class/:classID/teacher/quiz/insert", quizController.insertProblemToQuiz); //insertProblemToQuiz
+router.post("/class/:classID/teacher/quiz/remove", quizController.removeProblemFromQuiz); //removeProblemFromQuiz
+router.post("/class/:classID/student/quiz/submit", quizController.submitQuiz); //submitQuiz
 
-router.post("/enterClass",classController.enterClass);
+
+router.post("/enterClass", classController.enterClass);
 router.get("/:courseNumber", courseController.getCourseInfo); //courses/courseNumber
 
 module.exports = router;

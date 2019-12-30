@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>高校教学管理平台</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="/dist/semantic.css" />
+  <link rel="stylesheet" href="/swiper/package/css/swiper.min.css" />
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 题库管理 -->
+  <div class="ui container" style="margin-top:10px;">
+    <div class="ui segments" style="background-color:rgb(255, 255, 255);">
+      <div class="ui basic segment">
+        <div class="ui basic segment">
+          <div class="ui grid">
+            <div class="four wide column">
+              <div class="student group information" style="margin-left: 15px;font-size: 200%;margin-top: 8px;">
+                <b>题库管理</b></div>
+            </div>
+            <div class="twelve wide column">
+              <div class="ui right floated small primary labeled icon button" onclick="showAddQuestionModal()">
+                <i class="add icon"></i> 添加试题
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="ui internally celled grid">
+          <% for (let i = 0; i < problems.length; i++) { %>
+          <div class="row">
+            <div class="sixteen wide column">
+              <div class="ui grid">
+                <div class="sixteen wide column">
+                  <span><b><%= (i+1) %></b>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= problems[i].description %></span>
+                </div>
+              </div>
+              <div class="ui grid">
+                <div class="column">
+                  A. <%= problems[i].choiceA %>
+                </div>
+              </div>
+              <div class="ui grid">
+                <div class="column">
+                  B. <%= problems[i].choiceB %>
+                </div>
+              </div>
+              <% if (problems[i].choiceC != null) { %>
+              <div class="ui grid">
+                <div class="column">
+                  C. <%= problems[i].choiceC %>
+                </div>
+              </div>
+              <% } %>
+              <% if (problems[i].choiceD != null) { %>
+              <div class="ui grid">
+                <div class="column">
+                  D. <%= problems[i].choiceD %>
+                </div>
+              </div>
+              <% } %>
+              <div class="ui grid">
+                <% ans = ""; %>
+                <% if ((parseInt(problems[i].answer) & 1) > 0) ans += "A"; %>
+                <% if ((parseInt(problems[i].answer) & 2) > 0) ans += "B"; %>
+                <% if ((parseInt(problems[i].answer) & 4) > 0) ans += "C"; %>
+                <% if ((parseInt(problems[i].answer) & 8) > 0) ans += "D"; %>
+                <div style="color: rgb(255, 59, 48);height:30px;">答案：<%= ans %>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="javascript:deleteProblem('<%= problems[i].problemID %>')">删除试题</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="javascript:showInsertModal('<%= problems[i].problemID %>')">添加到练习</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+        </div>
+        <div class="ui divider"></div>
+      </div>
+    </div>
+    <!-- 题库管理 -->
+
+    <!-- 占位 -->
+    <div style="height:20px;"></div>
+    <!-- 占位 -->
+
+    <div class="ui modal add">
+      <div class="header">添加试题</div>
+      <div class="scrolling content">
+        <form class="ui form">
+          <div class="field">
+            <label>试题描述</label>
+            <textarea maxlength="500" name="description"></textarea>
+          </div>
+          <div class="field">
+            <label>选项1</label>
+            <textarea maxlength="300" name="choiceA"></textarea>
+          </div>
+          <div class="field">
+            <label>选项2</label>
+            <textarea maxlength="300" name="choiceB"></textarea>
+          </div>
+          <div class="field">
+            <label>选项3</label>
+            <textarea maxlength="300" name="choiceC"></textarea>
+          </div>
+          <div class="field">
+            <label>选项4</label>
+            <textarea maxlength="300" name="choiceD"></textarea>
+          </div>
+          <div class="field">
+            <label>答案</label>
+            <div class="ui four column grid">
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="answer" value="1">
+                  <label>A</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="answer" value="2">
+                  <label>B</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="answer" value="4">
+                  <label>C</label>
+                </div>
+              </div>
+              <div class="column">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="answer" value="8">
+                  <label>D</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="actions">
+        <div class="ui green button" onclick="createProblem()">提交</div>
+        <div class="ui cancel button">关闭</div>
+      </div>
+    </div>
+
+    <div class="ui tiny modal insert">
+      <div class="header">添加到考试</div>
+      <div class="scrolling content">
+        <form class="ui form">
+          <strong>请选择要添加到的考试</strong>
+          <div class="field">
+            <div class="ui selection dropdown quiz">
+              <input type="hidden" name="quizID">
+              <i class="dropdown icon"></i>
+              <div class="default text"></div>
+              <div class="menu">
+                <!-- <div class="item" data-value="1">111</div>
+                <div class="item" data-value="0">122</div> -->
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>分值</label>
+            <input type="number" name="score"></input>
+          </div>
+        </form>
+      </div>
+      <div class="actions">
+        <div class="ui green button" onclick="insertProblem()">提交</div>
+        <div class="ui cancel button">关闭</div>
+      </div>
+    </div>
+
+
+</body>
+
+<script src="/javascripts/jquery.js"></script>
+<script src="/dist/semantic.min.js"></script>
+<script src="/javascripts/header.js"></script>
+
+<script>
+  var currentPid;
+  var showAddQuestionModal = () => {
+    $('.ui.modal.add').modal({ closable: false }).modal("show");
+  };
+  var showInsertModal = (pid) => {
+    $.ajax({
+      dataType: "json",
+      type: "get",
+      url: "./all",
+      data: {},
+      success: (data) => {
+        if (data.status) {
+          //console.log(data.quizs);
+          $('.ui.quiz.dropdown').dropdown({ values: data.quizs });
+          currentPid = pid;
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+    $('.ui.modal.insert').modal({ closable: false }).modal("show");
+  };
+  var insertProblem = () => {
+    let quizID = $("input[name='quizID']").val();
+    let score = $("input[name='score']").val();
+    if (quizID == null || quizID == "" || isNaN(quizID)) {
+      alert("请选择一个练习！");
+      return;
+    }
+    if (score == null || score == "" || isNaN(score) || parseInt(score) < 0) {
+      alert("请输入正确的分值！");
+      return;
+    }
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./insert",
+      data: {
+        quizID: quizID,
+        score: score,
+        problemID: currentPid
+      },
+      success: (data) => {
+        if (data.status) {
+          alert("添加成功！");
+          window.location.reload();
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  }
+  var createProblem = () => {
+    let data = {};
+    let description = $("textarea[name='description']").val();
+    let choiceA = $("textarea[name='choiceA']").val();
+    let choiceB = $("textarea[name='choiceB']").val();
+    let choiceC = $("textarea[name='choiceC']").val();
+    let choiceD = $("textarea[name='choiceD']").val();
+    if (description == null || (description = description.trim()) == "") {
+      alert("请填写问题描述！");
+      return;
+    }
+    if (choiceA == null || (choiceA = choiceA.trim()) == "" || choiceB == null || (choiceB = choiceB.trim()) == "") {
+      alert("至少要有两个选项！");
+      return;
+    }
+    data.description = description;
+    data.choiceA = choiceA;
+    data.choiceB = choiceB;
+    if (choiceC != null && (choiceC = choiceC.trim()) != "") {
+      data.choiceC = choiceC;
+      if (choiceD != null && (choiceD = choiceD.trim()) != "") data.choiceD = choiceD;
+    }
+    data.answer = 0;
+    let lists = $("input[name='answer']:checked");
+    for (let i = 0; i < lists.length; i++) {
+      let v = $($(lists)[i]).val();
+      data.answer += parseInt(v);
+    }
+    //console.log(data);
+    $.ajax({
+      dataType: "json",
+      type: "post",
+      url: "./bank/create",
+      data: data,
+      success: (data) => {
+        if (data.status) {
+          alert("添加成功！");
+          window.location.reload();
+        } else {
+          alert(data.msg);
+        }
+      },
+      error: (err) => {
+        alert("与服务器连接异常，请稍后再试!");
+      }
+    });
+  };
+  var deleteProblem = (pid) => {
+    if (confirm("确认删除该题目吗？")) {
+      $.ajax({
+        dataType: "json",
+        type: "post",
+        url: "./bank/delete",
+        data: {
+          problemID: pid
+        },
+        success: (data) => {
+          if (data.status) {
+            alert("删除成功！");
+            window.location.reload();
+          } else {
+            alert(data.msg);
+          }
+        },
+        error: (err) => {
+          alert("与服务器连接异常，请稍后再试!");
+        }
+      });
+    }
+  }
+</script>
+
+</html>

@@ -4,11 +4,10 @@ var Homework = require("../models/class/Homework");
 var Talk = require("../models/class/Talk");
 var Notice = require("../models/class/Notice");
 var Assistant = require("../models/class/Assistant");
+var Quiz = require("../models/class/Quiz");
 var fileHelper = require('../models/method/fileHelper');
 var utils = require('../models/method/utils');
 var path = require('path');
-
-var gUser;
 
 
 /**
@@ -16,14 +15,15 @@ var gUser;
  */
 exports.checkClassMember = async (req, res, next) => {
     //req.session.token = await config.getToken("T0001", "123");
-   // req.session.token = await config.getToken("0001", "123");
-   console.log(req.session.token);
-    var ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID);
-    if (req.session.token == null || !ret) {
+    // req.session.token = await config.getToken("1111", "123");
+    //req.session.token = await config.getToken("AS0001", "123");
+    console.log(req.session.token);
+    var ret;
+    if (req.session.token == null || !(ret = await Class.prototype.isClassMember(req.params.classID, req.session.token.userID))) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
     }
-    gUser = ret;
+    req.session.gUser = ret;
     next();
 };
 
@@ -31,6 +31,7 @@ exports.checkClassMember = async (req, res, next) => {
  * 判断当前用户是否为教师，是则进行路由匹配，否则返回错误信息
  */
 exports.checkTeacher = async (req, res, next) => {
+    let gUser = req.session.gUser;
     if (!gUser || !gUser.privilege) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
@@ -42,6 +43,7 @@ exports.checkTeacher = async (req, res, next) => {
  * 判断当前用户是否为学生，是则进行路由匹配，否则返回错误信息
  */
 exports.checkStudent = async (req, res, next) => {
+    let gUser = req.session.gUser;
     if (!gUser || gUser.privilege > 0) {
         res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
         return;
@@ -134,21 +136,21 @@ exports.submitComplain = async (req, res) => {
 /**
  * 进入课程，验证身份
  */
-exports.enterClass = async (req,res)=>{
+exports.enterClass = async (req, res) => {
     //教师
-    var isTeacher = await Class.prototype.isClassTeacher(req.session.token.userID,req.body.courseNumber);
-    var isStudent = await Class.prototype.isClassStudent(req.session.token.userID,req.body.courseNumber);
+    var isTeacher = await Class.prototype.isClassTeacher(req.session.token.userID, req.body.courseNumber);
+    var isStudent = await Class.prototype.isClassStudent(req.session.token.userID, req.body.courseNumber);
     //成功返回班级编号，status1表示教师，2表示学生，0表示无权限，classID, msg返回错误信息
     if (isTeacher == null && isStudent == null) {
         res.send({ status: 0, msg: "您暂无权限进行此操作，仅允许教师和学生进入教学班" }).end();
-    } else if(isTeacher == null) {
+    } else if (isTeacher == null) {
         //学生
-        res.send({ status: 2, classID:isStudent.classID}).end();
-    }else{
+        res.send({ status: 2, classID: isStudent.classID }).end();
+    } else {
         //教师
-        res.send({ status: 1, classID:isTeacher.classID}).end();
+        res.send({ status: 1, classID: isTeacher.classID }).end();
     }
-}
+};
 
 /**
  * 提交作业 TODO：文件上传
@@ -175,7 +177,7 @@ exports.submitHw = async (req, res) => {
             res.send({ status: 0, msg: '上传失败，请稍后再试' }).end();
         } else {
             try {
-                console.log(hw.filePath);
+                //console.log(hw.filePath);
                 if (hw.filePath != null) utils.removeFile(path.join(__dirname, '../', hw.filePath));
             } catch (err) {
                 console.log(err);
@@ -205,6 +207,11 @@ exports.getStuHwSubmit = async (req, res) => {
  * 教师得到当前所有班级的作业
  */
 exports.getTcAllHw = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var hwList = await Homework.prototype.getAllHw(req.params.classID);
     res.render("homework/teacherHomeworkListPage", { classHeader: classHeader, hwList: hwList });
@@ -215,6 +222,11 @@ exports.getTcAllHw = async (req, res) => {
  */
 exports.getTcHwDetail = async (req, res) => {
     //console.log("HwSituation:" + req.params.classID);
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
     res.render("homework/teacherHomeworkDetail", { classHeader: classHeader, hwInfo: hwInfo });
@@ -224,6 +236,11 @@ exports.getTcHwDetail = async (req, res) => {
  * 教师跳转到添加作业的页面
  */
 exports.addHw = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     res.render("homework/teacherHomeworkAdd", { classHeader: classHeader });
 };
@@ -232,15 +249,27 @@ exports.addHw = async (req, res) => {
  * 教师跳转到更新作业的页面
  */
 exports.updateHwPage = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
-    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader, hwInfo: hwInfo });
+    var problems = [];
+    if (hwInfo.isGroupWork == config.PROJECT_TYPE_QUIZ) problems = await Quiz.prototype.getQuizProblems(req.params.hw);
+    res.render("homework/teacherHomeworkUpdate", { classHeader: classHeader, hwInfo: hwInfo, problems: problems });
 };
 
 /**
  * 数据库删除作业,正确返回1，错误返回0
  */
 exports.deleteHw = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Homework.prototype.deleteHw(req.params.hw);
     if (ret == 0) {
         res.send({ status: 0, msg: "异常，请重试。" }).end();
@@ -248,10 +277,16 @@ exports.deleteHw = async (req, res) => {
         res.send({ status: 1 }).end();
     }
 };
+
 /**
  * 批改作业
  */
 exports.markHwPage = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
@@ -269,6 +304,11 @@ exports.markHwPage = async (req, res) => {
  * 教师处理申诉,需要complainList和hwInfo
  */
 exports.dealComplain = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
@@ -284,6 +324,11 @@ exports.dealComplain = async (req, res) => {
  * 教师得到提交情况
  */
 exports.getSubmitSituation = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
@@ -302,6 +347,11 @@ exports.getSubmitSituation = async (req, res) => {
  * 教师得到作业成绩分布,若不存在学生则为null
  */
 exports.getGradeSituation = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     var data = await Homework.prototype.getGradeSituation(req.params.hw, req.params.classID);
     var hwInfo = await Homework.prototype.getHwInfo(req.params.hw);
@@ -330,6 +380,11 @@ exports.getCourseNotice = async (req, res) => {
  * 教师发布通知
  */
 exports.updateNotice = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_NOTICE) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Notice.prototype.updataNotice(req.params.classID, req.body.title, req.body.content);
     if (ret) {
         //var url = "localhost" + req.headers.referer;
@@ -395,6 +450,18 @@ exports.showTalk = async (req, res) => {
 };
 
 /**
+ * 删除帖子
+ */
+exports.deleteTalk = async (req, res) => {
+    var ret = await Talk.prototype.deleteTalk(req.params.talkID);
+    if (ret) {
+        res.send({ status: 1 }).end();
+    } else {
+        res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
+    }
+};
+
+/**
  * 点赞
  */
 exports.addLikes = async (req, res) => {
@@ -406,7 +473,7 @@ exports.addLikes = async (req, res) => {
     } else {
         res.send({ status: 0, msg: "数据库出现异常请稍后再试！" }).end();
     }
-}
+};
 
 exports.addComment = async (req, res) => {
     var ret = await Talk.prototype.addComment(req.params.classID, req.params.talkID, req.session.token.userID, req.body.content);
@@ -422,6 +489,11 @@ exports.addComment = async (req, res) => {
  * 教师增加作业
  */
 exports.updateHw = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Homework.prototype.updateHw(req.body.projectName, req.params.classID, req.body.startTime, req.body.closeTime,
         req.body.fullMark, req.body.description, req.body.isGroupWork);
     if (ret) {
@@ -436,6 +508,11 @@ exports.updateHw = async (req, res) => {
  * 学生申诉后更新成绩，标记为已处理
  */
 exports.updateScore = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Homework.prototype.updateScore(req.params.hw, req.body.score, req.body.stuID);
     if (ret) {
         res.send({ status: 1, msg: "数据库插入成功！" }).end();
@@ -447,6 +524,11 @@ exports.updateScore = async (req, res) => {
  * 拒绝学生的申诉，标记为已处理
  */
 exports.rejectComplain = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Homework.prototype.updateScore(req.params.hw, req.body.score, req.body.stuID);
     if (ret) {
         res.send({ status: 1, msg: "数据库插入成功！" }).end();
@@ -460,6 +542,11 @@ exports.rejectComplain = async (req, res) => {
  * 教师增加作业
  */
 exports.changeHw = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_HOMEWORK) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Homework.prototype.changeHw(req.body.projectName, req.body.startTime, req.body.closeTime, req.body.fullMark,
         req.body.description, req.body.isGroupWork, req.params.hw);
     if (ret) {
@@ -473,6 +560,11 @@ exports.changeHw = async (req, res) => {
  * 教师获取资料列表
  */
 exports.getTeacherMaterialPage = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_MATERIAL) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Class.prototype.getMaterials(req.params.classID, null);
     var classHeader = await Class.prototype.getClassHeader(req.params.classID);
     if (ret == null) {
@@ -486,7 +578,7 @@ exports.getTeacherMaterialPage = async (req, res) => {
 };
 
 /**
- * 教师获取资料列表
+ * 学生获取资料列表
  */
 exports.getStudentMaterialPage = async (req, res) => {
     var ret = await Class.prototype.getMaterials(req.params.classID, null);
@@ -502,6 +594,11 @@ exports.getStudentMaterialPage = async (req, res) => {
  * 上传资料
  */
 exports.receiveTeacherMaterial = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_MATERIAL) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     try {
         var ret = await fileHelper(req, "material", "classMaterials");
         var materialID = ret.newName.split('.')[0];
@@ -536,6 +633,11 @@ exports.downloadClassMaterial = async (req, res) => {
  * 删除资料
  */
 exports.removeClassMaterial = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_MATERIAL) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Class.prototype.getMaterials(req.params.classID, req.body.classProjectID, req.body.materialID);
     if (ret.length > 0) {
         var oldPath = ret[0].path;
@@ -559,6 +661,11 @@ exports.removeClassMaterial = async (req, res) => {
  * 教师批改作业
  */
 exports.assignMark = async (req, res) => {
+    let gUser = req.session.gUser;
+    if ((gUser.privilege & config.ASSISTANT_PRIVILEGE_GRADE) == 0) {
+        res.send({ status: 0, msg: "您暂无权限访问该页面" }).end();
+        return;
+    }
     var ret = await Class.prototype.assignMark(req.params.hw, req.body.stuID, req.body.mark, req.body.content);
     if (ret) {
         res.send({ status: 1 }).end();
@@ -585,7 +692,7 @@ exports.downloadClassMaterial = async (req, res) => {
  * 助教管理界面
  */
 exports.getAssistantManagerPage = async (req, res) => {
-    console.log(req.params.classID);
+    //console.log(req.params.classID);
     res.render('users/manageTaPrivilege');
 };
 
@@ -636,4 +743,12 @@ exports.updateAssistant = async (req, res) => {
     } else {
         res.send({ status: 1 }).end();
     }
+};
+
+
+/**
+ * 空白页面
+ */
+exports.nullPage = (req, res) => {
+    res.send("Page to be determined").end();
 };

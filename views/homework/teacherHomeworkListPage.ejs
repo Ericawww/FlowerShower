@@ -107,14 +107,14 @@
       <div class="ui segment">
         <div class="ui four column grid">
           <div class="column">
-            <div class="ui green labeled icon button">
-              <i class="plus square icon"></i> <span style="font-size: 110%;" onclick="javascript:window.location.href='./add'">添加作业</span>
-            </div>
+            <a class="ui green labeled icon button" href="./add">
+              <i class="plus square icon"></i> <span style="font-size: 110%;">添加作业</span>
+            </a>
           </div>
           <div class="column">
-            <div class="ui green labeled icon button">
+            <a class="ui green labeled icon button" href="../quiz/bank" target="_blank">
               <i class="shopping basket icon"></i> <span style="font-size: 110%;">题库管理</span>
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -175,8 +175,10 @@
                 <div class="item" style="width:auto;">
                   <div class="content">
                     <div class="homework type">作业形式:
-                      <% if(hw.isGroupWork==0) { %> 个人作业
-                      <% } else { %> 小组作业
+                      <% if (hw.isGroupWork == 0) { %> 个人作业
+                      <% } else if (hw.isGroupWork == 1) { %> 小组作业
+                      <% } else { %>
+                         测验
                       <% } %>
                     </div>
                   </div>
@@ -192,14 +194,20 @@
         </div>
         <div class="item" style="width:auto;width:150px;">
           <div class="content">
+<<<<<<< HEAD
             <div class="homework submit button"><a onclick="showConfirmDeleteModal(<%= hw.classProjectID %>)">删除作业</a>
+=======
+            <div class="homework submit button"><a onclick="showConfirmDeleteModal('<%= hw.classProjectID %>')">删除作业</a>
+>>>>>>> master
             </div>
           </div>
         </div>
         <div class="item" style="width:auto;margin-right:15px;">
+          <% if (hw.isGroupWork == 0 || hw.isGroupWork == 1) { %>
           <div class="content">
             <div class="homework submit button"><a href="./<%= hw.classProjectID %>/mark">批改作业</a></div>
           </div>
+          <% } %>
         </div>
       </div>
     </div>
