@@ -178,7 +178,7 @@
                       <% if (hw.isGroupWork == 0) { %> 个人作业
                       <% } else if (hw.isGroupWork == 1) { %> 小组作业
                       <% } else { %>
-                         测验
+                         练习
                       <% } %>
                     </div>
                   </div>
@@ -195,7 +195,11 @@
         <div class="item" style="width:auto;width:150px;">
           <div class="content">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div class="homework submit button"><a onclick="showConfirmDeleteModal(<%= hw.classProjectID %>)">删除作业</a>
+=======
+            <div class="homework submit button"><a onclick="showConfirmDeleteModal('<%= hw.classProjectID %>')">删除作业</a>
+>>>>>>> master
 =======
             <div class="homework submit button"><a onclick="showConfirmDeleteModal('<%= hw.classProjectID %>')">删除作业</a>
 >>>>>>> master
