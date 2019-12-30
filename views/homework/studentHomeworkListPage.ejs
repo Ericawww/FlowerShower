@@ -124,7 +124,7 @@
                       <% if (hw.isGroupWork == 0) { %> 个人作业
                       <% } else if (hw.isGroupWork == 1)  { %> 小组作业
                       <% } else { %>
-                      测验
+                      练习
                       <% } %>
                     </div>
                   </div>
@@ -158,7 +158,7 @@
               <% if (hw.isGroupWork == 0 || hw.isGroupWork == 1)  { %>
               <a href="./<%= hw.classProjectID %>/submit">去交作业</a>
               <% } else if (hw.isGroupWork == 3) { %>
-              <a href="../quiz/problems?qid=<%= hw.classProjectID %>">去测验</a>
+              <a href="../quiz/problems?qid=<%= hw.classProjectID %>">去做练习</a>
               <% } %>
             </div>
           </div>
