@@ -145,7 +145,7 @@
                 <td style="text-align: center;">
                   <%= dateFormat(stu.commitTime) %>
                 </td>
-                <td style="text-align: center;"><a href="javascript:showMarkModal(<%= stu.studentID %>,<%= stu.fullMark %>)">批改</a></td>
+                <td style="text-align: center;"><a href="javascript:showMarkModal('<%= stu.studentID %>','<%= stu.fullMark %>')">批改</a></td>
                 <td></td>
               </tr>
               <%}%>
@@ -220,7 +220,7 @@
   var showMarkModal = (x,y) => {
     $(".ui.modal.mark").modal("show");
     stuID = x;
-    fullMark = y;
+    fullMark = parseInt(y);
   };
   var assignMark = () => {
     var input = $("input[name='mark']").val().replace(" ", "");
@@ -247,9 +247,10 @@
       success: data => {
         if (data.status) {
           alert("批改成功!");
-          $("textarea[name='comment']").val(""); 
-          $("input[name='mark']").val("");
-          $(".ui.modal.mark").modal("hide");
+          // $("textarea[name='comment']").val(""); 
+          // $("input[name='mark']").val("");
+          // $(".ui.modal.mark").modal("hide");
+          window.location.reload();
         } else {
           alert(data.msg);
         }
