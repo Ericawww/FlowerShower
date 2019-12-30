@@ -678,7 +678,7 @@ exports.assignMark = async (req, res) => {
 /**
  * 学生下载资料
  */
-exports.downloadClassMaterial = async (req, res) => {
+exports.downloadHomeworkMaterial = async (req, res) => {
     var ret = await Homework.prototype.getHwInfo(req.params.hw, req.session.token.userID);
     if (ret == null) {
         res.send({ status: 0, msg: '您暂无权限访问' }).end();

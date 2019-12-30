@@ -84,7 +84,7 @@ router.get('/class/:classID/student/hw/:hw/detail', classController.getStuHwDeta
 router.get('/class/:classID/student/hw/:hw/situation', classController.getStuHwSituation);// courses/classes/:classID/student/hw/:hw/situation ->提交和批改情况
 router.post('/class/:classID/student/hw/:hw/submitComplain', classController.submitComplain);//处理申诉
 router.post('/class/:classID/student/hw/:hw/submit', classController.submitHw);
-router.get('/class/:classID/student/hw/:hw/myhw', classController.downloadClassMaterial);
+router.get('/class/:classID/student/hw/:hw/myhw', classController.downloadHomeworkMaterial);
 router.get('/class/:classID/student/hw/:hw/submit', classController.getStuHwSubmit);// courses/classes/:classID/student/hw/:hw/submit ->提交作业
 
 
