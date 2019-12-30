@@ -48,8 +48,8 @@
       </div>
       <div class="nine wide column">
         <h3 class="header"><%= courseInfo.courseName %></h3>
-        <p>课程代码：<%= courseInfo.courseName %></p>
-        <p>开课学院：<%= courseInfo.courseDept %></p>
+        <p>课程代码: <%= courseInfo.courseNumber %></p>
+        <p>开课学院: <%= courseInfo.courseDept %></p>
         <p>预修要求: <%= courseInfo.prerequisite %></p>
         <button class="positive big ui button" onclick="enterClass('<%= courseInfo.courseNumber %>')">进入课程</button>
       </div>
