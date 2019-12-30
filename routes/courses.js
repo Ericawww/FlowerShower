@@ -39,12 +39,14 @@ router.get("/class/:classID/teacher/main", classController.getTcMainPage);
 router.get("/class/:classID/student/notice", classController.getCourseNotice);
 router.get("/class/:classID/student/talk", classController.getTalk);
 router.get("/class/:classID/student/talk/:talkID", classController.showTalk);
+router.post("/class/:classID/student/talk/:talkID/deleteTalk", classController.deleteTalk);
 router.get("/class/:classID/student/talk/:talkID/return", classController.getTalk);
 
 router.get("/class/:classID/teacher/notice", classController.getCourseNotice);
 router.get("/class/:classID/teacher/talk", classController.getTalk);
 router.get("/class/:classID/teacher/talk/:talkID", classController.showTalk);
-router.get("/class/:classID/teacher/talk/:talkID/addLikes", classController.addLikes);
+router.post("/class/:classID/teacher/talk/:talkID/addLikes", classController.addLikes);
+router.post("/class/:classID/teacher/talk/:talkID/deleteTalk", classController.deleteTalk);
 router.get("/class/:classID/teacher/talk/:talkID/return", classController.getTalk);
 
 router.post("/class/:classID/student/notice/updateNotice", classController.updateNotice);
