@@ -24,12 +24,9 @@
       <div class="ui basic segment">
         <div class="ui basic segment">
           <div class="ui grid">
-            <div class="four wide column">
-              <div class="student exam description" style="margin-left: 15px;font-size: 200%;margin-top: 8px;">
-                <b><%= quizName[0].description %></b>
-                <% if(flag==1){ %>
-                <b>(答案)</b>
-                <% } %>
+            <div class="sixteen wide column">
+              <div class="student exam description" style="font-size: 200%; margin-top: 8px;">
+                <b><%= quizName[0].projectName %><% if (flag == 1)  { %>(答案)<% } %></b>
               </div>
             </div>
             <div class="twelve wide column">
